@@ -195,7 +195,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     this.checkExecutive = this.sessionService.checkExecutiveRole();
     if (this.checkAdv.value) {
       this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
-      sessionStorage.setItem('advocateView', 'true');
     }
     let currentUser: any;
     currentUser = { ProviderKey: false };
@@ -653,7 +652,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       height: '212px',
       disableClose: true
     });
-    sessionStorage.setItem('advocateView', 'true');
   }
 
   closeGlossary() {
@@ -741,7 +739,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       valueSelected: () => {
         // Setting Value redirect, remind flag to local storage
         sessionStorage.setItem('fromKOP', 'YES');
-        sessionStorage.setItem('advocateView', 'true');
         sessionStorage.removeItem('kopFilterState');
         this.ngRedux.dispatch({ type: RESET_KOP_FILTER });
         // Reloading targeted route, for resetting the css
