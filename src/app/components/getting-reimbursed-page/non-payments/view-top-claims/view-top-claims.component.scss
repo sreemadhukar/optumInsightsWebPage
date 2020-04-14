@@ -382,7 +382,7 @@
   appearance: none;
 }
 
-::ng-deep .mat-select .mat-select-arrow {
+::ng-deep .my-select-panel-class .mat-select-arrow {
   border: solid $strom-grey;
   border-width: 0 1.8px 1.8px 0;
   display: inline-block;
@@ -400,7 +400,7 @@
 }
 
 ::ng-deep .mat-select-panel-wrap {
-  width: 385px !important;
+  width: 385px;
   margin-left: unset !important;
   border-radius: 2px;
   margin-top: 30px;
@@ -499,8 +499,8 @@ table {
   color: #757588;
 }
 
-::ng-deep .mat-select-panel-wrap {
-  width: 68px;
+::ng-deep .mat-paginator-page-size-select .mat-select-panel-wrap {
+  width: 68px !important;
   overflow: hidden;
   // margin-top: -2px;
   margin-left: 4px;
@@ -523,7 +523,7 @@ table {
   line-height: 22px;
 }
 
-::ng-deep .mat-select-panel {
+::ng-deep .mat-paginator-page-size-select .mat-select-panel {
   min-width: 69 !important;
   box-shadow: none;
   border-radius: 0px !important;

@@ -31,6 +31,7 @@
           <mat-select
             [(value)]="selectedReasonItem"
             name="Top Reason"
+            class="my-select-panel-class"
             disableOptionCentering
             (selectionChange)="selectTopReason($event)"
           >
@@ -47,6 +48,7 @@
             [(ngModel)]="selectedSubreason"
             name="Top Sub Reason"
             disableOptionCentering
+            class="my-select-panel-class"
             (selectionChange)="selectsubReason($event)"
           >
             <mat-option class="reason-option" *ngFor="let subReason of selectedSubreasonArray" [value]="subReason">
@@ -62,8 +64,7 @@
     <div class="tax-summary-content" [hidden]="isLoading">
       <div class="tax-summary-head" [ngStyle]="{ display: lengthOffilteredData > 0 ? 'block' : 'none' }">
         <span class="tax-summary-count">
-          Showing {{ lengthOffilteredData > 24 ? pageSize : lengthOffilteredData }} of
-          {{ numberOfClaims }}
+          Showing {{ lengthOffilteredData > 24 ? pageSize : lengthOffilteredData }} of {{ numberOfClaims }}
         </span>
       </div>
       <div class="tax-summary-body">

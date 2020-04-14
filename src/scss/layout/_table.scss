@@ -177,6 +177,16 @@
     font-size: 14px;
   }
 }
+.table-show-count {
+  margin: 0 8px 8px 0;
+
+  .table-show-text {
+    font-size: 14px;
+    line-height: 18px;
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  }
+}
 
 //Input place holder css for chrome
 ::-webkit-input-placeholder {
@@ -260,7 +270,7 @@
   font-size: 16px;
   line-height: 22px;
 }
-//sorting icon classses
+//sorting icon classes
 .nav-menu-icons {
   margin: 0px 12px;
   vertical-align: middle;
