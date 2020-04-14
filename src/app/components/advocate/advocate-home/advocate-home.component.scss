@@ -49,10 +49,15 @@
   }
 }
 
+.optionHeight {
+  height: 70px;
+}
 .option-container {
-  display: inline-block;
+  display: block;
   .primary-option {
+    display: block;
     font-weight: 700;
+    line-height: 19px;
   }
 }
 .is-loading ::ng-deep .mat-option-text {

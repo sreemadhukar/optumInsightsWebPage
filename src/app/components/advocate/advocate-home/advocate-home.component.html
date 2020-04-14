@@ -21,7 +21,7 @@
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnWrapper()" [panelWidth]="400">
             <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="40"></mat-spinner></mat-option>
             <ng-container *ngIf="!isLoading">
-              <mat-option *ngFor="let user of filteredUsers" [value]="user">
+              <mat-option class="optionHeight" *ngFor="let user of filteredUsers" [value]="user">
                 <div class="option-container" *ngIf="selectedDropdown === 'hco'">
                   <span class="primary-option"> {{ user.ProviderSystem }}</span>
                   <small>Active Tax ID: {{ user.ActiveTaxIds }}</small>
