@@ -48,3 +48,14 @@
     }
   }
 }
+
+.option-container {
+  display: inline-block;
+  .primary-option {
+    font-weight: 700;
+  }
+}
+.is-loading ::ng-deep .mat-option-text {
+  display: flex;
+  justify-content: center;
+}
