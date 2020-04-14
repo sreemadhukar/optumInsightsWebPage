@@ -68,7 +68,7 @@ export class AdvocateHomeComponent implements OnInit {
             .pipe(finalize(() => (this.isLoading = false)))
         )
       )
-      .subscribe((users: IUserResponse[]) => ((this.filteredUsers = users), console.log('Users', this.filteredUsers)));
+      .subscribe(users => (this.filteredUsers = users));
     /** Search code ends here */
   }
   valueDropdown(val) {

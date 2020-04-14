@@ -22,18 +22,18 @@
             <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="40"></mat-spinner></mat-option>
             <ng-container *ngIf="!isLoading">
               <mat-option *ngFor="let user of filteredUsers" [value]="user">
-                <div *ngIf="selectedDropdown === 'hco'">
-                  <span class="primaryOption"> {{ user.ProviderSystem }}</span>
+                <div class="option-container" *ngIf="selectedDropdown === 'hco'">
+                  <span class="primary-option"> {{ user.ProviderSystem }}</span>
                   <small>Active Tax ID: {{ user.ActiveTaxIds }}</small>
                   <small>Genesis ID: {{ user.BicId }}</small>
                 </div>
                 <div *ngIf="selectedDropdown === 'tin'">
-                  <span class="primaryOption">{{ user.Tin }}</span>
+                  <span class="primary-option">{{ user.Tin }}</span>
                   <small>Tin Name: {{ user.TinName }}</small>
                   <small>HCO: {{ user.ProviderSystem }}</small>
                 </div>
                 <div *ngIf="selectedDropdown === 'TinName'">
-                  <span class="primaryOption">{{ user.TinName }}</span>
+                  <span class="primary-option">{{ user.TinName }}</span>
                   <small> Tin: {{ user.Tin }}</small>
                   <small> HCO: {{ user.ProviderSystem }}</small>
                 </div>
