@@ -26,21 +26,6 @@ export class HomeService {
     const searchURL =
       this.APP_URL + 'provider-search?search-type=' + filter.searchType + '&search-value=' + filter.searchValue;
     console.log('search', searchURL);
-    return this.http.get(searchURL, { headers: myHeader }).pipe(
-      tap(response => {
-        console.log('Respnse get', response);
-        if (filter.searchType === 'hco') {
-          response = response.map(user => new UserHCO(user.ProviderSystem, user.Tin, user.TinName));
-        } else if (filter.searchType === 'tin') {
-          response = response.map(user => new UserTin(user.BicId, user.Tin, user.TinName));
-        } else {
-          response = response.map(user => new UserTinname(user.BicId, user.Tin, user.TinName));
-        }
-
-        // Not filtering in the server since in-memory-web-api has somewhat restricted api
-        console.log('Search service', response);
-        return response;
-      })
-    );
+    return this.http.get(searchURL, { headers: myHeader }).pipe(map(response => response));
   }
 }

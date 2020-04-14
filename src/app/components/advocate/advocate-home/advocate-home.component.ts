@@ -21,6 +21,7 @@ export class AdvocateHomeComponent implements OnInit {
   isLoading = false;
   currentPlaceholder: string;
   dropDownArray: any;
+  selectedDropdown: string;
   /** Ends Search Servie variables */
   constructor(private fb: FormBuilder, private session: SessionService, private searchService: HomeService) {
     this.dropDownArray = [
@@ -34,9 +35,10 @@ export class AdvocateHomeComponent implements OnInit {
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = `Hi, ${this.userName}.`;
     this.pagesubTitle = 'Welcome to UHC Insights.';
-    this.searchBox(this.dropDownArray[0].value);
+    this.selectedDropdown = this.dropDownArray[0].value;
+    this.searchBox(this.selectedDropdown);
   }
-  displayFn(user: User) {
+  displayFn(user: IUserResponse) {
     if (user) {
       return user.TinName;
     }
@@ -65,6 +67,7 @@ export class AdvocateHomeComponent implements OnInit {
     /** Search code ends here */
   }
   valueDropdown(val) {
-    this.searchBox(val);
+    this.selectedDropdown = val;
+    this.searchBox(this.selectedDropdown);
   }
 }
