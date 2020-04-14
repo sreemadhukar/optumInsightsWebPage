@@ -3,8 +3,9 @@ import { SessionService } from '../../../shared/session.service';
 import { HomeService } from '../../../rest/advocate/home.service';
 import { dropdownOptions, IUserResponse } from './user.class';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { switchMap, debounceTime, tap, finalize } from 'rxjs/operators';
+import { switchMap, debounceTime, tap, finalize, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { startTimeRange } from '@angular/core/src/profile/wtf_impl';
 
 @Component({
   selector: 'app-advocate-home',
@@ -12,8 +13,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./advocate-home.component.scss']
 })
 export class AdvocateHomeComponent implements OnInit {
-  pageTitle: String;
-  pagesubTitle: String;
+  pageTitle: string;
+  pagesubTitle: string;
   userName;
   /** Search Servie variables */
   filteredUsers: any = [];
@@ -36,8 +37,17 @@ export class AdvocateHomeComponent implements OnInit {
   }
   displayFn(user: IUserResponse) {
     if (user) {
-      return user.TinName;
+      if (this.selectedDropdown === 'TinName') {
+        return user.TinName;
+      } else if (this.selectedDropdown === 'tin') {
+        return user.Tin;
+      } else {
+        return user.ProviderSystem;
+      }
     }
+  }
+  displayFnWrapper() {
+    return item => this.displayFn(item);
   }
   searchBox(dropdownSelection: string) {
     /** Search code starts here */
@@ -45,13 +55,12 @@ export class AdvocateHomeComponent implements OnInit {
       userInput: null
     });
 
-    this.currentPlaceholder = this.dropDownArray.find(item => item['value'] === dropdownSelection)[
-      'currentPlaceholder'
-    ];
+    this.currentPlaceholder =
+      'Search By ' + this.dropDownArray.find(item => item['value'] === dropdownSelection)['viewValue'];
     this.usersForm
       .get('userInput')
       .valueChanges.pipe(
-        debounceTime(300),
+        debounceTime(200),
         tap(() => (this.isLoading = true)),
         switchMap(value =>
           this.searchService
@@ -59,7 +68,7 @@ export class AdvocateHomeComponent implements OnInit {
             .pipe(finalize(() => (this.isLoading = false)))
         )
       )
-      .subscribe(users => (this.filteredUsers = users));
+      .subscribe((users: IUserResponse[]) => ((this.filteredUsers = users), console.log('Users', this.filteredUsers)));
     /** Search code ends here */
   }
   valueDropdown(val) {

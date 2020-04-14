@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material';
 @Component({
   selector: 'app-dropdown',
   templateUrl: './dropdown.component.html',
@@ -10,7 +11,12 @@ export class DropdownComponent implements OnInit {
   @Output() valueChange = new EventEmitter();
   selected: string;
   itemsList: any;
-  constructor() {}
+  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon(
+      'arrow',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
+    );
+  }
 
   ngOnInit() {
     this.itemsList = this.dropdownList;

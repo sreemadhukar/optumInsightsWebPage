@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
-import { UserHCO, UserTin, UserTinname, IUserResponse } from '../../components/advocate/advocate-home/user.class';
+import { IUserResponse } from '../../components/advocate/advocate-home/user.class';
 import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class HomeService {
 
   search(
     filter: { searchValue: string; searchType: string } = { searchValue: '', searchType: 'hco' }
-  ): Observable<any> {
+  ): Observable<IUserResponse[]> {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({
@@ -26,6 +26,8 @@ export class HomeService {
     const searchURL =
       this.APP_URL + 'provider-search?search-type=' + filter.searchType + '&search-value=' + filter.searchValue;
     console.log('search', searchURL);
-    return this.http.get(searchURL, { headers: myHeader }).pipe(map(response => response));
+    return this.http
+      .get<IUserResponse[]>(searchURL, { headers: myHeader })
+      .pipe(map((response: IUserResponse) => response));
   }
 }

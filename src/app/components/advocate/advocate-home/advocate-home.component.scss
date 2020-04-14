@@ -45,6 +45,12 @@
         line-height: 32px;
         width: auto;
       }
+      .search-container {
+        .primaryOption {
+          font-weight: 700;
+          color: red;
+        }
+      }
     }
   }
 }
