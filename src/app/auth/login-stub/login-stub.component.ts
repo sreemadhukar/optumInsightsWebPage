@@ -128,6 +128,7 @@ export class LoginStubComponent implements OnInit {
         sessionStorage.setItem('token', JSON.stringify(data['token']));
         this.internalService.getPublicKey();
       });
+
       // }
     } else {
       if (this.route.queryParams) {
@@ -153,7 +154,7 @@ export class LoginStubComponent implements OnInit {
                   this.router.navigate(['/OverviewPage']);
                 }
               })
-              .catch(error => {
+              .catch(() => {
                 // this.openErrorDialog();
                 this.router.navigate(['/AccessDenied']);
               });
@@ -208,7 +209,7 @@ export class LoginStubComponent implements OnInit {
             this.router.navigate(['/ProviderSearch']);
           }
         },
-        error => {
+        () => {
           this.error = true;
           this.loading = false;
           this.blankScreen = false;
@@ -227,7 +228,7 @@ export class LoginStubComponent implements OnInit {
       panelClass: 'custom'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       if (!sessionStorage.getItem('currentUser')) {
         this.blankScreen = false;
       }
@@ -244,7 +245,7 @@ export class LoginStubComponent implements OnInit {
       panelClass: 'custom'
     });
 
-    dialogErrorRef.afterClosed().subscribe(result => {
+    dialogErrorRef.afterClosed().subscribe(() => {
       if (!environment.internalAccess) {
         this.document.location.href = environment.apiUrls.linkLoginPage;
       }

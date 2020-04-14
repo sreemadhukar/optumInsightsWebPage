@@ -11,7 +11,7 @@ export class RefreshTokenService {
   private Refresh_Token_Path: string = environment.apiUrls.RefreshToken;
   constructor(private http: HttpClient) {}
 
-  public getRefreshToken(sub) {
+  public getRefreshToken(_sub) {
     const url = this.APP_URL + this.Refresh_Token_Path;
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     const RefreshToken = currentUser[0].RefreshToken;

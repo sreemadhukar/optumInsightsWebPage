@@ -247,6 +247,7 @@
   top: 51px;
   position: absolute;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+  background: #fff;
 }
 
 .vertical-menu a {
@@ -279,25 +280,7 @@
   border-radius: 3px 3px 0 0;
   background-color: #ffffff;
   color: $strom-grey;
-  .profile-details-block {
-    padding: 16px;
-    .profile-name {
-      color: $black-rock;
-      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-      font-size: 16px;
-      letter-spacing: 0.2px;
-      line-height: 22px;
-    }
-    .profile-mail,
-    .profile-id {
-      color: $strom-grey;
-      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 0.2px;
-      line-height: 18px;
-    }
-  }
+
   .sign-out-block {
     border-top: 1px solid #e0e0e0;
     padding: 8px 0px;
@@ -329,4 +312,29 @@
   margin-left: auto;
   padding: 15px 24px;
   height: calc(100% - 30px);
+}
+.profile-details-block {
+  padding: 16px;
+  .profile-name {
+    color: $black-rock;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+  }
+  .profile-mail,
+  .profile-id {
+    color: $strom-grey;
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+  }
+}
+.profile-block-border-bottom {
+  border-bottom: 1px solid $gainsboro;
+}
+.internal-view {
+  margin-top: 4px;
 }
