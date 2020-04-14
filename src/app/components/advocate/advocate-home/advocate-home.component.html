@@ -27,12 +27,12 @@
                   <small>Active Tax ID: {{ user.ActiveTaxIds }}</small>
                   <small>Genesis ID: {{ user.BicId }}</small>
                 </div>
-                <div *ngIf="selectedDropdown === 'tin'">
+                <div class="option-container" *ngIf="selectedDropdown === 'tin'">
                   <span class="primary-option">{{ user.Tin }}</span>
                   <small>Tin Name: {{ user.TinName }}</small>
                   <small>HCO: {{ user.ProviderSystem }}</small>
                 </div>
-                <div *ngIf="selectedDropdown === 'TinName'">
+                <div class="option-container" *ngIf="selectedDropdown === 'TinName'">
                   <span class="primary-option">{{ user.TinName }}</span>
                   <small> Tin: {{ user.Tin }}</small>
                   <small> HCO: {{ user.ProviderSystem }}</small>

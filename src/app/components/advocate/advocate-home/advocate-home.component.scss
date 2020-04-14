@@ -45,13 +45,14 @@
         line-height: 32px;
         width: auto;
       }
-      .search-container {
-        .primary-option {
-          font-weight: 700;
-          color: red;
-        }
-      }
     }
+  }
+}
+
+.option-container {
+  display: inline-block;
+  .primary-option {
+    font-weight: 700;
   }
 }
 .is-loading ::ng-deep .mat-option-text {
