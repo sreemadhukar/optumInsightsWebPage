@@ -13,6 +13,7 @@ export class CreatePayloadService {
   @select(['uhc', 'timePeriod']) timePeriod;
   @select(['uhc', 'taxId']) taxId;
   @select(['uhc', 'lineOfBusiness']) lineOfBusiness;
+  @select(['uhc', 'commercial']) commercial;
   @select(['uhc', 'serviceSetting']) serviceSetting;
   @select(['uhc', 'serviceCategory']) serviceCategory;
   @select(['uhc', 'priorAuthType']) priorAuthType;
@@ -26,6 +27,7 @@ export class CreatePayloadService {
     timePeriod: 'Last6Months',
     taxId: [{ Tin: 'All', Tinname: 'All' }],
     lineOfBusiness: 'All',
+    commercial: 'All',
     serviceSetting: 'All',
     serviceCategory: 'All',
     priorAuthType: 'All',
@@ -49,6 +51,7 @@ export class CreatePayloadService {
     });
     this.taxId.subscribe(taxId => (this.initialState.taxId = taxId));
     this.lineOfBusiness.subscribe(lineOfBusiness => (this.initialState.lineOfBusiness = lineOfBusiness));
+    this.commercial.subscribe(commercial => (this.initialState.commercial = commercial));
     this.serviceSetting.subscribe(serviceSetting => (this.initialState.serviceSetting = serviceSetting));
     this.serviceCategory.subscribe(serviceCategory => (this.initialState.serviceCategory = serviceCategory));
     this.priorAuthType.subscribe(priorAuthType => {
