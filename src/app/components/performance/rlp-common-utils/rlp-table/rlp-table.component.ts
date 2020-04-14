@@ -196,6 +196,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     if (value === 'qGroupNameSearch') {
       this.qGroupNameSearch = '';
     }
+    this.enterQuery();
   }
 
   ngOnDestroy() {}
