@@ -29,7 +29,8 @@ export class RoleGuard implements CanActivate {
         } else if (expectedRole === 'UHCI_Project') {
           this.checkPro = this.sessionService.checkProjectRole();
           this.checkExecutive = this.sessionService.checkExecutiveRole();
-          if (this.checkPro.value || this.checkExecutive.value) {
+          this.checkAdv = this.sessionService.checkAdvocateRole();
+          if (this.checkPro.value || this.checkExecutive.value || this.checkAdv.value) {
             // logged in and project/ executive role so return true
             return true;
           }
