@@ -39,6 +39,24 @@
       <div
         class="horizontal-align"
         *ngIf="
+          selectedPage !== 'callsPage' &&
+          selectedPage !== 'appealsPage' &&
+          tabName !== 'gettingReimbursedAppeals' &&
+          selectedLob.value === 'Commercial' &&
+          selectedCommerical.value !== 'All'
+        "
+      >
+        <div class="filter-chips-button-design">
+          <span>Funding Arrangement: </span>
+          <span class="text-semibold pl-4">{{ selectedCommerical.value | temporaryTextFormatter }}</span>
+          <div class="close-btn">
+            <mat-icon class="icon-display" (click)="removeAppliedFilter('commerical')" svgIcon="close"></mat-icon>
+          </div>
+        </div>
+      </div>
+      <div
+        class="horizontal-align"
+        *ngIf="
           selectedPage == 'paymentsPage' ||
           tabName == 'gettingReimbursedSummary' ||
           tabName == 'gettingReimbursedPayments' ||

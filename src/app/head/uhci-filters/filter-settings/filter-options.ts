@@ -18,6 +18,12 @@ export const LineOfBusiness = [
   { name: 'UN', value: lobName.unCategorized, disable: true }
 ];
 
+export const Commercial = [
+  { name: 'All', value: 'All', disable: false },
+  { name: 'FULLY_INSURED', value: 'FI (Fully Insured)', disable: false },
+  { name: 'ASO', value: 'ASO (Administrative Services Only)', disable: false }
+];
+
 export const ClaimsFilter = [
   { name: 'All', value: 'All', disable: false },
   { name: 'PROFESSIONAL', value: 'HCFA (Health Care Finance Administration)', disable: false },

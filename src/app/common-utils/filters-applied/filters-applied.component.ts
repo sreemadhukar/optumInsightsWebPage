@@ -5,6 +5,7 @@ import { Router, NavigationStart } from '@angular/router';
 import { INITIAL_STATE } from '../../store/filter/reducer';
 import {
   LineOfBusiness,
+  Commercial,
   PriorAuthDecisionType,
   ServiceCategory,
   ServiceSetting,
@@ -30,6 +31,7 @@ export class FiltersAppliedComponent implements OnInit {
   @select(['uhc', 'timePeriod']) timePeriod;
   @select(['uhc', 'taxId']) taxId;
   @select(['uhc', 'lineOfBusiness']) lineOfBusiness;
+  @select(['uhc', 'commercial']) commercial;
   @select(['uhc', 'serviceSetting']) serviceSetting;
   @select(['uhc', 'serviceCategory']) serviceCategory;
   @select(['uhc', 'priorAuthType']) priorAuthType;
@@ -45,6 +47,8 @@ export class FiltersAppliedComponent implements OnInit {
   selectedTimePeriod: any;
   lobs = LineOfBusiness;
   selectedLob: any;
+  commericalLob = Commercial;
+  selectedCommerical: any;
   claims = ClaimsFilter;
   appeals = AppealsFilter;
   selectedClaims: any;
@@ -87,6 +91,9 @@ export class FiltersAppliedComponent implements OnInit {
     this.taxId.subscribe(taxId => (this.selectedTaxIds = taxId));
     this.lineOfBusiness.subscribe(
       lineOfBusiness => (this.selectedLob = this.lobs.find(val => val.name === lineOfBusiness))
+    );
+    this.commercial.subscribe(
+      commercial => (this.selectedCommerical = this.commericalLob.find(val => val.name === commercial))
     );
     this.claimsFilter.subscribe(
       claimsFilter => (this.selectedClaims = this.claims.find(val => val.name === claimsFilter))
@@ -138,6 +145,7 @@ export class FiltersAppliedComponent implements OnInit {
                 timePeriod: this.selectedTimePeriod.name,
                 taxId: updatedTaxIds,
                 lineOfBusiness: this.selectedLob.name,
+                commercial: this.selectedCommerical.name,
                 serviceSetting: this.selectedServiceSetting.name,
                 serviceCategory: this.selectedServiceCategory.name,
                 priorAuthType: this.selectedPriorAuthType.name,
@@ -155,6 +163,10 @@ export class FiltersAppliedComponent implements OnInit {
         break;
       case 'lob':
         this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { lineOfBusiness: true } });
+        this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { commercial: true } });
+        break;
+      case 'commerical':
+        this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { commercial: true } });
         break;
       case 'claims':
         this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { claimsFilter: true } });
