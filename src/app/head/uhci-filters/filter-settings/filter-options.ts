@@ -91,8 +91,8 @@ export const ServiceCategory = [
   { name: 'AmbulatorySurgical', value: 'Ambulatory Surgical Center', disable: false },
   { name: 'FacilityService', value: 'Facility Based Service', disable: false },
   { name: 'Custodial', value: 'Custodial', disable: false },
-  { name: 'WeightManagement', value: 'Weight Management', disable: false }
-  // { name: 'Uncategorized', value: 'Uncategorized', disable: false }
+  { name: 'WeightManagement', value: 'Weight Management', disable: false },
+  { name: 'Uncategorized', value: 'Uncategorized', disable: false }
 ];
 
 export const PriorAuthDecisionType = [
