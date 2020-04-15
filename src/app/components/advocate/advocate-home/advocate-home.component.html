@@ -4,43 +4,58 @@
       <div class="page-title">{{ pageTitle }}</div>
       <div class="page-subtitle">{{ pagesubTitle }}</div>
       <div>Search By Health System Name, Tax ID Number or Tax ID name</div>
-      <app-dropdown [dropdownList]="dropDownArray" (valueChange)="valueDropdown($event)"></app-dropdown>
-      <!-- Search code starts here -->
-      <div class="search-container">
-        <form class="example-form" [formGroup]="usersForm">
-          <mat-form-field class="example-full-width" appearance="outline" [style.width.px]="400">
-            <input
-              matInput
-              placeholder="{{ currentPlaceholder }}"
-              [matAutocomplete]="auto"
-              formControlName="userInput"
-            />
-          </mat-form-field>
-          <!-- <span>{{ usersForm.get('userInput').value | json }}</span> -->
+      <div class="home-advocate-search">
+        <app-dropdown [dropdownList]="dropDownArray" (valueChange)="valueDropdown($event)"></app-dropdown>
+        <!-- Search code starts here -->
+        <div class="search-container">
+          <form class="example-form" [formGroup]="usersForm">
+            <mat-form-field class="example-full-width" appearance="outline" [style.width.px]="400">
+              <input
+                matInput
+                placeholder="{{ currentPlaceholder }}"
+                [matAutocomplete]="auto"
+                formControlName="userInput"
+                (keyup)="onSearchInput($event.target.value)"
+              />
+              <!-- <span>{{ usersForm.get('userInput').value | json }}</span> -->
 
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnWrapper()" [panelWidth]="400">
-            <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="40"></mat-spinner></mat-option>
-            <ng-container *ngIf="!isLoading">
-              <mat-option class="optionHeight" *ngFor="let user of filteredUsers" [value]="user">
-                <div class="option-container" *ngIf="selectedDropdown === 'hco'">
-                  <span class="primary-option"> {{ user.ProviderSystem }}</span>
-                  <small>Active Tax ID: {{ user.ActiveTaxIds }}</small>
-                  <small>Genesis ID: {{ user.BicId }}</small>
-                </div>
-                <div class="option-container" *ngIf="selectedDropdown === 'tin'">
-                  <span class="primary-option">{{ user.Tin }}</span>
-                  <small>Tin Name: {{ user.TinName }}</small>
-                  <small>HCO: {{ user.ProviderSystem }}</small>
-                </div>
-                <div class="option-container" *ngIf="selectedDropdown === 'TinName'">
-                  <span class="primary-option">{{ user.TinName }}</span>
-                  <small> Tin: {{ user.Tin }}</small>
-                  <small> HCO: {{ user.ProviderSystem }}</small>
-                </div>
-              </mat-option>
-            </ng-container>
-          </mat-autocomplete>
-        </form>
+              <mat-autocomplete
+                #auto="matAutocomplete"
+                [displayWith]="displayFnWrapper()"
+                [panelWidth]="400"
+                (optionSelected)="onSearchInput()"
+              >
+                <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="40"></mat-spinner></mat-option>
+                <ng-container *ngIf="!isLoading">
+                  <mat-option class="optionHeight" *ngFor="let user of filteredUsers" [value]="user">
+                    <div class="option-container" *ngIf="selectedDropdown === 'hco'">
+                      <span
+                        class="primary-option"
+                        innerHTML="{{ user.ProviderSystem | searchHighlight: searchedString }}"
+                      ></span>
+                      <span class="sub-text">Active Tax ID: {{ user.ActiveTaxIds }}</span>
+                      <span class="sub-text">Genesis ID: {{ user.BicId }}</span>
+                    </div>
+                    <div class="option-container" *ngIf="selectedDropdown === 'tin'">
+                      <span class="primary-option" innerHTML="{{ user.Tin | searchHighlight: searchedString }}"></span>
+                      <span class="sub-text">Tin Name: {{ user.TinName | titlecase }}</span>
+                      <span class="sub-text">HCO: {{ user.ProviderSystem }}</span>
+                    </div>
+                    <div class="option-container" *ngIf="selectedDropdown === 'TinName'">
+                      <span
+                        class="primary-option"
+                        innerHTML="{{ user.TinName | titlecase | searchHighlight: searchedString }}"
+                      ></span>
+                      <span class="sub-text"> Tin: {{ user.Tin }}</span>
+                      <span class="sub-text"> HCO: {{ user.ProviderSystem }}</span>
+                    </div>
+                  </mat-option>
+                </ng-container>
+              </mat-autocomplete>
+              <mat-icon matSuffix class="nav-menu-icons" svgIcon="search"></mat-icon>
+            </mat-form-field>
+          </form>
+        </div>
       </div>
       <!-- Search code ends here -->
     </div>

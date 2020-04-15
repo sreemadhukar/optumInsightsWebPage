@@ -23,6 +23,7 @@ export class AdvocateHomeComponent implements OnInit {
   currentPlaceholder: string;
   dropDownArray: Array<Object>;
   selectedDropdown: string;
+  searchedString: string;
   /** Ends Search Servie variables */
   constructor(private fb: FormBuilder, private session: SessionService, private searchService: HomeService) {
     this.dropDownArray = dropdownOptions;
@@ -74,5 +75,8 @@ export class AdvocateHomeComponent implements OnInit {
   valueDropdown(val) {
     this.selectedDropdown = val;
     this.searchBox(this.selectedDropdown);
+  }
+  onSearchInput(value) {
+    this.searchedString = value;
   }
 }
