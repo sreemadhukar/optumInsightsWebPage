@@ -9,7 +9,7 @@
         <!-- Search code starts here -->
         <div class="search-container">
           <form class="example-form" [formGroup]="usersForm">
-            <mat-form-field class="example-full-width" appearance="outline" [style.width.px]="400">
+            <mat-form-field class="example-full-width" appearance="outline" [style.width.px]="386">
               <input
                 matInput
                 placeholder="{{ currentPlaceholder }}"
@@ -19,12 +19,7 @@
               />
               <!-- <span>{{ usersForm.get('userInput').value | json }}</span> -->
 
-              <mat-autocomplete
-                #auto="matAutocomplete"
-                [displayWith]="displayFnWrapper()"
-                [panelWidth]="400"
-                (optionSelected)="onSearchInput()"
-              >
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnWrapper()" [panelWidth]="386">
                 <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="40"></mat-spinner></mat-option>
                 <ng-container *ngIf="!isLoading">
                   <mat-option class="optionHeight" *ngFor="let user of filteredUsers" [value]="user">
