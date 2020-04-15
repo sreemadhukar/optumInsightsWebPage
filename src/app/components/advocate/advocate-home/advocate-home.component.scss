@@ -44,7 +44,16 @@
         font-size: 28px;
         line-height: 32px;
         width: auto;
+        margin-bottom: 31px;
       }
+    }
+    .home-advocate-search {
+      display: inline-flex;
+      margin-top: 8px;
+    }
+    ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+      padding: 17px 0 16px 0;
+      border-top: 1px solid transparent;
     }
   }
 }
@@ -56,8 +65,17 @@
   display: block;
   .primary-option {
     display: block;
-    font-weight: 700;
-    line-height: 19px;
+    font-family: 'UHCSans-Bold', Helvetica, Arial, sans-serif;
+    line-height: 22px;
+    font-size: 16px;
+  }
+  ::ng-deep .highlight-text {
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  }
+  .sub-text {
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 14px;
   }
 }
 .is-loading ::ng-deep .mat-option-text {
