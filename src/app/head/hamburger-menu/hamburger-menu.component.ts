@@ -82,6 +82,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   /*** Array of Navigation Category List ***/
   public navCategories = [];
   public navCategoriesTotal = [
+    { icon: 'dashboard', name: 'My Home', path: '/OverviewPageAdvocate/Home', disabled: true },
     { icon: 'home', name: 'Overview', path: '/NationalExecutive', disabled: false, kop: true },
     { icon: 'summary', name: 'NPS Summary', path: '/NationalExecutive/NpsDetail', disabled: false, kop: true },
     // {
@@ -195,6 +196,23 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     this.checkExecutive = this.sessionService.checkExecutiveRole();
     if (this.checkAdv.value) {
       this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
+
+      iconRegistry.addSvgIcon(
+        'dashboard',
+        sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
+      );
+      iconRegistry.addSvgIcon(
+        'home',
+        sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/dashboard-24px.svg')
+      );
+
+      this.navCategories[0].disabled = false;
+      console.log(this.navCategories);
+    } else {
+      iconRegistry.addSvgIcon(
+        'home',
+        sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
+      );
     }
     let currentUser: any;
     currentUser = { ProviderKey: false };
@@ -248,7 +266,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.loading = true;
         // Role based access for Advocates Overview page
         if (this.checkAdv.value) {
-          this.navCategories[0].path = '/OverviewPageAdvocate';
+          this.navCategories[1].path = '/OverviewPageAdvocate';
           if (window.location.pathname === '/OverviewPage' && !event.url.includes('print-')) {
             window.location.href = '/OverviewPageAdvocate';
           }
@@ -313,10 +331,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     });
     this.sessionService.sessionCleared().subscribe(() => (this.makeAbsolute = true));
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
-    iconRegistry.addSvgIcon(
-      'home',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
-    );
+
     iconRegistry.addSvgIcon(
       'summary',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/bar_chart-24px.svg')
@@ -481,7 +496,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   advocateRole() {
     this.sessionService.checkAdvocateRole();
-    this.navCategories[0].path = '/OverviewPageAdvocate';
+    this.navCategories[1].path = '/OverviewPageAdvocate';
   }
 
   /* To check whether we have data for the PCOR or not, if we don't have data for PCOR then in the navigation
@@ -489,11 +504,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
    */
   insertPCORnav() {
     if (!this.navCategories.some(i => i.name === 'Patient Care Opportunity')) {
-      this.navCategories[3].disabled = false;
+      this.navCategories[4].disabled = false;
     }
   }
   removePCORnav() {
-    this.navCategories[3].disabled = true;
+    this.navCategories[4].disabled = true;
   }
   checkToggle(bool: boolean) {
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
@@ -567,7 +582,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
           try {
             this.removePCORnav();
             sessionStorage.removeItem('pcor');
-            // this.navCategories[2].children = this.navCategories[2].children.filter(
+            // this.navCategories[4].children = this.navCategories[4].children.filter(
             //   i => i.name !== 'Patient Care Opportunity'
             // );
             if (this.router.url.includes('CareDelivery/PatientCareOpportunity')) {
