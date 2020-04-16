@@ -1,4 +1,4 @@
-<mat-form-field appearance="outline">
+<mat-form-field appearance="outline" class="search-dropdown-mat-field">
   <!-- <mat-label>Select an option</mat-label> -->
   <mat-select [(value)]="selected" (selectionChange)="doSomething($event.value)">
     <mat-option *ngFor="let item of itemsList" [value]="item.value">
