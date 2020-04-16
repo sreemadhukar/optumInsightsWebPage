@@ -47,6 +47,9 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
     this.pagesubTitle = 'Welcome to UHC Insights.';
     this.selectedDropdown = this.dropDownArray[0]['value'];
     this.searchBox(this.selectedDropdown);
+    this.searchService
+      .search({ searchValue: 'Nov', searchType: 'hco' })
+      .subscribe(data => console.log('constrinct', data));
   }
   displayFn(user: IUserResponse) {
     if (user) {
