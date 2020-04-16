@@ -17,8 +17,6 @@ import { AdvocateHomeComponent } from './advocate-home/advocate-home.component';
 import { DropdownComponent } from './advocate-home/dropdown/dropdown.component';
 import { HomeService } from '../../rest/advocate/home.service';
 /*** Search component */
-
-import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatFormFieldModule,
@@ -38,7 +36,6 @@ import { MatSelectModule } from '@angular/material/select';
     PipesModule,
     FormsModule,
     CommonModule,
-    HttpClientModule,
     ReactiveFormsModule,
     MatInputModule,
     MatAutocompleteModule,

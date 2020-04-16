@@ -17,6 +17,7 @@
               <input
                 matInput
                 placeholder="{{ currentPlaceholder }}"
+                maxlength="30"
                 [matAutocomplete]="auto"
                 formControlName="userInput"
                 (keyup)="onSearchInput($event.target.value)"
@@ -24,14 +25,17 @@
               <!-- <span>{{ usersForm.get('userInput').value | json }}</span> -->
 
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnWrapper()" [panelWidth]="386">
-                <mat-option *ngIf="isLoading" class="is-loading" #option
-                  ><mat-spinner *ngIf="searchedString.length > 2" diameter="40"></mat-spinner>
-                  <div *ngIf="searchedString.length < 3" class="min-length-text">
+                <mat-option *ngIf="isLoading || noSearchFound" class="is-loading" #option
+                  ><mat-spinner *ngIf="searchedString.length > 2 && !noSearchFound" diameter="40"></mat-spinner>
+                  <ng-container *ngIf="searchedString.length < 3" class="min-length-text">
                     Please type at least 3 characters to start your search...
-                  </div>
+                  </ng-container>
+                  <ng-container *ngIf="noSearchFound && searchedString.length > 2" class="min-length-text">
+                    No Result found for your input search
+                  </ng-container>
                 </mat-option>
                 <ng-container *ngIf="!isLoading">
-                  <mat-option class="optionHeight" *ngFor="let user of filteredUsers" [value]="user">
+                  <mat-option class="optionHeight" *ngFor="let user of filteredUsers | async" [value]="user">
                     <div class="option-container" *ngIf="selectedDropdown === 'hco'">
                       <span
                         class="primary-option"
@@ -90,7 +94,7 @@
                   matSuffix
                   class="nav-menu-icons close-icon"
                   svgIcon="closeGlossary"
-                  (click)="usersForm.reset()"
+                  (click)="resetForm(); usersForm.reset()"
                 ></mat-icon>
               </ng-container>
             </mat-form-field>
