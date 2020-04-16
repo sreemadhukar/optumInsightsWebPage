@@ -28,52 +28,55 @@
   text-align: center;
   margin-bottom: 21px;
 }
-.session-elapse-time-message {
-}
 .session-elapse-time {
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 28px;
 }
-.log-me-out-btn {
-  color: $blue;
-  background: #fff;
-}
-.log-me-out-btn:hover,
-.log-me-out-btn:focus {
-  color: #fff;
-  background-color: $blue;
-}
-.log-me-out-btn:active {
-  background-color: $blue-base;
-  color: #fff;
-}
-.keep-me-signed-btn {
-  background-color: $blue;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  color: #ffffff;
-  margin-left: 13px !important;
+.button_container {
+  justify-content: space-between;
 }
 
-.keep-me-signed-btn:hover,
-.keep-me-signed-btn:focus {
+.uhci_button {
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  text-align: center;
+  box-sizing: border-box;
+  height: 40px;
+  width: 184.09px;
+  border: 1px solid $blue;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+}
+.button_1 {
+  color: #fff;
+  background: $blue;
+}
+.button_1:hover,
+.button_1:focus {
   color: #fff;
   background-color: $blue-base;
 }
-.keep-me-signed-btn:active {
+.button_1:active {
   background-color: transparent;
   color: $blue;
 }
 
-.session-warning-buttons {
-  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  letter-spacing: 0.2px !important;
-  line-height: 22px !important;
-  text-align: center !important;
-  box-sizing: border-box !important;
-  height: 41px;
-  width: 184.09px;
-  border: 1px solid $blue !important;
-  border-radius: 2px !important;
-  cursor: pointer;
+.button_3 {
+  color: $blue;
+  background: #fff;
+}
+.button_3:hover,
+.button_3:focus {
+  color: #fff;
+  background-color: $blue;
+}
+.button_3:active {
+  background-color: $blue-base;
+  color: #fff;
 }
