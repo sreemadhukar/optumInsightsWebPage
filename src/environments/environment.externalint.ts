@@ -54,6 +54,7 @@ export const environment: any = {
     HealthSystemDetails: 'providerInfo/',
     CallsTrendLine: 'calls-trend/',
     PaymentsBySubmission: 'claim-submissions/',
+    PaymentsBySubmissionDOP: 'dop-claim-submissions/',
     GroupPremiumDesignation: 'group-premium-designation/',
     NetworkLever: 'network-lever/'
   },

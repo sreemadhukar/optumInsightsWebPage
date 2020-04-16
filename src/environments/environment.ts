@@ -77,6 +77,7 @@ export const environment: any = {
     KOPBusinessGlossary: 'business-glossaries-kop/',
     CallsTrendLine: 'calls-trend/',
     PaymentsBySubmission: 'claim-submissions/',
+    PaymentsBySubmissionDOP: 'dop-claim-submissions/',
     GroupPremiumDesignation: 'group-premium-designation/',
     NetworkLever: 'network-lever/'
   },
