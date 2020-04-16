@@ -71,7 +71,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   public mobileQuery: boolean;
   public healthSystemName: string;
   public isKop: boolean;
-  public isAdvocateHome: boolean;
+  public boolRemoveLeftNav: Boolean = false;
   disableChangeProvider: boolean = environment.internalAccess;
   internalUser: boolean = environment.internalAccess;
   externalProvidersCount = false;
@@ -247,7 +247,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             event.url === '/AccessDenied'
           )
         );
-
+        this.boolRemoveLeftNav = event.url.includes('OverviewPageAdvocate/Home') ? true : false;
         /*
          for login, providerSearch screen , filters has no role to play, so for them Filters should be close,
          we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
@@ -381,9 +381,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.printStyle = event.url.includes('print-');
-        if (event.url.includes('/Home')) {
-          this.isAdvocateHome = true;
-        }
       }
     });
   }
@@ -391,7 +388,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   ngOnInit() {
     this.AcoFlag = false;
     this.isKop = false;
-    this.isAdvocateHome = false;
     this.loading = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.acoEventEmitter.getEvent().subscribe(value => {
@@ -740,7 +736,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     setTimeout(() => {
       sessionStorage.removeItem('advocateView');
       this.advocateView = false;
-    }, 500);
+    }, 300);
     location.href = '/OverviewPageAdvocate';
   }
 
