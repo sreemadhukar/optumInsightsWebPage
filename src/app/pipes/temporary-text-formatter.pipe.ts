@@ -10,6 +10,10 @@ export class TemporaryTextFormatterPipe implements PipeTransform {
         return 'Prior Auth';
       case 'Eligibility and Benefits':
         return 'Eligibility/Benefits';
+      case 'FI (Fully Insured)':
+        return 'FI';
+      case 'ASO (Administrative Services Only)':
+        return 'ASO';
       default:
         return value;
     }
