@@ -40,9 +40,30 @@
     padding-right: 8px;
   }
 }
+.search-icon {
+  position: absolute;
+  color: #757588;
+  right: 10px;
+  top: 10px;
+}
+
+.search-icon-group {
+  position: absolute;
+  color: #757588;
+  right: 30px;
+  top: 10px;
+}
+
+.close-curser {
+  cursor: pointer;
+}
+
+.search-box {
+  position: relative;
+}
 //input custom width
 .tin-input-width {
-  width: 117px;
+  width: 173px;
 }
 .tinname-input-width {
   width: 267px;
@@ -51,14 +72,15 @@
 //table column widths
 .rlp-table {
   &-tin {
-    flex: 0.4;
+    flex: 0.6;
     padding-right: 16px;
   }
   &-group {
     flex: 0.97;
   }
   &-bar {
-    flex: 1.8;
+    flex: 1.65;
+    padding-left: 10px;
     display: inline-flex;
     cursor: pointer;
     cursor: hand;
@@ -156,6 +178,16 @@
     font-size: 14px;
   }
 }
+.table-show-count {
+  margin: 0 8px 8px 0;
+
+  .table-show-text {
+    font-size: 14px;
+    line-height: 18px;
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  }
+}
 
 //Input place holder css for chrome
 ::-webkit-input-placeholder {
@@ -239,7 +271,7 @@
   font-size: 16px;
   line-height: 22px;
 }
-//sorting icon classses
+//sorting icon classes
 .nav-menu-icons {
   margin: 0px 12px;
   vertical-align: middle;

@@ -27,7 +27,7 @@ export class D3StarBlueComponent implements OnInit, AfterViewInit {
     this.doStarComponent(this.chartOptions.chartData, this.chartOptions.gdata[1]);
   }
 
-  onResize(event) {
+  onResize(_event) {
     this.doStarComponent(this.chartOptions.chartData, this.chartOptions.gdata[1]);
   }
 

@@ -16,7 +16,7 @@ export class MiniBarChartComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_event) {
     this.doMiniBarChart(this.chartOptions, this.noTransition);
   }
 
@@ -28,7 +28,7 @@ export class MiniBarChartComponent implements OnInit, AfterViewInit {
     this.doMiniBarChart(this.chartOptions, this.transition);
   }
 
-  doMiniBarChart(chartOptions: any, transition: number) {
+  doMiniBarChart(chartOptions: any, _transition: number) {
     const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')
