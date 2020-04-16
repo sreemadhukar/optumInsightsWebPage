@@ -63,7 +63,7 @@
 }
 //input custom width
 .tin-input-width {
-  width: 117px;
+  width: 173px;
 }
 .tinname-input-width {
   width: 267px;
@@ -72,14 +72,14 @@
 //table column widths
 .rlp-table {
   &-tin {
-    flex: 0.4;
+    flex: 0.6;
     padding-right: 16px;
   }
   &-group {
     flex: 0.97;
   }
   &-bar {
-    flex: 1.8;
+    flex: 1.6;
     display: inline-flex;
     cursor: pointer;
     cursor: hand;
