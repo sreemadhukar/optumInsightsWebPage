@@ -9,6 +9,8 @@ import { environment } from '../../../environments/environment';
 })
 export class HomeService {
   readonly APP_URL: string = environment.apiProxyUrl;
+  readonly PROVIDER_SEARCH_PATH: string = environment.apiUrls.ProviderSearch;
+
   constructor(private http: HttpClient) {}
 
   search(
@@ -16,7 +18,12 @@ export class HomeService {
   ): Observable<IUserResponse[]> {
     const myparam = new HttpParams();
     const searchURL =
-      this.APP_URL + 'provider-search?search-type=' + filter.searchType + '&search-value=' + filter.searchValue;
+      this.APP_URL +
+      this.PROVIDER_SEARCH_PATH +
+      '?search-type=' +
+      filter.searchType +
+      '&search-value=' +
+      filter.searchValue;
     return this.http
       .get<IUserResponse[]>(searchURL, { params: myparam })
       .pipe(
