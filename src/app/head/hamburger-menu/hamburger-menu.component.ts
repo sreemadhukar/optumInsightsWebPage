@@ -738,6 +738,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       this.advocateView = false;
     }, 300);
     location.href = '/OverviewPageAdvocate';
+    sessionStorage.setItem('advocateView', 'false');
   }
 
   /**
