@@ -69,14 +69,14 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
       userInput: null
     });
     this.currentPlaceholder =
-      'Search By ' + this.dropDownArray.find(item => item['value'] === dropdownSelection)['viewValue'];
+      'Search By ' + this.dropDownArray.filter(item => item['value'] === dropdownSelection)[0]['viewValue'];
     this.getData$ = this.usersForm
       .get('userInput')
       .valueChanges.pipe(
         debounceTime(200),
         tap(() => (this.isLoading = true)),
         switchMap(value =>
-          value && value.trim() && value.length > 2
+          value && value.trim() && value.length > 2 && value.length - value.trim().length < 2
             ? this.searchService
                 .search({ searchValue: value.trim(), searchType: dropdownSelection })
                 .pipe(finalize(() => (this.isLoading = false)))
