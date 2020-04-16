@@ -44,7 +44,7 @@ export const environment: any = {
     KOPPriorAuthTATSummary: 'kop-priorauth-tat/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
-    AppealsFHIR: 'appeal-metrics/',
+    AppealsFHIR: 'appeals-metrics/',
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
     HealthSystemDetails: 'providerInfo/',
