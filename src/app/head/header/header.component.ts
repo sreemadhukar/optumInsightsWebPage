@@ -195,6 +195,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       // this.checkedClicked.provider = this.sessionService.checkedClicked.provider;
       this.myView = true;
       this.userView = false;
+      sessionStorage.setItem('advocateView', 'false');
       this.router.navigate(['/OverviewPageAdvocate']);
     } else if (value === 'userView') {
       // this.sessionService.checkedClicked.myView = false;
@@ -204,6 +205,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       // this.checkedClicked.provider = this.sessionService.checkedClicked.provider;
       this.userView = true;
       this.myView = false;
+      sessionStorage.setItem('advocateView', 'true');
       this.router.navigate(['/OverviewPage']);
     }
     this.openDropdownBool = false;
