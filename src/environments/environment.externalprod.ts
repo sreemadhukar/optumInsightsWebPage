@@ -54,7 +54,8 @@ export const environment: any = {
     GroupPremiumDesignation: 'group-premium-designation/',
     NetworkLever: 'network-lever/',
     PaymentIntegrityTabsInfo: 'pi-tab-info/',
-    NewPaymentIntegrity: 'payment-integrity/'
+    NewPaymentIntegrity: 'payment-integrity/',
+    ProviderSearch: 'provider-search'
   },
   headerKeys: {
     selectedCompany: '',
