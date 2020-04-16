@@ -62,7 +62,7 @@ export class NewPaymentIntegrityComponent implements OnInit {
     });
   }
 
-  matOptionClicked(i: number, event: any) {
+  matOptionClicked(i: number) {
     this.loading = true;
     this.currentSummary = null;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');

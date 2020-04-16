@@ -60,7 +60,7 @@ export class TaxSummaryComponent implements OnInit {
       this.sort.active = sortState.active;
       this.sort.direction = sortState.direction;
       this.sort.sortChange.emit(sortState);
-      this.taxSummaryData.filterPredicate = (data, filter) => {
+      this.taxSummaryData.filterPredicate = data => {
         if (data[this.filterObj['key']] && this.filterObj['key']) {
           return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
         }

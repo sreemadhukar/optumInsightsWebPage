@@ -16,7 +16,7 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_event) {
     this.doRotatingArrowChart(this.chartOptions, this.customWidth, this.customHeight);
   }
   ngOnInit() {

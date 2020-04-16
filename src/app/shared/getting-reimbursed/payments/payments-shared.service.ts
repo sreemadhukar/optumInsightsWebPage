@@ -53,7 +53,7 @@ export class PaymentsSharedService {
   }
 
   calculateTrends(parameters, paymentsData) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       let baseTimePeriod: any;
       if (this.timeFrame === 'Last 12 Months') {
         baseTimePeriod = 'PreviousLast12Months';
@@ -101,7 +101,7 @@ export class PaymentsSharedService {
   }
 
   public getPaymentsData(parameters, toggleData) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       let summaryData: Array<object> = [];
       let claimsPaid: object;
       let claimsPaidRate: object;
@@ -823,7 +823,7 @@ export class PaymentsSharedService {
     parameters = this.getParameterCategories(param);
     // let paidArray:  Array<Object> = [];
     if (param.viewClaimsByFilter === 'DOP') {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         let paidBreakdown = [];
         this.gettingReimbursedService.getPaymentData(...parameters).subscribe((paymentDatafetch: any) => {
           try {
@@ -890,7 +890,7 @@ export class PaymentsSharedService {
         });
       });
     } else {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         let paidBreakdown = [];
         this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
           try {

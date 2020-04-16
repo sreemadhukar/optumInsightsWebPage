@@ -95,7 +95,7 @@ export class PaymentsComponent implements OnInit {
         this.paymentsItems = completeData;
         this.payments = this.paymentsItems[0].data;
       })
-      .catch(reason => {
+      .catch(() => {
         this.loading = false;
       });
 

@@ -77,7 +77,7 @@ export class GettingReimbursedComponent implements OnInit {
       this.ngOnInit();
     }); */
   }
-  onDetailsButtonClick(i: number, event: any) {
+  onDetailsButtonClick(i: number) {
     if (i === 0) {
       this.detailClickUrl = '/GettingReimbursed';
     } else if (i === 1) {
@@ -93,7 +93,7 @@ export class GettingReimbursedComponent implements OnInit {
   getTabOptionsTitle(i: number) {
     return this.tabOptionsTitle[i];
   }
-  matOptionClicked(i: number, event: any) {
+  matOptionClicked(i: number) {
     if (i === 0) {
       this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
       this.buttonName = '';

@@ -206,7 +206,7 @@ export class PaymentIntegrityComponent implements OnInit {
           }
         }
       })
-      .catch(error => {
+      .catch(() => {
         this.loading = false;
         this.piDataloaded = false;
       });

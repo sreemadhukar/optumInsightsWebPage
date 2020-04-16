@@ -16,7 +16,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_event) {
     this.doMedBarChart(this.chartOptions, this.noTransition);
   }
 
@@ -28,7 +28,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     this.doMedBarChart(this.chartOptions, this.transition);
   }
 
-  doMedBarChart(chartOptions: any, transition: number) {
+  doMedBarChart(chartOptions: any, _transition: number) {
     function getTextWidth(text, fontSize, fontFace) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
@@ -346,7 +346,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       const label = d3.select('#' + uniqueText).selectAll('*');
 
       label
-        .on('mouseenter', function(d) {
+        .on('mouseenter', function() {
           div
             .transition()
             .duration(10)
@@ -354,7 +354,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           div.style('left', d3.event.layerX - 25 + 'px').style('top', d3.event.layerY - 85 + 'px');
           // div.style('left', '100px').style('bottom', '70px');
         })
-        .on('mousemove', function(d) {
+        .on('mousemove', function() {
           div
             .transition()
             .duration(10)
@@ -362,7 +362,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           div.style('left', d3.event.layerX - 25 + 'px').style('top', d3.event.layerY - 85 + 'px');
           // div.style('left', '100px').style('bottom', '70px');
         })
-        .on('mouseleave', function(d) {
+        .on('mouseleave', function() {
           div
             .transition()
             .duration(10)
@@ -421,7 +421,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       const label = d3.select('#paymentIntegrityRect' + chartOptions.graphValues[1]);
 
       label
-        .on('mouseenter', function(d) {
+        .on('mouseenter', function() {
           div
             .transition()
             .duration(10)
@@ -429,7 +429,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
           // div.style('left', '100px').style('bottom', '70px');
         })
-        .on('mousemove', function(d) {
+        .on('mousemove', function() {
           div
             .transition()
             .duration(10)
@@ -437,7 +437,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
           // div.style('left', '100px').style('bottom', '70px');
         })
-        .on('mouseleave', function(d) {
+        .on('mouseleave', function() {
           div
             .transition()
             .duration(10)
@@ -614,7 +614,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .text('Target ' + chartOptions.target + '%')
           .style('position', 'absolute')
           .style('top', '195px')
-          .style('right', '200px')
+          .style('right', '160px')
           .attr('font-size', '16px')
           .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'");
         if (chartOptions.targetValue.includes('above target') || chartOptions.targetValue.includes('Meets target')) {

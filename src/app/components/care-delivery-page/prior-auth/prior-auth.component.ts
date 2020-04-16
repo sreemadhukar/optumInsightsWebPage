@@ -132,7 +132,7 @@ export class PriorAuthComponent implements OnInit {
         this.summaryItems = data[0];
         this.reasonItems = data[1];
       },
-      error => {
+      () => {
         this.hideAllObjects = false;
       }
     );
