@@ -247,9 +247,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             event.url === '/AccessDenied'
           )
         );
-        if (event.url.includes('OverviewPageAdvocate/Home')) {
-          this.boolRemoveLeftNav = true;
-        }
+        this.boolRemoveLeftNav = event.url.includes('OverviewPageAdvocate/Home') ? true : false;
         /*
          for login, providerSearch screen , filters has no role to play, so for them Filters should be close,
          we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
