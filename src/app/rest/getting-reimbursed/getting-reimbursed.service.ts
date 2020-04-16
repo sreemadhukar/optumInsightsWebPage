@@ -54,6 +54,9 @@ export class GettingReimbursedService {
     if (appealsParam.Lob) {
       delete appealsParam.Lob;
     }
+    if (appealsParam.FundingTypeCodes) {
+      delete appealsParam.FundingTypeCodes;
+    }
     /*SEE ABOVE*/
     let appealsReqType = '';
     if (parameters[1].appealsProcessing === 'Received Date') {
@@ -71,6 +74,9 @@ export class GettingReimbursedService {
   public claimsAppealsReasonData(...parameters) {
     const appealsParam = parameters[1];
     let appealsReqType = '';
+    if (appealsParam.FundingTypeCodes) {
+      delete appealsParam.FundingTypeCodes;
+    }
     if (parameters[1].appealsProcessing === 'Received Date') {
       appealsReqType = '?requestType=APPEALS_TOP_OVERTURNED_REASON_DOR_HCO';
     } else {
