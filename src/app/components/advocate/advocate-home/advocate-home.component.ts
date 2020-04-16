@@ -7,6 +7,8 @@ import { switchMap, debounceTime, tap, finalize, startWith } from 'rxjs/operator
 import { Subscription, Observable, of } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
+import { Router } from '@angular/router';
+import { StorageService } from '../../../shared/storage-service.service';
 
 @Component({
   selector: 'app-advocate-home',
@@ -33,6 +35,8 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
     private session: SessionService,
     private searchService: HomeService,
     private iconRegistry: MatIconRegistry,
+    private router: Router,
+    private storage: StorageService,
     sanitizer: DomSanitizer
   ) {
     iconRegistry.addSvgIcon(
@@ -56,6 +60,7 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
       } else if (this.selectedDropdown === 'tin') {
         return user.Tin;
       } else {
+        this.providerSelect(user);
         return user.ProviderSystem;
       }
     }
@@ -102,7 +107,24 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
   }
   resetForm() {
     this.searchedString = '';
+    this.usersForm.reset();
     this.isLoading = true;
+  }
+  providerSelect(user: IUserResponse) {
+    const providerData = JSON.parse(sessionStorage.getItem('currentUser'));
+    const provider = providerData[0];
+    if (providerData[0].hasOwnProperty('Providersyskey')) {
+      provider.healthcareorganizationname = user.ProviderSystem;
+      provider.ProviderKey = user.ProviderSysKey;
+      this.storage.store('currentUser', [provider]);
+    } else {
+      const providerObj = {
+        HealthCareOrganizationName: user.ProviderSystem,
+        ProviderKey: user.ProviderSysKey
+      };
+      this.storage.store('currentUser', [Object.assign(provider, providerObj)]);
+    }
+    this.router.navigate(['/OverviewPageAdvocate/HealthSystemDetails/']);
   }
   ngOnDestroy() {
     this.getData$.unsubscribe();
