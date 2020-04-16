@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SessionService } from '../../../shared/session.service';
 import { HomeService } from '../../../rest/advocate/home.service';
 import { dropdownOptions, IUserResponse } from './user.class';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { switchMap, debounceTime, tap, finalize, startWith } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { startTimeRange } from '@angular/core/src/profile/wtf_impl';
+import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 
@@ -14,7 +13,7 @@ import { MatIconRegistry } from '@angular/material';
   templateUrl: './advocate-home.component.html',
   styleUrls: ['./advocate-home.component.scss']
 })
-export class AdvocateHomeComponent implements OnInit {
+export class AdvocateHomeComponent implements OnInit, OnDestroy {
   pageTitle: string;
   pagesubTitle: string;
   userName;
@@ -26,6 +25,7 @@ export class AdvocateHomeComponent implements OnInit {
   dropDownArray: Array<Object>;
   selectedDropdown: string;
   searchedString: string;
+  getData$: Subscription;
   /** Ends Search Servie variables */
   constructor(
     private fb: FormBuilder,
@@ -69,7 +69,7 @@ export class AdvocateHomeComponent implements OnInit {
     });
     this.currentPlaceholder =
       'Search By ' + this.dropDownArray.find(item => item['value'] === dropdownSelection)['viewValue'];
-    this.usersForm
+    this.getData$ = this.usersForm
       .get('userInput')
       .valueChanges.pipe(
         debounceTime(200),
@@ -82,14 +82,24 @@ export class AdvocateHomeComponent implements OnInit {
             : null
         )
       )
-      .subscribe(users => (this.filteredUsers = users));
+      .subscribe(
+        users => (
+          (this.filteredUsers = users),
+          err => {
+            console.log('Error in Advocate Home page', err);
+          }
+        )
+      );
     /** Search code ends here */
   }
   valueDropdown(val) {
     this.selectedDropdown = val;
     this.searchBox(this.selectedDropdown);
   }
-  onSearchInput(value) {
+  onSearchInput(value: string) {
     value ? (this.searchedString = value) : (this.searchedString = '');
+  }
+  ngOnDestroy() {
+    this.getData$.unsubscribe();
   }
 }
