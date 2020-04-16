@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { switchMap, debounceTime, tap, finalize, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { startTimeRange } from '@angular/core/src/profile/wtf_impl';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material';
 
 @Component({
   selector: 'app-advocate-home',
@@ -25,7 +27,17 @@ export class AdvocateHomeComponent implements OnInit {
   selectedDropdown: string;
   searchedString: string;
   /** Ends Search Servie variables */
-  constructor(private fb: FormBuilder, private session: SessionService, private searchService: HomeService) {
+  constructor(
+    private fb: FormBuilder,
+    private session: SessionService,
+    private searchService: HomeService,
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIcon(
+      'round-search',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
+    );
     this.dropDownArray = dropdownOptions;
   }
 
@@ -55,7 +67,6 @@ export class AdvocateHomeComponent implements OnInit {
     this.usersForm = this.fb.group({
       userInput: null
     });
-
     this.currentPlaceholder =
       'Search By ' + this.dropDownArray.find(item => item['value'] === dropdownSelection)['viewValue'];
     this.usersForm
@@ -64,9 +75,11 @@ export class AdvocateHomeComponent implements OnInit {
         debounceTime(200),
         tap(() => (this.isLoading = true)),
         switchMap(value =>
-          this.searchService
-            .search({ searchValue: value, searchType: dropdownSelection })
-            .pipe(finalize(() => (this.isLoading = false)))
+          value && value.length > 2
+            ? this.searchService
+                .search({ searchValue: value, searchType: dropdownSelection })
+                .pipe(finalize(() => (this.isLoading = false)))
+            : null
         )
       )
       .subscribe(users => (this.filteredUsers = users));
@@ -77,6 +90,6 @@ export class AdvocateHomeComponent implements OnInit {
     this.searchBox(this.selectedDropdown);
   }
   onSearchInput(value) {
-    this.searchedString = value;
+    value ? (this.searchedString = value) : (this.searchedString = '');
   }
 }

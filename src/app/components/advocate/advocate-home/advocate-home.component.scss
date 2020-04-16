@@ -44,16 +44,61 @@
         font-size: 28px;
         line-height: 32px;
         width: auto;
-        margin-bottom: 31px;
+        margin-bottom: 25px;
       }
+    }
+    .search-title-block {
+      display: inline-flex;
+      .search-title-icon {
+        background: $white;
+        fill: $blue;
+        margin-right: 8px;
+        border-radius: 25px;
+        width: 40px;
+        height: 40px;
+        ::ng-deep svg {
+          width: 24px;
+          height: 24px;
+          position: relative;
+          left: 9px;
+          top: 9px;
+        }
+      }
+      .search-title {
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        font-size: 22px;
+        line-height: 28px;
+        color: $black-rock;
+        position: relative;
+        top: 8px;
+      }
+    }
+    .search-sub-title {
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 22px;
+      letter-spacing: 0.2px;
+      color: $strom-grey;
+      padding: 5px 5px 0 5px;
     }
     .home-advocate-search {
       display: inline-flex;
       margin-top: 8px;
-    }
-    ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
-      padding: 17px 0 16px 0;
-      border-top: 1px solid transparent;
+
+      ::ng-deep .search-mat-field .mat-form-field-infix {
+        display: inline-flex;
+        padding: 14px 0 13px 0;
+        border-top: 1px solid transparent;
+      }
+
+      ::ng-deep .search-dropdown-mat-field .mat-form-field-infix {
+        padding: 17px 0 16px 0;
+        border-top: 1px solid transparent;
+      }
+
+      .close-icon {
+        color: $strom-grey;
+      }
     }
   }
 }
@@ -68,6 +113,7 @@
     font-family: 'UHCSans-Bold', Helvetica, Arial, sans-serif;
     line-height: 22px;
     font-size: 16px;
+    color: $black-rock;
   }
   ::ng-deep .highlight-text {
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
@@ -76,9 +122,45 @@
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 12px;
     line-height: 14px;
+    color: $strom-grey;
+    display: flex;
+    span {
+      display: inline-flex;
+      width: 50%;
+    }
+    .showNAText {
+      font-style: italic;
+    }
   }
 }
 .is-loading ::ng-deep .mat-option-text {
   display: flex;
   justify-content: center;
+}
+::ng-deep .mat-autocomplete-panel .mat-option {
+  word-break: break-word;
+  height: auto;
+  white-space: normal;
+  line-height: 22px;
+  padding: 6px 12px;
+  letter-spacing: 0.2px;
+
+  ::ng-deep .min-length-text {
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    color: $strom-grey;
+    padding: 12px;
+    pointer-events: none;
+  }
+}
+
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  background: $darker-alice-blue;
+}
+::ng-deep .mat-select-panel .mat-option {
+  padding: 9px 16px 9px 12px;
+
+  &:hover {
+    background: $pattens-blue;
+  }
 }

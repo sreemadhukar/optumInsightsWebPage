@@ -3,13 +3,17 @@
     <div class="cards cust-width-title ">
       <div class="page-title">{{ pageTitle }}</div>
       <div class="page-subtitle">{{ pagesubTitle }}</div>
-      <div>Search By Health System Name, Tax ID Number or Tax ID name</div>
+      <div class="search-title-block">
+        <mat-icon matPrefix class="nav-menu-icons search-title-icon" svgIcon="search"></mat-icon>
+        <p class="search-title">Search</p>
+      </div>
+      <p class="search-sub-title">Search By Health System Name, Tax ID Number or Tax ID name</p>
       <div class="home-advocate-search">
         <app-dropdown [dropdownList]="dropDownArray" (valueChange)="valueDropdown($event)"></app-dropdown>
         <!-- Search code starts here -->
         <div class="search-container">
           <form class="example-form" [formGroup]="usersForm">
-            <mat-form-field class="example-full-width" appearance="outline" [style.width.px]="386">
+            <mat-form-field class="search-mat-field" appearance="outline" [style.width.px]="386">
               <input
                 matInput
                 placeholder="{{ currentPlaceholder }}"
@@ -20,34 +24,75 @@
               <!-- <span>{{ usersForm.get('userInput').value | json }}</span> -->
 
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnWrapper()" [panelWidth]="386">
-                <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="40"></mat-spinner></mat-option>
+                <mat-option *ngIf="isLoading" class="is-loading" #option
+                  ><mat-spinner *ngIf="searchedString.length > 2" diameter="40"></mat-spinner>
+                  <div *ngIf="searchedString.length < 3" class="min-length-text">
+                    Please type at least 3 characters to start your search...
+                  </div>
+                </mat-option>
                 <ng-container *ngIf="!isLoading">
                   <mat-option class="optionHeight" *ngFor="let user of filteredUsers" [value]="user">
                     <div class="option-container" *ngIf="selectedDropdown === 'hco'">
                       <span
                         class="primary-option"
+                        [ngClass]="user.ProviderSystem ? '' : 'showNAText'"
                         innerHTML="{{ user.ProviderSystem | searchHighlight: searchedString }}"
                       ></span>
-                      <span class="sub-text">Active Tax ID: {{ user.ActiveTaxIds }}</span>
-                      <span class="sub-text">Genesis ID: {{ user.BicId }}</span>
+                      <span class="sub-text">
+                        <span [ngClass]="user.ActiveTaxIds ? '' : 'showNAText'">
+                          Total Active Tax ID: {{ user.ActiveTaxIds ? user.ActiveTaxIds : 'Not Available' }}
+                        </span>
+                        <span [ngClass]="user.BicId ? '' : 'showNAText'">
+                          Genesis System ID: {{ user.BicId ? user.BicId : 'Not Available' }}
+                        </span>
+                      </span>
                     </div>
                     <div class="option-container" *ngIf="selectedDropdown === 'tin'">
-                      <span class="primary-option" innerHTML="{{ user.Tin | searchHighlight: searchedString }}"></span>
-                      <span class="sub-text">Tin Name: {{ user.TinName | titlecase }}</span>
-                      <span class="sub-text">HCO: {{ user.ProviderSystem }}</span>
+                      <span
+                        class="primary-option"
+                        [ngClass]="user.Tin ? '' : 'showNAText'"
+                        innerHTML="{{ user.Tin ? (user.Tin | searchHighlight: searchedString) : 'Not Available' }}"
+                      ></span>
+                      <span class="sub-text">
+                        <span [ngClass]="user.TinName ? '' : 'showNAText'">
+                          {{ user.TinName ? (user.TinName | titlecase) : 'Not Available' }}
+                        </span>
+                        <span [ngClass]="user.ProviderSystem ? '' : 'showNAText'">
+                          {{ user.ProviderSystem ? user.ProviderSystem : 'Not Available' }}
+                        </span>
+                      </span>
                     </div>
                     <div class="option-container" *ngIf="selectedDropdown === 'TinName'">
                       <span
                         class="primary-option"
-                        innerHTML="{{ user.TinName | titlecase | searchHighlight: searchedString }}"
+                        [ngClass]="user.TinName ? '' : 'showNAText'"
+                        innerHTML="{{
+                          user.TinName ? (user.TinName | titlecase | searchHighlight: searchedString) : 'Not Available'
+                        }}"
                       ></span>
-                      <span class="sub-text"> Tin: {{ user.Tin }}</span>
-                      <span class="sub-text"> HCO: {{ user.ProviderSystem }}</span>
+                      <span class="sub-text">
+                        <span [ngClass]="user.Tin ? '' : 'showNAText'">
+                          {{ user.Tin ? user.Tin : 'Not Available' }}
+                        </span>
+                        <span [ngClass]="user.ProviderSystem ? '' : 'showNAText'">
+                          {{ user.ProviderSystem ? user.ProviderSystem : 'Not Available' }}
+                        </span>
+                      </span>
                     </div>
                   </mat-option>
                 </ng-container>
               </mat-autocomplete>
-              <mat-icon matSuffix class="nav-menu-icons" svgIcon="search"></mat-icon>
+              <span>
+                <mat-icon matSuffix class="nav-menu-icons" svgIcon="search"></mat-icon>
+              </span>
+              <span>
+                <mat-icon
+                  matSuffix
+                  class="nav-menu-icons close-icon"
+                  svgIcon="closeGlossary"
+                  (click)="usersForm.reset()"
+                ></mat-icon>
+              </span>
             </mat-form-field>
           </form>
         </div>
