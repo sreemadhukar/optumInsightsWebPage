@@ -267,8 +267,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
          */
         if (this.sessionService.isRlpData() && this.internalUser) {
           this.insertRlpNav(this.sessionService.isRlpData());
-        } else {
-          console.log('No Data at Session Storage for Rlp');
         }
 
         // If the environment is not Internal then disable the Rlp

@@ -82,17 +82,17 @@
                   </mat-option>
                 </ng-container>
               </mat-autocomplete>
-              <span>
+              <ng-container *ngIf="!searchedString">
                 <mat-icon matSuffix class="nav-menu-icons" svgIcon="search"></mat-icon>
-              </span>
-              <span>
+              </ng-container>
+              <ng-container *ngIf="searchedString">
                 <mat-icon
                   matSuffix
                   class="nav-menu-icons close-icon"
                   svgIcon="closeGlossary"
                   (click)="usersForm.reset()"
                 ></mat-icon>
-              </span>
+              </ng-container>
             </mat-form-field>
           </form>
         </div>

@@ -27,6 +27,9 @@ export class HomeService {
       this.APP_URL + 'provider-search?search-type=' + filter.searchType + '&search-value=' + filter.searchValue;
     return this.http
       .get<IUserResponse[]>(searchURL, { headers: myHeader })
-      .pipe(map((response: IUserResponse) => response));
+      .pipe(
+        map((response: IUserResponse) => response),
+        catchError(err => err)
+      );
   }
 }
