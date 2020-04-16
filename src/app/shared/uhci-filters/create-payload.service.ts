@@ -98,8 +98,10 @@ export class CreatePayloadService {
 
   resetTinNumber(appliedPage) {
     // this.taxId.subscribe(taxId => (this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }]));
-    this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }];
-    this.payload = this.getPayload(this.initialState);
+    if (appliedPage) {
+      this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }];
+      this.payload = this.getPayload(this.initialState);
+    }
     /* commented for mutiple api call solution*/
     // this.emitFilterEvent(appliedPage);
   }
@@ -204,7 +206,7 @@ export class CreatePayloadService {
   createTaxIdArrayForPA(param) {
     const arr = [];
     if (!_.isUndefined(param)) {
-      param.taxId.forEach((taxId, index) => {
+      param.taxId.forEach(taxId => {
         arr.push(taxId.Tin.replace('-', ''));
       });
       param.taxId = arr;

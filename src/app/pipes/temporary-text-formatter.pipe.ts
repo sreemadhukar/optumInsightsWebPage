@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'temporaryTextFormatter'
 })
 export class TemporaryTextFormatterPipe implements PipeTransform {
-  transform(value: any, args?: any): any {
+  transform(value: any): any {
     switch (value) {
       case 'Prior Authorizations':
         return 'Prior Auth';

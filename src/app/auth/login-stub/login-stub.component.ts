@@ -15,8 +15,6 @@ import { AuthorizationService } from '../_service/authorization.service';
 import { DOCUMENT } from '@angular/common';
 import { EncryptMsidService } from '../_service/encrypt-msid.service';
 
-declare var window: any;
-
 @Component({
   selector: 'app-login-stub',
   templateUrl: './login-stub.component.html',
@@ -156,7 +154,7 @@ export class LoginStubComponent implements OnInit {
                   this.router.navigate(['/OverviewPage']);
                 }
               })
-              .catch(error => {
+              .catch(() => {
                 // this.openErrorDialog();
                 this.router.navigate(['/AccessDenied']);
               });
@@ -193,7 +191,8 @@ export class LoginStubComponent implements OnInit {
         user => {
           this.blankScreen = true;
           this.loading = false;
-          sessionStorage.setItem('MsId', this.encryptMsidService.encryptMsId(this.f.username.value));
+          const msidValue = this.f.username.value.toLowerCase();
+          sessionStorage.setItem('MsId', this.encryptMsidService.encryptMsId(msidValue));
           this.authorise.getToggles('authorise').subscribe(value => {
             console.log(value);
           });
@@ -210,7 +209,7 @@ export class LoginStubComponent implements OnInit {
             this.router.navigate(['/ProviderSearch']);
           }
         },
-        error => {
+        () => {
           this.error = true;
           this.loading = false;
           this.blankScreen = false;
@@ -229,7 +228,7 @@ export class LoginStubComponent implements OnInit {
       panelClass: 'custom'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       if (!sessionStorage.getItem('currentUser')) {
         this.blankScreen = false;
       }
@@ -246,7 +245,7 @@ export class LoginStubComponent implements OnInit {
       panelClass: 'custom'
     });
 
-    dialogErrorRef.afterClosed().subscribe(result => {
+    dialogErrorRef.afterClosed().subscribe(() => {
       if (!environment.internalAccess) {
         this.document.location.href = environment.apiUrls.linkLoginPage;
       }

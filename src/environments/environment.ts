@@ -25,7 +25,7 @@ export const environment: any = {
 
   // stage
   apiProxyUrl: 'https://pedintapi-pedtst.ocp-ctc-core-nonprod.optum.com/',
-  originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
+  originUrl: 'https://pedui2-peddev.ocp-ctc-core-nonprod.optum.com/',
 
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -76,9 +76,12 @@ export const environment: any = {
     HealthSystemDetails: 'providerInfo/',
     KOPBusinessGlossary: 'business-glossaries-kop/',
     CallsTrendLine: 'calls-trend/',
-    PaymentsBySubmission: 'claim-submissions/',
+    // PaymentsBySubmission: 'claim-submissions/',
+    PaymentsBySubmission: 'claim-submissions/v2.0/',
     GroupPremiumDesignation: 'group-premium-designation/',
-    NetworkLever: 'network-lever/'
+    NetworkLever: 'network-lever/',
+    PaymentIntegrityTabsInfo: 'pi-tab-info/',
+    NewPaymentIntegrity: 'payment-integrity/'
   },
   headerKeys: {
     selectedCompany: '',

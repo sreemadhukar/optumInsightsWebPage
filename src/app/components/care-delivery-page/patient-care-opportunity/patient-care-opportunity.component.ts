@@ -72,7 +72,7 @@ export class PatientCareOpportunityComponent implements OnInit {
     );
   }
 
-  public ratingComponentClick(clickObj: any): void {
+  public ratingComponentClick(): void {
     this.pcorService.getQualityMeasureData().then(data => {
       this.pcorData = data;
       this.starRatings = this.pcorData[3];
@@ -152,9 +152,9 @@ export class PatientCareOpportunityComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.isInternal) {
+    /*if (!this.isInternal) {
       externalRatingIntercept();
-    }
+    }*/
     this.route.queryParams.subscribe((queryParams: any) => {
       if (queryParams && queryParams.selectedItemId) {
         this.selectedItemId = queryParams.selectedItemId;

@@ -6,6 +6,7 @@
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
   padding: 8px 0 16px 0;
+  border-top: 1em solid transparent;
 }
 
 ::ng-deep .mat-autocomplete-panel:not([class*='mat-elevation-z']) {
@@ -230,4 +231,12 @@
   letter-spacing: 0.2px;
   line-height: 22px;
   text-align: center;
+}
+
+.network-lever-ul {
+  padding-left: 30px;
+
+  li {
+    list-style-type: disc;
+  }
 }

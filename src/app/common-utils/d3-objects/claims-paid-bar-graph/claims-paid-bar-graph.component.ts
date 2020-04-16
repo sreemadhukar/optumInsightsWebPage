@@ -18,7 +18,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
   constructor(private common: CommonUtilsService) {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_event) {
     this.doBarGraph(this.chartOptions.chartData, this.noTransition);
   }
 
@@ -202,7 +202,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     }
     return s;
   }
-  doBarGraph(chartOptions: any, transition: number) {
+  doBarGraph(_chartOptions: any, _transition: number) {
     // might have to hard code class names for testing
     const className = 'claims-paid-content'; // 'card-inner-large'
     // this.chartOptions.gdata[0]
