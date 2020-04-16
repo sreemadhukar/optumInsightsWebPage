@@ -4,7 +4,7 @@ import { HomeService } from '../../../rest/advocate/home.service';
 import { dropdownOptions, IUserResponse } from './user.class';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { switchMap, debounceTime, tap, finalize, startWith } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable, of } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 
@@ -18,9 +18,10 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
   pagesubTitle: string;
   userName;
   /** Search Servie variables */
-  filteredUsers: any = [];
+  filteredUsers: Observable<Array<any>>;
   usersForm: FormGroup;
-  isLoading = false;
+  isLoading: Boolean = false;
+  noSearchFound: Boolean = false;
   currentPlaceholder: string;
   dropDownArray: Array<Object>;
   selectedDropdown: string;
@@ -75,16 +76,16 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
         debounceTime(200),
         tap(() => (this.isLoading = true)),
         switchMap(value =>
-          value && value.length > 2
+          value && value.trim() && value.length > 2
             ? this.searchService
-                .search({ searchValue: value, searchType: dropdownSelection })
+                .search({ searchValue: value.trim(), searchType: dropdownSelection })
                 .pipe(finalize(() => (this.isLoading = false)))
             : null
         )
       )
       .subscribe(
         users => (
-          (this.filteredUsers = users),
+          ((this.filteredUsers = of(users)), (this.noSearchFound = users.length ? false : true)),
           err => {
             console.log('Error in Advocate Home page', err);
           }
@@ -92,12 +93,16 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
       );
     /** Search code ends here */
   }
-  valueDropdown(val) {
+  valueDropdown(val: string) {
     this.selectedDropdown = val;
     this.searchBox(this.selectedDropdown);
   }
   onSearchInput(value: string) {
-    value ? (this.searchedString = value) : (this.searchedString = '');
+    value && value.trim() ? (this.searchedString = value) : (this.searchedString = '');
+  }
+  resetForm() {
+    this.searchedString = '';
+    this.isLoading = true;
   }
   ngOnDestroy() {
     this.getData$.unsubscribe();
