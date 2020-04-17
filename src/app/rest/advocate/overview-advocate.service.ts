@@ -22,14 +22,9 @@ export class OverviewAdvocateService {
 
   public appealsData(...parameters) {
     const appealsParams = parameters[1];
-    /*REMOVING LOB BECAUSE TO SHOW GREY IN DONUT CHARTS*/
-    if (appealsParams.Lob) {
-      delete appealsParams.Lob;
-    }
-    if (appealsParams.FundingTypeCodes) {
-      delete appealsParams.FundingTypeCodes;
-    }
-    /*SEE ABOVE*/
+    // if (appealsParams.FundingTypeCodes) {
+    //   delete appealsParams.FundingTypeCodes;
+    // }
     let appealsReqType = '';
     if (parameters[1].appealsProcessing === 'Received Date') {
       appealsReqType = '?requestType=APPEALS_MEASURE_DOR_HCO';
