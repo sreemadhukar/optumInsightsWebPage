@@ -37,6 +37,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   timePeriodCalls: string;
   timePeriodPi: string;
   timePeriodNonPayment: string;
+  timePeriodAppeals: string;
   lob: string;
   trendTitle = 'Claims Non-Payment Trend';
   taxID: Array<string>;
@@ -187,6 +188,11 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
         }
         this.appealsloading = false;
       }
+      this.timePeriodAppeals = `${this.timeFilterValueResolved} (${this.common.dateFormat(
+        AppealsLeftData[0].StartDate
+      ) +
+        '&ndash;' +
+        this.common.dateFormat(AppealsLeftData[0].EndDate)})`;
     });
   }
 

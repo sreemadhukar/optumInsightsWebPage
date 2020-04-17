@@ -21,11 +21,7 @@ export class OverviewAdvocateService {
   constructor(private http: HttpClient) {}
 
   public appealsData(...parameters) {
-    // const appealsParam: any = JSON.parse(JSON.stringify(parameters[1]));
     const appealsParams = parameters[1];
-    // if (!appealsParams.Tin) {
-    //   appealsParams.AllProviderTins = true;
-    // }
     /*REMOVING LOB BECAUSE TO SHOW GREY IN DONUT CHARTS*/
     if (appealsParams.Lob) {
       delete appealsParams.Lob;
