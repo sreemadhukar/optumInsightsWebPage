@@ -16,16 +16,31 @@ export class OverviewAdvocateService {
   private CALLS_TREND_LINE_SERVICE_PATH: string = environment.apiUrls.CallsTrendLine;
   private CALLS_TREND_SERVICE_PATH: string = environment.apiUrls.CallsTrend;
   private PAYMENTS_BY_SUBMISSION_SERVICE_PATH: string = environment.apiUrls.PaymentsBySubmission;
+  private APPEALS_SERVICE: string = environment.apiUrls.AppealsFHIR; // new
 
   constructor(private http: HttpClient) {}
 
   public appealsData(...parameters) {
+    // const appealsParam: any = JSON.parse(JSON.stringify(parameters[1]));
     const appealsParams = parameters[1];
-    if (!appealsParams.Tin) {
-      appealsParams.AllProviderTins = true;
+    // if (!appealsParams.Tin) {
+    //   appealsParams.AllProviderTins = true;
+    // }
+    /*REMOVING LOB BECAUSE TO SHOW GREY IN DONUT CHARTS*/
+    if (appealsParams.Lob) {
+      delete appealsParams.Lob;
     }
-
-    const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
+    if (appealsParams.FundingTypeCodes) {
+      delete appealsParams.FundingTypeCodes;
+    }
+    /*SEE ABOVE*/
+    let appealsReqType = '';
+    if (parameters[1].appealsProcessing === 'Received Date') {
+      appealsReqType = '?requestType=APPEALS_MEASURE_DOR_HCO';
+    } else {
+      appealsReqType = '?requestType=APPEALS_MEASURE_DOC_HCO';
+    }
+    const appealsURL = this.APP_URL + this.APPEALS_SERVICE + parameters[0] + appealsReqType;
     return this.http.post(appealsURL, appealsParams).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))

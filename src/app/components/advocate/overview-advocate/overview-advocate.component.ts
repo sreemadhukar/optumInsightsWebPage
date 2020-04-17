@@ -49,7 +49,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   paymentLoading: boolean;
   monthlyLineGraph: any = [{}];
   trendMonthDisplay = false;
-  trendTitleForClaims = 'Claims Appeals Submitted';
+  trendTitleForClaims = 'Claims Appeals Processed';
   PODTitle = 'Payments by Submission';
   appealsloading: boolean;
   appealsmockCards: any;
@@ -120,6 +120,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     iconRegistry.addSvgIcon(
       'warning-icon',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'metric-development',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-insert_chart-24px.svg')
     );
     /* this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
