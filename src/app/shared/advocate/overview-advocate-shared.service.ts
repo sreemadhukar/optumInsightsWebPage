@@ -352,6 +352,7 @@ export class OverviewAdvocateSharedService {
               category: 'app-card',
               type: 'stackBarChart',
               title: 'Payments by Submission',
+              MetricID: this.MetricidService.MetricIDs.PaymentsBySubmission,
               data: {
                 graphValues: [
                   {
