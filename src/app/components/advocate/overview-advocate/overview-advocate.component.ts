@@ -159,32 +159,32 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       if (AppealsLeftData[0].LineOfBusiness != null && AppealsLeftData[0].LineOfBusiness) {
         this.totalAppeals =
           AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
-        this.adminAppeals = AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals;
-        this.clinicalAppeals = AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
-
-        if (AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement) {
-          this.mi =
-            AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals +
-            AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
-        }
-
-        if (AppealsLeftData[0].LineOfBusiness.CommunityAndState) {
-          this.cs =
-            AppealsLeftData[0].LineOfBusiness.CommunityAndState.AdminAppeals +
-            AppealsLeftData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
-        }
-
-        if (AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual) {
-          this.ei =
-            AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals +
-            AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
-        }
-
-        if (AppealsLeftData[0].LineOfBusiness.Other) {
-          this.other =
-            AppealsLeftData[0].LineOfBusiness.Other.AdminAppeals +
-            AppealsLeftData[0].LineOfBusiness.Other.ClinicalAppeals;
-        }
+        // this.adminAppeals = AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals;
+        // this.clinicalAppeals = AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
+        //
+        // if (AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement) {
+        //   this.mi =
+        //     AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals +
+        //     AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
+        // }
+        //
+        // if (AppealsLeftData[0].LineOfBusiness.CommunityAndState) {
+        //   this.cs =
+        //     AppealsLeftData[0].LineOfBusiness.CommunityAndState.AdminAppeals +
+        //     AppealsLeftData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
+        // }
+        //
+        // if (AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual) {
+        //   this.ei =
+        //     AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals +
+        //     AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
+        // }
+        //
+        // if (AppealsLeftData[0].LineOfBusiness.Other) {
+        //   this.other =
+        //     AppealsLeftData[0].LineOfBusiness.Other.AdminAppeals +
+        //     AppealsLeftData[0].LineOfBusiness.Other.ClinicalAppeals;
+        // }
         this.appealsloading = false;
       }
       this.timePeriodAppeals = `${this.timeFilterValueResolved} (${this.common.dateFormat(
