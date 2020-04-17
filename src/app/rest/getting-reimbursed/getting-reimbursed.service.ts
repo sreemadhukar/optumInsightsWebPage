@@ -53,7 +53,8 @@ export class GettingReimbursedService {
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE + parameters[0] + appealsReqType;
     return this.http.post(appealsURL, appealsParam).pipe(
       map(res => {
-        const dataValue = _get(res, ['Data', '0'], []);
+        let dataValue = _get(res, ['Data', '0'], []);
+        dataValue = dataValue.length ? dataValue : { status: 404 };
         return dataValue;
       }),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
@@ -71,7 +72,8 @@ export class GettingReimbursedService {
     const appealsURL = this.APP_URL + this.APPEALS_OVERTURN + parameters[0] + appealsReqType;
     return this.http.post(appealsURL, appealsParam).pipe(
       map(res => {
-        const dataValue = _get(res, ['Data', '0'], []);
+        let dataValue = _get(res, ['Data', '0'], []);
+        dataValue = dataValue.length ? dataValue : { status: 404 };
         return dataValue;
       }),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
