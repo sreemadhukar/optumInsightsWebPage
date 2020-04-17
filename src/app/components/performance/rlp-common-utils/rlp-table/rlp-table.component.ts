@@ -41,6 +41,14 @@ export class RlpTableComponent implements OnInit, OnDestroy {
       'leftarrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/chevron_left-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'search',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'close',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+    );
   }
 
   ngOnInit() {
@@ -94,6 +102,9 @@ export class RlpTableComponent implements OnInit, OnDestroy {
         (this.currentPageNumber - 1) * +this.selectPageSize,
         this.currentPageNumber * +this.selectPageSize
       );
+    }
+    if (this.selectPageSize > this.tableData.length) {
+      this.selectPageSize = this.tableData.length;
     }
   }
 
@@ -159,6 +170,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
         return true;
       }
     });
+    console.log('this.afterQuery.length--->', this.afterQuery.length);
     this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
   }
 
@@ -176,6 +188,16 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     } else {
       return false;
     }
+  }
+
+  clearValue(value) {
+    if (value === 'qTinSearch') {
+      this.qTinSearch = '';
+    }
+    if (value === 'qGroupNameSearch') {
+      this.qGroupNameSearch = '';
+    }
+    this.enterQuery();
   }
 
   ngOnDestroy() {}

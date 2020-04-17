@@ -18,7 +18,7 @@ export class DonutChartsComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_event) {
     this.doDonutChart(this.chartData, this.quarter, this.noTransition);
   }
   ngOnInit() {
@@ -187,7 +187,7 @@ export class DonutChartsComponent implements OnInit, AfterViewInit {
           return donutColor(d.data.color);
         })
         .transition()
-        .delay(function(d, i) {
+        .delay(function(_d, i) {
           return i * 700;
         })
         .duration(1000)

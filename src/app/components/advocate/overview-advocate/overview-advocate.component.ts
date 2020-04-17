@@ -37,6 +37,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   timePeriodCalls: string;
   timePeriodPi: string;
   timePeriodNonPayment: string;
+  timePeriodAppeals: string;
   lob: string;
   trendTitle = 'Claims Non-Payment Trend';
   taxID: Array<string>;
@@ -49,7 +50,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   paymentLoading: boolean;
   monthlyLineGraph: any = [{}];
   trendMonthDisplay = false;
-  trendTitleForClaims = 'Claims Appeals Submitted';
+  trendTitleForClaims = 'Claims Appeals Processed';
   PODTitle = 'Payments by Submission';
   appealsloading: boolean;
   appealsmockCards: any;
@@ -121,6 +122,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       'warning-icon',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg')
     );
+    iconRegistry.addSvgIcon(
+      'metric-development',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-insert_chart-24px.svg')
+    );
     /* this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
     }); */
@@ -183,6 +188,11 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
         }
         this.appealsloading = false;
       }
+      this.timePeriodAppeals = `${this.timeFilterValueResolved} (${this.common.dateFormat(
+        AppealsLeftData[0].StartDate
+      ) +
+        '&ndash;' +
+        this.common.dateFormat(AppealsLeftData[0].EndDate)})`;
     });
   }
 
@@ -213,7 +223,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           this.appealsLineGraph = new AppealsData(appealsTrendData, GeneralData, 'appeals-trend-block');
         }
       })
-      .catch(err => {
+      .catch(() => {
         this.appealsLineGraphloading = false;
       });
   }
@@ -247,7 +257,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           this.callsLoading = false;
         }
       })
-      .catch(err => {
+      .catch(() => {
         this.callsLoading = false;
       });
   }
@@ -313,7 +323,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           }
         }
       })
-      .catch(err => {
+      .catch(() => {
         //   this.callsLineGraphLoading = false;
       });
   }

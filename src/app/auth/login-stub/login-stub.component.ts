@@ -104,31 +104,34 @@ export class LoginStubComponent implements OnInit {
 
     this.returnUrl = '/ProviderSearch';
     if (this.isInternal) {
-      // if (this.authService.isLoggedIn()) {
-      // if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
-      //   if (this.checkAdv.value) {
-      //     // window.location.href = '/OverviewPageAdvocate';
-      //     window.location.href = '/OverviewPageAdvocate/HealthSystemDetails';
-      //   } else if (this.checkPro.value || this.checkExecutive.value) {
-      //     window.location.href = '/NationalExecutive';
-      //   }
-      //   // else if (this.checkPro.value) {
-      //   //   window.location.href = '/OverviewPage';
-      //   // }
-      // } else {
-      //   this.router.navigate([this.returnUrl]);
-      // }
       this.blankScreen = false;
       sessionStorage.clear();
       sessionStorage.setItem('cache', JSON.stringify(false));
       this.sessionService.emitChangeEvent();
-      // } else {
-
       this.authService.getJwt().subscribe(data => {
         sessionStorage.setItem('token', JSON.stringify(data['token']));
         this.internalService.getPublicKey();
       });
-      // }
+      /*if (this.authService.isLoggedIn()) {
+        if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
+          if (this.checkAdv.value) {
+            // window.location.href = '/OverviewPageAdvocate';
+            window.location.href = '/OverviewPageAdvocate/Home';
+          } else if (this.checkPro.value || this.checkExecutive.value) {
+            window.location.href = '/NationalExecutive';
+          }
+          // else if (this.checkPro.value) {
+          //   window.location.href = '/OverviewPage';
+          // }
+        } else {
+          this.router.navigate([this.returnUrl]);
+        }
+      } else {
+        this.internalService.getPublicKey();
+        this.authService.getJwt().subscribe(data => {
+          sessionStorage.setItem('token', JSON.stringify(data['token']));
+        });
+      }*/
     } else {
       if (this.route.queryParams) {
         this.route.queryParams.subscribe(params => {
@@ -153,7 +156,7 @@ export class LoginStubComponent implements OnInit {
                   this.router.navigate(['/OverviewPage']);
                 }
               })
-              .catch(error => {
+              .catch(() => {
                 // this.openErrorDialog();
                 this.router.navigate(['/AccessDenied']);
               });
@@ -204,11 +207,13 @@ export class LoginStubComponent implements OnInit {
             this.router.navigate(['/NationalExecutive']);
           } else if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Project'))) {
             this.router.navigate(['/NationalExecutive']);
+          } else if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Advocate'))) {
+            this.router.navigate(['/OverviewPageAdvocate/Home']);
           } else {
             this.router.navigate(['/ProviderSearch']);
           }
         },
-        error => {
+        () => {
           this.error = true;
           this.loading = false;
           this.blankScreen = false;
@@ -227,7 +232,7 @@ export class LoginStubComponent implements OnInit {
       panelClass: 'custom'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       if (!sessionStorage.getItem('currentUser')) {
         this.blankScreen = false;
       }
@@ -244,7 +249,7 @@ export class LoginStubComponent implements OnInit {
       panelClass: 'custom'
     });
 
-    dialogErrorRef.afterClosed().subscribe(result => {
+    dialogErrorRef.afterClosed().subscribe(() => {
       if (!environment.internalAccess) {
         this.document.location.href = environment.apiUrls.linkLoginPage;
       }
