@@ -228,7 +228,7 @@ export class NonPaymentSharedService {
               };
             }
             /* Remove this  temporaryClaimsNotPaid card once data is available */
-            const temporaryClaimsNotPaid = {
+            /*const temporaryClaimsNotPaid = {
               category: 'app-card',
               type: 'roundInsertChart',
               title: 'Claims Not Paid',
@@ -237,11 +237,11 @@ export class NonPaymentSharedService {
               besideData: null,
               bottomData: null,
               timeperiod: ''
-            };
+            };*/
             this.summaryData = [];
             // Remove 249th line and uncomment 248 once the data is available
-            //  this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
-            this.summaryData.push(temporaryClaimsNotPaid);
+            this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
+            // this.summaryData.push(temporaryClaimsNotPaid);
             resolve(this.summaryData);
           },
           err => {
@@ -407,7 +407,7 @@ export class NonPaymentSharedService {
             // };
 
             /* Remove this  temporaryClaimsNotPaid card once data is available */
-            const temporaryClaimsNotPaid = {
+            /*const temporaryClaimsNotPaid = {
               category: 'app-card',
               type: 'roundInsertChart',
               title: 'Claims Not Paid',
@@ -416,10 +416,10 @@ export class NonPaymentSharedService {
               besideData: null,
               bottomData: null,
               timeperiod: ''
-            };
+            };*/
             // Remove 427th line and uncomment 428 once the data is available
-            this.summaryData.push(temporaryClaimsNotPaid);
-            //  this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
+            // this.summaryData.push(temporaryClaimsNotPaid);
+            this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
             resolve(this.summaryData);
           },
           err => {
