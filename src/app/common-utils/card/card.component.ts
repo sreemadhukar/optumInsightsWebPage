@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class CardComponent implements OnInit {
   @Input() chartData;
   @Input() skeleton;
+  @Input() index;
   @Input() tabData;
   @Input() selectedTab;
   @Input() handleCaseForOverviewTile = false;
@@ -28,6 +29,7 @@ export class CardComponent implements OnInit {
   allData: Boolean = true;
   selectedItemId: any = 0;
   medicareData: any;
+  routhPath: string;
 
   medicareBesideData = [{}];
   matOptionClicked(i: number, event: any) {

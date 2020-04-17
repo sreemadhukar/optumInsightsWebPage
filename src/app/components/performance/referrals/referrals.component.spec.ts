@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SessionTimeoutComponent } from './session-timeout.component';
+import { ReferralsComponent } from './referrals.component';
 
-describe('SessionTimeoutComponent', () => {
-  let component: SessionTimeoutComponent;
-  let fixture: ComponentFixture<SessionTimeoutComponent>;
+describe('ReferralsComponent', () => {
+  let component: ReferralsComponent;
+  let fixture: ComponentFixture<ReferralsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SessionTimeoutComponent]
+      declarations: [ReferralsComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SessionTimeoutComponent);
+    fixture = TestBed.createComponent(ReferralsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

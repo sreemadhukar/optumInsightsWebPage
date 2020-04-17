@@ -13,6 +13,7 @@ import { ProviderSearchComponent } from '../../common-utils/provider-search/prov
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthorizationService } from '../_service/authorization.service';
 import { DOCUMENT } from '@angular/common';
+import { EncryptMsidService } from '../_service/encrypt-msid.service';
 
 @Component({
   selector: 'app-login-stub',
@@ -54,6 +55,7 @@ export class LoginStubComponent implements OnInit {
     private cookieService: CookieService,
     private route: ActivatedRoute,
     private sessionService: SessionService,
+    private encryptMsidService: EncryptMsidService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.checkAdv = this.sessionService.checkAdvocateRole();
@@ -102,26 +104,31 @@ export class LoginStubComponent implements OnInit {
 
     this.returnUrl = '/ProviderSearch';
     if (this.isInternal) {
-      if (this.authService.isLoggedIn()) {
-        if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
-          if (this.checkAdv.value) {
-            // window.location.href = '/OverviewPageAdvocate';
-            window.location.href = '/OverviewPageAdvocate/HealthSystemDetails';
-          } else if (this.checkPro.value || this.checkExecutive.value) {
-            window.location.href = '/NationalExecutive';
-          }
-          // else if (this.checkPro.value) {
-          //   window.location.href = '/OverviewPage';
-          // }
-        } else {
-          this.router.navigate([this.returnUrl]);
-        }
-      } else {
+      // if (this.authService.isLoggedIn()) {
+      // if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
+      //   if (this.checkAdv.value) {
+      //     // window.location.href = '/OverviewPageAdvocate';
+      //     window.location.href = '/OverviewPageAdvocate/HealthSystemDetails';
+      //   } else if (this.checkPro.value || this.checkExecutive.value) {
+      //     window.location.href = '/NationalExecutive';
+      //   }
+      //   // else if (this.checkPro.value) {
+      //   //   window.location.href = '/OverviewPage';
+      //   // }
+      // } else {
+      //   this.router.navigate([this.returnUrl]);
+      // }
+      this.blankScreen = false;
+      sessionStorage.clear();
+      sessionStorage.setItem('cache', JSON.stringify(false));
+      this.sessionService.emitChangeEvent();
+      // } else {
+
+      this.authService.getJwt().subscribe(data => {
+        sessionStorage.setItem('token', JSON.stringify(data['token']));
         this.internalService.getPublicKey();
-        this.authService.getJwt().subscribe(data => {
-          sessionStorage.setItem('token', JSON.stringify(data['token']));
-        });
-      }
+      });
+      // }
     } else {
       if (this.route.queryParams) {
         this.route.queryParams.subscribe(params => {
@@ -183,6 +190,8 @@ export class LoginStubComponent implements OnInit {
         user => {
           this.blankScreen = true;
           this.loading = false;
+          const msidValue = this.f.username.value.toLowerCase();
+          sessionStorage.setItem('MsId', this.encryptMsidService.encryptMsId(msidValue));
           this.authorise.getToggles('authorise').subscribe(value => {
             console.log(value);
           });

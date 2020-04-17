@@ -78,6 +78,10 @@ app-header {
   width: 286px; // previously 256px -- width before PI Sub menu undo when toggled off
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   //  background-color: $white;
+  .mat-drawer-inner-container {
+    // total height
+    max-height: 100vh;
+  }
 }
 
 .health-system-representation-block {
@@ -158,6 +162,7 @@ app-header {
 
 .signout-block {
   padding: 16px 0 0 40px;
+  border-top: 1px solid $gainsboro;
   // padding: 16px 0 0 33px; before PI sub menu uncomment when smart edits is toggled off
 }
 
@@ -230,7 +235,6 @@ app-header {
 
 .nav-mat-list-items {
   padding-bottom: 46px !important;
-  border-bottom: 1px solid $gainsboro;
 }
 
 .nav-menu-icons {
@@ -299,6 +303,10 @@ app-header {
 .mat-expanded > .mat-expansion-panel-header {
   color: $strom-grey !important;
   background: $alice-blue !important;
+}
+
+.mat-expansion-panel-header[aria-disabled='true'] {
+  display: none;
 }
 
 .sub-menu-sub-header {
@@ -384,7 +392,6 @@ app-header {
 }
 
 .h-3-title-filter {
-  width: 346px;
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 22px;
@@ -399,7 +406,7 @@ app-header {
 
 .filter-text {
   text-align: center;
-  width: 300px;
+  width: 314px;
   vertical-align: middle;
   line-height: 40px;
 }
@@ -427,8 +434,10 @@ app-header {
 }
 
 .mat-details {
-  position: relative;
-  display: flex;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+.mat-filter-details {
   margin-top: 20px;
 }
 
@@ -441,6 +450,10 @@ app-header {
   z-index: 9999 !important;
   overflow-x: hidden;
   overflow-y: auto;
+  .mat-drawer-inner-container {
+    // total height - (header height(74) + butter bar height(40))
+    max-height: calc(100vh - 114px);
+  }
 }
 
 .sidenav-filter {
@@ -451,6 +464,7 @@ app-header {
 .filter-div-scroll {
   overflow-y: auto;
   max-height: 100%;
+  overflow-x: hidden;
   width: 418px;
 }
 

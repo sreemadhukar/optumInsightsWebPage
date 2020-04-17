@@ -8,6 +8,7 @@ import { TinListPageComponent } from './tin-list-page/tin-list-page.component';
 import { CustomPreloadingStrategy } from './custom-preloading';
 import { NoAccessErrorPageComponent } from '../common-utils/no-access-error-page/no-access-error-page.component';
 import { ContactusComponent } from './contactus/contactus.component';
+import { RoleGuard } from '../auth/_guards/role.guard';
 
 const routes: Routes = [
   {
@@ -31,18 +32,20 @@ const routes: Routes = [
     loadChildren: '../components/advocate/advocate.module#AdvocateModule',
     data: {
       preload: false,
-      delay: false
+      delay: false,
+      expectedRole: 'UHCI_Advocate'
     },
-    canActivate: [AuthGuard]
+    canActivate: [RoleGuard]
   },
   {
     path: 'OverviewPage',
     loadChildren: '../components/overview-page/overview-page.module#OverviewPageModule',
     data: {
       preload: false,
-      delay: false
+      delay: false,
+      expectedRole: 'UHCI_Project'
     },
-    canActivate: [AuthGuard]
+    canActivate: [RoleGuard]
   },
   {
     path: 'print-page',
@@ -110,6 +113,16 @@ const routes: Routes = [
     }
   },
   {
+    path: 'Performance',
+    loadChildren: '../components/performance/performance.module#PerformanceModule',
+    canActivate: [AuthGuard],
+    data: {
+      breadcrumb: 'Performance Management Summary',
+      preload: false,
+      delay: false
+    }
+  },
+  {
     path: 'AdminSummaryTrends',
     loadChildren: '../components/summary-trends/summary-trends.module#SummaryTrendsModule',
     canActivate: [AuthGuard],
@@ -167,7 +180,7 @@ const routes: Routes = [
     path: 'AccessDenied',
     component: NoAccessErrorPageComponent
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '/login' }
 ];
 
 @NgModule({

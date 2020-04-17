@@ -1,0 +1,128 @@
+[
+  [
+    {
+      "category": "app-card",
+      "type": "rlp-small-bar",
+      "status": "",
+      "title": "Preferred Specialist Referral Rate",
+      "data": {
+        "gdata": {
+          "count": "582/895 Referrals",
+          "percentage": 65
+        }
+      },
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
+    },
+    {
+      "category": "app-card",
+      "type": "rlp-small-bar",
+      "status": 404,
+      "title": "Preferred Lab Network Use Rate",
+      "data": {
+        "gdata": {
+          "count": "78/108 Preferred Lab Visits",
+          "percentage": 72
+        }
+      },
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
+    },
+    {
+      "category": "app-card",
+      "type": "rlp-small-bar",
+      "status": 404,
+      "title": "Preferred Tier Prescribing Rate",
+      "data": {
+        "gdata": {
+          "count": "405/450 Prescriptions",
+          "percentage": 90
+        }
+      },
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
+    }
+  ],
+
+  [
+    {
+      "category": "app-large-card",
+      "type": "rlp-large-bar",
+      "status": 404,
+      "title": "Preferred Specialist Referral Rate",
+      "data": {
+        "gdata": {
+          "count": "582/895 Referrals",
+          "percentage": 65
+        }
+      },
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
+    },
+    {
+      "category": "app-table-card",
+      "type": "rlp-table-bar",
+      "status": 404,
+      "title": "Preferred Specialist Referral Rate",
+      "data": {
+        "gdata": {
+          "count": "88/152",
+          "percentage": 46
+        }
+      },
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
+    }
+  ],
+  [
+    {
+      "category": "app-large-card",
+      "type": "rlp-large-bar",
+      "status": 404,
+      "title": "Preferred Lab Network Use Rate",
+      "data": {
+        "gdata": {
+          "count": "78/108 Preferred Lab Visits",
+          "percentage": 72
+        }
+      },
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
+    },
+    {
+      "category": "app-table-card",
+      "type": "rlp-table-bar",
+      "status": 404,
+      "title": "Preferred Lab Network Use Rate",
+      "data": {
+        "gdata": {
+          "count": "132/210",
+          "percentage": 54
+        }
+      },
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
+    }
+  ],
+  [
+    {
+      "category": "app-large-card",
+      "type": "rlp-large-bar",
+      "status": 404,
+      "title": "Preferred Tier Prescribing Rate",
+      "data": {
+        "gdata": {
+          "count": "405/450 Prescriptions",
+          "percentage": 90
+        }
+      },
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
+    },
+    {
+      "category": "app-table-card",
+      "type": "rlp-table-bar",
+      "status": 404,
+      "title": "Preferred Tier Prescribing Rate",
+      "data": {
+        "gdata": {
+          "count": "56/100",
+          "percentage": 56
+        }
+      },
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
+    }
+  ]
+]

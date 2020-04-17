@@ -80,10 +80,6 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    // if (!this.states) {
-    //   this.providerSharedService.providersList().subscribe(value => (this.states = value));
-    // }
-
     // this.filteredStates = this.stateCtrl.valueChanges.pipe(
     //   startWith(''),
     //   map(state => (state ? this._filterStates(state) : null))
@@ -121,15 +117,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
-    // if (!this.states) {
-    //   this.providerSharedService.providersList().subscribe(value => (this.states = value));
-    // }
-    // this.filteredStates = this.stateCtrl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(state => (state ? this._filterStates(state) : null))
-    // );
-  }
+  ngAfterViewInit() {}
   ExtproviderSelect(event: MatAutocompleteSelectedEvent) {
     // this.providerSelectedFlag = false;
     const provider = this.providerData[0];
@@ -165,7 +153,6 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   }
 
   getProviders(text) {
-    console.log(text);
     this.providerSharedService.providersList(text).subscribe(value => this.checkCondition(value));
   }
 
@@ -224,6 +211,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       this.nomatchFlag = false;
       this.noProviders = true;
       (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#B10C00';
+      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.opacity = '1';
     } else {
       this.nomatchFlag = true;
       this.noProviders = false;

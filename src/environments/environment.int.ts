@@ -56,7 +56,12 @@ export const environment: any = {
     HealthSystemDetails: 'providerInfo/',
     KOPBusinessGlossary: 'business-glossaries-kop/',
     CallsTrendLine: 'calls-trend/',
-    PaymentsBySubmission: 'claim-submissions/'
+    // PaymentsBySubmission: 'claim-submissions/',
+    PaymentsBySubmission: 'claim-submissions/v2.0/',
+    GroupPremiumDesignation: 'group-premium-designation/',
+    NetworkLever: 'network-lever/',
+    PaymentIntegrityTabsInfo: 'pi-tab-info/'
+    // NewPaymentIntegrity: 'payment-integrity/' // please uncomment this when new-PI testing in done in int
   },
   headerKeys: {
     selectedCompany: '',
@@ -79,5 +84,6 @@ export const environment: any = {
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
   internalAccess: true,
   toggleTrendingSummary: false,
+  internalIntAccess: true,
   sentryKey: 'https://8c2bdbcdd5444e6ca1255f7c999b84fe@sentry-ped-internal.ocp-ctc-core.optum.com/3'
 };

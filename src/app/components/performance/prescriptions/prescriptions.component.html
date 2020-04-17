@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="container-content">
+    <div class="container-header">
+      <app-breadcrumbs></app-breadcrumbs>
+      <app-rlp-header
+        [rlpTitle]="title"
+        [rlpSubTitle]="subTitle"
+        class="full-display bottom-margin-block"
+      ></app-rlp-header>
+    </div>
+    <div class="container-body">
+      <app-rlp-long-card [skeletonLong]="loading" *ngIf="loading"></app-rlp-long-card>
+      <app-rlp-long-card *ngIf="hcoData.toggle && hcoData.data != null" [config]="hcoData"></app-rlp-long-card>
+      <!-- table -->
+      <app-large-card [skeletonLarge]="loadingTable" *ngIf="loadingTable"></app-large-card>
+      <app-rlp-table *ngIf="isTable" [data]="tableData"></app-rlp-table>
+      <!-- table loader ends here-->
+    </div>
+  </div>
+  <!--container content ends-->
+</div>
+<!-- Main container ends-->

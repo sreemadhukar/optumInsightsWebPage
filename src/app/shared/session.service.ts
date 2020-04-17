@@ -52,9 +52,12 @@ export class SessionService {
     return this.filterChange;
   }
 
+  public sessionCleared() {
+    return this.filterChange;
+  }
+
   public providerKeyData() {
     if (sessionStorage.getItem('currentUser') && environment.internalAccess) {
-      console.log(JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']);
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
     } else if (sessionStorage.getItem('currentUser') && !environment.internalAccess) {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
@@ -166,10 +169,22 @@ export class SessionService {
       }
       return pcorBoolean;
     } catch (err) {
-      console.log('');
       return pcorBoolean;
     }
   }
+  public isRlpData() {
+    let rlpBoolean = false;
+    try {
+      if (JSON.parse(sessionStorage.getItem('rlp'))) {
+        rlpBoolean = JSON.parse(sessionStorage.getItem('rlp'));
+      }
+      return rlpBoolean;
+    } catch (err) {
+      console.log('Error at RLp session storage', err);
+      return rlpBoolean;
+    }
+  }
+
   public sessionStorage(value: string, item: string) {
     if (sessionStorage.getItem(value)) {
       return JSON.parse(sessionStorage.getItem(value))[item];

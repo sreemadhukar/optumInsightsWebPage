@@ -1,0 +1,192 @@
+[33mcommit 1a6ec82dd6c99c277fa08b0e269aba7b9507741a[m
+Author: sri laxmi <srilaxmi.venkatapuram@optum.com>
+Date:   Wed Mar 4 11:21:13 2020 +0530
+
+    added deleted files
+
+ delete mode 100644 src/app/common-utils/breadcrumbs/breadcrumbs.component.ts
+ delete mode 100644 src/app/components/getting-reimbursed-page/getting-reimbursed.module.ts
+ delete mode 100644 src/app/components/getting-reimbursed-page/non-payments/non-payments.component.ts
+ delete mode 100644 src/app/components/getting-reimbursed-page/non-payments/view-top-claims/view-top-claims.component.ts
+
+[33mcommit a359c0747b5ed957977c08913b77263a09c2b4e9[m
+Author: sri laxmi <srilaxmi.venkatapuram@optum.com>
+Date:   Tue Feb 25 17:27:21 2020 +0530
+
+    Claims drill down dropdown and pagination and sorting issues
+
+ delete mode 100644 src/app/components/getting-reimbursed-page/non-payments/view-top-claims/view-top-claims.component.ts.BASE.ts
+
+[33mcommit bea82b59a75bb958e72b0a7dc138ce63ecfba4e8[m
+Author: sri laxmi <srilaxmi.venkatapuram@optum.com>
+Date:   Fri Feb 21 22:38:44 2020 +0530
+
+    merge conflicts resolved
+
+ delete mode 100644 src/app/components/getting-reimbursed-page/non-payments/view-top-claims/view-top-claims.component.ts
+
+[33mcommit f686451a54663bd46808ddd0e1e2d62556e05e11[m
+Author: Madhukar <tmadhuka@ms.ds.uhc.com>
+Date:   Fri Feb 14 14:15:17 2020 +0530
+
+    removing the feedback from the whole page
+
+ delete mode 100644 src/app/common-utils/feedback/feedback.component.html
+ delete mode 100644 src/app/common-utils/feedback/feedback.component.scss
+ delete mode 100644 src/app/common-utils/feedback/feedback.component.spec.ts
+ delete mode 100644 src/app/common-utils/feedback/feedback.component.ts
+
+[33mcommit e6bce5a99279961c299855a1289643a2520079f3[m
+Author: sri laxmi <srilaxmi.venkatapuram@optum.com>
+Date:   Tue Feb 4 17:14:32 2020 +0530
+
+    Claims Drill Down changes
+
+ delete mode 100644 src/app/app.module.ts
+ delete mode 100644 src/app/components/advocate/overview-advocate/overview-advocate.component.ts
+ delete mode 100644 src/app/components/getting-reimbursed-page/non-payments/non-payments.component.ts
+ delete mode 100644 src/app/components/getting-reimbursed-page/non-payments/view-top-claims/view-top-claims.component.ts
+ delete mode 100644 src/app/components/getting-reimbursed-page/payments/payments.component.ts
+ delete mode 100644 src/app/rest/getting-reimbursed/getting-reimbursed.service.ts
+ delete mode 100644 src/app/rest/getting-reimbursed/non-payment.service.ts
+ delete mode 100644 src/app/shared/advocate/overview-advocate-shared.service.ts
+ delete mode 100644 src/app/shared/care-delivery/prior-auth-shared.service.ts
+ delete mode 100644 src/app/shared/getting-reimbursed/getting-reimbursed-shared.service.ts
+ delete mode 100644 src/app/shared/getting-reimbursed/non-payments/non-payment-shared.service.ts
+ delete mode 100644 src/app/shared/getting-reimbursed/payments/payments-shared.service.ts
+ delete mode 100644 src/app/shared/overview/overview-shared.service.ts
+ delete mode 100644 src/environments/environment.dev.ts
+ delete mode 100644 src/environments/environment.devfive.ts
+ delete mode 100644 src/environments/environment.devfour.ts
+ delete mode 100644 src/environments/environment.devone.ts
+ delete mode 100644 src/environments/environment.devthree.ts
+ delete mode 100644 src/environments/environment.devtwo.ts
+ delete mode 100644 src/environments/environment.int.ts
+ delete mode 100644 src/environments/environment.prod.ts
+ delete mode 100644 src/environments/environment.stage.ts
+ delete mode 100644 src/environments/environment.ts
+
+[33mcommit 07dc769276e3088a7605b28b3c222e5f1815ae0f[m
+Author: Ranjith_Ankam <akuma659@ms.ds.uhc.com>
+Date:   Wed Jan 29 18:07:48 2020 +0530
+
+    DOP/DOS in summary page payments & non payments
+
+ delete mode 100644 .merge_file_a14016
+ delete mode 100644 .merge_file_a22696
+
+[33mcommit 958017b5c06c190fa7c14c3adad488f7d7b0bda8[m
+Author: Kumar <skuma395@LAMU02TC0MNGTFM.uhc.com>
+Date:   Mon Dec 9 13:43:33 2019 -0500
+
+    remove optimization
+
+ delete mode 100644 package-lock.json
+
+[33mcommit fda9c7079e5c55aca57a2b8e30ed771b2f16c6b9[m
+Author: Dunna <ldunna@LAMU02YR898LVCG.uhc.com>
+Date:   Tue Dec 3 23:46:29 2019 -0600
+
+    updates
+
+ delete mode 100644 .vscode/launch.json
+
+[33mcommit b5f6c21a68a5828f61b53d84f72d765f793992ec[m
+Author: Vashista <ivashist@ms.ds.uhc.com>
+Date:   Fri Nov 22 17:14:50 2019 +0530
+
+    working on
+
+ delete mode 100644 src/app/components/print/print-page/print-page.component.spec.ts
+
+[33mcommit 53e6a2fc524b99ab2041c909bd6d6d46842d232e[m
+Author: Anumala, Sathwik <sathwik.anumala@optum.com>
+Date:   Thu Nov 21 10:52:33 2019 -0600
+
+    Delete Jenkinsfile_Sonar
+
+ delete mode 100644 Jenkinsfile_Sonar
+
+[33mcommit 28b2a4b1efd79e4eb3007459970cb618437e3219[m
+Author: Vashista <ivashist@ms.ds.uhc.com>
+Date:   Mon Nov 18 00:55:26 2019 +0530
+
+    working on print
+
+ delete mode 100644 src/app/components/overview-page/print-overview/print-overview.component.html
+ delete mode 100644 src/app/components/overview-page/print-overview/print-overview.component.scss
+ delete mode 100644 src/app/components/overview-page/print-overview/print-overview.component.spec.ts
+ delete mode 100644 src/app/components/overview-page/print-overview/print-overview.component.ts
+
+[33mcommit 32801676a6568a1c7c649e0931e237e295caccb7[m
+Author: Vashista <ivashist@ms.ds.uhc.com>
+Date:   Sun Nov 17 19:36:15 2019 +0530
+
+    differentiate page on the basis of pageName
+
+ delete mode 100644 src/app/components/overview-page/print-overview/print-overview.component.html
+ delete mode 100644 src/app/components/overview-page/print-overview/print-overview.component.scss
+ delete mode 100644 src/app/components/overview-page/print-overview/print-overview.component.spec.ts
+ delete mode 100644 src/app/components/overview-page/print-overview/print-overview.component.ts
+
+[33mcommit 04dccecc5fd378220d92b2c9622fbf803c0cb3eb[m
+Author: bbobbiga <balaji.bobbiganipalli@optum.com>
+Date:   Wed Nov 13 09:26:57 2019 -0600
+
+    additions
+
+ delete mode 100644 src/app/rest/summary-trends/summary-trends.service.spec.ts~d6a006c97c94c16659626f9ffd9a7b7b4c17f889
+
+[33mcommit 2589465a00b86569540db6748726bf01054500e1[m
+Author: Ranjith_Ankam <akuma659@ms.ds.uhc.com>
+Date:   Wed Nov 13 16:06:46 2019 +0530
+
+    removed console
+
+ delete mode 100644 src/app/rest/summary-trends/summary-trends.service.spec.ts~HEAD
+ delete mode 100644 src/app/rest/summary-trends/summary-trends.service.spec.ts~d6a006c97c94c16659626f9ffd9a7b7b4c17f889
+
+[33mcommit 66799fd2e47a4c5cce840b1855af80448c98ec36[m
+Author: Ranjith_Ankam <akuma659@ms.ds.uhc.com>
+Date:   Fri Oct 25 19:28:49 2019 +0530
+
+    refres token ui code changes
+
+ delete mode 100644 src/app/rest/interceptor/refreshtoken.service.spec.ts
+ delete mode 100644 src/app/rest/interceptor/refreshtoken.service.ts
+
+[33mcommit 415ad0f32ce7bd45bb5de51e445fe1091506e3b0[m
+Author: Ranjith_Ankam <akuma659@ms.ds.uhc.com>
+Date:   Fri Oct 25 16:02:10 2019 +0530
+
+    refresh token completed UI code
+
+ delete mode 100644 src/app/rest/interceptor/refresh-token-interceptor.service.ts
+
+[33mcommit 6bf5491efb4eb0bd7663ffe0407e611f5765f64e[m
+Author: Vashista <ivashist@ms.ds.uhc.com>
+Date:   Tue Oct 8 21:35:00 2019 +0530
+
+    removed wrongly created component
+
+ delete mode 100644 src/app/src/app/components/overview-page/print-overview/print-overview.component.html
+ delete mode 100644 src/app/src/app/components/overview-page/print-overview/print-overview.component.scss
+ delete mode 100644 src/app/src/app/components/overview-page/print-overview/print-overview.component.spec.ts
+ delete mode 100644 src/app/src/app/components/overview-page/print-overview/print-overview.component.ts
+
+[33mcommit c20e61d25954b4abdc650af5602900a93e0cc405[m
+Author: Mansoor <smansoo4@ms.ds.uhc.com>
+Date:   Mon Sep 30 15:22:50 2019 +0530
+
+    kop overview shared services,rest service refactor
+
+ delete mode 100644 src/app/shared/nps/nps.service.ts
+
+[33mcommit c0880c78fc0901affa1de5a82e68dbd07b17ddf2[m
+Author: Rajan <rrajan20@ms.ds.uhc.com>
+Date:   Mon Sep 30 14:38:10 2019 +0530
+
+    resolved merge conflicts
+
+ delete mode 100644 src/app/shared/prior-authorization/prior-auth.service.spec.ts
+ delete mode 1006

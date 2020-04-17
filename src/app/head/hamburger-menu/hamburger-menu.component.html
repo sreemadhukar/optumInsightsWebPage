@@ -76,7 +76,7 @@
         <div class="health-system-representation-block" *ngIf="!isKop">
           <p class="representing-label">You are representing</p>
           <p class="health-system-name">{{ healthSystemName }}</p>
-          <p class="Group-premium-designation" *ngIf="GroupPremiumDesignation">HPP</p>
+          <p class="Group-premium-designation" *ngIf="GroupPremiumDesignation && internalUser">HPP</p>
           <p
             class="change-provider"
             *ngIf="(disableChangeProvider || externalProvidersCount) && !AcoFlag"
@@ -125,51 +125,55 @@
                 [expandedHeight]="'25px'"
               >
                 <mat-panel-title>
-                  <mat-icon class="nav-menu-icons" svgIcon="{{ category.icon }}"></mat-icon>
-                  <!--<img src="{{ category.icon }}" class="nav-menu-icons" />-->{{ category.name }}
+                  <ng-container *ngIf="!category.disabled">
+                    <mat-icon class="nav-menu-icons" svgIcon="{{ category.icon }}"></mat-icon>
+                    <!--<img src="{{ category.icon }}" class="nav-menu-icons" />-->{{ category.name }}
+                  </ng-container>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <mat-nav-list *ngFor="let subcategory of category.children">
-                <mat-expansion-panel
-                  *ngIf="subcategory.children"
-                  class=" nav-menu-expansion-panel mat-elevation-z0 child-nav-menu-expansion-panel"
-                  [expanded]="_allExpandState"
-                  [disabled]="subcategory.disabled"
-                  [class.pointer-none]="subcategory.disabled"
-                >
-                  <mat-expansion-panel-header
-                    class="sub-menu-sub-header nav-sub-category-items"
-                    [collapsedHeight]="'18px'"
-                    [expandedHeight]="'18px'"
-                    style="font-size:14px"
+                <ng-container *ngIf="!subcategory.disabled">
+                  <mat-expansion-panel
+                    *ngIf="subcategory.children"
+                    class=" nav-menu-expansion-panel mat-elevation-z0 child-nav-menu-expansion-panel"
+                    [expanded]="_allExpandState"
+                    [disabled]="subcategory.disabled"
+                    [class.pointer-none]="subcategory.disabled"
                   >
-                    <mat-panel-title class="sub-menu-expansion-header">
-                      <!--<img src="{{ category.icon }}" class="nav-menu-icons" />-->{{ subcategory.name }}
-                    </mat-panel-title>
-                  </mat-expansion-panel-header>
+                    <mat-expansion-panel-header
+                      class="sub-menu-sub-header nav-sub-category-items"
+                      [collapsedHeight]="'18px'"
+                      [expandedHeight]="'18px'"
+                      style="font-size:14px"
+                    >
+                      <mat-panel-title class="sub-menu-expansion-header">
+                        {{ subcategory.name }}
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <a
+                      class="nav-sub-category-items second-level-link "
+                      (click)="collapseExpansionPanels(supersubcategory.path)"
+                      [routerLinkActiveOptions]="{ exact: true }"
+                      mat-list-item
+                      routerLink="{{ supersubcategory.path }}"
+                      routerLinkActive="active-link"
+                      *ngFor="let supersubcategory of subcategory.children"
+                      >{{ supersubcategory.name }}</a
+                    >
+                  </mat-expansion-panel>
 
                   <a
-                    class="nav-sub-category-items second-level-link "
-                    (click)="collapseExpansionPanels(supersubcategory.path)"
+                    *ngIf="!subcategory.children"
+                    class="nav-sub-category-items"
+                    (click)="collapseExpansionPanels(subcategory.path)"
                     [routerLinkActiveOptions]="{ exact: true }"
                     mat-list-item
-                    routerLink="{{ supersubcategory.path }}"
+                    routerLink="{{ subcategory.path }}"
                     routerLinkActive="active-link"
-                    *ngFor="let supersubcategory of subcategory.children"
-                    >{{ supersubcategory.name }}</a
+                    >{{ subcategory.name }}</a
                   >
-                </mat-expansion-panel>
-
-                <a
-                  *ngIf="!subcategory.children"
-                  class="nav-sub-category-items"
-                  (click)="collapseExpansionPanels(subcategory.path)"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                  mat-list-item
-                  routerLink="{{ subcategory.path }}"
-                  routerLinkActive="active-link"
-                  >{{ subcategory.name }}</a
-                >
+                </ng-container>
               </mat-nav-list>
             </mat-expansion-panel>
             <!-- CATEGORY WHICH HAS NO SUB CATEGORIES -->
@@ -193,14 +197,14 @@
         <!-- END OF MENU CATEGORIES BLOCK -->
 
         <!-- SIGNOUT BLOCK -->
-        <div class="signout-block">
+        <!-- <div class="signout-block">
           <p class="signout-label" (click)="signOut()">
             <a>
               <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon
               ><span class="sign-out-text">Sign Out </span>
             </a>
           </p>
-        </div>
+        </div>-->
         <!-- END OF SIGNOUT BLOCK -->
       </mat-sidenav>
       <!-- END OF SIDE NAVIGATION BAR-->
@@ -227,7 +231,7 @@
                 <div class="filter-text">Knowledge Center</div>
               </div>
             </div>
-            <div *ngIf="filterFlag" class="mat-details">
+            <div *ngIf="filterFlag" class="mat-filter-details">
               <div class="h-3-title-filter">
                 <div class="close-icon-style">
                   <mat-icon class="icon-left-filter" svgIcon="closeFilter" (click)="closeFilter()"> </mat-icon>

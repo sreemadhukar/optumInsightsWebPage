@@ -1,6 +1,5 @@
 /* @author gmounika */
 import { Injectable } from '@angular/core';
-import { GettingReimbursedModule } from '../../../components/getting-reimbursed-page/getting-reimbursed.module';
 import { GettingReimbursedService } from '../../../rest/getting-reimbursed/getting-reimbursed.service';
 import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
@@ -10,7 +9,7 @@ import { GettingReimbursedPayload } from '../payload.class';
 import { lobName } from '../../../modals/lob-name';
 
 @Injectable({
-  providedIn: GettingReimbursedModule
+  providedIn: 'root'
 })
 export class AppealsSharedService {
   public nonPaymentData: any = null;
