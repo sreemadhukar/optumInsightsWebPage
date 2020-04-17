@@ -60,49 +60,59 @@
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
       <div class="full-display">
+        <!--Temporary card - Appeals Metric in progress -->
         <div class="total-appeals">
-          {{ totalAppeals }}
-          <div>
-            <div class="appeal-set">
-              <div class="sub-appeals-values">
-                {{ adminAppeals }}
-              </div>
-              <div class="sub-appeals">
-                Admin
-              </div>
-            </div>
-            <div class="dash-bottom"></div>
-
-            <div class="appeal-set">
-              <div class="sub-appeals-values">
-                {{ clinicalAppeals }}
-              </div>
-              <div class="sub-appeals">
-                Clinical
-              </div>
-            </div>
-          </div>
+          <p>{{ totalAppeals }}</p>
+          <p class="total-appeals-sub-title">Submitted</p>
+        </div>
+        <div class="appeals-progress">
+          <mat-icon class="icon-progress-img appeals-progress-icon" svgIcon="metric-development"></mat-icon>
+          <p class="appeals-progress-text">Metric in development</p>
         </div>
 
-        <div class="line-graph-padding">
-          <!--<app-large-card-advocate [appealsLineGraph]="appealsLineGraph"></app-large-card-advocate>-->
+        <!--<div class="total-appeals">-->
+        <!--{{ totalAppeals }}-->
+        <!--<div>-->
+        <!--<div class="appeal-set">-->
+        <!--<div class="sub-appeals-values">-->
+        <!--{{ adminAppeals }}-->
+        <!--</div>-->
+        <!--<div class="sub-appeals">-->
+        <!--Admin-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="dash-bottom"></div>-->
 
-          <!--THIS IS ALREADY COMMENTED-->
+        <!--<div class="appeal-set">-->
+        <!--<div class="sub-appeals-values">-->
+        <!--{{ clinicalAppeals }}-->
+        <!--</div>-->
+        <!--<div class="sub-appeals">-->
+        <!--Clinical-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
 
-          <app-multi-line-graph *ngIf="!appealsLineGraphloading" [chartOptions]="appealsLineGraph">
-          </app-multi-line-graph>
+        <!--<div class="line-graph-padding">-->
+        <!--<app-large-card-advocate [appealsLineGraph]="appealsLineGraph"></app-large-card-advocate>-->
 
-          <div class="lob-set">
-            <div class="mr-img" *ngIf="mi"></div>
-            <div class="lob-values" *ngIf="mi">Medicare ({{ mi }})</div>
-            <div class="cs-img" *ngIf="cs"></div>
-            <div class="lob-values" *ngIf="cs">Medicaid ({{ cs }})</div>
-            <div class="ei-img" *ngIf="ei"></div>
-            <div class="lob-values" *ngIf="ei">Commercial ({{ ei }})</div>
-            <div *ngIf="other" class="other-img"></div>
-            <div class="lob-values" *ngIf="other">Uncategorized ({{ other }})</div>
-          </div>
-        </div>
+        <!--THIS IS ALREADY COMMENTED-->
+
+        <!--<app-multi-line-graph *ngIf="!appealsLineGraphloading" [chartOptions]="appealsLineGraph">-->
+        <!--</app-multi-line-graph>-->
+
+        <!--<div class="lob-set">-->
+        <!--<div class="mr-img" *ngIf="mi"></div>-->
+        <!--<div class="lob-values" *ngIf="mi">Medicare ({{ mi }})</div>-->
+        <!--<div class="cs-img" *ngIf="cs"></div>-->
+        <!--<div class="lob-values" *ngIf="cs">Medicaid ({{ cs }})</div>-->
+        <!--<div class="ei-img" *ngIf="ei"></div>-->
+        <!--<div class="lob-values" *ngIf="ei">Commercial ({{ ei }})</div>-->
+        <!--<div *ngIf="other" class="other-img"></div>-->
+        <!--<div class="lob-values" *ngIf="other">Uncategorized ({{ other }})</div>-->
+        <!--</div>-->
+        <!--</div>-->
 
         <!--THIS IS ALREADY COMMENTED-->
 
@@ -111,7 +121,7 @@
         <!--</div-->
       </div>
       <app-common-footer
-        [timePeriod]="timePeriod"
+        [timePeriod]="timePeriodAppeals"
         [linkName]="'Appeals Overview'"
         [routePath]="'/GettingReimbursed/Appeals'"
         class="width-100 time-period-trend"
@@ -135,7 +145,7 @@
         <div class="full-display">
           <div class="total-calls">
             {{ totalCalls }}
-            <div class="total-calls-sub-title">Total Calls</div>
+            <p class="total-calls-sub-title">Total Calls</p>
           </div>
         </div>
         <div class="line-graph-padding">
