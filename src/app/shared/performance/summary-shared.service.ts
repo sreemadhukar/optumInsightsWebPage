@@ -3,7 +3,6 @@ import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { PerformanceRestService } from '../../rest/performance/performance-rest.service';
-import { PerformanceModule } from '../../components/performance/performance.module';
 import { rlpPageName, rlpCardType, rlpBarType } from '../../modals/rlp-data';
 import { CommonUtilsService } from '../common-utils.service';
 import { Subscription } from 'rxjs';
@@ -16,7 +15,7 @@ export const pageMapApiEndpoint = [
   {
     name: rlpPageName.Referral,
     title: 'Preferred Specialist Referral Rate',
-    suffix: 'Referral',
+    suffix: 'Referrals',
     MetricID: '401'
     // MetricID:  MetricidService.PreferredSpecialistReferralRate
   },
@@ -36,7 +35,7 @@ export const pageMapApiEndpoint = [
   }
 ];
 @Injectable({
-  providedIn: PerformanceModule
+  providedIn: 'root'
 })
 export class SummarySharedService {
   public requestBody: Object;

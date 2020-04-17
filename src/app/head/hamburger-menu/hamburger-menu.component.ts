@@ -195,10 +195,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     this.checkExecutive = this.sessionService.checkExecutiveRole();
     if (this.checkAdv.value) {
       this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
-      sessionStorage.setItem('advocateView', 'true');
+    }
+    let currentUser: any;
+    currentUser = { ProviderKey: false };
+    if (!(sessionStorage.getItem('currentUser') === null)) {
+      currentUser = JSON.parse(sessionStorage.getItem('currentUser'))[0];
     }
     // Group Premium Designation
-    if (this.groupPremiumDesignationService.groupPremiumDesignationData() && this.internalUser) {
+    if (this.groupPremiumDesignationService && this.internalUser && currentUser.ProviderKey) {
       this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
         this.GroupPremiumDesignation = response.HppIndicator;
       });
@@ -208,7 +212,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
-        if (this.groupPremiumDesignationService.groupPremiumDesignationData() && this.internalUser) {
+        if (this.groupPremiumDesignationService && this.internalUser && currentUser.ProviderKey) {
           this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
             this.GroupPremiumDesignation = response.HppIndicator;
           });
@@ -216,6 +220,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
           !(
+            event.url === '/' ||
             event.url === '' ||
             event.url === '/ProviderSearch' ||
             event.url.includes('print-') ||
@@ -223,6 +228,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             event.url === '/AccessDenied'
           )
         );
+
         /*
          for login, providerSearch screen , filters has no role to play, so for them Filters should be close,
          we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
@@ -305,7 +311,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       }
       // PLEASE DON'T MODIFY THIS
     });
-
+    this.sessionService.sessionCleared().subscribe(() => (this.makeAbsolute = true));
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
       'home',
@@ -645,7 +651,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       height: '212px',
       disableClose: true
     });
-    sessionStorage.setItem('advocateView', 'true');
   }
 
   closeGlossary() {
@@ -719,6 +724,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       this.advocateView = false;
     }, 500);
     location.href = '/OverviewPageAdvocate';
+    sessionStorage.setItem('advocateView', 'false');
   }
 
   /**
@@ -733,7 +739,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       valueSelected: () => {
         // Setting Value redirect, remind flag to local storage
         sessionStorage.setItem('fromKOP', 'YES');
-        sessionStorage.setItem('advocateView', 'true');
         sessionStorage.removeItem('kopFilterState');
         this.ngRedux.dispatch({ type: RESET_KOP_FILTER });
         // Reloading targeted route, for resetting the css

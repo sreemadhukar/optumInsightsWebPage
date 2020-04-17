@@ -59,7 +59,7 @@ export class ColorGreyMiniBarChartComponent implements OnInit, AfterViewInit {
     const xScale = d3
       .scaleLinear()
       .domain([0, xScaleMax])
-      .range([0, 510]);
+      .range([0, 480]);
 
     let blueBarLength;
     if (chartOptions.maxValue) {

@@ -65,7 +65,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       .then(data => {
         this.referralsLoading = false;
         if (data) {
-          this.referralCard = JSON.parse(JSON.stringify(data));
+          this.referralCard = data;
         } else {
           this.incrementHCOnull();
         }
@@ -85,7 +85,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       .then(data => {
         this.labsLoading = false;
         if (data) {
-          this.labsCard = JSON.parse(JSON.stringify(data));
+          this.labsCard = data;
         } else {
           this.incrementHCOnull();
         }
@@ -105,7 +105,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       .then(data => {
         this.prescriptionLoading = false;
         if (data) {
-          this.prescriptionCard = JSON.parse(JSON.stringify(data));
+          this.prescriptionCard = data;
         } else {
           this.incrementHCOnull();
         }

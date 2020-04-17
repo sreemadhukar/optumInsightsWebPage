@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewChild, DoCheck } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith, debounceTime } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './glossary.component.html',
   styleUrls: ['./glossary.component.scss']
 })
-export class GlossaryComponent implements OnInit {
+export class GlossaryComponent implements OnInit, DoCheck {
   glossaryList: any;
   glossarySelected = [];
   glossaryData: any[];
@@ -50,6 +50,9 @@ export class GlossaryComponent implements OnInit {
     this.options = [];
   }
 
+  ngDoCheck() {
+    this.networkLeverUlTag();
+  }
   // this function will fetch all the matched glossary items only corresponding to the characters entered by user
   public getBusinessGlossary(text) {
     // this.glossaryService.getGlossaryByMetricName(text).subscribe(
@@ -68,6 +71,12 @@ export class GlossaryComponent implements OnInit {
       response => {
         this.glossarySelected = [];
         if ((response || {}).BusinessGlossary) {
+          if (
+            response.BusinessGlossary.ProviderDashboardName.MetricID >= 401 &&
+            response.BusinessGlossary.ProviderDashboardName.MetricID <= 403
+          ) {
+            this.networkLeverUlTag();
+          }
           this.glossarySelected.push(response);
           this.hyperlink = '';
           // if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
@@ -102,7 +111,7 @@ export class GlossaryComponent implements OnInit {
 
   public getGlossaryData() {
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
-      this.glossaryList = JSON.parse(JSON.stringify(response));
+      this.glossaryList = response;
       for (let i = 0; i < this.glossaryList.length; i++) {
         this.readmoreFlag[i] = true;
         // if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
@@ -198,6 +207,16 @@ export class GlossaryComponent implements OnInit {
     });
   }
 
+  public networkLeverUlTag() {
+    setTimeout(function() {
+      const a = document.querySelectorAll('.network-lever-ul') as HTMLCollectionOf<HTMLElement>;
+      a[0].style.paddingLeft = '30px';
+      const x = Array.from(a[0].children as HTMLCollectionOf<HTMLElement>);
+      x.forEach(element => {
+        element.style.listStyle = 'disc';
+      });
+    }, 1);
+  }
   public getKOPGlossaryMetricID() {
     this.glossaryService.getKOPGlossaryMetricID(this.MetricID).subscribe(
       response => {
@@ -215,7 +234,7 @@ export class GlossaryComponent implements OnInit {
 
   public getKOPGlossaryData() {
     this.glossaryService.getKOPBusinessGlossaryData().subscribe(response => {
-      this.glossaryList = JSON.parse(JSON.stringify(response));
+      this.glossaryList = response;
 
       if (!(this.glossaryList instanceof Array) || this.glossaryList.length === 0) {
         return;

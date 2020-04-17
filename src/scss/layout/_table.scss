@@ -28,7 +28,7 @@
     color: $strom-grey;
     appearance: none;
     background-color: $white;
-    text-indent: 20px;
+    text-indent: 12px;
     padding: 0;
   }
 
@@ -51,7 +51,8 @@
 //table column widths
 .rlp-table {
   &-tin {
-    flex: 0.62;
+    flex: 0.4;
+    padding-right: 16px;
   }
   &-group {
     flex: 0.97;
@@ -72,7 +73,7 @@
   border: 1px solid #e0e0e0;
 }
 .table-items {
-  padding: 0 24px 32px 30px;
+  padding: 0 16px 32px 16px;
 }
 
 //Footer css
@@ -163,8 +164,8 @@
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 22px;
-  padding: 8px 0 8px 4px;
-  text-indent: 20px;
+  padding: 8px 0 8px 2px;
+  text-indent: 12px;
 }
 //Input place holder css for IE
 :-ms-input-placeholder {
@@ -173,7 +174,7 @@
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 22px;
-  padding: 8px 0 8px 8px;
+  padding: 8px 0 8px 2px;
 }
 
 .table-container > div:nth-child(3) {
