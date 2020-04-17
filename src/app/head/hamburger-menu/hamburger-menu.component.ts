@@ -83,7 +83,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   /*** Array of Navigation Category List ***/
   public navCategories = [];
   public navCategoriesTotal = [
-    { icon: 'dashboard', name: 'My Home', path: '/OverviewPageAdvocate/Home', disabled: true },
+    { icon: 'dashboard', name: 'My Home', path: '/OverviewPageAdvocate/Home', disabled: false },
     { icon: 'home', name: 'Overview', path: '/NationalExecutive', disabled: false, kop: true },
     { icon: 'summary', name: 'NPS Summary', path: '/NationalExecutive/NpsDetail', disabled: false, kop: true },
     // {
@@ -195,21 +195,21 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     this.checkExecutive = this.sessionService.checkExecutiveRole();
-    if (this.checkAdv.value) {
+    iconRegistry.addSvgIcon(
+      'dashboard',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'home',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/dashboard-24px.svg')
+    );
+    if (!this.checkAdv.value) {
       this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
 
-      iconRegistry.addSvgIcon(
-        'dashboard',
-        sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
-      );
-      iconRegistry.addSvgIcon(
-        'home',
-        sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/dashboard-24px.svg')
-      );
-
-      this.navCategories[0].disabled = false;
       console.log(this.navCategories);
-    } else {
+      if (this.navCategories.length > 0) {
+        this.navCategories[0].disabled = true;
+      }
       iconRegistry.addSvgIcon(
         'home',
         sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
