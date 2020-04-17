@@ -170,6 +170,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
         return true;
       }
     });
+    console.log('this.afterQuery.length--->', this.afterQuery.length);
     this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
   }
 
