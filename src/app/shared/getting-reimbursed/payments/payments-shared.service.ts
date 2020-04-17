@@ -8,6 +8,7 @@ import { GettingReimbursedPayload } from '../payload.class';
 import * as _ from 'lodash';
 import { AuthorizationService } from 'src/app/auth/_service/authorization.service';
 import { lobName } from '../../../modals/lob-name';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class PaymentsSharedService {
   private timeFrame: string;
   private providerKey: number;
   private nonPaymentBy: string;
+  private isInternalInt: boolean = environment.internalIntAccess;
   constructor(
     private gettingReimbursedService: GettingReimbursedService,
     private common: CommonUtilsService,
@@ -790,8 +792,11 @@ export class PaymentsSharedService {
           // };
           //  const payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           /*, claimsPaidRate] }; commented to supress claims yield card*/
-          // summaryData = [[claimsPaid, claimsPaidRate], claimsData];
-          summaryData = [[claimsPaid], claimsData];
+          if (this.isInternalInt) {
+            summaryData = [[claimsPaid, claimsPaidRate], claimsData];
+          } else {
+            summaryData = [[claimsPaid], claimsData];
+          }
 
           if (summaryData.length) {
             resolve(summaryData);
@@ -820,10 +825,10 @@ export class PaymentsSharedService {
     if (param.viewClaimsByFilter === 'DOP') {
       return new Promise((resolve, reject) => {
         let paidBreakdown = [];
-        this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
+        this.gettingReimbursedService.getPaymentData(...parameters).subscribe((paymentDatafetch: any) => {
           try {
-            const providerData = JSON.parse(JSON.stringify(paymentDatafetch[0]));
-            const paymentData = JSON.parse(JSON.stringify(paymentDatafetch[1]));
+            const providerData = paymentDatafetch[0];
+            const paymentData = paymentDatafetch[1];
             let lobData = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'ALL';
             if (lobData === 'Mr') {
               lobData = 'MedicareAndRetirement';
@@ -889,7 +894,6 @@ export class PaymentsSharedService {
         let paidBreakdown = [];
         this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
           try {
-            // const paymentData = JSON.parse(JSON.stringify(paymentDatafetch));
             const paymentData = paymentDatafetch;
             const lobData = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
             if (

@@ -140,9 +140,9 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.pageTitle = 'Claims Non-Payments';
     this.printpageSubTitle = 'Getting Reimbursed - Claims Non-Payments';
     this.pageSubTitle = 'Note: Claims non-payment metrics are calculated based on billed charges.';
-    this.createPayloadService.getEvent().subscribe(value => {
+    /* this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
-    });
+    }); */
   }
 
   ngOnInit() {
@@ -166,9 +166,9 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
     this.nonPaymentService.getNonPayment(this.createPayloadService.payload).then(
-      nonPayment => {
+      (nonPayment: any) => {
         this.loading = false;
-        this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
+        this.nonPaymentData1 = nonPayment;
       },
       err => {
         console.log('Non Payment Component Two Donuts', err);
@@ -227,8 +227,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.monthlyLineGraph.chartData = [];
     this.trendMonthDisplay = false;
     // This is for line graph
-    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
-      const trendData = JSON.parse(JSON.stringify(data));
+    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then((data: any) => {
+      const trendData = data;
       if (trendData == null) {
         this.trendMonthDisplay = false;
         this.monthlyLineGraph = {
@@ -303,7 +303,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       };
       reasonWithSubData.push(temp);
     }
-    console.log('inside non-paymnet component reasonWithSubData', reasonWithSubData);
     return reasonWithSubData;
   }
 

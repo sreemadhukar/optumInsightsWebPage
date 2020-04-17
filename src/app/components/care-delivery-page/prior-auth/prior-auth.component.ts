@@ -72,9 +72,9 @@ export class PriorAuthComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    this.createPayloadService.getEvent().subscribe(value => {
+    /*  this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
-    });
+    }); */
   }
 
   ngOnInit() {
@@ -131,7 +131,6 @@ export class PriorAuthComponent implements OnInit {
         this.loading = false;
         this.summaryItems = data[0];
         this.reasonItems = data[1];
-        console.log('summaryItems', data);
       },
       error => {
         this.hideAllObjects = false;

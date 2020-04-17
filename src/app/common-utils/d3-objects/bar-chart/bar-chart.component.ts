@@ -138,7 +138,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       xScaleBarWidthConstant = width / 1.79; // 522    when width is 554 , it will touch the border of the the card
       xScaleBarStartingPointConstant = width / 2.43; // 384
     }
-    // console.log('Width', width); 934
     const xScale = d3
       .scaleLinear()
       .domain([0, chartOptions.barSummation])

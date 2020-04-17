@@ -352,70 +352,76 @@
   float: left;
   width: 385px;
   margin-right: 24px;
-  position: relative;
-}
-.sub-reason-div {
-  float: left;
-  width: 385px;
-  position: relative;
 }
 .reason-head {
   color: #2d2d39;
   font-family: 'UHCSans-Medium';
   font-size: 14px;
   line-height: 18px;
-
-  width: 385px;
-}
-.reason-text {
-  color: #2d2d39;
-  font-family: 'UHCSans-SemiBold';
-  font-size: 16px;
-  line-height: 22px;
+  height: 20px;
+  margin-bottom: 2px;
 }
 .reason-dropdown {
-  color: #2d2d39;
-  font-size: 16px;
-  font-family: 'UHCSans-SemiBold';
-  line-height: 22px;
-  width: 385px;
-  padding: 8px 0 8px 12px;
-  font-size: 16px;
-  border: 1px solid #e0e0e0;
-  height: 42px;
+  height: calc(40px - 20px);
+  width: calc(100% - 30px - 2px);
+  border: 1px solid $heather;
+  border-radius: 2px;
+  background: $white;
+  padding: 10px 15px;
+  .mat-select {
+    height: 100%;
+    font-family: 'UHCSans-SemiBold';
+    font-size: 16px;
+    line-height: 22px;
+    color: $black-rock;
+  }
 
   -webkit-appearance: none;
-  background-position-x: 360px;
-  margin-top: 2px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 
+::ng-deep .mat-select .mat-select-arrow {
+  border: solid $strom-grey;
+  border-width: 0 1.8px 1.8px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+::ng-deep .mat-select-panel {
+  max-width: 100% !important;
+  .mat-option.mat-selected:not(.mat-option-multiple) {
+    background: $darker-alice-blue;
+    color: $blue;
+  }
+}
+
+::ng-deep .mat-select-panel-wrap {
+  width: 385px !important;
+  margin-left: unset !important;
+  border-radius: 2px;
+  margin-top: 30px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+}
+
 .reason-option {
-  line-height: 40px;
-  padding: 15px 0 15px 12px;
-  height: 40px;
-  color: $black-rock;
   font-family: 'UHCSans-Medium';
-  font-size: 16px;
+  height: 40px !important;
+  line-height: 40px;
+  color: $black-rock;
+  font-size: 16px !important;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 .reason-option:hover {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  padding: 15px 0 15px 12px;
-  line-height: 40px;
-  height: 40px;
-  color: $blue !important;
-  background-color: #e3f0fd !important;
-  font-family: 'UHCSans-SemiBold';
-  font-size: 16px;
-  font-weight: 600;
+  color: $black-rock !important;
+  background-color: $pattens-blue !important;
 }
+
 :host ::ng-deep .search-box {
   margin-top: 15px;
   position: relative;
@@ -436,7 +442,7 @@
     position: absolute;
     color: $strom-grey;
     right: 20px;
-    top: 20px;
+    top: 18px;
   }
   :not(:valid) ~ .close {
     display: none;
@@ -775,28 +781,6 @@ table {
 
 ::ng-deep .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
   color: $strom-grey;
-}
-
-::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
-  color: $strom-grey;
-}
-
-::ng-deep .mat-select-panel-wrap .mat-option-text {
-  color: $strom-grey;
-  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  letter-spacing: 0.2px;
-  line-height: 22px;
-}
-
-::ng-deep .mat-select-panel-wrap {
-  width: 68px;
-  overflow: hidden;
-  margin-left: 4px;
-  border-radius: 0;
-  @media screen\0 {
-    overflow: visible;
-  }
 }
 
 :host ::ng-deep .mat-form-field-flex {

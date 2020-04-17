@@ -43,11 +43,12 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   ];
 
   pageSize = 25;
+  filterObj = {};
   subscription: any;
   ProviderSysKey: any;
   viewClaimsValue: any;
   providerName: string;
-  loading: boolean;
+  isLoading = true;
   lengthOffilteredData: any;
   dataNotavaiable: Boolean = false;
   viewsClaimsFullData: any;
@@ -63,7 +64,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   showTableBool: Boolean = true;
   viewClaimsFilterDOP: boolean;
   viewClaimsFilterDOS: boolean;
-  isLoading: boolean;
+  loading: boolean;
   public finaldata: any[] = [];
   public temp;
   public subreasonvalues = [];
@@ -138,10 +139,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     iconRegistry.addSvgIcon(
       'downarrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-24px.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'arrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
     );
   }
 
@@ -229,27 +226,26 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.selectedclaims.filterPredicate = this.customFilterPredicate();
   }
   // Reason selection from dropdown
-  selectTopReason(value) {
+  selectTopReason({ value }) {
     this.selectedSubreasonArray = this.fullData
       .filter(item => item.mainReason === value)
       .map(item => item.subReason)[0];
     this.subReason = this.selectedSubreasonArray;
     this.selectedReasonItem = value;
     this.selectedSubreason = this.selectedSubreasonArray[0];
-    this.dataNotavaiable = true;
+
     if (this.selectedReasonItem === this.selectedSubreason) {
       this.selectedSubreason = 'UNKNOWN';
     }
-
     this.loadTable(this.selectedReasonItem, this.selectedSubreason);
     this.loading = true;
   }
   // sub reasons selection from dropdown
-  selectsubReason(filterVal) {
-    if (filterVal) {
+  selectsubReason({ value }) {
+    if (value) {
       this.dataNotavaiable = true;
-
-      this.subReasonselected = filterVal;
+      this.isLoading = false;
+      this.subReasonselected = value;
       if (this.selectedReasonItem === this.subReasonselected) {
         this.subReasonselected = 'UNKNOWN';
       }
@@ -270,13 +266,14 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
 
   // load table data
   loadTable(reasonSelected, subReason) {
+    this.isLoading = false;
     this.topClaimsSharedService
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
-      .then(claimsDetailsData => {
+      .then((claimsDetailsData: any) => {
         this.isLoading = true;
         this.loading = false;
         this.selectedclaims = [];
-        this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
+        this.claimsData = claimsDetailsData;
 
         if (this.claimsData && this.claimsData.length > 0) {
           this.claimsData = this.claimsData.map((claimsRecord: any) => {

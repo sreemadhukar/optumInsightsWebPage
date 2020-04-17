@@ -1,6 +1,7 @@
 .bar-div {
   position: relative;
 }
+
 .tooltip-bar {
   position: absolute;
   background: white;
@@ -24,6 +25,7 @@
   border-left: solid 15px transparent;
   border-right: solid 15px transparent;
 }
+
 .tooltip-bar-pi {
   position: absolute;
   background: white;
@@ -34,7 +36,6 @@
   border: 1px solid #e0e0e0;
   box-sizing: border-box;
   line-height: 18px;
-  padding-left: 5px;
 }
 
 .tooltip-bar-pi::after {
