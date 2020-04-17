@@ -31,7 +31,7 @@ export class NewPaymentIntegrityService {
           resolve(response);
         },
         err => {
-          console.log('Check All RLP HCO Data Error', err);
+          console.log('PI Certification Period Dates Data Error', err);
         }
       );
     });
@@ -135,7 +135,8 @@ export class NewPaymentIntegrityService {
               labels: '*Positive/negative trend comparision is ' + trendLable
             }
           ]
-        }
+        },
+        status: 200
       },
       {
         title: 'Coding Review Results',
@@ -155,7 +156,8 @@ export class NewPaymentIntegrityService {
           hover: true,
           targetValue: codingReviewResultsTargetValue,
           target: codingReviewResultsTarget
-        }
+        },
+        status: 200
       },
       {
         title: 'Medical Records Received vs. Awaiting Submission',
@@ -178,7 +180,8 @@ export class NewPaymentIntegrityService {
           AccountsReceivableOpportunity: this.valueFormatting(value.MedicalRecordsNotReceivedAmount),
           trendComparisionLable: '*Positive/negative trend comparison is ' + trendLable
         },
-        timeperiod: this.session.filterObjValue.timeFrame
+        timeperiod: this.session.filterObjValue.timeFrame,
+        status: 200
       }
     ];
     return summaryItems;
