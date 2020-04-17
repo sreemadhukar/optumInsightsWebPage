@@ -39,8 +39,10 @@
       <div
         class="horizontal-align"
         *ngIf="
-          selectedPage !== 'callsPage' &&
-          selectedPage !== 'appealsPage' &&
+          (selectedPage === 'gettingReimbursedSummary' ||
+            selectedPage === 'paymentsPage' ||
+            selectedPage === 'nonPaymentsPage' ||
+            selectedPage === 'overviewAdvocatePage') &&
           tabName !== 'gettingReimbursedAppeals' &&
           selectedLob.value === 'Commercial' &&
           selectedCommerical.value !== 'All'

@@ -1,0 +1,11 @@
+@import '~src/scss/variables.scss';
+:host ::ng-deep .mat-select-arrow-wrapper {
+  visibility: hidden;
+}
+.align-arrow-icon {
+  position: relative;
+  top: 5px;
+  right: 35px;
+  pointer-events: none;
+  color: $strom-grey;
+}
