@@ -124,7 +124,7 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
       };
       this.storage.store('currentUser', [Object.assign(provider, providerObj)]);
     }
-    this.router.navigate(['/OverviewPageAdvocate/HealthSystemDetails/']);
+    window.location.href = '/OverviewPageAdvocate/HealthSystemDetails/';
   }
   ngOnDestroy() {
     this.getData$.unsubscribe();
