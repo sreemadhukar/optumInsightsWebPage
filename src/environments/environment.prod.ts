@@ -58,8 +58,9 @@ export const environment: any = {
     PaymentsBySubmission: 'claim-submissions/v2.0/',
     GroupPremiumDesignation: 'group-premium-designation/',
     NetworkLever: 'network-lever/',
-    PaymentIntegrityTabsInfo: 'pi-tab-info/'
+    PaymentIntegrityTabsInfo: 'pi-tab-info/',
     // NewPaymentIntegrity: 'payment-integrity/' // please uncomment this when new-PI i allowed in prod
+    ProviderSearch: 'provider-search'
   },
   headerKeys: {
     selectedCompany: '',

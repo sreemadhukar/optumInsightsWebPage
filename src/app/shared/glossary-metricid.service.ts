@@ -44,7 +44,7 @@ export class GlossaryMetricidService {
       ReduceCallsOperatingCostsBy: '308',
       ReduceClaimProcessingTimeBy: '309',
       PreferredSpecialistReferralRate: '401',
-      PharmacyPreferredTierPrescribingRate: '402',
+      PreferredTierPrescribingRate: '402',
       PreferredLabNetworkUseRate: '403',
       ClaimsAverageTurnaroundTimetoPayment: 'NA',
       ClaimsSubmissions: 'NA',

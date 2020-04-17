@@ -199,8 +199,8 @@ export class PriorAuthSharedService {
             // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
             let PAApprovedCount;
             let PANotApprovedCount;
-            let PANotPendingCount;
-            let PANotCancelledCount;
+            let PAPendingCount;
+            let PACancelledCount;
 
             // LOB all
 
@@ -259,11 +259,18 @@ export class PriorAuthSharedService {
 
             PAApprovedCount = data.PriorAuthApprovedCount;
             PANotApprovedCount = data.PriorAuthNotApprovedCount;
-            PANotPendingCount = data.PriorAuthPendingCount;
-            PANotCancelledCount = data.PriorAuthCancelledCount;
+            PAPendingCount = data.PriorAuthPendingCount;
+            PACancelledCount = data.PriorAuthCancelledCount;
+            const PARequestedCount = PAApprovedCount + PANotApprovedCount + PACancelledCount;
+            const TotalApprovedNotapproved = PARequestedCount - PACancelledCount;
+            let PAApprovalRate;
 
-            const PARequestedCount = PAApprovedCount + PANotApprovedCount;
-            const PAApprovalRate = PAApprovedCount / PARequestedCount;
+            if (TotalApprovedNotapproved === 0) {
+              PAApprovalRate = 0;
+            } else {
+              PAApprovalRate = PAApprovedCount / TotalApprovedNotapproved;
+            }
+
             PANotApprovedReasonBool = PAApprovalRate === 1;
             PANotApprovedCountChecker = PAApprovedCount;
 
@@ -294,49 +301,9 @@ export class PriorAuthSharedService {
               }
             }
             // Add checker for if PA requested is zero
-            const priorAuthorizationCounts = [
-              PAApprovedCount,
-              PANotApprovedCount,
-              PANotPendingCount,
-              PANotCancelledCount
-            ];
+            const priorAuthorizationCounts = [PAApprovedCount, PANotApprovedCount, PAPendingCount, PACancelledCount];
             const priorAuthorizationLabels = ['Approved', 'Not Approved', 'Pending', 'Canceled'];
-            if (PARequestedCount === 0) {
-              if (PANotPendingCount + PANotCancelledCount > 0) {
-                PACount = [
-                  {
-                    category: 'app-card',
-                    type: 'donutWithLabel',
-                    title: 'Prior Authorization Requested',
-                    MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
-                    toggle: this.toggle.setToggles(
-                      'Prior Authorization Requested',
-                      'Prior Authorizations',
-                      'Care Delivery',
-                      false
-                    ),
-                    data: {
-                      graphValues: priorAuthorizationCounts,
-                      centerNumber: this.common.nFormatter(PARequestedCount),
-                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                      labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                      gdata: ['card-inner', 'PARequested'],
-                      hover: true
-                    },
-                    besideData: {
-                      labels: this.common.sideLabelWords(priorAuthorizationCounts, priorAuthorizationLabels),
-                      color: this.common.sideLabelColor(priorAuthorizationCounts)
-                    },
-                    timeperiod:
-                      this.common.dateFormat(providerSystems.StartDate) +
-                      '&ndash;' +
-                      this.common.dateFormat(providerSystems.EndDate)
-                  }
-                ];
-              } else {
-                PACount = appCardPriorAuthError;
-              }
-            } else {
+            if (PARequestedCount > 0) {
               PACount = [
                 {
                   category: 'app-card',
@@ -515,6 +482,7 @@ export class PriorAuthSharedService {
       this.getNewPAData(filterParameters)
         .then(data => {
           this.priorAuthDataCombined = data;
+          console.log('priorAuthDataCombined-->', this.priorAuthDataCombined);
           const emptyPATrends = [
             {
               data: '',
@@ -530,6 +498,7 @@ export class PriorAuthSharedService {
         .then(data => {
           if (this.priorAuthDataCombined[0].length > 0 && this.priorAuthDataCombined[0][0].data !== null) {
             this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
+            console.log('priorAuthDataCombined-->', data[1]);
           }
           resolve(this.priorAuthDataCombined);
         })
