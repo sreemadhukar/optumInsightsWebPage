@@ -54,7 +54,7 @@ export class GettingReimbursedService {
     return this.http.post(appealsURL, appealsParam).pipe(
       map(res => {
         let dataValue = _get(res, ['Data', '0'], []);
-        dataValue = dataValue.length ? dataValue : { status: 404 };
+        dataValue = dataValue.length ? dataValue : { Status: 404 };
         return dataValue;
       }),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
@@ -73,7 +73,7 @@ export class GettingReimbursedService {
     return this.http.post(appealsURL, appealsParam).pipe(
       map(res => {
         let dataValue = _get(res, ['Data', '0'], []);
-        dataValue = dataValue.length ? dataValue : { status: 404 };
+        dataValue = dataValue.length ? dataValue : { Status: 404 };
         return dataValue;
       }),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
