@@ -82,6 +82,27 @@ export class NewPaymentIntegrityComponent implements OnInit {
           }
         }
         this.tabOptions = temp;
+      } else if (!response) {
+        this.currentSummary = [
+          {
+            category: 'app-card',
+            title: 'Medical Records Requested by UHC',
+            MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
+            status: 500
+          },
+          {
+            category: 'app-card',
+            title: 'Coding Review Results',
+            MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
+            status: 500
+          },
+          {
+            category: 'large-card',
+            title: 'Medical Records Received vs. Awaiting Submission',
+            MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
+            status: 500
+          }
+        ];
       } else {
         this.currentSummary = [
           {

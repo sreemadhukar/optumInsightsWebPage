@@ -42,7 +42,13 @@ export class NewPaymentIntegrityService {
     return new Promise(resolve => {
       this.newPaymentIntegrityService.getNewPaymentIntegrityData(apiDates).subscribe(
         response => {
-          resolve(this.piDataFormating(response));
+          if (!response) {
+            resolve(this.piDataError(response));
+          } else if (response.ProviderSysKey) {
+            resolve(this.piDataFormating(response));
+          } else {
+            resolve(this.piDataError(response));
+          }
           // resolve(response);
         },
         err => {
@@ -195,5 +201,75 @@ export class NewPaymentIntegrityService {
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const split = value.split('-');
     return monthNames[parseInt(split[1]) - 1] + ' ' + split[0];
+  }
+  // PI data error handling
+  piDataError(value: any) {
+    if (!value) {
+      const summaryItems = [
+        {
+          category: 'app-card',
+          title: 'Medical Records Requested by UHC',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
+          status: 500
+        },
+        {
+          category: 'app-card',
+          title: 'Coding Review Results',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
+          status: 500
+        },
+        {
+          category: 'large-card',
+          title: 'Medical Records Received vs. Awaiting Submission',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
+          status: 500
+        }
+      ];
+      return summaryItems;
+    } else if (value.error) {
+      const summaryItems = [
+        {
+          category: 'app-card',
+          title: 'Medical Records Requested by UHC',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
+          status: value.status
+        },
+        {
+          category: 'app-card',
+          title: 'Coding Review Results',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
+          status: value.status
+        },
+        {
+          category: 'large-card',
+          title: 'Medical Records Received vs. Awaiting Submission',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
+          status: value.status
+        }
+      ];
+      return summaryItems;
+    } else {
+      const summaryItems = [
+        {
+          category: 'app-card',
+          title: 'Medical Records Requested by UHC',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
+          status: 500
+        },
+        {
+          category: 'app-card',
+          title: 'Coding Review Results',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
+          status: 500
+        },
+        {
+          category: 'large-card',
+          title: 'Medical Records Received vs. Awaiting Submission',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
+          status: 500
+        }
+      ];
+      return summaryItems;
+    }
   }
 }
