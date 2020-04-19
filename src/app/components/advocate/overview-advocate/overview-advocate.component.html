@@ -50,9 +50,8 @@
 
     <!-- Claims appeals Trend  Starts Here -->
 
-    <!--<app-error-card *ngIf="appealsLineGraphData.status != null" class="cards" [data]="appealsLineGraphData">-->
-    <!--</app-error-card>-->
-    <!--<app-large-card [skeletonLarge]="appealsLineGraphloading" *ngIf="appealsData == null"></app-large-card>-->
+    <app-error-card *ngIf="totalAppeals == null" class="cards" [data]="errorAppealsData"> </app-error-card>
+    <app-large-card [skeletonLarge]="appealsloading" *ngIf="appealsloading"></app-large-card>
     <div class="appeals-trend-block" *ngIf="totalAppeals !== null">
       <app-common-header
         [title]="trendTitleForClaims"
