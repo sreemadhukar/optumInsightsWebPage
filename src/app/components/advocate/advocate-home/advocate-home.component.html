@@ -25,14 +25,14 @@
               <!-- <span>{{ usersForm.get('userInput').value | json }}</span> -->
 
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnWrapper()" [panelWidth]="386">
-                <mat-option *ngIf="isLoading || noSearchFound" class="is-loading" #option
-                  ><mat-spinner *ngIf="searchedString.length > 2 && !noSearchFound" diameter="40"></mat-spinner>
-                  <ng-container *ngIf="searchedString.length < 3" class="min-length-text">
+                <mat-option *ngIf="isLoading || noSearchFound" class="is-loading" #option>
+                  <mat-spinner *ngIf="searchedString.length > 2 && !noSearchFound" diameter="40"></mat-spinner>
+                  <p *ngIf="searchedString.length < 3" class="min-length-text">
                     Please type at least 3 characters to start your search...
-                  </ng-container>
-                  <ng-container *ngIf="noSearchFound && searchedString.length > 2" class="min-length-text">
+                  </p>
+                  <p *ngIf="noSearchFound && searchedString.length > 2" class="min-length-text">
                     No Result found for your input search
-                  </ng-container>
+                  </p>
                 </mat-option>
                 <ng-container *ngIf="!isLoading">
                   <mat-option class="optionHeight" *ngFor="let user of filteredUsers | async" [value]="user">

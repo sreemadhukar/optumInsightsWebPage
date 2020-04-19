@@ -145,7 +145,7 @@
   ::ng-deep .min-length-text {
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
-    color: $strom-grey;
+    color: $strom-grey !important;
     padding: 12px;
     pointer-events: none;
   }
