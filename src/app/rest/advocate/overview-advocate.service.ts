@@ -127,7 +127,7 @@ export class OverviewAdvocateService {
     // Create URL for DOP Submission
     if (claimsBY === 'DOP') {
       nonPaymentURL =
-        this.APP_URL + this.PAYMENTS_BY_SUBMISSION_DOP_SERVICE_PATH + parameters[0] + '?requestType=CLAIMS';
+        this.APP_URL + this.PAYMENTS_BY_SUBMISSION_DOP_SERVICE_PATH + parameters[0] + '?request-type=CLAIMS';
     }
 
     return combineLatest(
