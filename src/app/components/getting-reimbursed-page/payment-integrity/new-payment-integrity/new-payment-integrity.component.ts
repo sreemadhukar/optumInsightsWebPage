@@ -35,30 +35,97 @@ export class NewPaymentIntegrityComponent implements OnInit {
   }
   tabInfo() {
     this.newPaymentIntegrityService.tabInfo().then((response: any) => {
-      const temp = [];
-      this.tabOptions = [];
-      for (let i = 0; i < response.length; i++) {
-        temp[response[i].TabOrder - 1] = {
-          id: response[i].TabOrder - 1,
-          title: response[i].date,
-          value1: response[i].LastRefresh,
-          sdata: null,
-          dataFlag: false,
-          api: {
-            StartDate: response[i].apiStartDate,
-            EndDate: response[i].apiEndDate
+      if (response.error) {
+        this.currentSummary = [
+          {
+            category: 'app-card',
+            title: 'Medical Records Requested by UHC',
+            MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
+            status: response.status
+          },
+          {
+            category: 'app-card',
+            title: 'Coding Review Results',
+            MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
+            status: response.status
+          },
+          {
+            category: 'large-card',
+            title: 'Medical Records Received vs. Awaiting Submission',
+            MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
+            status: response.status
           }
-        };
-        if (response[i].LastRefresh !== '' && response[i].LastRefresh) {
-          temp[response[i].TabOrder - 1].value1 = 'Claims Processed through ' + response[i].LastRefresh;
+        ];
+        this.loading = false;
+      } else if (response.length > 0) {
+        const temp = [];
+        this.tabOptions = [];
+        for (let i = 0; i < response.length; i++) {
+          temp[response[i].TabOrder - 1] = {
+            id: response[i].TabOrder - 1,
+            title: response[i].date,
+            value1: response[i].LastRefresh,
+            sdata: null,
+            dataFlag: false,
+            api: {
+              StartDate: response[i].apiStartDate,
+              EndDate: response[i].apiEndDate
+            }
+          };
+          if (response[i].LastRefresh !== '' && response[i].LastRefresh) {
+            temp[response[i].TabOrder - 1].value1 = 'Claims Processed through ' + response[i].LastRefresh;
+          }
+          if (response[i].Active === 'Y') {
+            this.tabOptions = temp;
+            this.previousSelectedTab = response[i].TabOrder - 1;
+            this.newPaymentIntergrity(temp[response[i].TabOrder - 1].api, response[i].TabOrder - 1);
+          }
         }
-        if (response[i].Active === 'Y') {
-          this.tabOptions = temp;
-          this.previousSelectedTab = response[i].TabOrder - 1;
-          this.newPaymentIntergrity(temp[response[i].TabOrder - 1].api, response[i].TabOrder - 1);
-        }
+        this.tabOptions = temp;
+      } else if (!response) {
+        this.currentSummary = [
+          {
+            category: 'app-card',
+            title: 'Medical Records Requested by UHC',
+            MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
+            status: 500
+          },
+          {
+            category: 'app-card',
+            title: 'Coding Review Results',
+            MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
+            status: 500
+          },
+          {
+            category: 'large-card',
+            title: 'Medical Records Received vs. Awaiting Submission',
+            MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
+            status: 500
+          }
+        ];
+      } else {
+        this.currentSummary = [
+          {
+            category: 'app-card',
+            title: 'Medical Records Requested by UHC',
+            MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
+            status: 500
+          },
+          {
+            category: 'app-card',
+            title: 'Coding Review Results',
+            MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
+            status: 500
+          },
+          {
+            category: 'large-card',
+            title: 'Medical Records Received vs. Awaiting Submission',
+            MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
+            status: 500
+          }
+        ];
+        this.loading = false;
       }
-      this.tabOptions = temp;
     });
   }
 
