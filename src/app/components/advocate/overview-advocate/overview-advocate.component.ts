@@ -155,11 +155,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           this.totalAppeals = this.common.nFormatter(
             AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals
           );
-          this.timePeriodAppeals = `${this.timeFilterValueResolved} (${this.common.dateFormat(
-            AppealsLeftData[0].StartDate
-          ) +
+          this.timePeriodAppeals =
+            this.common.dateFormat(AppealsLeftData[0].StartDate) +
             '&ndash;' +
-            this.common.dateFormat(AppealsLeftData[0].EndDate)})`;
+            this.common.dateFormat(AppealsLeftData[0].EndDate);
           this.appealsloading = false;
         } else {
           this.appealsloading = false;
