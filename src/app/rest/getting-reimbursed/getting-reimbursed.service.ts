@@ -49,9 +49,9 @@ export class GettingReimbursedService {
     /*SEE ABOVE*/
     let appealsReqType = '';
     if (parameters[1].appealsProcessing === 'Received Date') {
-      appealsReqType = '?requestType=APPEALS_MEASURE_DOR_HCO';
+      appealsReqType = '?request-type=APPEALS_MEASURE_DOR_HCO';
     } else {
-      appealsReqType = '?requestType=APPEALS_MEASURE_DOC_HCO';
+      appealsReqType = '?request-type=APPEALS_MEASURE_DOC_HCO';
     }
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE + parameters[0] + appealsReqType;
     return this.http.post(appealsURL, appealsParam).pipe(
@@ -71,9 +71,9 @@ export class GettingReimbursedService {
       delete appealsParam.FundingTypeCodes;
     }
     if (parameters[1].appealsProcessing === 'Received Date') {
-      appealsReqType = '?requestType=APPEALS_TOP_OVERTURNED_REASON_DOR_HCO';
+      appealsReqType = '?request-type=APPEALS_TOP_OVERTURNED_REASON_DOR_HCO';
     } else {
-      appealsReqType = '?requestType=APPEALS_TOP_OVERTURNED_REASON_DOC_HCO';
+      appealsReqType = '?request-type=APPEALS_TOP_OVERTURNED_REASON_DOC_HCO';
     }
     const appealsURL = this.APP_URL + this.APPEALS_OVERTURN + parameters[0] + appealsReqType;
     return this.http.post(appealsURL, appealsParam).pipe(
