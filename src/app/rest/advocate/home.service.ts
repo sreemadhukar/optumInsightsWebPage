@@ -22,7 +22,6 @@ export class HomeService {
       filter.searchType +
       '&search-value=' +
       filter.searchValue;
-    console.log('search', searchURL);
     return this.http
       .get<IUserResponse[]>(searchURL, { params: myparam })
       .pipe(
