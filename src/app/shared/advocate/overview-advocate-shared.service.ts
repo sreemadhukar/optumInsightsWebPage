@@ -44,7 +44,11 @@ export class OverviewAdvocateSharedService {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.appealsData(...parameters).subscribe(
         appealsLeftData => {
-          resolve(appealsLeftData);
+          if (appealsLeftData && appealsLeftData.StatusCode === 200) {
+            resolve(appealsLeftData);
+          } else {
+            resolve(null);
+          }
         },
         err => {
           console.log('Advocate Page , Error for appeals cards', err);
