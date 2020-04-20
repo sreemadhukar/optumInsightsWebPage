@@ -357,8 +357,7 @@ export class OverviewAdvocateSharedService {
                 graphValues: [
                   {
                     name: '',
-                    electronic: getData.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid,
-                    paper: getData.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid
+                    ...this.setGraphValues(getData, param['viewClaimsByFilter'])
                   }
                 ],
                 color: ['#3381FF', '#00B8CC'],
@@ -366,10 +365,7 @@ export class OverviewAdvocateSharedService {
                 sdata: null
               },
               status: null,
-              timeperiod:
-                this.common.dateFormat(getData.PaperSubmissions.Startdate) +
-                '&ndash;' +
-                this.common.dateFormat(getData.PaperSubmissions.Enddate)
+              timeperiod: this.setTimePeriodValue(getData, param['viewClaimsByFilter'])
             };
           }
           resolve(this.sendData);
@@ -379,5 +375,39 @@ export class OverviewAdvocateSharedService {
         }
       );
     });
+  }
+
+  /**
+   * Set Graph Value Object for DOS and DOP Claims
+   * @param resObj Parsed response object
+   * @param claimsBy View Claims By Filter Value
+   */
+  setGraphValues(resObj, claimsBy) {
+    if (claimsBy === 'DOP') {
+      return {
+        electronic: resObj.EDISubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount,
+        paper: resObj.PaperSubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount
+      };
+    }
+    return {
+      electronic: resObj.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid,
+      paper: resObj.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid
+    };
+  }
+
+  /**
+   * Set Time Period string Value for DOS and DOP Claims
+   * @param resObj Parsed response object
+   * @param claimsBy View Claims By Filter Value
+   */
+  setTimePeriodValue(resObj, claimsBy) {
+    if (claimsBy === 'DOP') {
+      return this.common.dateFormat(resObj.StartDate) + '&ndash;' + this.common.dateFormat(resObj.EndDate);
+    }
+    return (
+      this.common.dateFormat(resObj.PaperSubmissions.Startdate) +
+      '&ndash;' +
+      this.common.dateFormat(resObj.PaperSubmissions.Enddate)
+    );
   }
 }

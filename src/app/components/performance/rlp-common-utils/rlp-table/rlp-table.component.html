@@ -40,7 +40,6 @@
           [(ngModel)]="qGroupNameSearch"
           (keyup)="enterQuery()"
           (keydown.backspace)="enterQuery()"
-          maxlength="28"
         />
         <mat-icon class="search-icon-group" matSuffix svgIcon="search" *ngIf="!qGroupNameSearch"></mat-icon>
         <mat-icon
