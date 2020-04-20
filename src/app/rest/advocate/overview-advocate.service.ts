@@ -29,9 +29,9 @@ export class OverviewAdvocateService {
     // }
     let appealsReqType = '';
     if (parameters[1].appealsProcessing === 'Received Date') {
-      appealsReqType = '?requestType=APPEALS_MEASURE_DOR_HCO';
+      appealsReqType = '?request-type=APPEALS_MEASURE_DOR_HCO';
     } else {
-      appealsReqType = '?requestType=APPEALS_MEASURE_DOC_HCO';
+      appealsReqType = '?request-type=APPEALS_MEASURE_DOC_HCO';
     }
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE + parameters[0] + appealsReqType;
     return this.http.post(appealsURL, appealsParams).pipe(
