@@ -49,7 +49,7 @@ export const environment: any = {
     KOPReimbursementClaims: 'kop-reimbursement-metrics/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
-    AppealsFHIR: 'appeals-metrics/',
+    AppealsFHIR: 'claims-appeals-metrics/',
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
     RefreshToken: 'getRefreshToken/',
