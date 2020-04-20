@@ -56,18 +56,16 @@ export class LineGraphComponent implements OnInit {
       this.chartOptions.chartData,
       this.chartOptions.chartData2,
       this.chartOptions.titleData,
-      this.chartOptions.generalData,
-      this.chartOptions.generalData2
+      this.chartOptions.generalData
     );
   }
 
-  onResize(event) {
+  onResize(_event) {
     this.doLineGraph(
       this.chartOptions.chartData,
       this.chartOptions.chartData2,
       this.chartOptions.titleData,
-      this.chartOptions.generalData,
-      this.chartOptions.generalData2
+      this.chartOptions.generalData
     );
   }
 
@@ -76,12 +74,11 @@ export class LineGraphComponent implements OnInit {
       this.chartOptions.chartData,
       this.chartOptions.chartData2,
       this.chartOptions.titleData,
-      this.chartOptions.generalData,
-      this.chartOptions.generalData2
+      this.chartOptions.generalData
     );
   }
 
-  doLineGraph(chartData: any, chartData2: any, titleData: any, generalData: any, generalData2: any) {
+  doLineGraph(chartData: any, chartData2: any, titleData: any, generalData: any) {
     function formatDy(dy: number): string {
       if (dy === 0) {
         return '0';
@@ -587,7 +584,7 @@ export class LineGraphComponent implements OnInit {
         .enter()
         .append('circle') // Uses the enter().append() method
         .attr('class', 'dot') // Assign a class for styling
-        .attr('cx', function(d, i) {
+        .attr('cx', function(_d, i) {
           return xScale(i);
         })
         .attr('cy', function(d) {
@@ -611,10 +608,10 @@ export class LineGraphComponent implements OnInit {
         .text(function(d) {
           return tooltipTextOnPrint(d, this.yearComparison, axisPrefix);
         })
-        .attr('x', function(d, i) {
+        .attr('x', function(_d, i) {
           return xScale(i);
         })
-        .attr('y', function(d, i) {
+        .attr('y', function(d) {
           return yScale(d.y);
         })
         .attr('transform', 'translate(-12, -15)');

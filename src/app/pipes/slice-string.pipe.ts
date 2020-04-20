@@ -5,7 +5,7 @@ import * as _ from 'lodash';
   name: 'sliceString'
 })
 export class SliceStringPipe implements PipeTransform {
-  transform(value: any, args?: any): any {
+  transform(value: any): any {
     value = value.toLowerCase();
     if (value.includes('only')) {
       const pattern = value.split(' only');

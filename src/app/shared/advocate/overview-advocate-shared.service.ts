@@ -332,13 +332,12 @@ export class OverviewAdvocateSharedService {
 
   public paymentsBySubmission(param) {
     this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
         pbsData => {
           const getData = pbsData[0];
           if (getData == null) {
-            //  return reject(null);
             this.sendData = {
               category: 'app-card',
               type: 'donutWithLabel',
@@ -353,6 +352,7 @@ export class OverviewAdvocateSharedService {
               category: 'app-card',
               type: 'stackBarChart',
               title: 'Payments by Submission',
+              MetricID: this.MetricidService.MetricIDs.PaymentsBySubmission,
               data: {
                 graphValues: [
                   {
@@ -372,7 +372,6 @@ export class OverviewAdvocateSharedService {
         },
         err => {
           console.log('Advocate Page , Error for calls card', err);
-          // reject();
         }
       );
     });

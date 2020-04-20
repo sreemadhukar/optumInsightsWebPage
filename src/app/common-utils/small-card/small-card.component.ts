@@ -47,7 +47,7 @@ export class SmallCardComponent implements OnInit {
     );
   }
 
-  helpIconClick(title) {
+  helpIconClick() {
     this.glossaryExpandService.setMessage(this.data.title, this.data.MetricID);
   }
   ngOnInit() {}

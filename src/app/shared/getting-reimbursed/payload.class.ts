@@ -1,6 +1,7 @@
 export class GettingReimbursedPayload {
   TimeFilter: string;
   Lob: string;
+  FundingTypeCodes: string;
   Tin: string;
   TimeFilterText: string;
   OrgType: string;
@@ -8,6 +9,7 @@ export class GettingReimbursedPayload {
   ClaimsBy: string;
   constructor(param) {
     param.lineOfBusiness ? (this.Lob = param.lineOfBusiness) : delete this.Lob;
+    param.commercial ? (this.FundingTypeCodes = param.commercial) : delete this.FundingTypeCodes;
     param.claimsFilter ? (this.OrgType = param.claimsFilter) : delete this.OrgType;
     param.viewClaimsByFilter ? (this.ClaimsBy = param.viewClaimsByFilter) : delete this.ClaimsBy;
     param.appealsFilter ? (this.appealsProcessing = param.appealsFilter) : delete this.appealsProcessing;

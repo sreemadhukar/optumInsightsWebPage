@@ -57,7 +57,7 @@ export class KOPSharedService {
             timePeriod
           });
         },
-        (error: any) => {
+        () => {
           return resolve(null);
         }
       );

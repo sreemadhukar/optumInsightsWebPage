@@ -31,9 +31,11 @@ export class CommonFooterComponent {
       this.routhTo = '/ServiceInteraction/Calls';
     } else if (this.linkName === 'Non-Payment Details') {
       this.routhTo = '/GettingReimbursed/NonPayments';
+    } else if (this.linkName === 'Appeals Overview') {
+      this.routhTo = '/GettingReimbursed/Appeals';
     } else if (this.linkName === 'View Details') {
       if (this.title === 'Preferred Specialist Referral Rate') {
-        this.routhTo = '/Performance/Labs';
+        this.routhTo = '/Performance/Referrals';
       } else if (this.title === 'Preferred Lab Network Use Rate') {
         this.routhTo = '/Performance/Labs';
       } else if (this.title === 'Preferred Tier Prescribing Rate') {

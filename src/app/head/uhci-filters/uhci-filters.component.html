@@ -91,6 +91,26 @@
             [value]="lob"
           >
             {{ lob.value }}
+            <div
+              class="CommercialClass"
+              *ngIf="
+                (selectedPage === 'gettingReimbursedSummary' ||
+                  selectedPage === 'paymentsPage' ||
+                  selectedPage === 'nonPaymentsPage' ||
+                  selectedPage === 'overviewAdvocatePage') &&
+                lob.value === 'Commercial' &&
+                selectedLob.value === 'Commercial' &&
+                gettingReimbursedTabName !== 'gettingReimbursedAppeals'
+              "
+            >
+              <div class="commercial-lob-header">Funding Arrangement</div>
+              <div class="label-data">{{ selectedCommerical.value }}</div>
+              <mat-radio-group class="radio-group" [(ngModel)]="selectedCommerical">
+                <mat-radio-button class="radio-button" *ngFor="let fa of commericalLob" [value]="fa">
+                  {{ fa.value }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
           </mat-radio-button>
         </mat-radio-group>
       </div>

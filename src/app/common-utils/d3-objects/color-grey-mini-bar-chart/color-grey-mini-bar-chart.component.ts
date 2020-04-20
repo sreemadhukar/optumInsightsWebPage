@@ -26,7 +26,7 @@ export class ColorGreyMiniBarChartComponent implements OnInit, AfterViewInit {
     this.doBarChart(this.chartOptions, this.transition);
   }
 
-  doBarChart(chartOptions: any, transition: number) {
+  doBarChart(chartOptions: any, _transition: number) {
     // const preWidth = document.getElementsByClassName('top-5-block')[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')
@@ -59,7 +59,7 @@ export class ColorGreyMiniBarChartComponent implements OnInit, AfterViewInit {
     const xScale = d3
       .scaleLinear()
       .domain([0, xScaleMax])
-      .range([0, 510]);
+      .range([0, 480]);
 
     let blueBarLength;
     if (chartOptions.maxValue) {

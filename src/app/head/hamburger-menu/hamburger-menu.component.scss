@@ -54,7 +54,8 @@ h1.example-app-name {
 }
 
 .example-is-mobile .bg-white {
-  background-color: #fff;
+  // background-color: #fff;
+  background-color: #eeeeee;
 }
 
 app-header {
@@ -303,6 +304,10 @@ app-header {
 .mat-expanded > .mat-expansion-panel-header {
   color: $strom-grey !important;
   background: $alice-blue !important;
+}
+
+.mat-expansion-panel-header[aria-disabled='true'] {
+  display: none;
 }
 
 .sub-menu-sub-header {

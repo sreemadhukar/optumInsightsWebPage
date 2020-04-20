@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, of, Observable } from 'rxjs/index';
 import { map, catchError } from 'rxjs/operators';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { IRlpApiResponse } from '../../modals/i-rlp';
 import { rlpPageName, endpointsTIN, endpointsHCO } from '../../modals/rlp-data';
@@ -26,10 +26,6 @@ export class PerformanceRestService {
   private NETWORK_LEVER_PATH: string = environment.apiUrls.NetworkLever;
 
   constructor(private http: HttpClient) {}
-  public getPerformanceData() {
-    return this.http.get('./src/assets/mock-data/performance.json');
-  }
-
   /**
    * getNetworkLeversData function handle the sorting of the table
    * @param providerSyskey  Provider sys key
@@ -47,7 +43,6 @@ export class PerformanceRestService {
     const type = requestType;
     const endPoint = mapReqTypeWithAPI[type].find(item => item.name === pageName).apiEndPoint;
     const URL = this.APP_URL + this.NETWORK_LEVER_PATH + providerSyskey + '?requestType=' + endPoint;
-    console.log('URL-------------->', URL);
     return this.http.post(URL, requestBody).pipe(
       map(res => res),
       catchError(err => of(err))

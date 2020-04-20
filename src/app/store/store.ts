@@ -5,6 +5,7 @@ export class IAppState {
   timePeriod: string;
   taxId: TaxId[];
   lineOfBusiness: string;
+  commercial: string;
   serviceSetting: string;
   serviceCategory: string;
   priorAuthType: string;

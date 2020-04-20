@@ -163,15 +163,15 @@ export class TinListPageComponent implements OnInit {
       .style('border-radius', '2px')
       .style('display', 'none');
 
-    d3.select('#tooltip-info-div').on('mouseenter', function(d) {
-      d3.select('#tooltip-info-div').on('mouseover', function(e) {
+    d3.select('#tooltip-info-div').on('mouseenter', function() {
+      d3.select('#tooltip-info-div').on('mouseover', function() {
         d3.select('#tooltip-info')
           .style('display', 'inline')
           .style('left', d3.event.layerX + 13 + 'px')
           .style('top', d3.event.layerY - 35 + 'px');
       });
     });
-    d3.select('#tooltip-info-div').on('mouseleave', function(d) {
+    d3.select('#tooltip-info-div').on('mouseleave', function() {
       d3.select('#tooltip-info')
         .style('display', 'none')
         .style('left', d3.event.layerX + 13 + 'px')

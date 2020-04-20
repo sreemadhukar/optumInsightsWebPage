@@ -685,7 +685,7 @@ export class NonPaymentSharedService {
   public sharedTrendByMonth(param) {
     let parameters = [];
     parameters = this.getParameterCategories(param);
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.nonPaymentService.getNonPaymentTrendByMonth(parameters).subscribe(data => {
         try {
           // const lobData = this.lob;

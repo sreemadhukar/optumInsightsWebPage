@@ -24,7 +24,7 @@ export class IdleTimeoutDialogComponent implements OnDestroy {
     this.timeLeftSeconds = data.timeOut;
     this._unsubscribeAll = new Subject();
     const countDown = interval(1000).pipe(
-      map(value => {
+      map(() => {
         return --this.timeLeftSeconds;
       })
     );

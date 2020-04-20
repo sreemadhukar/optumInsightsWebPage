@@ -61,20 +61,18 @@ export class MultiLineGraphComponent implements OnInit {
       this.chartOptions.lineThree.chartData,
       this.chartOptions.lineFour.chartData,
       this.chartOptions.titleData,
-      this.chartOptions.lineOne.generalData,
-      this.chartOptions.lineTwo.generalData
+      this.chartOptions.lineOne.generalData
     );
   }
 
-  onResize(event) {
+  onResize(_event) {
     this.doLineGraph(
       this.chartOptions.lineOne.chartData,
       this.chartOptions.lineTwo.chartData,
       this.chartOptions.lineThree.chartData,
       this.chartOptions.lineFour.chartData,
       this.chartOptions.titleData,
-      this.chartOptions.lineOne.generalData,
-      this.chartOptions.lineTwo.generalData
+      this.chartOptions.lineOne.generalData
     );
   }
 
@@ -85,20 +83,11 @@ export class MultiLineGraphComponent implements OnInit {
       this.chartOptions.lineThree.chartData,
       this.chartOptions.lineFour.chartData,
       this.chartOptions.titleData,
-      this.chartOptions.lineOne.generalData,
-      this.chartOptions.lineTwo.generalData
+      this.chartOptions.lineOne.generalData
     );
   }
 
-  doLineGraph(
-    chartData: any,
-    chartData1: any,
-    chartData2: any,
-    chartData3: any,
-    titleData: any,
-    generalData: any,
-    generalData2: any
-  ) {
+  doLineGraph(chartData: any, chartData1: any, chartData2: any, chartData3: any, titleData: any, generalData: any) {
     function formatDy(dy: number): string {
       if (dy === 0) {
         return '0';

@@ -16,7 +16,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_event) {
     this.doMedBarChart(this.chartOptions, this.noTransition);
   }
 
@@ -28,7 +28,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     this.doMedBarChart(this.chartOptions, this.transition);
   }
 
-  doMedBarChart(chartOptions: any, transition: number) {
+  doMedBarChart(chartOptions: any, _transition: number) {
     function getTextWidth(text, fontSize, fontFace) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
@@ -346,7 +346,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       const label = d3.select('#' + uniqueText).selectAll('*');
 
       label
-        .on('mouseenter', function(d) {
+        .on('mouseenter', function() {
           div
             .transition()
             .duration(10)
@@ -354,7 +354,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           div.style('left', d3.event.layerX - 25 + 'px').style('top', d3.event.layerY - 85 + 'px');
           // div.style('left', '100px').style('bottom', '70px');
         })
-        .on('mousemove', function(d) {
+        .on('mousemove', function() {
           div
             .transition()
             .duration(10)
@@ -362,7 +362,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           div.style('left', d3.event.layerX - 25 + 'px').style('top', d3.event.layerY - 85 + 'px');
           // div.style('left', '100px').style('bottom', '70px');
         })
-        .on('mouseleave', function(d) {
+        .on('mouseleave', function() {
           div
             .transition()
             .duration(10)
@@ -421,7 +421,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       const label = d3.select('#paymentIntegrityRect' + chartOptions.graphValues[1]);
 
       label
-        .on('mouseenter', function(d) {
+        .on('mouseenter', function() {
           div
             .transition()
             .duration(10)
@@ -429,7 +429,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
           // div.style('left', '100px').style('bottom', '70px');
         })
-        .on('mousemove', function(d) {
+        .on('mousemove', function() {
           div
             .transition()
             .duration(10)
@@ -437,7 +437,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
           // div.style('left', '100px').style('bottom', '70px');
         })
-        .on('mouseleave', function(d) {
+        .on('mouseleave', function() {
           div
             .transition()
             .duration(10)
@@ -449,9 +449,9 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       if (chartOptions.type === 'large bar chart') {
         chart
           .append('line')
-          .attr('x1', '85%')
+          .attr('x1', chartOptions.target + '%')
           .attr('y1', -16)
-          .attr('x2', '85%')
+          .attr('x2', chartOptions.target + '%')
           .attr('y2', 80)
           .style('stroke-dasharray', '6,6')
           .style('stroke', 'black')
@@ -484,7 +484,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .text('Accounts Receivable Opportunity')
             .append('div')
             .style('text-align', 'right')
-            .text('$45K')
+            .text(chartOptions.AccountsReceivableOpportunity)
             .style('line-height', '22px')
             .style('font-size', '20px')
             .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
@@ -517,7 +517,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .style('color', '#B10C00')
             .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
             .style('padding-left', '5px');
-        } else {
+        } else if (chartOptions.trendValue.includes('-')) {
           d3.select(this.renderChart)
             .append('div')
             .style('position', 'absolute')
@@ -530,7 +530,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .text('Accounts Receivable Opportunity')
             .append('div')
             .style('text-align', 'right')
-            .text('$45K')
+            .text(chartOptions.AccountsReceivableOpportunity)
             .style('line-height', '22px')
             .style('font-size', '20px')
             .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
@@ -563,16 +563,61 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .style('color', '#007000')
             .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
             .style('padding-left', '5px');
+        } else {
+          d3.select(this.renderChart)
+            .append('div')
+            .style('position', 'absolute')
+            .style('top', '30px')
+            .style('right', '155px')
+            .attr('fill', '#2D2D39')
+            .attr('font-size', '20px')
+            .attr('text-anchor', 'start')
+            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
+            .text('Accounts Receivable Opportunity')
+            .append('div')
+            .style('text-align', 'right')
+            .text(chartOptions.AccountsReceivableOpportunity)
+            .style('line-height', '22px')
+            .style('font-size', '20px')
+            .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+            .append('svg')
+            .style('margin-top', '8px')
+            .style('margin-bottom', '-5px')
+            .style('padding-left', '5px')
+            .style('transform', 'scaleY(-1)')
+            .attr('width', '24px')
+            .attr('height', '24px')
+            .append('g')
+            .insert('svg:image')
+            .attr('width', '18px')
+            .attr('height', '21px')
+            .attr('xlink:href', 'src/assets/images/flat-no-change.svg')
+            .select(function() {
+              return this.parentNode;
+            })
+            .select(function() {
+              return this.parentNode;
+            })
+            .select(function() {
+              return this.parentNode;
+            })
+            .append('span')
+            .text(chartOptions.trendValue)
+            .style('font-size', '14px')
+            .style('line-height', '18px')
+            .style('letter-spacing', '0.2px')
+            .style('color', '#007000')
+            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'");
         }
         d3.select(this.renderChart)
           .append('div')
-          .text('Target 85%')
+          .text('Target ' + chartOptions.target + '%')
           .style('position', 'absolute')
           .style('top', '195px')
-          .style('right', '200px')
+          .style('right', '160px')
           .attr('font-size', '16px')
           .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'");
-        if (chartOptions.targetValue.includes('above target')) {
+        if (chartOptions.targetValue.includes('above target') || chartOptions.targetValue.includes('Meets target')) {
           chart
             .append('svg:image')
             .attr('x', 0)
@@ -612,13 +657,13 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .append('line')
           .attr('x1', function() {
             if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return xScale(chartOptions.graphValues[0]) + 4;
+              return xScale(chartOptions.target) + 8;
             }
           })
           .attr('y1', -29)
           .attr('x2', function() {
             if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return xScale(chartOptions.graphValues[0]) + 4;
+              return xScale(chartOptions.target) + 8;
             }
           })
           .attr('y2', 33)
@@ -644,7 +689,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .attr('text-anchor', 'start')
           .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
           .text('Target 90%');
-        if (chartOptions.targetValue.includes('above target')) {
+        if (chartOptions.targetValue.includes('above target') || chartOptions.targetValue.includes('Meets target')) {
           chart
             .append('svg:image')
             .attr('x', 10)

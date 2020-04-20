@@ -158,7 +158,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.loadingTopReasons = true;
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.viewClaimsByFilter = this.createPayloadService.payload['viewClaimsByFilter'];
-    this.gettingReimbursedSharedService.getTins().then(tins => {});
+    this.gettingReimbursedSharedService.getTins().then(() => {});
     this.loadingOne = false;
     this.mockCardOne = [{}];
     this.loadingTwo = false;

@@ -1,0 +1,90 @@
+<!-- start of new pi page -->
+<div *ngIf="!printStyle" class="container--tabs">
+  <section class="row">
+    <ul class="nav nav-tabs">
+      <li
+        *ngFor="let item of tabOptions; let i = index"
+        (click)="matOptionClicked(i, $event)"
+        [ngClass]="{ active: previousSelectedTab === i }"
+        attr.id="{{ item.title }}"
+      >
+        <span>
+          <span [innerHTML]="item.title"></span>
+          <div class="nav-values">
+            <span [innerHTML]="item.value1"></span>
+            <!--<span
+      *ngIf="item.sdata != null"
+      class="metrics"
+      [ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'"
+      >
+        {{ item.sdata.value }}
+      </span>-->
+          </div>
+        </span>
+      </li>
+    </ul>
+  </section>
+</div>
+<div *ngIf="printStyle" class="nav nav-tabs printDateStyle">
+  <span
+    ><span [innerHTML]="printDateTitle"></span>
+    <div class="nav-values" style="padding-top:5px;">
+      <span [innerHTML]="printDateSubTitle"></span>
+    </div>
+  </span>
+</div>
+<!--<app-mock-data-warning-message class="warning-block"></app-mock-data-warning-message>-->
+
+<div class="height1Separator"></div>
+<div *ngIf="currentSummary" class="pi-cards">
+  <app-error-card
+    *ngIf="!loading && currentSummary[0].status != 200"
+    class="cards"
+    [data]="currentSummary[0]"
+  ></app-error-card>
+  <app-card
+    *ngIf="currentSummary[0] && currentSummary[0].status == 200"
+    [chartData]="currentSummary[0]"
+    class="cards"
+  ></app-card>
+  <app-error-card
+    *ngIf="!loading && currentSummary[1].status != 200"
+    class="cards"
+    [data]="currentSummary[1]"
+  ></app-error-card>
+  <div *ngIf="currentSummary[1] != null && currentSummary[1].status == 200" class="app-card-structure">
+    <app-common-header
+      [title]="currentSummary[1].title"
+      class="full-display"
+      (helpIconClicked)="helpIconClick($event, currentSummary[1].MetricID)"
+    ></app-common-header>
+    <div class="pi-bar-chart">
+      <app-med-bar-chart [chartOptions]="currentSummary[1].data"></app-med-bar-chart>
+    </div>
+  </div>
+  <app-error-card
+    *ngIf="!loading && currentSummary[2].status != 200"
+    class="cards"
+    [data]="currentSummary[2]"
+  ></app-error-card>
+  <div
+    *ngIf="currentSummary[2] != null && currentSummary[2].status == 200"
+    class="pi-medical-record-coding-review-block card-inner"
+  >
+    <app-common-header
+      [title]="currentSummary[2].title"
+      class="full-display"
+      (helpIconClicked)="helpIconClick($event, currentSummary[2].MetricID)"
+    ></app-common-header>
+    <div class="pi-bar-chart">
+      <app-med-bar-chart [chartOptions]="currentSummary[2].data"></app-med-bar-chart>
+      <div class="pi-bar-chart-trend-comparison">{{ currentSummary[2].data.trendComparisionLable }}</div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!currentSummary" class="pi-cards">
+  <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+  <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+  <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
+</div>
+<!-- end of the new pi page including tabs -->

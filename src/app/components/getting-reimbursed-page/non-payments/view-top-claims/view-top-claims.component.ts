@@ -113,7 +113,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     private ngRedux: NgRedux<IAppState>,
     private common: CommonUtilsService
   ) {
-    this.createPayloadService.getEvent().subscribe(value => {
+    this.createPayloadService.getEvent().subscribe(() => {
       this.ngOnInit();
     });
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
@@ -139,10 +139,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     iconRegistry.addSvgIcon(
       'downarrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-24px.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'arrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
     );
   }
 
@@ -230,7 +226,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.selectedclaims.filterPredicate = this.customFilterPredicate();
   }
   // Reason selection from dropdown
-  selectTopReason(value) {
+  selectTopReason({ value }) {
     this.selectedSubreasonArray = this.fullData
       .filter(item => item.mainReason === value)
       .map(item => item.subReason)[0];
@@ -245,11 +241,11 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.loading = true;
   }
   // sub reasons selection from dropdown
-  selectsubReason(filterVal) {
-    if (filterVal) {
+  selectsubReason({ value }) {
+    if (value) {
       this.dataNotavaiable = true;
       this.isLoading = false;
-      this.subReasonselected = filterVal;
+      this.subReasonselected = value;
       if (this.selectedReasonItem === this.subReasonselected) {
         this.subReasonselected = 'UNKNOWN';
       }
