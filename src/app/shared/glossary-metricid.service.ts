@@ -46,6 +46,7 @@ export class GlossaryMetricidService {
       PreferredSpecialistReferralRate: '401',
       PreferredTierPrescribingRate: '402',
       PreferredLabNetworkUseRate: '403',
+      PaymentsBySubmission: '',
       ClaimsAverageTurnaroundTimetoPayment: 'NA',
       ClaimsSubmissions: 'NA',
       ClaimsPayments: 'NA',
