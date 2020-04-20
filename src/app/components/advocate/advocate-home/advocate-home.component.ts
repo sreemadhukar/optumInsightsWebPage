@@ -58,6 +58,7 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
   }
   displayFn(user: IUserResponse) {
     if (user) {
+      this.providerSelect(user);
       if (this.selectedDropdown === 'TinName') {
         return user.TinName;
       } else if (this.selectedDropdown === 'tin') {
@@ -65,7 +66,6 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
       } else {
         return user.ProviderSystem;
       }
-      this.providerSelect(user);
     }
   }
   displayFnWrapper() {
