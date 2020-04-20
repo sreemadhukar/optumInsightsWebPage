@@ -44,7 +44,7 @@ export class OverviewAdvocateSharedService {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.appealsData(...parameters).subscribe(
         appealsLeftData => {
-          if (appealsLeftData && appealsLeftData.StatusCode === 200) {
+          if (appealsLeftData && appealsLeftData.status === 200) {
             resolve(appealsLeftData);
           } else {
             resolve(null);
