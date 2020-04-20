@@ -150,7 +150,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .getAppealsLeftShared(this.createPayloadService.payload)
       .then(appealsLeftData => {
         let AppealsLeftData: any;
-        AppealsLeftData = appealsLeftData;
+        AppealsLeftData = appealsLeftData['Data'][0];
         if (AppealsLeftData[0].LineOfBusiness != null && AppealsLeftData[0].LineOfBusiness) {
           this.totalAppeals = this.common.nFormatter(
             AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals

@@ -221,8 +221,7 @@ export class OverviewAdvocateSharedService {
           const claimsData = [];
           const paData = [];
           const other = [];
-
-          if (callsTrendData[0]) {
+          if (callsTrendData[0] && callsTrendData[0].status === 200) {
             callsTrendData[0].forEach(element => {
               if (element.CallVolByQuesType.BenefitsEligibility) {
                 this.collectiveBeData = element.CallVolByQuesType.BenefitsEligibility;
@@ -267,61 +266,63 @@ export class OverviewAdvocateSharedService {
                 month: trendTimePeriod
               });
             });
-          }
 
-          beData.sort(function(a, b) {
-            let dateA: any;
-            dateA = new Date(a.month);
-            let dateB: any;
-            dateB = new Date(b.month);
-            return dateA - dateB; // sort by date ascending
-          });
+            beData.sort(function(a, b) {
+              let dateA: any;
+              dateA = new Date(a.month);
+              let dateB: any;
+              dateB = new Date(b.month);
+              return dateA - dateB; // sort by date ascending
+            });
 
-          claimsData.sort(function(a, b) {
-            let dateA: any;
-            dateA = new Date(a.month);
-            let dateB: any;
-            dateB = new Date(b.month);
-            return dateA - dateB; // sort by date ascending
-          });
+            claimsData.sort(function(a, b) {
+              let dateA: any;
+              dateA = new Date(a.month);
+              let dateB: any;
+              dateB = new Date(b.month);
+              return dateA - dateB; // sort by date ascending
+            });
 
-          paData.sort(function(a, b) {
-            let dateA: any;
-            dateA = new Date(a.month);
-            let dateB: any;
-            dateB = new Date(b.month);
-            return dateA - dateB; // sort by date ascending
-          });
+            paData.sort(function(a, b) {
+              let dateA: any;
+              dateA = new Date(a.month);
+              let dateB: any;
+              dateB = new Date(b.month);
+              return dateA - dateB; // sort by date ascending
+            });
 
-          other.sort(function(a, b) {
-            let dateA: any;
-            dateA = new Date(a.month);
-            let dateB: any;
-            dateB = new Date(b.month);
-            return dateA - dateB; // sort by date ascending
-          });
-          const callsTrendFormattedData = {};
-          if (beData) {
-            callsTrendFormattedData['B&E'] = beData;
+            other.sort(function(a, b) {
+              let dateA: any;
+              dateA = new Date(a.month);
+              let dateB: any;
+              dateB = new Date(b.month);
+              return dateA - dateB; // sort by date ascending
+            });
+            const callsTrendFormattedData = {};
+            if (beData) {
+              callsTrendFormattedData['B&E'] = beData;
+            } else {
+              callsTrendFormattedData['B&E'] = null;
+            }
+            if (claimsData) {
+              callsTrendFormattedData['CLAIMS'] = claimsData;
+            } else {
+              callsTrendFormattedData['CLAIMS'] = null;
+            }
+            if (paData) {
+              callsTrendFormattedData['P&A'] = paData;
+            } else {
+              callsTrendFormattedData['P&A'] = null;
+            }
+            if (other) {
+              callsTrendFormattedData['Other'] = other;
+            } else {
+              callsTrendFormattedData['Other'] = null;
+            }
+            resolve(callsTrendFormattedData);
           } else {
-            callsTrendFormattedData['B&E'] = null;
+            resolve(null);
           }
-          if (claimsData) {
-            callsTrendFormattedData['CLAIMS'] = claimsData;
-          } else {
-            callsTrendFormattedData['CLAIMS'] = null;
-          }
-          if (paData) {
-            callsTrendFormattedData['P&A'] = paData;
-          } else {
-            callsTrendFormattedData['P&A'] = null;
-          }
-          if (other) {
-            callsTrendFormattedData['Other'] = other;
-          } else {
-            callsTrendFormattedData['Other'] = null;
-          }
-          resolve(callsTrendFormattedData);
         },
         err => {
           console.log('Advocate Page , Error for calls card', err);
