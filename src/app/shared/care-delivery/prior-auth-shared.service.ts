@@ -402,7 +402,7 @@ export class PriorAuthSharedService {
                 },
                 {
                   category: 'app-card',
-                  type: 'donutWithLabel',
+                  type: 'donut',
                   title: 'Prior Authorization Approval Rate',
                   MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApprovalRate,
                   toggle: this.toggle.setToggles(
