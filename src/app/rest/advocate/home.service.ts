@@ -13,9 +13,7 @@ export class HomeService {
 
   constructor(private http: HttpClient) {}
 
-  search(
-    filter: { searchValue: string; searchType: string } = { searchValue: '', searchType: 'hco' }
-  ): Observable<IUserResponse[]> {
+  search(filter: { searchValue: string; searchType: string }): Observable<IUserResponse[]> {
     const myparam = new HttpParams();
     const searchURL =
       this.APP_URL +
@@ -24,9 +22,11 @@ export class HomeService {
       filter.searchType +
       '&search-value=' +
       filter.searchValue;
-    return this.http.get<IUserResponse[]>(searchURL, { params: myparam }).pipe(
-      map((response: IUserResponse) => response),
-      catchError(err => err)
-    );
+    return this.http
+      .get<IUserResponse[]>(searchURL, { params: myparam })
+      .pipe(
+        map((response: IUserResponse) => response),
+        catchError(err => err)
+      );
   }
 }

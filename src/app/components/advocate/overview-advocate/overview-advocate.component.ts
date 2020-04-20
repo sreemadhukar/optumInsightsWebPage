@@ -150,16 +150,18 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .getAppealsLeftShared(this.createPayloadService.payload)
       .then(appealsLeftData => {
         let AppealsLeftData: any;
-        AppealsLeftData = appealsLeftData;
-        if (AppealsLeftData[0].LineOfBusiness != null && AppealsLeftData[0].LineOfBusiness) {
-          this.totalAppeals = this.common.nFormatter(
-            AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals
-          );
-          this.timePeriodAppeals =
-            this.common.dateFormat(AppealsLeftData[0].StartDate) +
-            '&ndash;' +
-            this.common.dateFormat(AppealsLeftData[0].EndDate);
-          this.appealsloading = false;
+        if (appealsLeftData && appealsLeftData['Data'][0] !== null) {
+          AppealsLeftData = appealsLeftData['Data'][0];
+          if (AppealsLeftData[0].LineOfBusiness != null && AppealsLeftData[0].LineOfBusiness) {
+            this.totalAppeals = this.common.nFormatter(
+              AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals
+            );
+            this.timePeriodAppeals =
+              this.common.dateFormat(AppealsLeftData[0].StartDate) +
+              '&ndash;' +
+              this.common.dateFormat(AppealsLeftData[0].EndDate);
+            this.appealsloading = false;
+          }
         } else {
           this.appealsloading = false;
           this.totalAppeals = null;
@@ -353,7 +355,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.checkStorage.emitEvent('overviewAdvocatePage');
     this.paymentData();
     this.appealsLeftData();
-    this.appealsTrendByMonthData();
+    // this.appealsTrendByMonthData();
     this.claimsYieldData();
     this.totalCallsData();
     this.totalCallsTrendLineData();
