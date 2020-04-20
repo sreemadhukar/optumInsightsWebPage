@@ -5,6 +5,7 @@ import { APPLY_FILTER, RESET_FILTER } from '../../store/filter/actions';
 import {
   TimePeriod,
   LineOfBusiness,
+  Commercial,
   ServiceSetting,
   ServiceCategory,
   PriorAuthDecisionType,
@@ -34,6 +35,7 @@ export class UhciFiltersComponent implements OnInit {
   @select(['uhc', 'timePeriod']) timePeriod;
   @select(['uhc', 'taxId']) taxId;
   @select(['uhc', 'lineOfBusiness']) lineOfBusiness;
+  @select(['uhc', 'commercial']) commercial;
   @select(['uhc', 'serviceSetting']) serviceSetting;
   @select(['uhc', 'serviceCategory']) serviceCategory;
   @select(['uhc', 'priorAuthType']) priorAuthType;
@@ -49,6 +51,8 @@ export class UhciFiltersComponent implements OnInit {
   selectedTimePeriod: MetricPropType;
   lobs = LineOfBusiness;
   selectedLob: MetricPropType;
+  commericalLob = Commercial;
+  selectedCommerical: MetricPropType;
   claims = ClaimsFilter;
   appeals = AppealsFilter;
   selectedClaims: MetricPropType;
@@ -106,6 +110,9 @@ export class UhciFiltersComponent implements OnInit {
     this.taxId.subscribe(taxId => (this.selectedTaxIds = taxId));
     this.lineOfBusiness.subscribe(
       lineOfBusiness => (this.selectedLob = this.lobs.find(val => val.name === lineOfBusiness))
+    );
+    this.commercial.subscribe(
+      commercial => (this.selectedCommerical = this.commericalLob.find(val => val.name === commercial))
     );
     this.claimsFilter.subscribe(
       claimsFilter => (this.selectedClaims = this.claims.find(val => val.name === claimsFilter))
@@ -178,6 +185,7 @@ export class UhciFiltersComponent implements OnInit {
           return item;
         }),
         lineOfBusiness: this.selectedLob.name,
+        commercial: this.selectedLob.name === 'EI' ? this.selectedCommerical.name : 'All',
         serviceSetting: this.selectedServiceSetting.name,
         serviceCategory: this.selectedService,
         priorAuthType:

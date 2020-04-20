@@ -8,10 +8,12 @@
       Your current session will expire in <span class="session-elapse-time">{{ timeLeftSeconds | minuteSeconds }}</span>
     </p>
   </div>
-  <div mat-dialog-actions>
-    <button mat-button (click)="onLogoutClick()" class="log-me-out-btn session-warning-buttons">Log Me Out</button>
-    <button mat-button (click)="onNoClick()" class="keep-me-signed-btn session-warning-buttons">
-      Keep Me Signed In
-    </button>
+  <div mat-dialog-actions class="button_container">
+    <div class="uhci_button button_3" (click)="onLogoutClick()">
+      <div class="uhci_button_title">Log Me Out</div>
+    </div>
+    <div class="uhci_button button_1" (click)="onNoClick()">
+      <div class="uhci_button_title">Keep Me Signed In</div>
+    </div>
   </div>
 </div>

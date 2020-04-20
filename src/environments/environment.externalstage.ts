@@ -44,17 +44,18 @@ export const environment: any = {
     KOPPriorAuthTATSummary: 'kop-priorauth-tat/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
-    AppealsFHIR: 'appeals/v2.0/',
+    AppealsFHIR: 'appeals-metrics/',
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
     HealthSystemDetails: 'providerInfo/',
     CallsTrendLine: 'calls-trend/',
-    // PaymentsBySubmission: 'claim-submissions/',
+    PaymentsBySubmissionDOP: 'dop-claim-submissions/',
     PaymentsBySubmission: 'claim-submissions/v2.0/',
     GroupPremiumDesignation: 'group-premium-designation/',
     NetworkLever: 'network-lever/',
     PaymentIntegrityTabsInfo: 'pi-tab-info/',
-    NewPaymentIntegrity: 'payment-integrity/'
+    NewPaymentIntegrity: 'payment-integrity/',
+    ProviderSearch: 'provider-search'
   },
   headerKeys: {
     selectedCompany: '',
