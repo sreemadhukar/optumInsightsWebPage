@@ -63,9 +63,9 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
       } else if (this.selectedDropdown === 'tin') {
         return user.Tin;
       } else {
-        this.providerSelect(user);
         return user.ProviderSystem;
       }
+      this.providerSelect(user);
     }
   }
   displayFnWrapper() {
@@ -84,8 +84,11 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
         debounceTime(200),
         tap(() => (this.isLoading = true)),
         switchMap(value => {
-          // const str = value.trim().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-          const str = value.trim().replace(/[^a-zA-Z0-9]/g, '');
+          const str = value.trim().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+          // const str = value.trim().replace(/[^a-zA-Z0-9]/g, '');
+          if (this.selectedDropdown === 'tin' && value.length >= 3) {
+            value = value.slice(0, 2) + '-' + value.slice(2);
+          }
           return value &&
             str &&
             value.length >= this.minCharacterType &&
@@ -118,7 +121,11 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
     this.searchBox(this.selectedDropdown);
   }
   onSearchInput(value: string) {
-    const str = value.trim().replace(/[^a-zA-Z0-9]/g, '');
+    const str = value.trim().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+    // const str = value.trim().replace(/[^a-zA-Z0-9]/g, '');
+    if (this.selectedDropdown === 'tin' && value.length >= 3) {
+      value = value.slice(0, 2) + '-' + value.slice(2);
+    }
     if (!value || value.length < this.minCharacterType) {
       this.noResponseMessage = `Please type at least ${this.minCharacterType} characters to start your search...`;
     } else if (!str || (str.length < this.minCharacterType && value.length - str.length < 2)) {
