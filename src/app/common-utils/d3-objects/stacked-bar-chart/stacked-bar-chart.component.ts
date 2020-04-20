@@ -112,7 +112,7 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
       .attr('x', () => 88)
       .attr('y', () => 240)
       .attr('fill', '#757588')
-      .text('*Claims are calculated from first Date of Service.')
+      .text('') // Remove the text label
       .classed('labels', true);
     /*** ADDED  ABOVE CODE AS PER SHANNON's REQUEST ***/
 
