@@ -13,18 +13,48 @@ import { LargeCardAdvocateComponent } from './large-card-advocate/large-card-adv
 import { HealthSystemDetailsComponent } from './health-system-details/health-system-details.component';
 import { PipesModule } from '../../pipes/pipes.module';
 import { TaxSummaryComponent } from './tax-summary/tax-summary.component';
-
+import { AdvocateHomeComponent } from './advocate-home/advocate-home.component';
+import { DropdownComponent } from './advocate-home/dropdown/dropdown.component';
+import { HomeService } from '../../rest/advocate/home.service';
+/*** Search component */
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatFormFieldModule,
+  MatInputModule,
+  MatAutocompleteModule,
+  MatButtonModule,
+  MatProgressSpinnerModule
+} from '@angular/material';
+import { MatSelectModule } from '@angular/material/select';
+/** Search component ends here */
 @NgModule({
-  imports: [CommonModule, AdvocateRoutingModule, CommonUtilsModule, HeadMaterialModule, PipesModule],
+  imports: [
+    CommonModule,
+    AdvocateRoutingModule,
+    CommonUtilsModule,
+    HeadMaterialModule,
+    PipesModule,
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatSelectModule
+  ],
   declarations: [
     OverviewAdvocateComponent,
     TopRowAdvOverviewComponent,
     FilterAdvocateComponent,
     LargeCardAdvocateComponent,
     HealthSystemDetailsComponent,
-    TaxSummaryComponent
+    TaxSummaryComponent,
+    AdvocateHomeComponent,
+    DropdownComponent
   ],
-  providers: [TopRowAdvOverviewSharedService, NonPaymentSharedService, OverviewAdvocateSharedService]
+  providers: [TopRowAdvOverviewSharedService, NonPaymentSharedService, OverviewAdvocateSharedService, HomeService]
 })
 export class AdvocateModule {
   constructor() {

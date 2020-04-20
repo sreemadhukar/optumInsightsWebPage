@@ -71,6 +71,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   public mobileQuery: boolean;
   public healthSystemName: string;
   public isKop: boolean;
+  public boolRemoveLeftNav: Boolean = false;
   disableChangeProvider: boolean = environment.internalAccess;
   internalUser: boolean = environment.internalAccess;
   externalProvidersCount = false;
@@ -121,7 +122,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     { icon: 'prior-auth', name: 'Prior Authorizations', path: '/CareDelivery/priorAuth', disabled: false },
     {
       icon: 'pcor',
-      name: 'Patient Care Opportunity ',
+      name: 'Patient Care Opportunity',
       path: '/CareDelivery/PatientCareOpportunity',
       disabled: true
     },
@@ -246,7 +247,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             event.url === '/AccessDenied'
           )
         );
-
+        this.boolRemoveLeftNav = event.url.includes('OverviewPageAdvocate/Home') ? true : false;
         /*
          for login, providerSearch screen , filters has no role to play, so for them Filters should be close,
          we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
@@ -283,8 +284,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
          */
         if (this.sessionService.isRlpData() && this.internalUser) {
           this.insertRlpNav(this.sessionService.isRlpData());
-        } else {
-          console.log('No Data at Session Storage for Rlp');
         }
 
         // If the environment is not Internal then disable the Rlp
@@ -319,7 +318,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
           sessionStorage.getItem('advocateView') === 'true' &&
           !this.makeAbsolute &&
           event.url !== '/OverviewPageAdvocate' &&
-          event.url !== '/OverviewPageAdvocate/HealthSystemDetails' &&
+          event.url !== '/OverviewPageAdvocate/Home' &&
           this.checkAdv.value
         ) {
           this.advocateView = true;
@@ -395,7 +394,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       this.AcoFlag = value.value;
     });
     this.navCategories = this.navCategoriesTotal.filter(item => !item.kop);
-
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
       this.navCategories = this.navCategoriesTotal.filter(item => item.kop);
@@ -503,12 +501,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
    bar PCOR will be hidden
    */
   insertPCORnav() {
-    if (!this.navCategories.some(i => i.name === 'Patient Care Opportunity')) {
-      this.navCategories[4].disabled = false;
-    }
+    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Patient Care Opportunity');
+    this.navCategories[getIndex].disabled = false;
   }
   removePCORnav() {
-    this.navCategories[4].disabled = true;
+    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Patient Care Opportunity');
+    this.navCategories[getIndex].disabled = true;
   }
   checkToggle(bool: boolean) {
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
@@ -575,10 +573,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   }
   checkPcorData() {
     const parametersExecutive = [this.sessionService.providerKeyData(), true];
-    this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
+    this.pcorService.getPCORMedicareData(...parametersExecutive).subscribe(
       data => {
-        const PCORData = data.PatientCareOpportunity;
-        if (PCORData === null || PCORData === undefined) {
+        console.log('PCOR data', data, this.navCategories);
+        if (!data || !data.ReportingPeriod) {
           try {
             this.removePCORnav();
             sessionStorage.removeItem('pcor');
@@ -728,7 +726,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   taxSummaryLink() {
     if (this.sessionService.checkRole('UHCI_Advocate')) {
-      this.router.navigateByUrl('/OverviewPageAdvocate/HealthSystemDetails');
+      this.router.navigateByUrl('/OverviewPageAdvocate/Home');
     } else {
       this.router.navigateByUrl('/TinList');
     }
@@ -738,8 +736,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     setTimeout(() => {
       sessionStorage.removeItem('advocateView');
       this.advocateView = false;
-    }, 500);
+    }, 300);
     location.href = '/OverviewPageAdvocate';
+    sessionStorage.setItem('advocateView', 'false');
   }
 
   /**
