@@ -17,6 +17,9 @@ export class NewPaymentIntegrityServiceRest {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     const providerKey = this.currentUser[0].ProviderKey;
     const params = new HttpParams();
+    // console.log(date);
+    // date.StartDate = "2020-07"; // for testing
+    // date.EndDate = "2020-09";
     const urlDates = '?periodStart=' + date.StartDate + '&' + 'periodEnd=' + date.EndDate;
     const url = this.APP_URL + this.SERVICE_PATH + providerKey + urlDates;
     return this.http.get(url, { params }).pipe(
