@@ -546,7 +546,7 @@ export class PriorAuthSharedService {
       this.getNewPAData(filterParameters)
         .then(data => {
           this.priorAuthDataCombined = data;
-          console.log('priorAuthDataCombined-->', this.priorAuthDataCombined);
+
           const emptyPATrends = [
             {
               data: '',
@@ -562,14 +562,12 @@ export class PriorAuthSharedService {
         .then(data => {
           if (this.priorAuthDataCombined[0].length > 0 && this.priorAuthDataCombined[0][0].data !== null) {
             this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
-            console.log('priorAuthDataCombined-->', data[1]);
           }
           resolve(this.priorAuthDataCombined);
         })
         .catch(reason => {
           this.priorAuthDataCombined[0][1].data['sdata'] = null;
           resolve(this.priorAuthDataCombined);
-          console.log('Prior Auth Service Error ', reason);
         });
     });
   }
