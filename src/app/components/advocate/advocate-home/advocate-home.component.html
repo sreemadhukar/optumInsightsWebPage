@@ -31,7 +31,7 @@
                     {{ noResponseMessage }}
                   </p>
                 </mat-option>
-                <ng-container *ngIf="!isLoading">
+                <ng-container *ngIf="!isLoading && searchedString">
                   <mat-option class="optionHeight" *ngFor="let user of filteredUsers | async" [value]="user">
                     <div class="option-container" *ngIf="selectedDropdown === 'hco'">
                       <span
