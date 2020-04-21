@@ -728,7 +728,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   taxSummaryLink() {
     if (this.sessionService.checkRole('UHCI_Advocate')) {
-      this.router.navigateByUrl('/OverviewPageAdvocate/Home');
+      this.router.navigateByUrl('/OverviewPageAdvocate/HealthSystemDetails');
     } else {
       this.router.navigateByUrl('/TinList');
     }
