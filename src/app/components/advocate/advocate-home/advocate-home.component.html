@@ -55,7 +55,7 @@
                         innerHTML="{{ user.Tin ? (user.Tin | searchHighlight: searchedString) : 'Not Available' }}"
                       ></span>
                       <span class="sub-text">
-                        <span [ngClass]="user.TinName ? '' : 'showNAText'">
+                        <span [ngClass]="user.TinName ? 'margin-right-24' : 'showNAText'">
                           {{ user.TinName ? (user.TinName | titlecase) : 'Not Available' }}
                         </span>
                         <span [ngClass]="user.ProviderSystem ? '' : 'showNAText'">
@@ -72,7 +72,7 @@
                         }}"
                       ></span>
                       <span class="sub-text">
-                        <span [ngClass]="user.Tin ? '' : 'showNAText'">
+                        <span [ngClass]="user.Tin ? 'margin-right-24' : 'showNAText'">
                           {{ user.Tin ? user.Tin : 'Not Available' }}
                         </span>
                         <span [ngClass]="user.ProviderSystem ? '' : 'showNAText'">
@@ -84,12 +84,12 @@
                 </ng-container>
               </mat-autocomplete>
               <ng-container *ngIf="!searchedString">
-                <mat-icon matSuffix class="nav-menu-icons" svgIcon="search"></mat-icon>
+                <mat-icon matSuffix svgIcon="search"></mat-icon>
               </ng-container>
               <ng-container *ngIf="searchedString">
                 <mat-icon
                   matSuffix
-                  class="nav-menu-icons close-icon"
+                  class="close-icon"
                   svgIcon="closeGlossary"
                   (click)="resetForm(); usersForm.reset()"
                 ></mat-icon>
