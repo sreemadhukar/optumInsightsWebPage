@@ -117,6 +117,7 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
     /** Search code ends here */
   }
   valueDropdown(val: string) {
+    this.searchedString = '';
     this.selectedDropdown = val;
     this.searchBox(this.selectedDropdown);
   }
