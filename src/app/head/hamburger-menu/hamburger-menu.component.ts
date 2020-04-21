@@ -232,9 +232,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
         if (this.groupPremiumDesignationService && this.internalUser && currentUser.ProviderKey) {
-          this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
-            this.GroupPremiumDesignation = response.HppIndicator;
-          });
+          const groupPremiumDesignationDataHandler = this.groupPremiumDesignationService.groupPremiumDesignationData();
+          if (groupPremiumDesignationDataHandler) {
+            groupPremiumDesignationDataHandler.subscribe(response => {
+              this.GroupPremiumDesignation = response.HppIndicator;
+            });
+          }
         }
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
