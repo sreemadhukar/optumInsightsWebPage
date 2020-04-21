@@ -896,7 +896,7 @@ export class GettingReimbursedSharedService {
     }
     return new Promise(resolve => {
       this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(
-        ([claimsData, appealsData]) => {
+        ([{}, appealsData]) => {
           const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
 
           const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData, appealsFilterSelected)
@@ -1007,7 +1007,7 @@ export class GettingReimbursedSharedService {
 
   claimsTATData(parameters, claimsData) {
     let claimsTAT: object;
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
       if (parameters[1]['ClaimsBy'] === 'DOS') {
@@ -1169,7 +1169,7 @@ export class GettingReimbursedSharedService {
   claimSubmissionsData(parameters, claimsData) {
     let claimsSubmitted: object;
     let timePeriodData: String;
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
 
@@ -1357,7 +1357,7 @@ export class GettingReimbursedSharedService {
     });
   }
   calculateSummaryTrends(parameters, gettingReimbursedData) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       let baseTimePeriod: any;
       if (this.timeFrame === 'Last 12 Months') {
         baseTimePeriod = 'PreviousLast12Months';
@@ -1375,7 +1375,7 @@ export class GettingReimbursedSharedService {
         baseTimePeriod = 'PreviousYTD';
       }
       parameters[1].TimeFilter = baseTimePeriod;
-      this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
+      this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData]) => {
         const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
         const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
         if (claimsData != null && !claimsData.hasOwnProperty('status')) {
@@ -1463,7 +1463,7 @@ export class GettingReimbursedSharedService {
     });
   }
   public getTins() {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.providerKey = this.session.providerKeyData();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
@@ -1474,7 +1474,7 @@ export class GettingReimbursedSharedService {
 
   /* function to get Payment Integrity Card Data - Ranjith kumar Ankam */
   public getPaymentIntegrityData() {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       // this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
       this.timeFrame = 'Last 6 Months';
 
@@ -1493,7 +1493,7 @@ export class GettingReimbursedSharedService {
 
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(
         r => {
-          if ((r !== null && typeof r !== 'string') || r !== 'OK') {
+          if (((r !== null && typeof r !== 'string') || r !== 'OK') && !r.status) {
             const paymentIntegrityData = r;
             const result: any = r;
             const output: any = {};
@@ -1568,6 +1568,22 @@ export class GettingReimbursedSharedService {
               category: 'large-card',
               type: 'donutWithLabelBottom',
               status: 500,
+              title: 'Claims Payment Integrity',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPaymentIntegrity,
+              data: null,
+              besideData: null,
+              bottomData: null,
+              timeperiod: null
+            };
+            resolve(temp);
+          } else if (r.status) {
+            if (r.status === 404) {
+              r.status = 501;
+            }
+            const temp = {
+              category: 'large-card',
+              type: 'donutWithLabelBottom',
+              status: r.status,
               title: 'Claims Payment Integrity',
               MetricID: this.MetricidService.MetricIDs.ClaimsPaymentIntegrity,
               data: null,

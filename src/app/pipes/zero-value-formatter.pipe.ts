@@ -5,7 +5,7 @@ import { CommonUtilsService } from '../shared/common-utils.service';
 })
 export class ZeroValueFormatterPipe implements PipeTransform {
   constructor(private common: CommonUtilsService) {}
-  transform(value: any, args?: any): string {
+  transform(value: any): string {
     const temp: number = +value;
     if (temp < 1) {
       return '< 1';

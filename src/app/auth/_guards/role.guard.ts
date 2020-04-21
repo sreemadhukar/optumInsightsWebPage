@@ -13,10 +13,7 @@ export class RoleGuard implements CanActivate {
   checkExecutive: any;
   isInternal = environment.internalAccess;
   constructor(private router: Router, private sessionService: SessionService) {}
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (this.isInternal) {
       if (sessionStorage.getItem('currentUser')) {
         const expectedRole = route.data.expectedRole;
