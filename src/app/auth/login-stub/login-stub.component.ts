@@ -110,8 +110,9 @@ export class LoginStubComponent implements OnInit {
       this.sessionService.emitChangeEvent();
       this.authService.getJwt().subscribe(data => {
         sessionStorage.setItem('token', JSON.stringify(data['token']));
-        this.internalService.getPublicKey();
       });
+      this.internalService.getPublicKey();
+
       /*if (this.authService.isLoggedIn()) {
         if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
           if (this.checkAdv.value) {
