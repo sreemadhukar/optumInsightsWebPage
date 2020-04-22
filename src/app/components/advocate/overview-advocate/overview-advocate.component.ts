@@ -150,18 +150,22 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .getAppealsLeftShared(this.createPayloadService.payload)
       .then(appealsLeftData => {
         let AppealsLeftData: any;
-        if (appealsLeftData && appealsLeftData['Data'][0] !== null) {
+        if (
+          appealsLeftData &&
+          appealsLeftData['Data'][0] &&
+          appealsLeftData['Data'][0] !== null &&
+          appealsLeftData['Data'][0].LineOfBusiness &&
+          appealsLeftData['Data'][0].LineOfBusiness != null
+        ) {
           AppealsLeftData = appealsLeftData['Data'][0];
-          if (AppealsLeftData[0].LineOfBusiness != null && AppealsLeftData[0].LineOfBusiness) {
-            this.totalAppeals = this.common.nFormatter(
-              AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals
-            );
-            this.timePeriodAppeals =
-              this.common.dateFormat(AppealsLeftData[0].StartDate) +
-              '&ndash;' +
-              this.common.dateFormat(AppealsLeftData[0].EndDate);
-            this.appealsloading = false;
-          }
+          this.totalAppeals = this.common.nFormatter(
+            AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals
+          );
+          this.timePeriodAppeals =
+            this.common.dateFormat(AppealsLeftData[0].StartDate) +
+            '&ndash;' +
+            this.common.dateFormat(AppealsLeftData[0].EndDate);
+          this.appealsloading = false;
         } else {
           this.appealsloading = false;
           this.totalAppeals = null;
