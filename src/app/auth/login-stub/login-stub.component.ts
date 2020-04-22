@@ -107,12 +107,13 @@ export class LoginStubComponent implements OnInit {
       this.blankScreen = false;
       sessionStorage.clear();
       sessionStorage.setItem('cache', JSON.stringify(false));
-      this.sessionService.emitChangeEvent();
+      // this.sessionService.emitChangeEvent();
       this.authService.getJwt().subscribe(data => {
         sessionStorage.setItem('token', JSON.stringify(data['token']));
         this.internalService.getPublicKey();
       });
-      if (this.authService.isLoggedIn()) {
+
+      /*if (this.authService.isLoggedIn()) {
         if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
           if (this.checkAdv.value) {
             // window.location.href = '/OverviewPageAdvocate';
@@ -131,7 +132,7 @@ export class LoginStubComponent implements OnInit {
         this.authService.getJwt().subscribe(data => {
           sessionStorage.setItem('token', JSON.stringify(data['token']));
         });
-      }
+      }*/
     } else {
       if (this.route.queryParams) {
         this.route.queryParams.subscribe(params => {

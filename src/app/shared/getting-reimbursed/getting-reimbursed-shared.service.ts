@@ -1493,7 +1493,7 @@ export class GettingReimbursedSharedService {
 
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(
         r => {
-          if ((r !== null && typeof r !== 'string') || r !== 'OK') {
+          if (((r !== null && typeof r !== 'string') || r !== 'OK') && !r.status) {
             const paymentIntegrityData = r;
             const result: any = r;
             const output: any = {};
@@ -1568,6 +1568,22 @@ export class GettingReimbursedSharedService {
               category: 'large-card',
               type: 'donutWithLabelBottom',
               status: 500,
+              title: 'Claims Payment Integrity',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPaymentIntegrity,
+              data: null,
+              besideData: null,
+              bottomData: null,
+              timeperiod: null
+            };
+            resolve(temp);
+          } else if (r.status) {
+            if (r.status === 404) {
+              r.status = 501;
+            }
+            const temp = {
+              category: 'large-card',
+              type: 'donutWithLabelBottom',
+              status: r.status,
               title: 'Claims Payment Integrity',
               MetricID: this.MetricidService.MetricIDs.ClaimsPaymentIntegrity,
               data: null,

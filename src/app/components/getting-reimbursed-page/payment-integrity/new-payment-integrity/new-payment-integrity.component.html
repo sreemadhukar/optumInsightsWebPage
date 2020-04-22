@@ -37,8 +37,22 @@
 
 <div class="height1Separator"></div>
 <div *ngIf="currentSummary" class="pi-cards">
-  <app-card *ngIf="currentSummary[0]" [chartData]="currentSummary[0]" class="cards"></app-card>
-  <div *ngIf="currentSummary[1] != null" class="app-card-structure">
+  <app-error-card
+    *ngIf="!loading && currentSummary[0].status != 200"
+    class="cards"
+    [data]="currentSummary[0]"
+  ></app-error-card>
+  <app-card
+    *ngIf="currentSummary[0] && currentSummary[0].status == 200"
+    [chartData]="currentSummary[0]"
+    class="cards"
+  ></app-card>
+  <app-error-card
+    *ngIf="!loading && currentSummary[1].status != 200"
+    class="cards"
+    [data]="currentSummary[1]"
+  ></app-error-card>
+  <div *ngIf="currentSummary[1] != null && currentSummary[1].status == 200" class="app-card-structure">
     <app-common-header
       [title]="currentSummary[1].title"
       class="full-display"
@@ -48,7 +62,15 @@
       <app-med-bar-chart [chartOptions]="currentSummary[1].data"></app-med-bar-chart>
     </div>
   </div>
-  <div *ngIf="currentSummary[2] != null" class="pi-medical-record-coding-review-block card-inner">
+  <app-error-card
+    *ngIf="!loading && currentSummary[2].status != 200"
+    class="cards"
+    [data]="currentSummary[2]"
+  ></app-error-card>
+  <div
+    *ngIf="currentSummary[2] != null && currentSummary[2].status == 200"
+    class="pi-medical-record-coding-review-block card-inner"
+  >
     <app-common-header
       [title]="currentSummary[2].title"
       class="full-display"

@@ -25,16 +25,13 @@
               <!-- <span>{{ usersForm.get('userInput').value | json }}</span> -->
 
               <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnWrapper()" [panelWidth]="386">
-                <mat-option *ngIf="isLoading || noSearchFound" class="is-loading" #option
-                  ><mat-spinner *ngIf="searchedString.length > 2 && !noSearchFound" diameter="40"></mat-spinner>
-                  <ng-container *ngIf="searchedString.length < 3" class="min-length-text">
-                    Please type at least 3 characters to start your search...
-                  </ng-container>
-                  <ng-container *ngIf="noSearchFound && searchedString.length > 2" class="min-length-text">
-                    No Result found for your input search
-                  </ng-container>
+                <mat-option *ngIf="isLoading || noSearchFound" class="is-loading" #option>
+                  <mat-spinner *ngIf="searchedString.length > 2 && !noSearchFound" diameter="40"></mat-spinner>
+                  <p *ngIf="searchedString.length < 3 || noSearchFound" class="min-length-text">
+                    {{ noResponseMessage }}
+                  </p>
                 </mat-option>
-                <ng-container *ngIf="!isLoading">
+                <ng-container *ngIf="!isLoading && searchedString">
                   <mat-option class="optionHeight" *ngFor="let user of filteredUsers | async" [value]="user">
                     <div class="option-container" *ngIf="selectedDropdown === 'hco'">
                       <span
@@ -58,7 +55,7 @@
                         innerHTML="{{ user.Tin ? (user.Tin | searchHighlight: searchedString) : 'Not Available' }}"
                       ></span>
                       <span class="sub-text">
-                        <span [ngClass]="user.TinName ? '' : 'showNAText'">
+                        <span [ngClass]="user.TinName ? 'margin-right-24' : 'showNAText'">
                           {{ user.TinName ? (user.TinName | titlecase) : 'Not Available' }}
                         </span>
                         <span [ngClass]="user.ProviderSystem ? '' : 'showNAText'">
@@ -75,7 +72,7 @@
                         }}"
                       ></span>
                       <span class="sub-text">
-                        <span [ngClass]="user.Tin ? '' : 'showNAText'">
+                        <span [ngClass]="user.Tin ? 'margin-right-24' : 'showNAText'">
                           {{ user.Tin ? user.Tin : 'Not Available' }}
                         </span>
                         <span [ngClass]="user.ProviderSystem ? '' : 'showNAText'">
@@ -87,12 +84,12 @@
                 </ng-container>
               </mat-autocomplete>
               <ng-container *ngIf="!searchedString">
-                <mat-icon matSuffix class="nav-menu-icons" svgIcon="search"></mat-icon>
+                <mat-icon matSuffix svgIcon="search"></mat-icon>
               </ng-container>
               <ng-container *ngIf="searchedString">
                 <mat-icon
                   matSuffix
-                  class="nav-menu-icons close-icon"
+                  class="close-icon"
                   svgIcon="closeGlossary"
                   (click)="resetForm(); usersForm.reset()"
                 ></mat-icon>

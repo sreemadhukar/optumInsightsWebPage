@@ -122,7 +122,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     { icon: 'prior-auth', name: 'Prior Authorizations', path: '/CareDelivery/priorAuth', disabled: false },
     {
       icon: 'pcor',
-      name: 'Patient Care Opportunity ',
+      name: 'Patient Care Opportunity',
       path: '/CareDelivery/PatientCareOpportunity',
       disabled: true
     },
@@ -232,9 +232,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
         if (this.groupPremiumDesignationService && this.internalUser && currentUser.ProviderKey) {
-          this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
-            this.GroupPremiumDesignation = response.HppIndicator;
-          });
+          const groupPremiumDesignationDataHandler = this.groupPremiumDesignationService.groupPremiumDesignationData();
+          if (groupPremiumDesignationDataHandler) {
+            groupPremiumDesignationDataHandler.subscribe(response => {
+              this.GroupPremiumDesignation = response.HppIndicator;
+            });
+          }
         }
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
@@ -501,12 +504,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
    bar PCOR will be hidden
    */
   insertPCORnav() {
-    if (!this.navCategories.some(i => i.name === 'Patient Care Opportunity')) {
-      this.navCategories[4].disabled = false;
-    }
+    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Patient Care Opportunity');
+    this.navCategories[getIndex].disabled = false;
   }
   removePCORnav() {
-    this.navCategories[4].disabled = true;
+    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Patient Care Opportunity');
+    this.navCategories[getIndex].disabled = true;
   }
   checkToggle(bool: boolean) {
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
@@ -573,10 +576,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   }
   checkPcorData() {
     const parametersExecutive = [this.sessionService.providerKeyData(), true];
-    this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
+    this.pcorService.getPCORMedicareData(...parametersExecutive).subscribe(
       data => {
-        const PCORData = data.PatientCareOpportunity;
-        if (PCORData === null || PCORData === undefined) {
+        if (!data || !data.ReportingPeriod) {
           try {
             this.removePCORnav();
             sessionStorage.removeItem('pcor');
@@ -726,7 +728,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   taxSummaryLink() {
     if (this.sessionService.checkRole('UHCI_Advocate')) {
-      this.router.navigateByUrl('/OverviewPageAdvocate/Home');
+      this.router.navigateByUrl('/OverviewPageAdvocate/HealthSystemDetails');
     } else {
       this.router.navigateByUrl('/TinList');
     }
@@ -738,6 +740,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       this.advocateView = false;
     }, 300);
     location.href = '/OverviewPageAdvocate';
+    sessionStorage.setItem('advocateView', 'false');
   }
 
   /**
