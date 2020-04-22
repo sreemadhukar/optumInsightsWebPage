@@ -31,6 +31,8 @@ export class CommonFooterComponent {
       this.routhTo = '/ServiceInteraction/Calls';
     } else if (this.linkName === 'Non-Payment Details') {
       this.routhTo = '/GettingReimbursed/NonPayments';
+    } else if (this.linkName === 'Appeals Overview') {
+      this.routhTo = '/GettingReimbursed/Appeals';
     } else if (this.linkName === 'View Details') {
       if (this.title === 'Preferred Specialist Referral Rate') {
         this.routhTo = '/Performance/Referrals';
@@ -41,5 +43,22 @@ export class CommonFooterComponent {
       }
     }
     this.router.navigate([this.routhTo]);
+  }
+
+  removeLeadingZero(date) {
+    const textDate = this.decodeHtml(date);
+    const startDate = textDate.substring(4, 6),
+      endDate = textDate.substring(17, 19);
+    if (startDate === endDate) {
+      const regex = new RegExp(`${startDate}`, 'g');
+      return textDate.replace(regex, `${+startDate}`);
+    }
+    return textDate.replace(startDate, `${+startDate}`).replace(endDate, `${+endDate}`);
+  }
+
+  decodeHtml(htmlEntity) {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = htmlEntity;
+    return txt.value;
   }
 }

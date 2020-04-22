@@ -50,10 +50,9 @@
 
     <!-- Claims appeals Trend  Starts Here -->
 
-    <!--<app-error-card *ngIf="appealsLineGraphData.status != null" class="cards" [data]="appealsLineGraphData">-->
-    <!--</app-error-card>-->
-    <!--<app-large-card [skeletonLarge]="appealsLineGraphloading" *ngIf="appealsData == null"></app-large-card>-->
-    <div class="appeals-trend-block" *ngIf="!appealsLineGraphloading && appealsData !== null">
+    <app-error-card *ngIf="totalAppeals == null" class="cards" [data]="errorAppealsData"> </app-error-card>
+    <app-large-card [skeletonLarge]="appealsloading" *ngIf="appealsloading"></app-large-card>
+    <div class="appeals-trend-block" *ngIf="totalAppeals !== null">
       <app-common-header
         [title]="trendTitleForClaims"
         class="full-display bottom-margin-block"
@@ -123,13 +122,11 @@
       <app-common-footer
         [timePeriod]="timePeriodAppeals"
         [linkName]="'Appeals Overview'"
-        [routePath]="'/GettingReimbursed/Appeals'"
         class="width-100 time-period-trend"
         [handleCaseForOverviewTile]="true"
       ></app-common-footer>
     </div>
     <!-- Claims appeals Trend Ends Here -->
-
     <!--Calls Trend Starts Here-->
     <app-error-card *ngIf="callsData == null" class="cards" [data]="callsLineGraphData"></app-error-card>
     <app-large-card [skeletonLarge]="callsLoading" *ngIf="callsLoading"></app-large-card>

@@ -196,7 +196,7 @@ export class PriorAuthSharedService {
           let PANotApprovedCountChecker;
           if (((providerSystems || {}).PriorAuthorizations || {}).LineOfBusiness) {
             let data;
-            // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+
             let PAApprovedCount;
             let PANotApprovedCount;
             let PAPendingCount;
@@ -262,10 +262,11 @@ export class PriorAuthSharedService {
             PAPendingCount = data.PriorAuthPendingCount;
             PACancelledCount = data.PriorAuthCancelledCount;
             const PARequestedCount = PAApprovedCount + PANotApprovedCount + PACancelledCount;
-            const TotalApprovedNotapproved = PARequestedCount - PACancelledCount;
+            const TotalApprovedNotapproved = PARequestedCount - PACancelledCount; // sum of approved and not approved
             let PAApprovalRate;
 
             if (TotalApprovedNotapproved === 0) {
+              // If sum of approved count and not approved count 0 make it approvalrate is 0
               PAApprovalRate = 0;
             } else {
               PAApprovalRate = PAApprovedCount / TotalApprovedNotapproved;
@@ -300,10 +301,11 @@ export class PriorAuthSharedService {
                 TATHourLabel = UrgentTATConversion + ' Hours';
               }
             }
-            // Add checker for if PA requested is zero
+
             const priorAuthorizationCounts = [PAApprovedCount, PANotApprovedCount, PAPendingCount, PACancelledCount];
             const priorAuthorizationLabels = ['Approved', 'Not Approved', 'Pending', 'Canceled'];
-            if (PARequestedCount > 0) {
+            if (PARequestedCount > 0 && PAApprovalRate !== 0) {
+              // if PA requested is not zero and approval rate not zero
               PACount = [
                 {
                   category: 'app-card',
@@ -364,6 +366,68 @@ export class PriorAuthSharedService {
                     this.common.dateFormat(providerSystems.EndDate)
                 }
               ];
+            } else if (PAApprovalRate === 0) {
+              // If approval rate (sum of Approval rate and not approved rate is zero) is zero
+              //  we should hide the right side label
+
+              PACount = [
+                {
+                  category: 'app-card',
+                  type: 'donutWithLabel',
+                  title: 'Prior Authorization Requested',
+                  MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
+                  toggle: this.toggle.setToggles(
+                    'Prior Authorization Requested',
+                    'Prior Authorizations',
+                    'Care Delivery',
+                    false
+                  ),
+                  data: {
+                    graphValues: priorAuthorizationCounts,
+                    centerNumber: this.common.nFormatter(PARequestedCount),
+                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                    labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                    gdata: ['card-inner', 'PARequested'],
+                    hover: true
+                  },
+                  besideData: {
+                    labels: this.common.sideLabelWords(priorAuthorizationCounts, priorAuthorizationLabels),
+                    color: this.common.sideLabelColor(priorAuthorizationCounts),
+                    value: this.common.sideLabelValues(priorAuthorizationCounts)
+                  },
+                  timeperiod:
+                    this.common.dateFormat(providerSystems.StartDate) +
+                    '&ndash;' +
+                    this.common.dateFormat(providerSystems.EndDate)
+                },
+                {
+                  category: 'app-card',
+                  type: 'donut',
+                  title: 'Prior Authorization Approval Rate',
+                  MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApprovalRate,
+                  toggle: this.toggle.setToggles(
+                    'Prior Authorization Approval Rate',
+                    'Prior Authorizations',
+                    'Care Delivery',
+                    false
+                  ),
+                  data: {
+                    graphValues: [PAApprovalRate, 1 - PAApprovalRate],
+                    centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
+                    color: ['#3381FF', '#E0E0E0'],
+                    gdata: ['card-inner', 'PAApprovalRate']
+                  },
+                  besideData: {
+                    verticalData: null
+                  },
+                  timeperiod:
+                    this.common.dateFormat(providerSystems.StartDate) +
+                    '&ndash;' +
+                    this.common.dateFormat(providerSystems.EndDate)
+                }
+              ];
+            } else {
+              PACount = appCardPriorAuthError;
             }
           } else {
             PACount = appCardPriorAuthError;

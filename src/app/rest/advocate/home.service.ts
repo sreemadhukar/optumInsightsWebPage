@@ -13,9 +13,7 @@ export class HomeService {
 
   constructor(private http: HttpClient) {}
 
-  search(
-    filter: { searchValue: string; searchType: string } = { searchValue: '', searchType: 'hco' }
-  ): Observable<IUserResponse[]> {
+  search(filter: { searchValue: string; searchType: string }): Observable<IUserResponse[]> {
     const myparam = new HttpParams();
     const searchURL =
       this.APP_URL +
