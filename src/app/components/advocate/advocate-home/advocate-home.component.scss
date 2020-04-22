@@ -118,6 +118,9 @@
   }
   ::ng-deep .highlight-text {
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    line-height: 22px;
+    font-size: 16px;
+    color: $black-rock;
   }
   .sub-text {
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
