@@ -39,7 +39,7 @@ pipeline {
                 branch 'dev'
             }
             agent {
-                label 'docker-kitchensink-slave'
+                label 'docker-nodejs-slave'
             }
             steps {
                 glDockerImageBuildPush tag: "$tagBase/ui_dev:qaone",
@@ -345,7 +345,7 @@ pipeline {
                     "Note: If this build is from any personal branch (which can be seen from the url), this email can be ignored \n\n"+
                     "If connection to any of the apps is refused, please give a few minutes for pods to fully deploy in OpenShift",
                     subject: "$currentBuild.currentResult-UI Deployment",
-                    to: 'sathwik.anumala@optum.com'
+                    to: 'myinsights_devops_DL@ds.uhc.com'
         }
     }
 }
