@@ -1,0 +1,26 @@
+<div class="search-title-block">
+  <mat-icon matPrefix class="nav-menu-icons search-title-icon" svgIcon="star"></mat-icon>
+  <p class="search-title">Personalized for You</p>
+</div>
+<p class="search-sub-title">Tax IDs for IMPACT Assignments</p>
+<div class="impact-searchbox">
+  <form class="example-form" [formGroup]="usersForm">
+    <mat-form-field class="search-mat-field" appearance="outline" [style.width.px]="386">
+      <input
+        matInput
+        placeholder="Filter IMPACT Assignments"
+        maxlength="30"
+        [matAutocomplete]="auto"
+        formControlName="userInput"
+        (keyup)="onSearchInput($event.target.value)"
+        (click)="onSearchClick($event.target.value)"
+      />
+      <ng-container>
+        <mat-icon matSuffix svgIcon="search"></mat-icon>
+      </ng-container>
+    </mat-form-field>
+  </form>
+</div>
+<div *ngFor="let i of [1, 2, 3, 4, 5, 6, 7]">
+  <app-impact-card></app-impact-card>
+</div>

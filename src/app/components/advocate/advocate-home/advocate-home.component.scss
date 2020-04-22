@@ -119,6 +119,9 @@
   }
   ::ng-deep .highlight-text {
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    line-height: 22px;
+    font-size: 16px;
+    color: $black-rock;
   }
   .sub-text {
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
@@ -128,7 +131,7 @@
     display: flex;
     span {
       display: inline-flex;
-      width: 47%;
+      width: 50%;
     }
     .showNAText {
       font-style: italic;

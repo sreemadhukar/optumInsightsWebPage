@@ -1,0 +1,49 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+
+.search-title-block {
+  display: inline-flex;
+  .search-title-icon {
+    background: $white;
+    fill: $blue;
+    margin-right: 8px;
+    border-radius: 25px;
+    width: 40px;
+    height: 40px;
+    ::ng-deep svg {
+      width: 24px;
+      height: 24px;
+      position: relative;
+      left: 9px;
+      top: 9px;
+    }
+  }
+  .search-title {
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    font-size: 22px;
+    line-height: 28px;
+    color: $black-rock;
+    position: relative;
+    top: 8px;
+  }
+}
+.search-sub-title {
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0.2px;
+  color: $strom-grey;
+  padding: 5px 5px 0 5px;
+}
+.impact-searchbox {
+  ::ng-deep .mat-form-field-flex .mat-form-field-outline-start,
+  ::ng-deep .mat-form-field-flex .mat-form-field-outline-end {
+    background: $white;
+  }
+  ::ng-deep .search-mat-field .mat-form-field-infix {
+    display: inline-flex;
+    padding: 14px 0 13px 0;
+    border-top: 1px solid transparent;
+  }
+}
