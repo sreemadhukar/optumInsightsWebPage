@@ -55,7 +55,7 @@
                         innerHTML="{{ user.Tin ? (user.Tin | searchHighlight: searchedString) : 'Not Available' }}"
                       ></span>
                       <span class="sub-text">
-                        <span [ngClass]="user.TinName ? 'margin-right-24' : 'showNAText'">
+                        <span [ngClass]="user.TinName ? '' : 'showNAText'">
                           {{ user.TinName ? (user.TinName | titlecase) : 'Not Available' }}
                         </span>
                         <span [ngClass]="user.ProviderSystem ? '' : 'showNAText'">
