@@ -85,6 +85,10 @@
       display: inline-flex;
       margin-top: 8px;
 
+      ::ng-deep .mat-form-field-flex .mat-form-field-outline-start,
+      ::ng-deep .mat-form-field-flex .mat-form-field-outline-end {
+        background: $white;
+      }
       ::ng-deep .search-mat-field .mat-form-field-infix {
         display: inline-flex;
         padding: 14px 0 13px 0;
@@ -123,7 +127,7 @@
     display: flex;
     span {
       display: inline-flex;
-      width: 50%;
+      width: 47%;
     }
     .showNAText {
       font-style: italic;
@@ -160,4 +164,8 @@
   &:hover {
     background: $pattens-blue;
   }
+}
+
+.margin-right-24 {
+  margin-right: 24px;
 }

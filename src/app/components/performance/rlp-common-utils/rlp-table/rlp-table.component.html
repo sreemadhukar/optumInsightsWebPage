@@ -1,7 +1,7 @@
 <!-- Show tablecount-->
 <div class="table-show-count" *ngIf="tableData.length > 0">
   <span class="table-show-text">
-    Showing {{ afterQuery.length > 25 ? selectPageSize : afterQuery.length }} of {{ tableData.length }}
+    Showing {{ afterQuery.length < selectPageSize ? afterQuery.length : selectPageSize }} of {{ afterQuery.length }}
   </span>
 </div>
 <!-- table container-->

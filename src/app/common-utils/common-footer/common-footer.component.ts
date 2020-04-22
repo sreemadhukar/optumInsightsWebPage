@@ -44,4 +44,21 @@ export class CommonFooterComponent {
     }
     this.router.navigate([this.routhTo]);
   }
+
+  removeLeadingZero(date) {
+    const textDate = this.decodeHtml(date);
+    const startDate = textDate.substring(4, 6),
+      endDate = textDate.substring(17, 19);
+    if (startDate === endDate) {
+      const regex = new RegExp(`${startDate}`, 'g');
+      return textDate.replace(regex, `${+startDate}`);
+    }
+    return textDate.replace(startDate, `${+startDate}`).replace(endDate, `${+endDate}`);
+  }
+
+  decodeHtml(htmlEntity) {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = htmlEntity;
+    return txt.value;
+  }
 }
