@@ -200,5 +200,9 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     this.enterQuery();
   }
 
+  focusMethod() {
+    document.getElementById('groupName').focus();
+  }
+
   ngOnDestroy() {}
 }

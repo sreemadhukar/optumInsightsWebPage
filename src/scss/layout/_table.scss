@@ -86,6 +86,11 @@
   height: 40px;
   margin-top: 16px;
 }
+
+.search-box-g:focus-within {
+  border: 1.5px solid rgb(77, 144, 254);
+}
+
 //input custom width
 .tin-input-width {
   width: 173px;
@@ -94,6 +99,7 @@
   width: 230px;
   border: none;
   height: 40px;
+  outline: none;
 }
 
 //table column widths
