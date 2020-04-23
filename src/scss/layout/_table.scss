@@ -32,6 +32,21 @@
     padding: 0;
   }
 
+  &-input-query-g {
+    // display: block;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    // margin-top: 16px;
+    // height: 40px;
+    // border: 1px solid $heather;
+    // border-radius: 2px;
+    color: $strom-grey;
+    appearance: none;
+    background-color: $white;
+    text-indent: 12px;
+    padding: 0;
+  }
+
   &-head-text {
     font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     color: #2d2d39;
@@ -50,7 +65,7 @@
 .search-icon-group {
   position: absolute;
   color: #757588;
-  right: 22px;
+  right: 10px;
   top: 10px;
 }
 
@@ -61,12 +76,30 @@
 .search-box {
   position: relative;
 }
+
+.search-box-g {
+  position: relative;
+  width: 267px;
+  border: 1px solid $heather;
+  border-radius: 2px;
+  color: $strom-grey;
+  height: 40px;
+  margin-top: 16px;
+}
+
+.search-box-g:focus-within {
+  border: 1.5px solid rgb(77, 144, 254);
+}
+
 //input custom width
 .tin-input-width {
   width: 173px;
 }
 .tinname-input-width {
-  width: 267px;
+  width: 230px;
+  border: none;
+  height: 40px;
+  outline: none;
 }
 
 //table column widths
