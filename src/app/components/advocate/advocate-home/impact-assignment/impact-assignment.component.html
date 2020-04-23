@@ -9,7 +9,7 @@
       <input
         matInput
         placeholder="Filter IMPACT Assignments"
-        maxlength="30"
+        maxlength="35"
         [matAutocomplete]="auto"
         formControlName="userInput"
         (keyup)="onSearchInput($event.target.value)"
@@ -21,6 +21,6 @@
     </mat-form-field>
   </form>
 </div>
-<div *ngFor="let i of [1, 2, 3, 4, 5, 6, 7]">
-  <app-impact-card></app-impact-card>
+<div *ngFor="let item of completeData">
+  <app-impact-card [data]="item"></app-impact-card>
 </div>
