@@ -17,7 +17,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   constructor(private router: Router) {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_event) {
     this.doBarChart(this.chartOptions, this.noTransition);
   }
   ngOnInit() {
@@ -31,7 +31,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     this.doBarChart(this.chartOptions, this.transition);
   }
 
-  doBarChart(chartOptions: any, transition: number) {
+  doBarChart(chartOptions: any, _transition: number) {
     function formatDy(dy: number): string {
       if (dy === 0) {
         return '0.0M';
@@ -282,21 +282,21 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         }
 
         label
-          .on('mouseenter', function(d) {
+          .on('mouseenter', function() {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
             div.style('left', d3.event.layerX - 38 + 'px').style('top', d3.event.layerY - tooltipLabelAdjustor + 'px');
           })
-          .on('mousemove', function(d) {
+          .on('mousemove', function() {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
             div.style('left', d3.event.layerX - 38 + 'px').style('top', d3.event.layerY - tooltipLabelAdjustor + 'px');
           })
-          .on('mouseleave', function(d) {
+          .on('mouseleave', function() {
             div
               .transition()
               .duration(10)

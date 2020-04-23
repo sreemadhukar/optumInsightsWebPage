@@ -13,6 +13,7 @@ export class CreatePayloadService {
   @select(['uhc', 'timePeriod']) timePeriod;
   @select(['uhc', 'taxId']) taxId;
   @select(['uhc', 'lineOfBusiness']) lineOfBusiness;
+  @select(['uhc', 'commercial']) commercial;
   @select(['uhc', 'serviceSetting']) serviceSetting;
   @select(['uhc', 'serviceCategory']) serviceCategory;
   @select(['uhc', 'priorAuthType']) priorAuthType;
@@ -26,6 +27,7 @@ export class CreatePayloadService {
     timePeriod: 'Last6Months',
     taxId: [{ Tin: 'All', Tinname: 'All' }],
     lineOfBusiness: 'All',
+    commercial: 'All',
     serviceSetting: 'All',
     serviceCategory: 'All',
     priorAuthType: 'All',
@@ -49,6 +51,7 @@ export class CreatePayloadService {
     });
     this.taxId.subscribe(taxId => (this.initialState.taxId = taxId));
     this.lineOfBusiness.subscribe(lineOfBusiness => (this.initialState.lineOfBusiness = lineOfBusiness));
+    this.commercial.subscribe(commercial => (this.initialState.commercial = commercial));
     this.serviceSetting.subscribe(serviceSetting => (this.initialState.serviceSetting = serviceSetting));
     this.serviceCategory.subscribe(serviceCategory => (this.initialState.serviceCategory = serviceCategory));
     this.priorAuthType.subscribe(priorAuthType => {
@@ -96,7 +99,13 @@ export class CreatePayloadService {
   resetTinNumber(appliedPage) {
     // this.taxId.subscribe(taxId => (this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }]));
     this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }];
-    this.payload = this.getPayload(this.initialState);
+    if (appliedPage) {
+      if (appliedPage === 'priorAuthPage') {
+        this.payload = this.getPayloadForPriorAuth(this.initialState);
+      } else {
+        this.payload = this.getPayload(this.initialState);
+      }
+    }
     /* commented for mutiple api call solution*/
     // this.emitFilterEvent(appliedPage);
   }
@@ -201,7 +210,7 @@ export class CreatePayloadService {
   createTaxIdArrayForPA(param) {
     const arr = [];
     if (!_.isUndefined(param)) {
-      param.taxId.forEach((taxId, index) => {
+      param.taxId.forEach(taxId => {
         arr.push(taxId.Tin.replace('-', ''));
       });
       param.taxId = arr;

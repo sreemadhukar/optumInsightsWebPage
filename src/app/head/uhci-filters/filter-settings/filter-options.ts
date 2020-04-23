@@ -18,6 +18,12 @@ export const LineOfBusiness = [
   { name: 'UN', value: lobName.unCategorized, disable: true }
 ];
 
+export const Commercial = [
+  { name: 'All', value: 'All', disable: false },
+  { name: 'FULLY_INSURED', value: 'FI (Fully Insured)', disable: false },
+  { name: 'ASO', value: 'ASO (Administrative Services Only)', disable: false }
+];
+
 export const ClaimsFilter = [
   { name: 'All', value: 'All', disable: false },
   { name: 'PROFESSIONAL', value: 'HCFA (Health Care Finance Administration)', disable: false },
@@ -91,8 +97,8 @@ export const ServiceCategory = [
   { name: 'AmbulatorySurgical', value: 'Ambulatory Surgical Center', disable: false },
   { name: 'FacilityService', value: 'Facility Based Service', disable: false },
   { name: 'Custodial', value: 'Custodial', disable: false },
-  { name: 'WeightManagement', value: 'Weight Management', disable: false }
-  // { name: 'Uncategorized', value: 'Uncategorized', disable: false }
+  { name: 'WeightManagement', value: 'Weight Management', disable: false },
+  { name: 'Uncategorized', value: 'Uncategorized', disable: false }
 ];
 
 export const PriorAuthDecisionType = [

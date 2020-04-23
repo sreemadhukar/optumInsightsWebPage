@@ -15,23 +15,17 @@ export const pageMapApiEndpoint = [
   {
     name: rlpPageName.Referral,
     title: 'Preferred Specialist Referral Rate',
-    suffix: 'Referrals',
-    MetricID: '401'
-    // MetricID:  MetricidService.PreferredSpecialistReferralRate
+    suffix: 'Referrals'
   },
   {
     name: rlpPageName.Labs,
     title: 'Preferred Lab Network Use Rate',
-    suffix: 'Preferred Lab Visits',
-    MetricID: '403'
-    // MetricID:  MetricidService. PreferredLabNetworkUseRate
+    suffix: 'Preferred Lab Visits'
   },
   {
     name: rlpPageName.Perscription,
     title: 'Preferred Tier Prescribing Rate',
-    suffix: 'Prescriptions',
-    MetricID: '402'
-    // MetricID: this.MetricidService.PharmacyPreferredTierPrescribingRate
+    suffix: 'Prescriptions'
   }
 ];
 @Injectable({
@@ -41,7 +35,7 @@ export class SummarySharedService {
   public requestBody: Object;
   public hcoData$: Subscription;
   constructor(
-    public MetricidService: GlossaryMetricidService,
+    private MetricidService: GlossaryMetricidService,
     private session: SessionService,
     private toggle: AuthorizationService,
     private performanceRestService: PerformanceRestService,
@@ -71,7 +65,7 @@ export class SummarySharedService {
                 type: getCandType.type,
                 title: getStaticData.title,
                 toggle: this.toggle.setToggles(getStaticData.title, pageName, 'Performance', false),
-                MetricID: getStaticData.MetricID,
+                MetricID: this.MetricidService.MetricIDs[getStaticData.title.replace(/ +/g, '')],
                 data: {
                   gdata: {
                     count:

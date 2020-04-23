@@ -22,6 +22,9 @@ import { retry, catchError } from 'rxjs/operators';
 export class HttpInterceptorService implements HttpInterceptor {
   protected emitter = new EventEmitter<boolean>();
   refreshtoken = false;
+  private APPEAL_CLAIM = environment.apiUrls.AppealsFHIR;
+  private APPEAL_OVERTURN = environment.apiUrls.AppealsOverturn;
+  private PaymentsBySubmissionDOP = environment.apiUrls.PaymentsBySubmissionDOP;
 
   constructor(
     public http: HttpClient,
@@ -63,28 +66,54 @@ export class HttpInterceptorService implements HttpInterceptor {
 
   private getRequestWithAuthentication(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    const loggedUser = JSON.parse(sessionStorage.getItem('loggedUser'));
+    let loggedUserMsId = '';
+    if (loggedUser) {
+      loggedUserMsId = '/' + loggedUser.MsId;
+    }
     if (currentUser && request.url.indexOf(environment.originUrl + 'api/getHeac') === -1) {
       const token =
         !environment.internalAccess && environment.production
           ? currentUser[0].AccessToken
           : currentUser[0].PedAccessToken;
       if (token) {
-        request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
+        if (request.url.indexOf('api/getTrendAccess' + loggedUserMsId) === -1) {
+          request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
+        }
         if (!environment.internalAccess && environment.production) {
           request = request.clone({
             headers: request.headers.set('PedAccessToken', 'Bearer ' + currentUser[0].PedAccessToken)
           });
         }
       }
-      if (environment.internalAccess) {
+      if (
+        environment.internalAccess &&
+        (request.url.indexOf(this.APPEAL_CLAIM) !== -1 ||
+          request.url.indexOf(this.APPEAL_OVERTURN) !== -1 ||
+          request.url.indexOf(this.PaymentsBySubmissionDOP) !== -1)
+      ) {
         request = request.clone({
-          headers: request.headers.set('applicationType', 'Internal')
+          headers: request.headers.set('application-type', 'Internal')
         });
+      }
+      if (environment.internalAccess && request.url.indexOf('api/getTrendAccess' + loggedUserMsId) === -1) {
+        if (
+          request.url.indexOf(this.APPEAL_CLAIM) === -1 &&
+          request.url.indexOf(this.APPEAL_OVERTURN) === -1 &&
+          request.url.indexOf(this.PaymentsBySubmissionDOP) === -1
+        ) {
+          request = request.clone({
+            headers: request.headers.set('applicationType', 'Internal')
+          });
+        }
       }
     }
     if (request.url.indexOf('myinsightOptumIdHandshake') !== -1 || request.url.indexOf('ldapauth') !== -1) {
       request = request.clone({ headers: request.headers.set('Content-Type', 'application/x-www-form-urlencoded') });
-    } else {
+    } else if (
+      request.url.indexOf('api/getJwt') === -1 &&
+      request.url.indexOf('api/getTrendAccess' + loggedUserMsId) === -1
+    ) {
       request = request.clone({ headers: request.headers.set('Content-Type', 'application/json') });
     }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });

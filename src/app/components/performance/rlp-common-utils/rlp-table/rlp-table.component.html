@@ -1,28 +1,55 @@
+<!-- Show tablecount-->
+<div class="table-show-count" *ngIf="tableData.length > 0">
+  <span class="table-show-text">
+    Showing {{ afterQuery.length < selectPageSize ? afterQuery.length : selectPageSize }} of {{ afterQuery.length }}
+  </span>
+</div>
 <!-- table container-->
 <div class="table-container" *ngIf="!skeletonTable">
   <!--Table header starts-->
   <div class="table-header-labels" *ngIf="showTableHeader">
     <div class="rlp-table-tin">
       <div class="table-head-text">{{ tableHeader[0] }}</div>
-      <input
-        type="text"
-        class="table-input-query tin-input-width"
-        placeholder="Filter By Tin"
-        [(ngModel)]="qTinSearch"
-        (keyup)="enterQuery()"
-        (keydown.backspace)="enterQuery()"
-      />
+      <div class="search-box">
+        <input
+          type="text"
+          class="table-input-query tin-input-width"
+          placeholder=""
+          [(ngModel)]="qTinSearch"
+          (keyup)="enterQuery()"
+          (keydown.backspace)="enterQuery()"
+          maxlength="10"
+        />
+        <mat-icon class="search-icon" matSuffix svgIcon="search" *ngIf="!qTinSearch"></mat-icon>
+        <mat-icon
+          class="search-icon close-curser"
+          matSuffix
+          svgIcon="close"
+          (click)="clearValue('qTinSearch')"
+          *ngIf="qTinSearch"
+        ></mat-icon>
+      </div>
     </div>
     <div class="rlp-table-group">
       <div class="table-head-text">{{ tableHeader[1] }}</div>
-      <input
-        type="text"
-        class="table-input-query tinname-input-width"
-        placeholder="Filter By Group Name"
-        [(ngModel)]="qGroupNameSearch"
-        (keyup)="enterQuery()"
-        (keydown.backspace)="enterQuery()"
-      />
+      <div class="search-box">
+        <input
+          type="text"
+          class="table-input-query tinname-input-width"
+          placeholder=""
+          [(ngModel)]="qGroupNameSearch"
+          (keyup)="enterQuery()"
+          (keydown.backspace)="enterQuery()"
+        />
+        <mat-icon class="search-icon-group" matSuffix svgIcon="search" *ngIf="!qGroupNameSearch"></mat-icon>
+        <mat-icon
+          class="search-icon-group close-curser"
+          matSuffix
+          svgIcon="close"
+          (click)="clearValue('qGroupNameSearch')"
+          *ngIf="qGroupNameSearch"
+        ></mat-icon>
+      </div>
     </div>
     <div class="rlp-table-bar" (click)="sortIconRate()">
       <div class="table-head-text">

@@ -28,7 +28,7 @@ export class BreadcrumbsComponent implements OnInit {
   ) {
     this.breadcrumbs = [];
     const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       const root: ActivatedRoute = this.activatedRoute.root;
       this.breadcrumbs = this.getBreadcrumbs(root);
       if (this.breadcrumbs[0] && this.breadcrumbs[0].label === 'Performance Management Summary') {

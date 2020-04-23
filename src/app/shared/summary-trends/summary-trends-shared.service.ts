@@ -12,7 +12,7 @@ export class SummaryTrendsSharedService {
   constructor(private summarytrends: SummaryTrendsService, private session: SessionService) {}
 
   public sharedSummaryTrends(pageNumber, pageSize, column, direction) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.metric = this.session.filterObjValue.metric;
       this.date = formatDate(this.session.filterObjValue.date, 'yyyy-MM-dd', 'en');
       // this.date = '2019-09-25';
@@ -193,7 +193,7 @@ export class SummaryTrendsSharedService {
   }
 
   public sharedSummaryTrendsCount() {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.metric = this.session.filterObjValue.metric;
       this.date = formatDate(this.session.filterObjValue.date, 'yyyy-MM-dd', 'en');
       const params = {

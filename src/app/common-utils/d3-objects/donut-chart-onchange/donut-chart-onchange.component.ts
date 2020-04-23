@@ -19,7 +19,7 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
   constructor() {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_event) {
     this.doDonutChart(this.chartOptions, this.noTransition);
   }
   ngOnInit() {
@@ -266,7 +266,7 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
           return donutColor(d.data.value);
         })
         .transition()
-        .delay(function(d, i) {
+        .delay(function(_d, i) {
           return i * 700;
         })
         .duration(1000)
@@ -336,14 +336,14 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
           .style('font-family', 'UHCSans-Regular')
           .text(topFunctions.nFormatter(d.value, 1));
       })
-        .on('mousemove', function(d) {
+        .on('mousemove', function() {
           divHover
             .transition()
             .duration(10)
             .style('opacity', 1);
           divHover.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
         })
-        .on('mouseleave', function(d) {
+        .on('mouseleave', function() {
           divHover
             .transition()
             .duration(10)

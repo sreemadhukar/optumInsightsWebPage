@@ -101,7 +101,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
           this.isError = true;
         }
       })
-      .catch(err => {
+      .catch(() => {
         this.kopInsightsData = null;
         this.npsLoaded = true;
         this.isError = true;
