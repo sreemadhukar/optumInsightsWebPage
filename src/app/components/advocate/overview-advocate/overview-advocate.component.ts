@@ -149,14 +149,14 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.overviewAdvocateSharedService
       .getAppealsLeftShared(this.createPayloadService.payload)
       .then(appealsLeftData => {
-        let AppealsLeftData: any;
         if (
           appealsLeftData &&
           appealsLeftData['Data'][0] &&
-          appealsLeftData['Data'][0] !== null &&
-          appealsLeftData['Data'][0].LineOfBusiness &&
-          appealsLeftData['Data'][0].LineOfBusiness != null
+          appealsLeftData['Data'][0][0] !== null &&
+          appealsLeftData['Data'][0][0].LineOfBusiness &&
+          appealsLeftData['Data'][0][0].LineOfBusiness != null
         ) {
+          let AppealsLeftData: any;
           AppealsLeftData = appealsLeftData['Data'][0];
           this.totalAppeals = this.common.nFormatter(
             AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals
