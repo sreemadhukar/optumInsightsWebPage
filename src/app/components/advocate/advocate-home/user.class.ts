@@ -16,7 +16,7 @@ export interface IAdvTinDetailsResponse {
 }
 
 // This is for dropdown size of the table
-export const pageSizeConf: Array<string> = ['25', '50', '100'];
+export const pageSizeConf: Array<string> = ['9', '18', '27'];
 // This is initialize the pagination
 export const INITIAL_PAGINATION = {
   currentPageNumber: 1,

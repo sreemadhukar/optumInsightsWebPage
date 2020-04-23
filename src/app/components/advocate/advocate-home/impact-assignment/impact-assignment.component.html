@@ -12,15 +12,76 @@
         maxlength="35"
         [matAutocomplete]="auto"
         formControlName="userInput"
-        (keyup)="onSearchInput($event.target.value)"
-        (click)="onSearchClick($event.target.value)"
+        type="text"
+        [(ngModel)]="searchInput"
+        (keyup)="enterQuery()"
+        (keydown.backspace)="enterQuery()"
       />
-      <ng-container>
+      <ng-container *ngIf="searchInput === ''">
         <mat-icon matSuffix svgIcon="search"></mat-icon>
+      </ng-container>
+      <ng-container *ngIf="searchInput != ''">
+        <mat-icon matSuffix class="close-icon" svgIcon="closeGlossary" (click)="resetSearch()"></mat-icon>
       </ng-container>
     </mat-form-field>
   </form>
 </div>
-<div *ngFor="let item of completeData">
-  <app-impact-card [data]="item"></app-impact-card>
+<div class="table-show-count" *ngIf="completeData.length > 0">
+  <span class="table-show-text">
+    Showing {{ afterQuery.length < selectPageSize ? afterQuery.length : selectPageSize }} of {{ completeData.length }}
+  </span>
+</div>
+<ng-container *ngIf="showTable">
+  <div *ngFor="let item of completeData | slice: startIndex:endIndex">
+    <app-impact-card [data]="item"></app-impact-card>
+  </div>
+</ng-container>
+<div class="impact-body">
+  <div class="zebra-stripe"></div>
+  <!-- Table footer-->
+  <div *ngIf="afterQuery.length > pageSizeValues[0]" class="impact--table-footer">
+    <!--pagination left section-->
+    <div class="impact--left-section">
+      <div class="impact--footer-label">Display</div>
+
+      <mat-select [(ngModel)]="selectPageSize" name="p" (selectionChange)="pageSizeMethod()">
+        <mat-option *ngFor="let p of pageSizeValues" [value]="p">
+          {{ p }}
+        </mat-option>
+      </mat-select>
+      <div class="impact--footer-label ml-8">per page</div>
+      <mat-icon class="impact--left-section-arrow-icon" svgIcon="arrow"></mat-icon>
+    </div>
+    <!--pagination left section ends-->
+    <!-- pagination right section-->
+    <div class="impact--right-section">
+      <div>
+        <form (submit)="enterPageNumber()">
+          <div class="impact--footer-label">Page</div>
+          <input
+            [(ngModel)]="currentPageNumber"
+            name="enterPage"
+            class="page-number"
+            [value]="currentPageNumber"
+            onkeyup="this.value=this.value.replace(/[^\d]/,'')"
+          />
+          <div class="impact--footer-label ml-8">of {{ totalPages }}</div>
+        </form>
+      </div>
+      <div class="pagination-btn-widget">
+        <div (click)="prevClick()" class="previous-button mr-8">
+          <button [ngClass]="currentPageNumber > 1 ? 'button-style-blue' : 'button-style'">
+            <mat-icon svgIcon="leftarrow"></mat-icon>
+          </button>
+        </div>
+        <div (click)="nextClick()" class="next-button">
+          <button [ngClass]="currentPageNumber < totalPages ? 'button-style-blue' : 'button-style'">
+            <mat-icon svgIcon="rightarrow"></mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- pagination right section ends-->
+  </div>
+  <!-- Table footer ends-->
 </div>
