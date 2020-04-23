@@ -39,25 +39,26 @@
 <div class="impact-body">
   <div class="zebra-stripe"></div>
   <!-- Table footer-->
-  <div *ngIf="afterQuery.length > pageSizeValues[0]" class="impact--table-footer">
+  <div *ngIf="afterQuery.length > pageSizeValues[0]" class="impact-table-footer">
     <!--pagination left section-->
-    <div class="impact--left-section">
-      <div class="impact--footer-label">Display</div>
+    <div class="impact-left-section">
+      <div class="impact-footer-label">Display</div>
 
       <mat-select [(ngModel)]="selectPageSize" name="p" (selectionChange)="pageSizeMethod()">
         <mat-option *ngFor="let p of pageSizeValues" [value]="p">
           {{ p }}
         </mat-option>
       </mat-select>
-      <div class="impact--footer-label ml-8">per page</div>
-      <mat-icon class="impact--left-section-arrow-icon" svgIcon="arrow"></mat-icon>
+      <mat-icon class="impact-section-arrow-icon" svgIcon="arrow"></mat-icon>
+      <div class="impact-footer-label ml-8">per page</div>
+      <mat-icon class="impact-left-section-arrow-icon" svgIcon="arrow"></mat-icon>
     </div>
     <!--pagination left section ends-->
     <!-- pagination right section-->
-    <div class="impact--right-section">
+    <div class="impact-right-section">
       <div>
         <form (submit)="enterPageNumber()">
-          <div class="impact--footer-label">Page</div>
+          <div class="impact-footer-label">Page</div>
           <input
             [(ngModel)]="currentPageNumber"
             name="enterPage"
@@ -65,7 +66,7 @@
             [value]="currentPageNumber"
             onkeyup="this.value=this.value.replace(/[^\d]/,'')"
           />
-          <div class="impact--footer-label ml-8">of {{ totalPages }}</div>
+          <div class="impact-footer-label ml-8">of {{ totalPages }}</div>
         </form>
       </div>
       <div class="pagination-btn-widget">

@@ -59,12 +59,19 @@
 }
 
 .impact-body {
+  .zebra-stripe {
+    box-sizing: border-box;
+    height: 1px;
+    width: 960px;
+    border: 1px solid #e0e0e0;
+  }
+
   //Footer css
-  .impact--table-footer {
+  .impact-table-footer {
     // display: inline-flex;
     height: 46px;
     padding: 16px 16px 20px 16px;
-    .impact--left-section {
+    .impact-left-section {
       display: inline-flex;
       align-items: flex-start;
       float: left;
@@ -76,7 +83,7 @@
         color: $strom-grey;
       }
     }
-    .impact--right-section {
+    .impact-right-section {
       display: inline-flex;
       align-items: flex-end;
       float: right;
@@ -131,7 +138,7 @@
       vertical-align: middle;
       text-align: center;
     }
-    .impact--footer-label {
+    .impact-footer-label {
       line-height: 20px;
       padding: 10px 8px 10px 0;
       color: $strom-grey;
@@ -139,4 +146,45 @@
       font-size: 14px;
     }
   }
+}
+
+:host ::ng-deep .mat-select-arrow-wrapper {
+  visibility: hidden;
+}
+
+:host ::ng-deep .mat-select {
+  display: block;
+  position: relative;
+  flex: auto;
+  min-width: 0;
+  width: 71px;
+  height: 40px;
+  border: 1px solid rgb(205, 204, 220);
+  text-align: center;
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+:host ::ng-deep .mat-select-value {
+  padding: 10px 9px 10px 12px;
+  color: $black-rock;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  display: table !important;
+}
+
+:host ::ng-deep .mat-select-panel {
+  min-width: 69 !important;
+  box-shadow: none;
+  border-radius: 0px !important;
+}
+
+:host ::ng-deep .mat-select-value-text {
+  color: $black-rock;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
 }
