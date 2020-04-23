@@ -49,7 +49,7 @@
 }
 .table-show-count {
   margin: 0 8px 8px 0;
-
+  text-align: right;
   .table-show-text {
     font-size: 14px;
     line-height: 18px;
@@ -57,15 +57,14 @@
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   }
 }
+.zebra-stripe {
+  box-sizing: border-box;
+  height: 1px;
+  width: 960px;
+  border: 1px solid #e0e0e0;
+}
 
 .impact-body {
-  .zebra-stripe {
-    box-sizing: border-box;
-    height: 1px;
-    width: 960px;
-    border: 1px solid #e0e0e0;
-  }
-
   //Footer css
   .impact-table-footer {
     // display: inline-flex;

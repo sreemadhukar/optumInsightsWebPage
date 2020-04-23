@@ -31,13 +31,13 @@
     Showing {{ afterQuery.length < selectPageSize ? afterQuery.length : selectPageSize }} of {{ completeData.length }}
   </span>
 </div>
+<div class="zebra-stripe"></div>
 <ng-container *ngIf="showTable">
   <div *ngFor="let item of completeData | impactSearch: [searchInput | lowercase] | slice: startIndex:endIndex">
     <app-impact-card [data]="item"></app-impact-card>
   </div>
 </ng-container>
 <div class="impact-body">
-  <div class="zebra-stripe"></div>
   <!-- Table footer-->
   <div *ngIf="afterQuery.length > pageSizeValues[0]" class="impact-table-footer">
     <!--pagination left section-->
@@ -51,7 +51,6 @@
       </mat-select>
       <mat-icon class="impact-section-arrow-icon" svgIcon="arrow"></mat-icon>
       <div class="impact-footer-label ml-8">per page</div>
-      <mat-icon class="impact-left-section-arrow-icon" svgIcon="arrow"></mat-icon>
     </div>
     <!--pagination left section ends-->
     <!-- pagination right section-->
