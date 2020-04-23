@@ -206,10 +206,6 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.externalint.ts"
-                },
-                {
-                  "replace": "src/index.html",
-                  "with": "src/index-int.html"
                 }
               ],
               "optimization": false,
@@ -227,10 +223,6 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.int.ts"
-                },
-                {
-                  "replace": "src/index.html",
-                  "with": "src/index-int.html"
                 }
               ],
               "optimization": false,
