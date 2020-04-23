@@ -6,7 +6,7 @@ COPY .npmrc ./
 
 ENV SASS_BINARY_NAME=linux_musl-x64-72
 
-RUN npm i node-sass@4.13.1 --save && npm i && mkdir /app /.pm2 && cp -R ./node_modules ./app && chmod 777 /.pm2
+RUN npm i node-sass@4.13.0 --save && npm i && mkdir /app /.pm2 && cp -R ./node_modules ./app && chmod 777 /.pm2
 
 ARG env_var
 
