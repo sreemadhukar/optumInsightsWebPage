@@ -42,6 +42,10 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
+                command """
+                node -v
+                npm -v
+                """
                 glDockerImageBuildPush tag: "$tagBase/ui_dev:qaone",
                         dockerHost: 'docker.repo1.uhc.com',
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
