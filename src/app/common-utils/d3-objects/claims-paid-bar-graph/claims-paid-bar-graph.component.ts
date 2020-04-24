@@ -434,8 +434,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     const maxTickNum = preArray[preArray.length - 1].replace(/[^0-9]/g, '');
     // console.log(multiplier, Number(maxTickNum));
     */
-    const xScaleTicksNice = d3
-      .scaleLinear()
+    d3.scaleLinear()
       .domain([0, highestValue])
       .range([400, 900])
       .nice();

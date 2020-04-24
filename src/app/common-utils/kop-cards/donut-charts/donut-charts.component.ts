@@ -30,66 +30,6 @@ export class DonutChartsComponent implements OnInit, AfterViewInit {
   }
 
   doDonutChart(chartData: any, quarter: any, transition: number) {
-    function getTextWidth(txt, fontSize, fontFace) {
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-      context.font = fontSize + 'px ' + fontFace;
-      return context.measureText(txt).width;
-    }
-
-    function wrap(textObject, pixelWidth, uniqueID, fontSize) {
-      textObject.each(function() {
-        let word,
-          line = [];
-        const textLabel = d3.select(this),
-          words = textLabel
-            .text()
-            .split(/\s+/)
-            .reverse(),
-          lineNumber = 0,
-          lineHeight = 1.1, // ems
-          y = textLabel.attr('y'),
-          dy = parseFloat(textLabel.attr('dy'));
-        let tspan = textLabel
-          .text(null)
-          .append('tspan')
-          .attr('x', 12.5)
-          .attr('y', y);
-
-        if (!Number.isNaN(dy)) {
-          tspan = textLabel
-            .text(null)
-            .append('tspan')
-            .attr('x', 12.5)
-            .attr('y', y)
-            .attr('dy', dy + 'em');
-        }
-
-        let i = 0;
-        let dyMultiplier = 1;
-        while ((word = words.pop())) {
-          line.push(word);
-          const line2 = line.join(' ');
-          tspan.text(line.join(' '));
-          if (getTextWidth(line2, fontSize, 'Arial') > pixelWidth) {
-            line.pop();
-            tspan.text(line.join(' '));
-            line = [word];
-            tspan = textLabel
-              .append('tspan')
-              .attr('x', 12.5)
-              .attr('y', y)
-              .attr('dy', 20 * dyMultiplier + 'px')
-              .attr('id', uniqueID + i)
-              .text(word);
-            i++;
-            dyMultiplier++;
-          }
-        }
-      });
-    }
-
-    const topFunctions = this;
     const preWidth = 150;
     d3.select(this.renderChart)
       .selectAll('*')
