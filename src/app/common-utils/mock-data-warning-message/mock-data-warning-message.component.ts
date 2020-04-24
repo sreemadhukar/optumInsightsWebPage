@@ -16,10 +16,12 @@ export class MockDataWarningMessageComponent implements OnInit {
   note: any;
   message: any;
 
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
-    console.log(this.data);
+  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
-    iconRegistry.addSvgIcon('warning', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg'));
+    this.iconRegistry.addSvgIcon(
+      'warning',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg')
+    );
   }
 
   ngOnInit() {

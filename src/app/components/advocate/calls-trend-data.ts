@@ -1,8 +1,8 @@
 export class CallsChartData {
-  private chartData: any[] = [];
-  private generalData: any[] = [];
-  private lineTitle: string;
-  private value: number;
+  public chartData: any[] = [];
+  public generalData: any[] = [];
+  public lineTitle: string;
+  public value: number;
   constructor(chartData, generalData, title) {
     if (chartData) {
       this.chartData = chartData;
@@ -18,12 +18,12 @@ export class CallsChartData {
 }
 
 export class CallsTrendData {
-  private chartId: string;
-  private titleData: any[] = [{}];
-  private lineOne: CallsChartData;
-  private lineTwo: CallsChartData;
-  private lineThree: CallsChartData;
-  private lineFour: CallsChartData;
+  public chartId: string;
+  public titleData: any[] = [{}];
+  public lineOne: CallsChartData;
+  public lineTwo: CallsChartData;
+  public lineThree: CallsChartData;
+  public lineFour: CallsChartData;
 
   constructor(data: any, generalData, title) {
     this.chartId = title;

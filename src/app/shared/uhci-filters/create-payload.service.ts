@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, combineLatest, Observable } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { select } from '@angular-redux/store';
 import { PayLoad } from './payload.class';
 import * as _ from 'lodash';

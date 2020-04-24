@@ -3,8 +3,6 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { PriorAuthSharedService } from '../../../shared/care-delivery/prior-auth-shared.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router } from '@angular/router';
-import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { NgRedux } from '@angular-redux/store';
@@ -39,16 +37,15 @@ export class PriorAuthComponent implements OnInit {
   constructor(
     private checkStorage: StorageService,
     private priorAuthShared: PriorAuthSharedService,
-    private filterExpandService: FilterExpandService,
-    private router: Router,
     private iconRegistry: MatIconRegistry,
     private session: SessionService,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private common: CommonUtilsService,
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pagesubTitle = 'Prior Authorizations';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       // changing the session will trigger ngoninit
@@ -64,13 +61,13 @@ export class PriorAuthComponent implements OnInit {
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
       this.common.urlResuseStrategy();
     });
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'filter',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'close',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
     /*  this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();

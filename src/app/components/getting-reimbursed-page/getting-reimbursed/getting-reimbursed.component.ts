@@ -2,9 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MatIconRegistry, PageEvent } from '@angular/material';
+import { MatIconRegistry } from '@angular/material';
 import { Router } from '@angular/router';
-import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
@@ -48,15 +47,15 @@ export class GettingReimbursedComponent implements OnInit {
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
-    private filterExpandService: FilterExpandService,
+    private sanitizer: DomSanitizer,
     private router: Router,
     private session: SessionService,
     private common: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
     this.tabOptionsTitle = ['Processed', 'Payments', 'Non-Payments', 'Appeals'];
@@ -65,13 +64,13 @@ export class GettingReimbursedComponent implements OnInit {
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
       this.common.urlResuseStrategy();
     });
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'filter',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'close',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
     /*  this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
