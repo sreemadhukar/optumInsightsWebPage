@@ -5,9 +5,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { CURRENT_PAGE } from '../../store/filter/actions';
-import { NgRedux, select } from '@angular-redux/store';
-import { Router, NavigationStart } from '@angular/router';
+import { select } from '@angular-redux/store';
+import { Router } from '@angular/router';
 import * as d3 from 'd3';
 
 @Component({
@@ -45,7 +44,7 @@ export class TinListPageComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private session: SessionService,
-    sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer
   ) {
     this.session.getTins().then(data => {
       this.tinsData = data;
@@ -71,18 +70,21 @@ export class TinListPageComponent implements OnInit {
       this.selectedtins.paginator = this.paginator;
       this.selectedtins.sort = this.sort;
     });
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'backButton',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/TIN-List-Back-Button-Icon.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/TIN-List-Back-Button-Icon.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'search',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
-    iconRegistry.addSvgIcon('info', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/info-24px.svg'));
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
+      'info',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/info-24px.svg')
+    );
+    this.iconRegistry.addSvgIcon(
       'downarrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-24px.svg')
     );
   }
 

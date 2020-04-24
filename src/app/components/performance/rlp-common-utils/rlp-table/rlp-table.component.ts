@@ -1,7 +1,7 @@
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { rlpData, INITIAL_PAGINATION, pageSizeConf } from '../../../../modals/rlp-data';
+import { INITIAL_PAGINATION, pageSizeConf } from '../../../../modals/rlp-data';
 @Component({
   selector: 'app-rlp-table',
   templateUrl: './rlp-table.component.html',
@@ -24,30 +24,32 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   public isAscending: boolean; // used to check sorting of the table
   public showTableBody: boolean;
   public showTableHeader: boolean;
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon(
+  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+    this.iconRegistry.addSvgIcon(
       'arrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        '/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg'
+      )
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'downarrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'rightarrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/chevron_right-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/chevron_right-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'leftarrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/chevron_left-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/chevron_left-24px.svg')
     );
     iconRegistry.addSvgIcon(
       'search',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'close',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
   }
 
