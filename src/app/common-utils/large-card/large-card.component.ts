@@ -18,14 +18,14 @@ export class LargeCardComponent implements OnInit {
   printStyle: boolean;
   constructor(
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private glossaryExpandService: GlossaryExpandService,
     private router: Router
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'help',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
     );
   }
 

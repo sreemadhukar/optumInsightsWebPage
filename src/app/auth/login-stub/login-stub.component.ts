@@ -6,7 +6,6 @@ import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../_service/authentication.service';
 import { InternalService } from '../_service/internal.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
 import { SessionService } from '../../shared/session.service';
 import { MatDialog, MatIconRegistry } from '@angular/material';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
@@ -47,7 +46,6 @@ export class LoginStubComponent implements OnInit {
     private authService: AuthenticationService,
     private internalService: InternalService,
     private router: Router,
-    private providerSharedService: ProviderSharedService,
     private dialog: MatDialog,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
@@ -61,9 +59,9 @@ export class LoginStubComponent implements OnInit {
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     this.checkExecutive = this.sessionService.checkExecutiveRole();
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'error',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
     );
   }
 

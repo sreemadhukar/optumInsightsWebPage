@@ -44,33 +44,37 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
     private summaryTrends: SummaryTrendsSharedService,
     private session: SessionService,
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private filterExpandService: FilterExpandService,
     private common: CommonUtilsService,
     private cdRef: ChangeDetectorRef,
     private ngRedux: NgRedux<IAppState>
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    iconRegistry.addSvgIcon(
+    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
-    iconRegistry.addSvgIcon('trending_up', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trend-up.svg'));
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
+      'trending_up',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trend-up.svg')
+    );
+    this.iconRegistry.addSvgIcon(
       'trending_down',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trend-down.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trend-down.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'trending_up_red',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/up-negative-no-circle.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/up-negative-no-circle.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'trending_down_green',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/down-positive-no-circle.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/down-positive-no-circle.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'trending_flat',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trending_flat-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trending_flat-24px.svg')
     );
 
     this.summaryTrends.sharedSummaryTrendsCount().then(r => {
