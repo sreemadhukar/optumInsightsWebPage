@@ -19,7 +19,6 @@ import {
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
-import { Location } from '@angular/common';
 import { SessionService } from '../../shared/session.service';
 import { TaxId } from './filter-settings/filter-options';
 import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
@@ -80,16 +79,17 @@ export class UhciFiltersComponent implements OnInit {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
-    private location: Location,
+    private sanitizer: DomSanitizer,
     private session: SessionService,
     private createPayloadService: CreatePayloadService,
     private gettingReimbursedservice: GettingReimbursedSharedService,
     private common: CommonUtilsService
   ) {
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'arrowdn',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        '/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg'
+      )
     );
     this.collapseToggle = filterToggles;
     // this.selectedService=this.serviceCategories[0].name;

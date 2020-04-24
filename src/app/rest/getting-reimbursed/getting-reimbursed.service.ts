@@ -1,10 +1,10 @@
 /* @author gmounika */
 import { Injectable } from '@angular/core';
-import { GettingReimbursedModule } from '../../components/getting-reimbursed-page/getting-reimbursed.module';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
+import { get as _get } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +14,8 @@ export class GettingReimbursedService {
   private APP_URL: string = environment.apiProxyUrl;
   private CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsSummary;
   private CLAIMS_SERVICE_PATH_DOP: string = environment.apiUrls.NonPaymentDop;
-  private AGG_CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsAgg;
-  private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals; // old
+  // private AGG_CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsAgg;
+  // private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals; // old
   private APPEALS_SERVICE: string = environment.apiUrls.AppealsFHIR; // new
   private APPEALS_OVERTURN: string = environment.apiUrls.AppealsOverturn;
   private TINS_SERVICE_PATH: string = environment.apiUrls.ProvTinList;
@@ -34,18 +34,6 @@ export class GettingReimbursedService {
     );
   }
 
-  /*  public appealsData(...parameters) {
-    const appealsParams = parameters[1];
-    if (!appealsParams.Tin) {
-      appealsParams.AllProviderTins = true;
-    }
-    const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
-    return this.http.post(appealsURL, appealsParams).pipe(
-      map(res => JSON.parse(JSON.stringify(res))),
-      catchError(err => of(JSON.parse(JSON.stringify(err))))
-    );
-  }*/
-
   /** function for Appeals PDP api */
   public claimsAppealsData(...parameters) {
     // const appealsParam = parameters[1];
@@ -60,13 +48,17 @@ export class GettingReimbursedService {
     /*SEE ABOVE*/
     let appealsReqType = '';
     if (parameters[1].appealsProcessing === 'Received Date') {
-      appealsReqType = '?requestType=APPEALS_MEASURE_DOR_HCO';
+      appealsReqType = '?request-type=APPEALS_MEASURE_DOR_HCO';
     } else {
-      appealsReqType = '?requestType=APPEALS_MEASURE_DOC_HCO';
+      appealsReqType = '?request-type=APPEALS_MEASURE_DOC_HCO';
     }
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE + parameters[0] + appealsReqType;
     return this.http.post(appealsURL, appealsParam).pipe(
-      map(res => JSON.parse(JSON.stringify(res))),
+      map(res => {
+        let dataValue = _get(res, ['Data', '0'], []);
+        dataValue = dataValue.length ? dataValue : { Status: 404 };
+        return dataValue;
+      }),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
@@ -78,13 +70,17 @@ export class GettingReimbursedService {
       delete appealsParam.FundingTypeCodes;
     }
     if (parameters[1].appealsProcessing === 'Received Date') {
-      appealsReqType = '?requestType=APPEALS_TOP_OVERTURNED_REASON_DOR_HCO';
+      appealsReqType = '?request-type=APPEALS_TOP_OVERTURNED_REASON_DOR_HCO';
     } else {
-      appealsReqType = '?requestType=APPEALS_TOP_OVERTURNED_REASON_DOC_HCO';
+      appealsReqType = '?request-type=APPEALS_TOP_OVERTURNED_REASON_DOC_HCO';
     }
     const appealsURL = this.APP_URL + this.APPEALS_OVERTURN + parameters[0] + appealsReqType;
     return this.http.post(appealsURL, appealsParam).pipe(
-      map(res => JSON.parse(JSON.stringify(res))),
+      map(res => {
+        let dataValue = _get(res, ['Data', '0'], []);
+        dataValue = dataValue.length ? dataValue : { Status: 404 };
+        return dataValue;
+      }),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, Inject, ViewEncapsulation } from '@angular/core';
 import { Subject, interval } from 'rxjs';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Router } from '@angular/router';
 import { map, takeUntil } from 'rxjs/operators';
 import { AuthenticationService } from '../_service/authentication.service';
 
@@ -18,7 +17,6 @@ export class IdleTimeoutDialogComponent implements OnDestroy {
   constructor(
     public dialogRef: MatDialogRef<IdleTimeoutDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private router: Router,
     private authService: AuthenticationService
   ) {
     this.timeLeftSeconds = data.timeOut;
