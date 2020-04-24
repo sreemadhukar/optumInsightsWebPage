@@ -225,7 +225,9 @@ export class OverviewAdvocateSharedService {
           const claimsData = [];
           const paData = [];
           const other = [];
-          if (callsTrendData[0] && callsTrendData[0].status === 200) {
+          if (callsTrendData[0] && callsTrendData[0].status && callsTrendData[0].status !== 200) {
+            resolve(null);
+          } else {
             callsTrendData[0].forEach(element => {
               if (element.CallVolByQuesType.BenefitsEligibility) {
                 this.collectiveBeData = element.CallVolByQuesType.BenefitsEligibility;
@@ -324,8 +326,6 @@ export class OverviewAdvocateSharedService {
               callsTrendFormattedData['Other'] = null;
             }
             resolve(callsTrendFormattedData);
-          } else {
-            resolve(null);
           }
         },
         err => {
