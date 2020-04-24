@@ -167,6 +167,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
         return true;
       }
     });
+
     this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
   }
 
@@ -193,6 +194,11 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     if (value === 'qGroupNameSearch') {
       this.qGroupNameSearch = '';
     }
+    this.enterQuery();
+  }
+
+  focusMethod() {
+    document.getElementById('groupName').focus();
   }
 
   ngOnDestroy() {}

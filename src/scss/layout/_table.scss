@@ -32,6 +32,21 @@
     padding: 0;
   }
 
+  &-input-query-g {
+    // display: block;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    // margin-top: 16px;
+    // height: 40px;
+    // border: 1px solid $heather;
+    // border-radius: 2px;
+    color: $strom-grey;
+    appearance: none;
+    background-color: $white;
+    text-indent: 12px;
+    padding: 0;
+  }
+
   &-head-text {
     font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     color: #2d2d39;
@@ -50,7 +65,7 @@
 .search-icon-group {
   position: absolute;
   color: #757588;
-  right: 30px;
+  right: 10px;
   top: 10px;
 }
 
@@ -61,25 +76,44 @@
 .search-box {
   position: relative;
 }
+
+.search-box-g {
+  position: relative;
+  width: 267px;
+  border: 1px solid $heather;
+  border-radius: 2px;
+  color: $strom-grey;
+  height: 40px;
+  margin-top: 16px;
+}
+
+.search-box-g:focus-within {
+  border: 1.5px solid rgb(77, 144, 254);
+}
+
 //input custom width
 .tin-input-width {
-  width: 117px;
+  width: 173px;
 }
 .tinname-input-width {
-  width: 267px;
+  width: 230px;
+  border: none;
+  height: 40px;
+  outline: none;
 }
 
 //table column widths
 .rlp-table {
   &-tin {
-    flex: 0.4;
+    flex: 0.6;
     padding-right: 16px;
   }
   &-group {
     flex: 0.97;
   }
   &-bar {
-    flex: 1.8;
+    flex: 1.65;
+    padding-left: 10px;
     display: inline-flex;
     cursor: pointer;
     cursor: hand;
@@ -177,6 +211,16 @@
     font-size: 14px;
   }
 }
+.table-show-count {
+  margin: 0 8px 8px 0;
+
+  .table-show-text {
+    font-size: 14px;
+    line-height: 18px;
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  }
+}
 
 //Input place holder css for chrome
 ::-webkit-input-placeholder {
@@ -260,7 +304,7 @@
   font-size: 16px;
   line-height: 22px;
 }
-//sorting icon classses
+//sorting icon classes
 .nav-menu-icons {
   margin: 0px 12px;
   vertical-align: middle;

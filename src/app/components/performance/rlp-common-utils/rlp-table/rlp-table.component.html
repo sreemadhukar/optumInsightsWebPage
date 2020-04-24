@@ -1,3 +1,9 @@
+<!-- Show tablecount-->
+<div class="table-show-count" *ngIf="tableData.length > 0">
+  <span class="table-show-text">
+    Showing {{ afterQuery.length < selectPageSize ? afterQuery.length : selectPageSize }} of {{ afterQuery.length }}
+  </span>
+</div>
 <!-- table container-->
 <div class="table-container" *ngIf="!skeletonTable">
   <!--Table header starts-->
@@ -12,6 +18,7 @@
           [(ngModel)]="qTinSearch"
           (keyup)="enterQuery()"
           (keydown.backspace)="enterQuery()"
+          maxlength="10"
         />
         <mat-icon class="search-icon" matSuffix svgIcon="search" *ngIf="!qTinSearch"></mat-icon>
         <mat-icon
@@ -25,10 +32,10 @@
     </div>
     <div class="rlp-table-group">
       <div class="table-head-text">{{ tableHeader[1] }}</div>
-      <div class="search-box">
+      <div class="search-box-g">
         <input
           type="text"
-          class="table-input-query tinname-input-width"
+          class="table-input-query-g tinname-input-width"
           placeholder=""
           [(ngModel)]="qGroupNameSearch"
           (keyup)="enterQuery()"

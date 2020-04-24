@@ -38,7 +38,7 @@ export class AppealsSharedService {
       /** Changed the function name from appealsData to claimsAppealsData for PDP API*/
       this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
         const lobFullData = this.common.getFullLobData(this.lob);
-        if (appealsData != null && appealsData.hasOwnProperty('status')) {
+        if (appealsData != null && appealsData.hasOwnProperty('Status')) {
           appealsSubmitted = {
             category: 'app-card',
             type: 'donutWithoutLabelBottom',
@@ -313,7 +313,7 @@ export class AppealsSharedService {
               timeperiod: null
             });
           } else if (appealsReasonData !== null) {
-            if (appealsReasonData != null && appealsReasonData.hasOwnProperty('status')) {
+            if (appealsReasonData != null && appealsReasonData.hasOwnProperty('Status')) {
               reason.push({
                 category: 'app-card',
                 type: 'donut',
@@ -391,7 +391,7 @@ export class AppealsSharedService {
           const lobFullData = this.common.getFullLobData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
 
-          if (appealsData && appealsData.hasOwnProperty('status')) {
+          if (appealsData && appealsData.hasOwnProperty('Status')) {
             appealsOverturnedRate = {
               category: 'app-card',
               // type: 'donutWithBottomLabelOnly',
@@ -590,7 +590,7 @@ export class AppealsSharedService {
         this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.getFullLobData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
-          if (appealsData && appealsData.hasOwnProperty('status')) {
+          if (appealsData && appealsData.hasOwnProperty('Status')) {
             appealsOverturnedRate = {
               category: 'app-card',
               // type: 'donutWithBottomLabelOnly',
@@ -803,7 +803,7 @@ export class AppealsSharedService {
     let appealsOverturned = {};
     let appealsSubmittedTitle = 'Claims Appeals Submitted';
 
-    if (appealsData && appealsData.hasOwnProperty('status')) {
+    if (appealsData && appealsData.hasOwnProperty('Status')) {
       appealsSubmitted = {
         category: 'app-card',
         type: 'donutWithoutLabelBottom',
