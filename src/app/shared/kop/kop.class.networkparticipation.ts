@@ -94,7 +94,7 @@ export class NetworkParticipation {
       },
       {
         quarters: [],
-        cardType: 'hollowbox',
+        cardType: 'miniDonut',
         key: 'SatWithCredentialing',
         subKey: 'SatWithCredentialingValue',
         singleCard: this.singleCard,
