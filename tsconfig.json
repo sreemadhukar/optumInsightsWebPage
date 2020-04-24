@@ -7,7 +7,6 @@
     "declaration": false,
     "module": "es2015",
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
