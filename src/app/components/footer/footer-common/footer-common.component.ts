@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-footer-common',
   templateUrl: './footer-common.component.html',

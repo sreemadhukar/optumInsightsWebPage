@@ -1,9 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-interface IListItem {
-  tin: string;
-  groupName: string;
-  graphData: any;
-}
 
 @Pipe({
   name: 'rlpSearch'

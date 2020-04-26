@@ -15,12 +15,12 @@ export class PrintComponent implements OnInit {
   selectedPage;
   overviewBool: boolean;
   printDisable: boolean;
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router) {
+  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'print-icon',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/print-icon.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/print-icon.svg')
     );
     if (this.router.url.includes('print-')) {
       this.printDisable = true;

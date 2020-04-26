@@ -4,8 +4,8 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { Router } from '@angular/router';
 import { GroupPremiumDesignationService } from './../../../rest/group-premium-designation/group-premium-designation.service';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
-import { NgRedux, select } from '@angular-redux/store';
-import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
+import { NgRedux } from '@angular-redux/store';
+import { REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from '../../../../../src/app/shared/session.service';
@@ -32,7 +32,8 @@ export class HealthSystemDetailsComponent implements OnInit {
     private session: SessionService
   ) {
     // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.common.urlResuseStrategy();
       this.createPayloadService.resetTinNumber('HealthSystemDetails');
