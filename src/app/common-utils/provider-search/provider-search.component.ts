@@ -1,17 +1,11 @@
 import { Component, OnInit, AfterViewInit, Inject, EventEmitter } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { map, startWith, debounceTime } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
 import { Providers } from '../../shared/provider/provider.class';
-import {
-  MatIconRegistry,
-  MatDialogRef,
-  MatAutocompleteSelectedEvent,
-  MatAutocompleteModule,
-  MAT_DIALOG_DATA
-} from '@angular/material';
+import { MatIconRegistry, MatDialogRef, MatAutocompleteSelectedEvent, MAT_DIALOG_DATA } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from '../../shared/storage-service.service';
 import get from 'lodash.get';
@@ -49,27 +43,26 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   isInternal: boolean = environment.internalAccess;
 
   constructor(
-    private fb: FormBuilder,
     private providerSharedService: ProviderSharedService,
     private iconRegistry: MatIconRegistry,
     private storage: StorageService,
     private dialogRef: MatDialogRef<ProviderSearchComponent>,
     private router: Router,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'cross',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
     );
 
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'search',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'noData',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
     );
 
     // Set optional label value from parent component

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
-import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { OverviewAdvocateService } from '../../rest/advocate/overview-advocate.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
@@ -26,7 +25,6 @@ export class OverviewAdvocateSharedService {
     private MetricidService: GlossaryMetricidService,
     private common: CommonUtilsService,
     private session: SessionService,
-    private toggle: AuthorizationService,
     private overviewAdvocateService: OverviewAdvocateService
   ) {}
 

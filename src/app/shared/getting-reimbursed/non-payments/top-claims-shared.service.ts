@@ -1,15 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GettingReimbursedModule } from '../../../components/getting-reimbursed-page/getting-reimbursed.module';
-import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
-import { AuthorizationService } from '../../../auth/_service/authorization.service';
-import { GlossaryMetricidService } from '../../glossary-metricid.service';
-import { AdvocateModule } from '../../../components/advocate/advocate.module';
-import { HttpParams } from '@angular/common/http';
 import { GettingReimbursedPayload } from '../payload.class';
-import * as _ from 'lodash';
-import { environment } from '../../../../environments/environment';
 import { NonPaymentTopClaimsService } from './../../../rest/getting-reimbursed/non-payment-top-claims.service';
 
 @Injectable({
@@ -21,12 +12,7 @@ export class TopClaimsSharedService {
   public providerKey: number;
   public specificTin: any;
 
-  constructor(
-    private nonPaymentTopClaimsService: NonPaymentTopClaimsService,
-    private session: SessionService,
-    private common: CommonUtilsService,
-    private toggle: AuthorizationService
-  ) {}
+  constructor(private nonPaymentTopClaimsService: NonPaymentTopClaimsService, private session: SessionService) {}
   public getClaimsData(filterParameters, reasonSelected, subReason) {
     this.providerKey = this.session.providerKeyData();
 
