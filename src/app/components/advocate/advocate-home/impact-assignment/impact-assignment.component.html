@@ -31,8 +31,11 @@
 </div>
 
 <ng-container *ngIf="showTable">
-  <div *ngFor="let item of completeData | impactSearch: searchInput | slice: startIndex:endIndex">
-    <app-impact-card [data]="item"></app-impact-card>
+  <div class="impact-cards-container">
+    <app-impact-card
+      *ngFor="let item of completeData | impactSearch: searchInput | slice: startIndex:endIndex"
+      [data]="item"
+    ></app-impact-card>
   </div>
 </ng-container>
 <div class="impact-body">
