@@ -10,16 +10,15 @@
         matInput
         placeholder="Filter IMPACT Assignments"
         maxlength="35"
-        formControlName="userInput"
         type="text"
         [(ngModel)]="searchInput"
-        (keyup)="enterQuery()"
-        (keydown.backspace)="enterQuery()"
+        (keyup)="enterQuery($event.target.value)"
+        (keydown.backspace)="enterQuery($event.target.value)"
       />
-      <ng-container *ngIf="searchInput === ''">
+      <ng-container *ngIf="isInputEmpty">
         <mat-icon matSuffix svgIcon="search"></mat-icon>
       </ng-container>
-      <ng-container *ngIf="searchInput != ''">
+      <ng-container *ngIf="!isInputEmpty">
         <mat-icon matSuffix class="close-icon" svgIcon="closeGlossary" (click)="resetSearch()"></mat-icon>
       </ng-container>
     </mat-form-field>

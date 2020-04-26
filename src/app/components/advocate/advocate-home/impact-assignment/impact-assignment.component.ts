@@ -3,7 +3,7 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HomeService } from '../../../../rest/advocate/home.service';
 import { SessionService } from '../../../../shared/session.service';
-import { IUserResponse, IAdvTinDetailsResponse, pageSizeConf, INITIAL_PAGINATION } from '../user.class';
+import { IAdvTinDetailsResponse, pageSizeConf, INITIAL_PAGINATION } from '../user.class';
 import { Subscription, Observable, of } from 'rxjs';
 @Component({
   selector: 'app-impact-assignment',
@@ -11,7 +11,7 @@ import { Subscription, Observable, of } from 'rxjs';
   styleUrls: ['./impact-assignment.component.scss']
 })
 export class ImpactAssignmentComponent implements OnInit, OnDestroy {
-  public completeData: any;
+  public completeData: IAdvTinDetailsResponse[];
   public getData$: Subscription;
   public searchInput: string; // Input ngModel of Impact assignment search
   public afterQuery: any; // afterquery is an array of type Table Data and used to check the filtered array of items
@@ -21,9 +21,10 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
   public endIndex: number; // end point of the items displayed for the current state
   public totalPages: number; // total Number of pages i.e. Number of available records/ PageSize
   public pageSizeValues: Array<string>; // Dropdown option values
+  public isInputEmpty: boolean;
   public showTable: boolean;
   constructor(
-    private iconRegistry: MatIconRegistry,
+    iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private homeService: HomeService,
     private session: SessionService
@@ -67,14 +68,15 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
     // this.session.sessionStorage('loggedUser', 'MsId')
     this.pageSizeValues = [...pageSizeConf];
     this.selectPageSize = this.pageSizeValues[0];
+    this.setPagination();
     this.showTable = false;
+    this.isInputEmpty = true;
     this.getData$ = this.homeService.getAdvDetails('gpalomi1').subscribe(
       data => {
         this.completeData = [...data];
         this.afterQuery = [...this.completeData];
         this.totalPages = Math.ceil(this.completeData.length / +this.selectPageSize);
         this.showTable = true;
-        this.setPagination();
         console.log('Data', data);
       },
       err => {
@@ -85,6 +87,7 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
 
   resetSearch() {
     this.searchInput = '';
+    this.isInputEmpty = true;
   }
   /**
    * setPagination function handle the current state of pagination
@@ -150,7 +153,9 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
    * enterQuery() is the function for setting up totalPages dynamically on the basis of search
    * for both Tin and Group name
    */
-  enterQuery() {
+  enterQuery(val: string) {
+    console.log('val', val);
+    this.isInputEmpty = val.length ? false : true;
     this.setPagination(1, 0, +this.selectPageSize);
     if (this.searchInput === undefined) {
       console.log('Inputs are empty');
