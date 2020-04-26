@@ -359,13 +359,11 @@ export class OverviewAdvocateSharedService {
               data: {
                 graphValues: [
                   {
-                    name: '',
                     ...this.setGraphValues(getData, param['viewClaimsByFilter'])
                   }
                 ],
                 color: ['#3381FF', '#00B8CC'],
-                gdata: ['card-inner', 'paymentBySubmission'],
-                sdata: null
+                gdata: ['card-inner', 'paymentBySubmission']
               },
               status: null,
               timeperiod: this.setTimePeriodValue(getData, param['viewClaimsByFilter'])
@@ -385,7 +383,7 @@ export class OverviewAdvocateSharedService {
    * @param resObj Parsed response object
    * @param claimsBy View Claims By Filter Value
    */
-  setGraphValues(resObj, claimsBy) {
+  setGraphValues(resObj, claimsBy): Object {
     if (claimsBy === 'DOP') {
       return {
         electronic: resObj.EDISubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount,

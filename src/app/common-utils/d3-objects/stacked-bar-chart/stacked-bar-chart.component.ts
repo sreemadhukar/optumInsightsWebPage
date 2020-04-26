@@ -1,6 +1,15 @@
 import { Component, OnInit, ViewEncapsulation, Input, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 
+export interface IStackedValues {
+  electronic: number;
+  paper: number;
+}
+export interface IStackBarChart {
+  color: Array<string>;
+  gdata: Array<string>;
+  graphValues: IStackedValues[];
+}
 @Component({
   selector: 'app-stacked-bar-chart',
   templateUrl: './stacked-bar-chart.component.html',
@@ -21,7 +30,6 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
     this.renderChart = '#' + this.chartOptions.chartId;
   }
 
-  // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
     this.doStaggedBarGraph(this.chartOptions);
   }
@@ -34,9 +42,7 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
     this.doStaggedBarGraph(this.chartOptions.data);
   }
 
-  // tslint:disable-next-line:use-life-cycle-interface
-
-  doStaggedBarGraph(barData) {
+  doStaggedBarGraph(barData: IStackBarChart) {
     function nondecimalFormatter(fnumber) {
       if (fnumber >= 1000000000) {
         return (fnumber / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
@@ -54,30 +60,10 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
     }
     // ends formatDynamicAbbrevia function
 
-    // Need to bind with js
-    /* const chartData = {
-      leftSide: [
-        {
-          label: 'Electronic Claims',
-          dataTextValue: '$8.7 M',
-          dataPercent: '86.4%',
-          color: 'blue'
-        },
-        {
-          label: 'Paper Claims',
-          dataTextValue: '$261.7 K',
-          dataPercent: '3.3%',
-          color: 'red'
-        }
-      ]
-    };*/
-
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
     // select the svg container first
-    // const width = 550;
-    // const height = 400;
     const width = 430;
     const height = 250;
     const barSeparator = 2;
@@ -99,31 +85,13 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
       .attr('transform', `translate(${margin.left - 37}, ${margin.top})`);
 
     // create axes groups
-    const xAxisGroup = graph.append('g').attr('transform', `translate(0, ${graphHeight})`);
+    // const xAxisGroup = graph.append('g').attr('transform', `translate(0, ${graphHeight})`);
+    graph.append('g').attr('transform', `translate(0, ${graphHeight})`);
 
     const yAxisGroup = graph.append('g');
     const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 180}, ${margin.top + 85})`);
 
     const data = barData.graphValues;
-
-    /*** ADDED  BELOW CODE AS PER SHANNON's REQUEST ***/
-    const svgText = svg
-      .append('text')
-      .attr('x', () => 88)
-      .attr('y', () => 240)
-      .attr('fill', '#757588')
-      .text('') // Remove the text label
-      .classed('labels', true);
-    /*** ADDED  ABOVE CODE AS PER SHANNON's REQUEST ***/
-
-    // Data Binding to be used
-    /*const data = [
-      {
-        name: 'Stacked Bar Chart',
-        electronic: barData.Electronic_Claims.toFixed(0),
-        paper: barData.Paper_Claims.toFixed(0)
-      }
-    ];*/
 
     leftContainer
       .append('circle')
@@ -140,15 +108,6 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
       .text('Electronic Claims')
       .classed('labels', true);
 
-    /* leftContainer
-      .append('text')
-      .attr('x', () => 40)
-      .attr('y', () => 40)
-      .attr('fill', 'black')
-      .text('$8.7 M (86.4%)')
-      .style('font-family', 'Arial')
-      .style('font-size', '13px'); */
-
     leftContainer
       .append('circle')
       .attr('cx', 10)
@@ -163,15 +122,6 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
       .attr('fill', 'black')
       .text('Paper Claims')
       .classed('labels', true);
-
-    /* leftContainer
-      .append('text')
-      .attr('x', 40)
-      .attr('y', 90)
-      .attr('fill', 'black')
-      .text('$261.7 K (3.3%)')
-      .style('font-family', 'Arial')
-      .style('font-size', '13px'); */
 
     const y = d3
       .scaleLinear()
@@ -285,7 +235,7 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
       });
 
     // create & call axes
-    const xAxis = d3.axisBottom(x);
+    // const xAxis = d3.axisBottom(x);
     const yAxis = graph
       .append('g')
       .attr('class', 'yscalesize')
