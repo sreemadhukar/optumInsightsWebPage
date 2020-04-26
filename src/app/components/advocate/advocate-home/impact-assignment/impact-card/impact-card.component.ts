@@ -9,5 +9,7 @@ export class ImpactCardComponent implements OnInit {
   @Input() data: IAdvTinDetailsResponse;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('Impact Card', this.data);
+  }
 }

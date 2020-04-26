@@ -5,7 +5,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ImpactSearchPipe implements PipeTransform {
   transform(value: any, args?: any): any {
-    console.log('args', args);
-    return value;
+    if (typeof args === undefined) {
+      return value;
+    }
+    const regex = new RegExp(`${args}`, 'g');
+    return value.filter(el => regex.test(el.Tin) || regex.test(el.TinName));
   }
 }

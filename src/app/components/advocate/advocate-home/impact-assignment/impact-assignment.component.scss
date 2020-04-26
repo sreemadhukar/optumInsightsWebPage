@@ -36,15 +36,30 @@
   color: $strom-grey;
   padding: 5px 5px 0 5px;
 }
-.impact-searchbox {
-  ::ng-deep .mat-form-field-flex .mat-form-field-outline-start,
-  ::ng-deep .mat-form-field-flex .mat-form-field-outline-end {
-    background: $white;
+.search-box {
+  position: relative;
+  width: 400px;
+  //input custom width
+  &-input-query {
+    display: block;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    margin-top: 16px;
+    height: 40px;
+    border: 1px solid $heather;
+    border-radius: 2px;
+    color: $strom-grey;
+    appearance: none;
+    background-color: $white;
+    text-indent: 12px;
+    padding: 0;
+    width: 100%;
   }
-  ::ng-deep .search-mat-field .mat-form-field-infix {
-    display: inline-flex;
-    padding: 14px 0 13px 0;
-    border-top: 1px solid transparent;
+  .search-icon {
+    position: absolute;
+    color: #757588;
+    right: 10px;
+    top: 10px;
   }
 }
 .table-show-count {

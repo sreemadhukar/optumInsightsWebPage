@@ -77,7 +77,6 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
         this.afterQuery = [...this.completeData];
         this.totalPages = Math.ceil(this.completeData.length / +this.selectPageSize);
         this.showTable = true;
-        console.log('Data', data);
       },
       err => {
         console.log('Error Advocate home page', err);
@@ -154,29 +153,9 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
    * for both Tin and Group name
    */
   enterQuery(val: string) {
-    console.log('val', val);
     this.isInputEmpty = val.length ? false : true;
-    this.setPagination(1, 0, +this.selectPageSize);
-    if (this.searchInput === undefined) {
-      console.log('Inputs are empty');
-    }
-    this.afterQuery = this.completeData.filter(el => {
-      return el;
-      // if (el.tin.indexOf([this.qTinSearch]) !== -1 && this.qGroupNameSearch === undefined) {
-      //   return true;
-      // } else if (
-      //   this.qTinSearch === undefined &&
-      //   el.groupName.toLowerCase().indexOf([this.qGroupNameSearch.toLowerCase()]) !== -1
-      // ) {
-      //   return true;
-      // } else if (
-      //   el.tin.indexOf([this.qTinSearch]) !== -1 &&
-      //   el.groupName.toLowerCase().indexOf([this.qGroupNameSearch.toLowerCase()]) !== -1
-      // ) {
-      //   return true;
-      // }
-    });
-
+    const regex = new RegExp(`${val}`, 'g');
+    this.afterQuery = this.completeData.filter(el => regex.test(el.Tin) || regex.test(el.TinName));
     this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
   }
 
