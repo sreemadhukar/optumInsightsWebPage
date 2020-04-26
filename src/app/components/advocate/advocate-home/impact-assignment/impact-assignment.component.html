@@ -1,38 +1,37 @@
+<div class="zebra-stripe"></div>
 <div class="search-title-block">
   <mat-icon matPrefix class="nav-menu-icons search-title-icon" svgIcon="star"></mat-icon>
   <p class="search-title">Personalized for You</p>
 </div>
 <p class="search-sub-title">Tax IDs for IMPACT Assignments</p>
-<div class="impact-searchbox">
-  <form class="example-form">
-    <mat-form-field class="search-mat-field" appearance="outline" [style.width.px]="386">
-      <input
-        matInput
-        placeholder="Filter IMPACT Assignments"
-        maxlength="35"
-        formControlName="userInput"
-        type="text"
-        [(ngModel)]="searchInput"
-        (keyup)="enterQuery()"
-        (keydown.backspace)="enterQuery()"
-      />
-      <ng-container *ngIf="searchInput === ''">
-        <mat-icon matSuffix svgIcon="search"></mat-icon>
-      </ng-container>
-      <ng-container *ngIf="searchInput != ''">
-        <mat-icon matSuffix class="close-icon" svgIcon="closeGlossary" (click)="resetSearch()"></mat-icon>
-      </ng-container>
-    </mat-form-field>
-  </form>
+<div class="search-box">
+  <input
+    class="search-box-input-query"
+    placeholder="Filter IMPACT Assignments"
+    maxlength="35"
+    type="text"
+    [(ngModel)]="searchInput"
+    (keyup)="enterQuery($event.target.value)"
+    (keydown.backspace)="enterQuery($event.target.value)"
+  />
+  <mat-icon class="search-icon" matSuffix svgIcon="search" *ngIf="isInputEmpty"></mat-icon>
+  <mat-icon
+    class="search-icon close-curser"
+    matSuffix
+    svgIcon="close"
+    (click)="clearValue('qTinSearch')"
+    *ngIf="!isInputEmpty"
+  ></mat-icon>
 </div>
+
 <div class="table-show-count" *ngIf="completeData.length > 0">
   <span class="table-show-text">
     Showing {{ afterQuery.length < selectPageSize ? afterQuery.length : selectPageSize }} of {{ completeData.length }}
   </span>
 </div>
-<div class="zebra-stripe"></div>
+
 <ng-container *ngIf="showTable">
-  <div *ngFor="let item of completeData | impactSearch: [searchInput | lowercase] | slice: startIndex:endIndex">
+  <div *ngFor="let item of completeData | impactSearch: searchInput | slice: startIndex:endIndex">
     <app-impact-card [data]="item"></app-impact-card>
   </div>
 </ng-container>
