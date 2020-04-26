@@ -359,6 +359,7 @@ export class OverviewAdvocateSharedService {
               data: {
                 graphValues: [
                   {
+                    name: '',
                     ...this.setGraphValues(getData, param['viewClaimsByFilter'])
                   }
                 ],

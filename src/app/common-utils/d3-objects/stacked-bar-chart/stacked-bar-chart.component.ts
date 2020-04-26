@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Input, AfterViewInit } from '@ang
 import * as d3 from 'd3';
 
 export interface IStackedValues {
+  name: string;
   electronic: number;
   paper: number;
 }
