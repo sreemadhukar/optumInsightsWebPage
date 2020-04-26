@@ -1,7 +1,6 @@
 import { Injectable, OnDestroy, EventEmitter } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { share } from 'rxjs/operators';
-import { Router } from '@angular/router';
+// import { share } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +8,10 @@ import { Router } from '@angular/router';
 export class StorageService implements OnDestroy {
   providerChange: EventEmitter<any> = new EventEmitter();
   private onSubject = new Subject<{ key: string; value: any }>();
-  private changes = this.onSubject.asObservable().pipe(share());
+  // private changes = this.onSubject.asObservable().pipe(share());
   private subject = new Subject<any>();
 
-  constructor(private route: Router) {
+  constructor() {
     // this.start();
   }
 

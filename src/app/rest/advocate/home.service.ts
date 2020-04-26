@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { IUserResponse, IAdvTinDetailsResponse } from '../../components/advocate/advocate-home/user.class';
 import { environment } from '../../../environments/environment';
@@ -22,12 +22,10 @@ export class HomeService {
       filter.searchType +
       '&search-value=' +
       filter.searchValue;
-    return this.http
-      .get<IUserResponse[]>(searchURL, { params: myparam })
-      .pipe(
-        map((response: IUserResponse) => response),
-        catchError(err => err)
-      );
+    return this.http.get<IUserResponse[]>(searchURL, { params: myparam }).pipe(
+      map((response: IUserResponse) => response),
+      catchError(err => err)
+    );
   }
   getAdvDetails(param: string): Observable<IAdvTinDetailsResponse[]> {
     const myparam = new HttpParams();

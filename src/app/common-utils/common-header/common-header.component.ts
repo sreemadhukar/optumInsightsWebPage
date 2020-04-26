@@ -26,16 +26,16 @@ export class CommonHeaderComponent implements OnInit {
   typeOfCard: String = null;
   titleSubHeader: String = null;
   routhPath: string;
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router) {
+  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'help',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'warning-icon',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg')
     );
   }
   ngOnInit() {
