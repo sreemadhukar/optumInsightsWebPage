@@ -153,10 +153,14 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
    * for both Tin and Group name
    */
   enterQuery(val: string) {
+    this.setPagination(1, 0, +this.selectPageSize);
     this.isInputEmpty = val.length ? false : true;
-    const regex = new RegExp(`${val}`, 'g');
-    this.afterQuery = this.completeData.filter(el => regex.test(el.Tin) || regex.test(el.TinName));
+    const regex = new RegExp(`${val}`, 'ig');
+    this.afterQuery = this.completeData.filter(
+      el => regex.test(el.Tin) || regex.test(el.FormattedTin) || regex.test(el.TinName) || regex.test(el.ProviderSystem)
+    );
     this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
+    console.log('Impact Card', this.afterQuery);
   }
 
   /**

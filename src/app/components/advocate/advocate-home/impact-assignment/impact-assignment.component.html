@@ -1,3 +1,4 @@
+<div class="zebra-stripe"></div>
 <div class="search-title-block">
   <mat-icon matPrefix class="nav-menu-icons search-title-icon" svgIcon="star"></mat-icon>
   <p class="search-title">Personalized for You</p>
@@ -28,7 +29,7 @@
     Showing {{ afterQuery.length < selectPageSize ? afterQuery.length : selectPageSize }} of {{ completeData.length }}
   </span>
 </div>
-<div class="zebra-stripe"></div>
+
 <ng-container *ngIf="showTable">
   <div *ngFor="let item of completeData | impactSearch: searchInput | slice: startIndex:endIndex">
     <app-impact-card [data]="item"></app-impact-card>
