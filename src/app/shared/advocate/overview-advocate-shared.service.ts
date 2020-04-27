@@ -4,7 +4,6 @@ import { SessionService } from '../session.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { OverviewAdvocateService } from '../../rest/advocate/overview-advocate.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
-import { IPaymentBySubResponse } from '../../modals/i-payment-by-submission';
 import * as _ from 'lodash';
 
 @Injectable({
@@ -340,7 +339,7 @@ export class OverviewAdvocateSharedService {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
         getData => {
-          if (!getData || !getData.EDISubmissions.All || !getData.PaperSubmissions.All) {
+          if (!getData || (!getData.EDISubmissions.All && !getData.PaperSubmissions.All)) {
             this.sendData = {
               category: 'app-card',
               type: 'donutWithLabel',
@@ -373,15 +372,6 @@ export class OverviewAdvocateSharedService {
           resolve(this.sendData);
         },
         err => {
-          this.sendData = {
-            category: 'app-card',
-            type: 'donutWithLabel',
-            status: 404,
-            title: 'Payments by Submission',
-            data: null,
-            timeperiod: null
-          };
-          resolve(this.sendData);
           console.log('Advocate Page , Error for calls card', err);
         }
       );
