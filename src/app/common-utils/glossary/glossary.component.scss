@@ -1,5 +1,10 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
+::ng-deep .mat-form-field-wrapper {
+  margin: 0px;
+  padding-bottom: 24px;
+}
+
 ::ng-deep .mat-autocomplete-panel {
   max-height: 0% !important;
 }
@@ -92,6 +97,8 @@
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 22px;
+  margin-top: 32px;
+  margin-bottom: 8px;
 }
 
 .glossary-metric-formula {
@@ -235,8 +242,11 @@
 
 .network-lever-ul {
   padding-left: 30px;
-
   li {
     list-style-type: disc;
   }
+}
+
+.margin-top-5 {
+  margin-top: 5px;
 }
