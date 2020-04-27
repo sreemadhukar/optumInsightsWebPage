@@ -371,6 +371,19 @@ export class OverviewAdvocateSharedService {
               timeperiod: this.setTimePeriodValue(getData, param['viewClaimsByFilter'])
             };
           }
+          const checkResponse = { ...this.setGraphValues(getData, param['viewClaimsByFilter']) };
+
+          if (!checkResponse.electronic && !checkResponse.paper) {
+            this.sendData = {
+              category: 'app-card',
+              type: 'donutWithLabel',
+              status: 404,
+              title: 'Payments by Submission',
+              data: null,
+              timeperiod: null
+            };
+            resolve(this.sendData);
+          }
           console.log('resovel', this.sendData);
           resolve(this.sendData);
         },
