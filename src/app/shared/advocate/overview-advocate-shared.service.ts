@@ -340,7 +340,7 @@ export class OverviewAdvocateSharedService {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
         getData => {
-          if (getData == null) {
+          if (!getData || !getData.EDISubmissions.All || !getData.PaperSubmissions.All) {
             this.sendData = {
               category: 'app-card',
               type: 'donutWithLabel',
@@ -373,6 +373,15 @@ export class OverviewAdvocateSharedService {
           resolve(this.sendData);
         },
         err => {
+          this.sendData = {
+            category: 'app-card',
+            type: 'donutWithLabel',
+            status: 404,
+            title: 'Payments by Submission',
+            data: null,
+            timeperiod: null
+          };
+          resolve(this.sendData);
           console.log('Advocate Page , Error for calls card', err);
         }
       );

@@ -140,10 +140,6 @@ export class OverviewAdvocateService {
           return _get(res, ['Data', '0'], {});
         }
         return res;
-      }),
-      catchError(err => {
-        console.log('catchError Service', err, of(JSON.parse(JSON.stringify(err))));
-        return err;
       })
     );
   }
