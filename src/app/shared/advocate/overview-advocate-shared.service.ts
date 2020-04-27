@@ -340,7 +340,8 @@ export class OverviewAdvocateSharedService {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
         getData => {
-          if (!getData || !getData.EDISubmissions.All || !getData.PaperSubmissions.All) {
+          console.log('getDaat', getData);
+          if (!getData && !getData.EDISubmissions.All && !getData.PaperSubmissions.All) {
             this.sendData = {
               category: 'app-card',
               type: 'donutWithLabel',
@@ -370,6 +371,7 @@ export class OverviewAdvocateSharedService {
               timeperiod: this.setTimePeriodValue(getData, param['viewClaimsByFilter'])
             };
           }
+          console.log('resovel', this.sendData);
           resolve(this.sendData);
         },
         err => {
@@ -394,27 +396,16 @@ export class OverviewAdvocateSharedService {
    * @param claimsBy View Claims By Filter Value
    */
   setGraphValues(resObj, claimsBy): Object {
+    console.log('res obje', resObj);
     if (claimsBy === 'DOP') {
       return {
-        electronic:
-          resObj.EDISubmissions && resObj.EDISubmissions.ALL
-            ? resObj.EDISubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount
-            : 0,
-        paper:
-          resObj.PaperSubmissions && resObj.PaperSubmissions.All
-            ? resObj.PaperSubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount
-            : 0
+        electronic: resObj.EDISubmissions.ALL ? resObj.EDISubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount : 0,
+        paper: resObj.PaperSubmissions.ALL ? resObj.PaperSubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount : 0
       };
     }
     return {
-      electronic:
-        resObj.EDISubmissions && resObj.EDISubmissions.ALL
-          ? resObj.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid
-          : 0,
-      paper:
-        resObj.PaperSubmissions && resObj.PaperSubmissions.All
-          ? resObj.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid
-          : 0
+      electronic: resObj.EDISubmissions.All ? resObj.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid : 0,
+      paper: resObj.PaperSubmissions.All ? resObj.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid : 0
     };
   }
 
@@ -427,10 +418,10 @@ export class OverviewAdvocateSharedService {
     if (claimsBy === 'DOP') {
       return this.common.dateFormat(resObj.StartDate) + '&ndash;' + this.common.dateFormat(resObj.EndDate);
     }
-    return (
-      this.common.dateFormat(resObj.PaperSubmissions.Startdate) +
-      '&ndash;' +
-      this.common.dateFormat(resObj.PaperSubmissions.Enddate)
-    );
+    const startDate = resObj.PaperSubmissions.Startdate
+      ? resObj.PaperSubmissions.Startdate
+      : resObj.EDISubmissions.Startdate;
+    const endDate = resObj.PaperSubmissions.Enddate ? resObj.PaperSubmissions.Enddate : resObj.EDISubmissions.Enddate;
+    return this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
   }
 }
