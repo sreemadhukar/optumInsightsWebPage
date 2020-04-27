@@ -3,8 +3,7 @@ import { AppealsSharedService } from '../../../shared/getting-reimbursed/appeals
 import { StorageService } from '../../../shared/storage-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
-import { MatIconRegistry, PageEvent } from '@angular/material';
-import { FilterExpandService } from '../../../shared/filter-expand.service';
+import { MatIconRegistry } from '@angular/material';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { NgRedux } from '@angular-redux/store';
@@ -44,9 +43,8 @@ export class AppealsComponent implements OnInit {
     private appealsSharedService: AppealsSharedService,
     private iconRegistry: MatIconRegistry,
     private checkStorage: StorageService,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private glossaryExpandService: GlossaryExpandService,
-    private filterExpandService: FilterExpandService,
     private session: SessionService,
     private common: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
@@ -54,7 +52,7 @@ export class AppealsComponent implements OnInit {
   ) {
     this.pagesubTitle = 'Getting Reimbursed - Claims Appeals';
     // const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Claims Appeals';
     // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
@@ -62,13 +60,13 @@ export class AppealsComponent implements OnInit {
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
       this.common.urlResuseStrategy();
     });
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'filter',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'close',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
     /* this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();

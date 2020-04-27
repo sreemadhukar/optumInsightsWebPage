@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
+import { get as _get } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -11,30 +12,26 @@ import { combineLatest, of } from 'rxjs';
 export class OverviewAdvocateService {
   public combined: any;
   private APP_URL: string = environment.apiProxyUrl;
-  private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals;
+  // private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals;
   private APPEALS_TREND_SERVICE_PATH: string = environment.apiUrls.AppealsTrend;
   private CALLS_TREND_LINE_SERVICE_PATH: string = environment.apiUrls.CallsTrendLine;
   private CALLS_TREND_SERVICE_PATH: string = environment.apiUrls.CallsTrend;
   private PAYMENTS_BY_SUBMISSION_SERVICE_PATH: string = environment.apiUrls.PaymentsBySubmission;
+  private PAYMENTS_BY_SUBMISSION_DOP_SERVICE_PATH: string = environment.apiUrls.PaymentsBySubmissionDOP;
   private APPEALS_SERVICE: string = environment.apiUrls.AppealsFHIR; // new
 
   constructor(private http: HttpClient) {}
 
   public appealsData(...parameters) {
     const appealsParams = parameters[1];
-    /*REMOVING LOB BECAUSE TO SHOW GREY IN DONUT CHARTS*/
-    if (appealsParams.Lob) {
-      delete appealsParams.Lob;
-    }
-    if (appealsParams.FundingTypeCodes) {
-      delete appealsParams.FundingTypeCodes;
-    }
-    /*SEE ABOVE*/
+    // if (appealsParams.FundingTypeCodes) {
+    //   delete appealsParams.FundingTypeCodes;
+    // }
     let appealsReqType = '';
     if (parameters[1].appealsProcessing === 'Received Date') {
-      appealsReqType = '?requestType=APPEALS_MEASURE_DOR_HCO';
+      appealsReqType = '?request-type=APPEALS_MEASURE_DOR_HCO';
     } else {
-      appealsReqType = '?requestType=APPEALS_MEASURE_DOC_HCO';
+      appealsReqType = '?request-type=APPEALS_MEASURE_DOC_HCO';
     }
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE + parameters[0] + appealsReqType;
     return this.http.post(appealsURL, appealsParams).pipe(
@@ -122,11 +119,26 @@ export class OverviewAdvocateService {
     );
   }*/
 
-    const nonPaymentURL =
+    const claimsBY = _get(parameters[1], ['ClaimsBy']);
+
+    let nonPaymentURL =
       this.APP_URL + this.PAYMENTS_BY_SUBMISSION_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+
+    // Create URL for DOP Submission
+    if (claimsBY === 'DOP') {
+      nonPaymentURL =
+        this.APP_URL + this.PAYMENTS_BY_SUBMISSION_DOP_SERVICE_PATH + parameters[0] + '?request-type=CLAIMS';
+    }
+
     return combineLatest(
       this.http.post(nonPaymentURL, parameters[1]).pipe(
-        map(res => JSON.parse(JSON.stringify(res))),
+        map(res => {
+          // Handle response for DOP submissions
+          if (claimsBY === 'DOP') {
+            return _get(res, ['Data', '0'], {});
+          }
+          return res;
+        }),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
     );

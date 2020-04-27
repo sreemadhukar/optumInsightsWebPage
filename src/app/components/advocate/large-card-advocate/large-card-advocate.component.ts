@@ -1,4 +1,4 @@
-import { Component, AfterContentInit, Input, AfterViewInit } from '@angular/core';
+import { Component, Input, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-large-card-advocate',

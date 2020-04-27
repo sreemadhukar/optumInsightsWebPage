@@ -3,11 +3,10 @@ import { SessionService } from '../../../shared/session.service';
 import { HomeService } from '../../../rest/advocate/home.service';
 import { dropdownOptions, IUserResponse } from './user.class';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { switchMap, debounceTime, tap, finalize, startWith } from 'rxjs/operators';
+import { switchMap, debounceTime, tap, finalize } from 'rxjs/operators';
 import { Subscription, Observable, of } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
-import { Router } from '@angular/router';
 import { StorageService } from '../../../shared/storage-service.service';
 
 @Component({
@@ -24,10 +23,13 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
   usersForm: FormGroup;
   isLoading: Boolean = false;
   noSearchFound: Boolean = false;
+  minCharacterType: Number = 3;
+  noResponseMessage: string;
   currentPlaceholder: string;
   dropDownArray: Array<Object>;
   selectedDropdown: string;
   searchedString: string;
+  blankInput: Boolean = false;
   getData$: Subscription;
   /** Ends Search Servie variables */
   constructor(
@@ -35,13 +37,12 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
     private session: SessionService,
     private searchService: HomeService,
     private iconRegistry: MatIconRegistry,
-    private router: Router,
     private storage: StorageService,
-    sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer
   ) {
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'round-search',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
     this.dropDownArray = dropdownOptions;
   }
@@ -50,17 +51,18 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = `Hi, ${this.userName}.`;
     this.pagesubTitle = 'Welcome to UHC Insights.';
+    this.noResponseMessage = `Please type at least ${this.minCharacterType} characters to start your search...`;
     this.selectedDropdown = this.dropDownArray[0]['value'];
     this.searchBox(this.selectedDropdown);
   }
   displayFn(user: IUserResponse) {
     if (user) {
+      this.providerSelect(user);
       if (this.selectedDropdown === 'TinName') {
         return user.TinName;
       } else if (this.selectedDropdown === 'tin') {
         return user.Tin;
       } else {
-        this.providerSelect(user);
         return user.ProviderSystem;
       }
     }
@@ -80,30 +82,70 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
       .valueChanges.pipe(
         debounceTime(200),
         tap(() => (this.isLoading = true)),
-        switchMap(value =>
-          value && value.trim() && value.length > 2 && value.length - value.trim().length < 2
+        switchMap(value => {
+          const str = value.trim().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+          // const str = value.trim().replace(/[^a-zA-Z0-9]/g, '');
+          if (this.selectedDropdown === 'tin' && value.length >= 3) {
+            value = value.slice(0, 2) + '-' + value.slice(2);
+          }
+          return value &&
+            str &&
+            value.length >= this.minCharacterType &&
+            str.length >= this.minCharacterType &&
+            value.length - str.length < 2
             ? this.searchService
-                .search({ searchValue: value.trim(), searchType: dropdownSelection })
+                .search({ searchValue: value, searchType: dropdownSelection })
                 .pipe(finalize(() => (this.isLoading = false)))
-            : null
-        )
+            : null;
+        })
       )
       .subscribe(
-        users => (
-          ((this.filteredUsers = of(users)), (this.noSearchFound = users.length ? false : true)),
-          err => {
-            console.log('Error in Advocate Home page', err);
+        users => {
+          this.filteredUsers = of(users);
+          if (users.length) {
+            this.noSearchFound = false;
+          } else {
+            this.noSearchFound = true;
+            this.noResponseMessage = 'No Result found for your input search';
           }
-        )
+        },
+        err => {
+          console.log('Error in Advocate Home page', err);
+        }
       );
     /** Search code ends here */
   }
   valueDropdown(val: string) {
+    this.searchedString = '';
     this.selectedDropdown = val;
     this.searchBox(this.selectedDropdown);
   }
   onSearchInput(value: string) {
-    value && value.trim() ? (this.searchedString = value) : (this.searchedString = '');
+    this.blankInput = false;
+    const str = value.trim().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+    // const str = value.trim().replace(/[^a-zA-Z0-9]/g, '');
+    if (this.selectedDropdown === 'tin' && value.length >= 3) {
+      value = value.slice(0, 2) + '-' + value.slice(2);
+    }
+    if (!value || value.length < this.minCharacterType) {
+      this.noResponseMessage = `Please type at least ${this.minCharacterType} characters to start your search...`;
+    } else if (!str || (str.length < this.minCharacterType && value.length - str.length < 2)) {
+      this.noResponseMessage = 'Please type valid characters to start your search...';
+    }
+    value &&
+    str &&
+    value.length >= this.minCharacterType &&
+    str.length >= this.minCharacterType &&
+    value.length - str.length < 2
+      ? (this.searchedString = value)
+      : (this.searchedString = '');
+  }
+  onSearchClick(value: string) {
+    if (value.length === 0) {
+      this.searchedString = '';
+      this.blankInput = true;
+      this.noResponseMessage = `Please type at least ${this.minCharacterType} characters to start your search...`;
+    }
   }
   resetForm() {
     this.searchedString = '';

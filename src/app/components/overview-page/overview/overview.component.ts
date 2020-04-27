@@ -5,11 +5,9 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
-import { NgRedux, select } from '@angular-redux/store';
-import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
+import { NgRedux } from '@angular-redux/store';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
-import { environment } from '../../../../environments/environment';
-import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 
 @Component({
   selector: 'app-overview',
@@ -71,9 +69,8 @@ export class OverviewComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private filtermatch: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
-    sanitizer: DomSanitizer,
-    public sessionService: SessionService,
-    private createPayloadService: CreatePayloadService
+    private sanitizer: DomSanitizer,
+    public sessionService: SessionService
   ) {
     this.selfServiceLink = 'Self Service Details';
     this.pagesubTitle = 'Your Insights at a glance.';
@@ -82,9 +79,11 @@ export class OverviewComponent implements OnInit {
     this.welcomeMessage = '';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'arrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_right-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        '/src/assets/images/icons/Action/baseline-keyboard_arrow_right-24px.svg'
+      )
     );
   }
 

@@ -1,12 +1,10 @@
 /* @author gmounika */
 import { Injectable } from '@angular/core';
-import { GettingReimbursedModule } from '../../components/getting-reimbursed-page/getting-reimbursed.module';
 import { GettingReimbursedService } from '../../rest/getting-reimbursed/getting-reimbursed.service';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { NonPaymentSharedService } from './non-payments/non-payment-shared.service';
-import { NonPaymentService } from '../../rest/getting-reimbursed/non-payment.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { GettingReimbursedPayload } from './payload.class';
 import * as _ from 'lodash';
@@ -22,11 +20,8 @@ export class GettingReimbursedSharedService {
   public ClaimsSubmittedData: any = null;
   public ClaimsTATdata: any = null;
   public gettingReimbursedTabName;
-  private tin: string;
-  private lob: string;
   private timeFrame: string;
   private providerKey: number;
-  private nonPaymentBy: string;
 
   constructor(
     private MetricidService: GlossaryMetricidService,
@@ -35,7 +30,6 @@ export class GettingReimbursedSharedService {
     private session: SessionService,
     private toggle: AuthorizationService,
     private nonPaymentSharedService: NonPaymentSharedService,
-    private nonPaymentService: NonPaymentService,
     private paymentSharedService: PaymentsSharedService
   ) {}
 
@@ -598,17 +592,17 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
           } else if (appealsData.length > 0 && appealsData[0] != null) {
-            let appealsSubmittedCenterNum = 0;
-            if (appealTypeForTitle === 'Received Date') {
-              appealsSubmittedCenterNum = this.common.nFormatter(
-                appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-                  appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
-              );
-            } else if (appealTypeForTitle === 'Closed Date') {
-              appealsSubmittedCenterNum = this.common.nFormatter(
-                appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount
-              );
-            }
+            // let appealsSubmittedCenterNum = 0;
+            // if (appealTypeForTitle === 'Received Date') {
+            //   appealsSubmittedCenterNum = this.common.nFormatter(
+            //     appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+            //       appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+            //   );
+            // } else if (appealTypeForTitle === 'Closed Date') {
+            //   appealsSubmittedCenterNum = this.common.nFormatter(
+            //     appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount
+            //   );
+            // }
             if (
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
               appealsData[0].LineOfBusiness !== null &&
@@ -1280,10 +1274,10 @@ export class GettingReimbursedSharedService {
             claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('ApprovedCount') &&
             claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('DeniedCount')
           ) {
-            const startDate = (claimsData || {}).StartDate;
+            // const startDate = (claimsData || {}).StartDate;
 
-            const endDate = (claimsData || {}).EndDate;
-            const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+            // const endDate = (claimsData || {}).EndDate;
+            // const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
             claimsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabel',
@@ -1376,7 +1370,7 @@ export class GettingReimbursedSharedService {
       }
       parameters[1].TimeFilter = baseTimePeriod;
       this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData]) => {
-        const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
+        // const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
         const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
         if (claimsData != null && !claimsData.hasOwnProperty('status')) {
           if (
@@ -1493,7 +1487,7 @@ export class GettingReimbursedSharedService {
 
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(
         r => {
-          if ((r !== null && typeof r !== 'string') || r !== 'OK') {
+          if (((r !== null && typeof r !== 'string') || r !== 'OK') && !r.status) {
             const paymentIntegrityData = r;
             const result: any = r;
             const output: any = {};
@@ -1568,6 +1562,22 @@ export class GettingReimbursedSharedService {
               category: 'large-card',
               type: 'donutWithLabelBottom',
               status: 500,
+              title: 'Claims Payment Integrity',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPaymentIntegrity,
+              data: null,
+              besideData: null,
+              bottomData: null,
+              timeperiod: null
+            };
+            resolve(temp);
+          } else if (r.status) {
+            if (r.status === 404) {
+              r.status = 501;
+            }
+            const temp = {
+              category: 'large-card',
+              type: 'donutWithLabelBottom',
+              status: r.status,
               title: 'Claims Payment Integrity',
               MetricID: this.MetricidService.MetricIDs.ClaimsPaymentIntegrity,
               data: null,

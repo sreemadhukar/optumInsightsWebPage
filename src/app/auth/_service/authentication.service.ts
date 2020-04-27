@@ -17,9 +17,7 @@ export class AuthenticationService {
   private APP_URL: string = environment.apiProxyUrl;
   private SERVICE_PATH: string = environment.apiUrls.SsoTokenPath;
   private jwtPath: string = environment.originUrl;
-  private token: string;
   private currentUserSubject: BehaviorSubject<User>;
-  private currentUser: Observable<User>;
 
   constructor(
     public http: HttpClient,
@@ -28,7 +26,6 @@ export class AuthenticationService {
     private ngRedux: NgRedux<any>
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
   }
 
   public get currentUserValue(): User {
