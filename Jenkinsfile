@@ -39,11 +39,11 @@ pipeline {
               label 'docker-nodejs-slave'
             }
               steps {          
-                withCredentials([string(credentialsId:"${env.NPM_ID}", variable:'NPM_AUTH_KEY')]){
+                
                     command """
                     npm install
                     """
-                    }
+                    
                 glSonarNpmScan gitUserCredentialsId:"$env.SONAR_CREDENTIALS_ID",
                     additionalProps: ['sonar.sources':'src', 'sonar.javascript.lcov.reportPath':'coverage/lcov.info', 'sonar.ts.lcov.reportpath':'coverage/lcov.info']
             }
