@@ -4,6 +4,7 @@
 
 .search-title-block {
   display: inline-flex;
+  margin-top: 24px;
   .search-title-icon {
     background: $white;
     fill: $blue;
@@ -66,8 +67,8 @@
   margin: 0 8px 8px 0;
   text-align: right;
   .table-show-text {
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 12px;
+    line-height: 14px;
     color: $strom-grey;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   }
@@ -89,10 +90,17 @@
       display: inline-flex;
       align-items: flex-start;
       float: left;
+      .mat-select {
+        background: $white;
+        border-radius: 2px;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        line-height: 22px;
+      }
       &-arrow-icon {
         position: relative;
-        top: 8px;
-        right: 100px;
+        top: 10px;
+        right: 30px;
         pointer-events: none;
         color: $strom-grey;
       }
@@ -102,14 +110,16 @@
       align-items: flex-end;
       float: right;
       .page-number {
-        width: 66px;
+        width: 50px;
         height: 40px;
         text-align: center;
-        color: $black-rock;
-        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        color: $strom-grey;
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
         font-size: 16px;
-        line-height: 20px;
+        line-height: 22px;
         padding: 0;
+        border: 1px solid $heather;
+        border-radius: 2px;
       }
       form {
         display: flex;
@@ -119,18 +129,15 @@
       }
     }
     .pagination-btn-widget {
-      padding-left: 8px;
       .button-style {
-        border: 0;
         background: transparent;
         margin: 0;
-        padding: 0;
         vertical-align: middle;
         line-height: 20px;
         text-align: center;
         font-size: 16px;
-        height: 44px;
-        width: 56px;
+        height: 40px;
+        width: 40px;
         border: 1px solid #e0e0e0;
         border-radius: 2px;
         padding: 8px;
@@ -153,8 +160,8 @@
       text-align: center;
     }
     .impact-footer-label {
-      line-height: 20px;
-      padding: 10px 8px 10px 0;
+      line-height: 18px;
+      padding: 12px 8px 10px 0;
       color: $strom-grey;
       font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 14px;

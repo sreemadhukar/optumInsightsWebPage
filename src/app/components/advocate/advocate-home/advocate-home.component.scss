@@ -25,7 +25,7 @@
     & > .cards {
       text-align: left;
     }
-    
+
     .cust-width-title {
       width: 955px;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
@@ -163,9 +163,13 @@
 ::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
   background: $darker-alice-blue;
 }
+::ng-deep .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  color: $blue;
+  background: $darker-alice-blue;
+}
 ::ng-deep .mat-select-panel .mat-option {
   padding: 9px 16px 9px 12px;
-
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif !important;
   &:hover {
     background: $pattens-blue;
   }
