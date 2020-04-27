@@ -38,7 +38,14 @@ pipeline {
           agent {
               label 'docker-nodejs-slave'
             }
-            steps {
+              steps {          
+                withCredentials([string(credentialsId:"${env.NPM_ID}", variable:'NPM_AUTH_KEY')]){
+                    command """
+                    export NPM_AUTH_KEY="ped"
+                    export NPM_EMAIL="email"
+                    npm install
+                    """
+                    }
                 glSonarNpmScan gitUserCredentialsId:"$env.SONAR_CREDENTIALS_ID",
                     additionalProps: ['sonar.sources':'src', 'sonar.javascript.lcov.reportPath':'coverage/lcov.info', 'sonar.ts.lcov.reportpath':'coverage/lcov.info']
             }
@@ -356,7 +363,7 @@ pipeline {
                     "Note: If this build is from any personal branch (which can be seen from the url), this email can be ignored \n\n"+
                     "If connection to any of the apps is refused, please give a few minutes for pods to fully deploy in OpenShift",
                     subject: "$currentBuild.currentResult-UI Deployment",
-                    to: 'myinsights_devops_DL@ds.uhc.com'
+                    to: 'sathwik.anumala@optum.com'
         }
     }
 }
