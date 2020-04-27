@@ -396,13 +396,25 @@ export class OverviewAdvocateSharedService {
   setGraphValues(resObj, claimsBy): Object {
     if (claimsBy === 'DOP') {
       return {
-        electronic: resObj.EDISubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount,
-        paper: resObj.PaperSubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount
+        electronic:
+          resObj.EDISubmissions && resObj.EDISubmissions.ALL
+            ? resObj.EDISubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount
+            : 0,
+        paper:
+          resObj.PaperSubmissions && resObj.PaperSubmissions.All
+            ? resObj.PaperSubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount
+            : 0
       };
     }
     return {
-      electronic: resObj.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid,
-      paper: resObj.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid
+      electronic:
+        resObj.EDISubmissions && resObj.EDISubmissions.ALL
+          ? resObj.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid
+          : 0,
+      paper:
+        resObj.PaperSubmissions && resObj.PaperSubmissions.All
+          ? resObj.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid
+          : 0
     };
   }
 

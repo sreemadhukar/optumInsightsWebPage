@@ -29,11 +29,11 @@ export interface IPayBySubLob {
   DenialCategory: any;
 }
 export interface IPayBySubNest1 {
-  All: IPayBySubLob;
-  Cs: IPayBySubLob;
-  Ei: IPayBySubLob;
-  Mr: IPayBySubLob;
-  Un: IPayBySubLob;
+  All: any;
+  Cs: any;
+  Ei: any;
+  Mr: any;
+  Un: any;
   ProviderSystem: string;
   Providerkey: number;
   Enddata: string;
