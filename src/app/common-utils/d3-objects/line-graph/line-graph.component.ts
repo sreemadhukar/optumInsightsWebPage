@@ -487,6 +487,7 @@ export class LineGraphComponent implements OnInit {
             .tickFormat(formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
         );
     }
+    // const RectBarOne = chart
     chart
       .selectAll('.rect-bar')
       .data(data)
@@ -617,6 +618,7 @@ export class LineGraphComponent implements OnInit {
         .attr('transform', 'translate(-12, -15)');
     }
 
+    // const DotOne = chart
     chart
       .selectAll('.dot')
       .data(data)
