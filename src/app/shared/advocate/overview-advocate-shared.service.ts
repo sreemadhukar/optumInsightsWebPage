@@ -372,7 +372,7 @@ export class OverviewAdvocateSharedService {
           }
           const checkResponse = { ...this.setGraphValues(getData, param['viewClaimsByFilter']) };
 
-          if (!checkResponse.electronic && !checkResponse.paper) {
+          if (!checkResponse['electronic'] && !checkResponse['paper']) {
             this.sendData = {
               category: 'app-card',
               type: 'donutWithLabel',
