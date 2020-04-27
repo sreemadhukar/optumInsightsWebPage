@@ -41,8 +41,6 @@ pipeline {
               steps {          
                 withCredentials([string(credentialsId:"${env.NPM_ID}", variable:'NPM_AUTH_KEY')]){
                     command """
-                    export NPM_AUTH_KEY="ped"
-                    export NPM_EMAIL="email"
                     npm install
                     """
                     }
