@@ -428,11 +428,13 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.overviewAdvocateSharedService
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
+        console.log('component then', data);
         this.pbsCard = data;
         this.pbsLoading = false;
         this.pbsCard['timeperiod'] = this.pbsCard['timeperiod'];
       })
       .catch(reason => {
+        console.log('component catch', reason);
         this.pbsLoading = false;
         console.log('Error Payment Submission Adovate Overview page Payment', reason);
       });

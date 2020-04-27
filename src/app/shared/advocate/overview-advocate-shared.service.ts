@@ -4,6 +4,7 @@ import { SessionService } from '../session.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { OverviewAdvocateService } from '../../rest/advocate/overview-advocate.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
+import { IPaymentBySubResponse } from '../../modals/i-payment-by-submission';
 import * as _ from 'lodash';
 
 @Injectable({
@@ -338,8 +339,7 @@ export class OverviewAdvocateSharedService {
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
-        pbsData => {
-          const getData = pbsData[0];
+        getData => {
           if (getData == null) {
             this.sendData = {
               category: 'app-card',
