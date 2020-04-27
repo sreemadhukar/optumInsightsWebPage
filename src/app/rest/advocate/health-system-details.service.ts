@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, of } from 'rxjs/index';
+import { of } from 'rxjs/index';
 import { map, catchError } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';

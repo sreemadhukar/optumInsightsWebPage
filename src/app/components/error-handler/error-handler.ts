@@ -1,7 +1,6 @@
 import * as Raven from 'raven-js';
 import { ErrorHandler } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpErrorResponse } from '@angular/common/http';
 
 Raven.config(environment.sentryKey).install();
 
