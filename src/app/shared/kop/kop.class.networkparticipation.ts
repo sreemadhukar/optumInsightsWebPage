@@ -94,13 +94,13 @@ export class NetworkParticipation {
       },
       {
         quarters: [],
-        cardType: 'hollowbox',
+        cardType: 'miniDonut',
         key: 'SatWithCredentialing',
         subKey: 'SatWithCredentialingValue',
         singleCard: this.singleCard,
         units: '%',
         report: true,
-        caption: 'SAT with Credentialing Process',
+        caption: 'SAT with credentialing process',
         trends: true
       },
       {

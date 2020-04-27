@@ -429,6 +429,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
         this.pbsCard = data;
+        console.log('this.pbsCard', this.pbsCard);
         this.pbsLoading = false;
         this.pbsCard['timeperiod'] = this.pbsCard['timeperiod'];
       })

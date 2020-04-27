@@ -338,9 +338,8 @@ export class OverviewAdvocateSharedService {
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
-        pbsData => {
-          const getData = pbsData[0];
-          if (getData == null) {
+        getData => {
+          if (!getData.EDISubmissions.All  && !getData.PaperSubmissions.All) {
             this.sendData = {
               category: 'app-card',
               type: 'donutWithLabel',

@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
-import { combineLatest, of } from 'rxjs';
+import { combineLatest, of, Observable } from 'rxjs';
 import { get as _get } from 'lodash';
+import { IPaymentBySubResponse } from '../../modals/i-payment-by-submission';
 
 @Injectable({
   providedIn: 'root'
@@ -98,7 +99,7 @@ export class OverviewAdvocateService {
     );
   }
 
-  public paymentsBySubmission(...parameters) {
+  public paymentsBySubmission(...parameters): Observable<IPaymentBySubResponse> {
     /* const pbsParams = parameters[1];
     if (!pbsParams.Tin) {
       pbsParams.AllProviderTins = true;
@@ -130,17 +131,15 @@ export class OverviewAdvocateService {
         this.APP_URL + this.PAYMENTS_BY_SUBMISSION_DOP_SERVICE_PATH + parameters[0] + '?request-type=CLAIMS';
     }
 
-    return combineLatest(
-      this.http.post(nonPaymentURL, parameters[1]).pipe(
-        map(res => {
-          // Handle response for DOP submissions
-          if (claimsBY === 'DOP') {
-            return _get(res, ['Data', '0'], {});
-          }
-          return res;
-        }),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      )
+    return this.http.post<IPaymentBySubResponse>(nonPaymentURL, parameters[1]).pipe(
+      map(res => {
+        // Handle response for DOP submissions
+        if (claimsBY === 'DOP') {
+          return _get(res, ['Data', '0'], {});
+        }
+        return res;
+      }),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
 }
