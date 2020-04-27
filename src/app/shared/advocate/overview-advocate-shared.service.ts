@@ -339,7 +339,7 @@ export class OverviewAdvocateSharedService {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
         getData => {
-          if (!getData.EDISubmissions.All  && !getData.PaperSubmissions.All) {
+          if (getData.EDISubmissions.All == null && getData.PaperSubmissions.All == null) {
             this.sendData = {
               category: 'app-card',
               type: 'donutWithLabel',
