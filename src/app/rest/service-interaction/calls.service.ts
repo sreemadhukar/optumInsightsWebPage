@@ -35,13 +35,12 @@ export class CallsService {
       params = params.append('time-filter', parameters[1].TimeFilter);
       params = params.append('time-filter-text', parameters[1].TimeFilterText);
     } else {
-      params = params.append('timeilter', parameters[1].TimeFilter);
+      params = params.append('time-filter', parameters[1].TimeFilter);
     }
     const executiveURL = this.APP_URL + this.CALLS_API + parameters[0];
 
     return this.http.get(executiveURL, { params }).pipe(
       map(res => res),
-      retry(2),
       catchError(err => {
         throw err;
       })
