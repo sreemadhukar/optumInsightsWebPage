@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from '../../store/store';
-import { Router, NavigationStart } from '@angular/router';
-import { INITIAL_STATE } from '../../store/filter/reducer';
+import { Router } from '@angular/router';
 import {
   LineOfBusiness,
   Commercial,

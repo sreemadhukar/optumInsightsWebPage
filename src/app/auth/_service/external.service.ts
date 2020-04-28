@@ -1,7 +1,5 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { DOCUMENT } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from './authentication.service';
 import { StorageService } from '../../shared/storage-service.service';
 import { ErrorHandlingService } from '../error-handling.service';
@@ -13,12 +11,9 @@ export class ExternalService {
   protected code: string;
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     private authService: AuthenticationService,
     private storageService: StorageService,
-    private checkErrorService: ErrorHandlingService,
-    @Inject(DOCUMENT) private document: any
+    private checkErrorService: ErrorHandlingService
   ) {}
 
   public CheckExternal(code, token) {

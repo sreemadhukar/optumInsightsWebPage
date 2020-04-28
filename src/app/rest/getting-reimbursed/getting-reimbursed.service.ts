@@ -1,6 +1,5 @@
 /* @author gmounika */
 import { Injectable } from '@angular/core';
-import { GettingReimbursedModule } from '../../components/getting-reimbursed-page/getting-reimbursed.module';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
@@ -15,8 +14,8 @@ export class GettingReimbursedService {
   private APP_URL: string = environment.apiProxyUrl;
   private CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsSummary;
   private CLAIMS_SERVICE_PATH_DOP: string = environment.apiUrls.NonPaymentDop;
-  private AGG_CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsAgg;
-  private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals; // old
+  // private AGG_CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsAgg;
+  // private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals; // old
   private APPEALS_SERVICE: string = environment.apiUrls.AppealsFHIR; // new
   private APPEALS_OVERTURN: string = environment.apiUrls.AppealsOverturn;
   private TINS_SERVICE_PATH: string = environment.apiUrls.ProvTinList;

@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
 import { TopRowAdvOverviewService } from '../../rest/advocate/top-row-adv-overview.service';
-import { AdvocateModule } from '../../components/advocate/advocate.module';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 import * as _ from 'lodash';
-import { environment } from '../../../environments/environment';
-import { GettingReimbursedSharedService } from '../getting-reimbursed/getting-reimbursed-shared.service';
-import { PaymentsSharedService } from '../getting-reimbursed/payments/payments-shared.service';
 import { lobName } from '../../modals/lob-name';
 
 @Injectable({
@@ -28,9 +24,7 @@ export class TopRowAdvOverviewSharedService {
     private MetricidService: GlossaryMetricidService,
     private common: CommonUtilsService,
     private session: SessionService,
-    private toggle: AuthorizationService,
-    private gettingReimbursedSharedService: GettingReimbursedSharedService,
-    private paymentsSharedService: PaymentsSharedService
+    private toggle: AuthorizationService
   ) {}
   /** Function to show hovers labels as per Lob**/
 
@@ -487,10 +481,10 @@ export class TopRowAdvOverviewSharedService {
             claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('ApprovedCount') &&
             claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('DeniedCount')
           ) {
-            const startDate = (claimsData || {}).StartDate;
+            // const startDate = (claimsData || {}).StartDate;
 
-            const endDate = (claimsData || {}).EndDate;
-            const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+            // const endDate = (claimsData || {}).EndDate;
+            // const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
             claimsSubmitted = {
               category: 'small-card',
               type: 'donutWithLabel',
@@ -617,18 +611,18 @@ export class TopRowAdvOverviewSharedService {
                 claimsData.LineOfBusiness[lobData].hasOwnProperty('ClaimFinancialMetrics') &&
                 claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount')
               ) {
-                let colorcodes;
-                if (lobData === 'ALL') {
-                  colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
-                } else if (lobData === 'MedicareAndRetirement') {
-                  colorcodes = ['#3381FF'];
-                } else if (lobData === 'CommunityAndState') {
-                  colorcodes = ['#80B0FF'];
-                } else if (lobData === 'EmployerAndIndividual') {
-                  colorcodes = ['#003DA1'];
-                } else {
-                  colorcodes = ['#00B8CC'];
-                }
+                // let colorcodes;
+                // if (lobData === 'ALL') {
+                //   colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
+                // } else if (lobData === 'MedicareAndRetirement') {
+                //   colorcodes = ['#3381FF'];
+                // } else if (lobData === 'CommunityAndState') {
+                //   colorcodes = ['#80B0FF'];
+                // } else if (lobData === 'EmployerAndIndividual') {
+                //   colorcodes = ['#003DA1'];
+                // } else {
+                //   colorcodes = ['#00B8CC'];
+                // }
                 const paidData = [];
                 if (
                   claimsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
@@ -840,18 +834,18 @@ export class TopRowAdvOverviewSharedService {
                 claimsData[lobData].ClaimsLobSummary.length &&
                 claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
               ) {
-                let colorcodes;
-                if (lobData === 'All') {
-                  colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
-                } else if (lobData === 'Mr') {
-                  colorcodes = ['#3381FF'];
-                } else if (lobData === 'Cs') {
-                  colorcodes = ['#80B0FF'];
-                } else if (lobData === 'Ei') {
-                  colorcodes = ['#003DA1'];
-                } else {
-                  colorcodes = ['#00B8CC'];
-                }
+                // let colorcodes;
+                // if (lobData === 'All') {
+                //   colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
+                // } else if (lobData === 'Mr') {
+                //   colorcodes = ['#3381FF'];
+                // } else if (lobData === 'Cs') {
+                //   colorcodes = ['#80B0FF'];
+                // } else if (lobData === 'Ei') {
+                //   colorcodes = ['#003DA1'];
+                // } else {
+                //   colorcodes = ['#00B8CC'];
+                // }
                 const paidData = [];
                 if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
                   if (

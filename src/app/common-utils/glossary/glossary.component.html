@@ -39,8 +39,7 @@
               <span
                 *ngIf="allmetricsdefinitionShort[i] && allmetrics && this.readmoreFlag[i]"
                 [innerHTML]="allmetricsdefinitionShort[i]"
-                ><br
-              /></span>
+              ></span>
               <div>
                 <span [innerHTML]="glossary.BusinessGlossary.ProviderDashboardName.Definition"></span>
                 <a
@@ -61,15 +60,12 @@
               *ngIf="glossary.BusinessGlossary.ProviderDashboardName.Formula.trim().length != 0 && internal"
               class="glossary-definition"
             >
-              <br />
               <div class="glossary-formula">Data Calculation</div>
-              <br />
               <div
                 class="glossary-metric-formula"
                 [innerHTML]="glossary.BusinessGlossary.ProviderDashboardName.Formula"
               ></div>
             </div>
-            <br />
             <div
               class="glossary-definition"
               *ngIf="glossary.BusinessGlossary.ProviderDashboardName.DataSource && internal"
@@ -77,15 +73,13 @@
               <div class="glossary-formula">
                 Data Source
               </div>
-              <br />
               {{ glossary.BusinessGlossary.ProviderDashboardName.DataSource }}
             </div>
-            <br />
           </div>
         </div>
         <div class="Read-More" *ngIf="allmetrics" (click)="readmore(i)">
           <div *ngIf="readmoreFlag[i]">Read More</div>
-          <div *ngIf="!readmoreFlag[i]">Read Less</div>
+          <div *ngIf="!readmoreFlag[i]" class="margin-top-5">Read Less</div>
         </div>
       </div>
     </div>
@@ -99,18 +93,14 @@
         <div class="glossary-definition">
           Coming Soon
         </div>
-        <br />
         <div class="glossary-definition" *ngIf="internal">
           <div class="glossary-formula">Data Calculation</div>
-          <br />
           Coming Soon
         </div>
-        <br />
         <div class="glossary-definition" *ngIf="internal">
           <div class="glossary-formula">
             Data Source
           </div>
-          <br />
           Coming Soon
         </div>
       </div>

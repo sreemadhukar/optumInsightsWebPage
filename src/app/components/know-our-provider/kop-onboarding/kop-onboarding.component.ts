@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { FilterExpandService } from 'src/app/shared/filter-expand.service';
-import { SessionService } from 'src/app/shared/session.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -58,18 +57,17 @@ export class KopOnboardingComponent implements OnInit, OnDestroy {
   constructor(
     private eventEmitter: EventEmitterService,
     private filterExpandService: FilterExpandService,
-    private sessionService: SessionService,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     private router: Router
   ) {
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'filter',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'error',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
     );
   }
 
