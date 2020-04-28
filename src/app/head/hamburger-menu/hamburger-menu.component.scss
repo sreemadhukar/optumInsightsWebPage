@@ -73,6 +73,14 @@ app-header {
   z-index: 9;
 }
 
+.mat-drawer-container.mat-drawer-opened {
+  z-index: 2;
+}
+.mat-drawer-backdrop.mat-drawer-shown {
+  background-color: rgba(45, 45, 57, 0.5);
+  position: fixed;
+}
+
 /************ CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
 
 .side-navigation {
@@ -447,7 +455,7 @@ app-header {
 }
 
 .sidenav-glossary {
-  position: absolute !important;
+  // position: absolute !important;
   z-index: 9999 !important;
   overflow-x: hidden;
   overflow-y: auto;
@@ -511,11 +519,11 @@ app-header {
   overflow-x: hidden !important;
 }
 
-.kop-landing {
-  .mat-drawer-inner-container {
-    height: 100vh !important;
-  }
-}
+// .kop-landing {
+//   .mat-drawer-inner-container {
+//     height: 100vh !important;
+//   }
+// }
 
 .simulate-external-view {
   padding: 38px 26px 28px;
