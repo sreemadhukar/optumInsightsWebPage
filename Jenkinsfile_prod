@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 //@Library("com.optum.jenkins.pipeline.library@master") _
-@Library("com.optum.jenkins.pipeline.library@v0.3.0") _
+@Library("com.optum.jenkins.pipeline.library@v0.1.24") _
 
 String dockerHost = 'docker.repo1.uhc.com'
 String namespace = 'uhcinsights'
@@ -20,22 +20,25 @@ pipeline {
 
     stages {
 
-        stage('Run Sonar Scan for UI') {
+        /**stage('Run Sonar Scan for UI') {
             agent {
-                label 'docker-nodejs-slave'
+                label 'docker-kitchensink-slave'
             }
             steps {
+                withCredentials([string(credentialsId:"${env.NPM_ID}", variable:'NPM_AUTH_KEY')]){
                     command """
-                     npm install typescript@latest
-                     npm install
+                    export NPM_AUTH_KEY="ped"
+                    export NPM_EMAIL="email"
+                    npm install
                     """
+                    }
                glSonarNpmScan gitUserCredentialsId:"${env.SONAR_CREDENTIALS_ID}",
                additionalProps:['sonar.sources':'src', 'sonar.javascript.lcov.reportPath':'coverage/lcov.info', 'sonar.ts.lcov.reportpath':'coverage/lcov.info']
 
             }
-        }
+        }**/
 
-       /**stage('Web: Build and Deploy Docker Image to DTR') {
+       stage('Web: Build and Deploy Docker Image to DTR') {
             agent {
                 label 'docker-nodejs-slave'
             }
@@ -100,7 +103,7 @@ pipeline {
                         port: '8000'
 
             }
-        }**/
+        }
     }
 
     post {
@@ -112,7 +115,7 @@ pipeline {
                     "Dr Url: https://ocp-ctc-dmz.optum.com \n\n" +
                     "If connection to app is refused, please give a few minutes for pods to fully deploy in OpenShift",
                     subject: "$currentBuild.currentResult-PRD UI Deployment",
-                    to: 'sathwik.anumala@optum.com'
+                    to: 'myinsights_devops_DL@ds.uhc.com'
 
         }
     }
