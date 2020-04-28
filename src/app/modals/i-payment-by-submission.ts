@@ -42,6 +42,6 @@ export interface IPayBySubNest1 {
   ReportingPeriod: any;
 }
 export interface IPaymentBySubResponse {
-  EDISubmission: any;
-  PaperSubmission: any;
+  EDISubmissions: any;
+  PaperSubmissions: any;
 }
