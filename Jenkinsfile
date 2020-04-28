@@ -42,6 +42,7 @@ pipeline {
                 
                     command """
                     npm install typescript@latest
+                    npm install
                     """
                     
                 glSonarNpmScan gitUserCredentialsId:"$env.SONAR_CREDENTIALS_ID",
