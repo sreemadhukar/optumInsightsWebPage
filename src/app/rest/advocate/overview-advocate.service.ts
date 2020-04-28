@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
-import { combineLatest, of, Observable } from 'rxjs';
-import { get as _get } from 'lodash';
+import { Observable, combineLatest, of } from 'rxjs';
 import { IPaymentBySubResponse } from '../../modals/i-payment-by-submission';
+import { get as _get } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -119,9 +119,9 @@ export class OverviewAdvocateService {
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }*/
-
+    console.log('parameters', parameters);
     const claimsBY = _get(parameters[1], ['ClaimsBy']);
-
+    console.log('claimsBY', claimsBY);
     let nonPaymentURL =
       this.APP_URL + this.PAYMENTS_BY_SUBMISSION_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
 
@@ -133,8 +133,10 @@ export class OverviewAdvocateService {
 
     return this.http.post<IPaymentBySubResponse>(nonPaymentURL, parameters[1]).pipe(
       map(res => {
+        console.log('Rest file res', res);
         // Handle response for DOP submissions
         if (claimsBY === 'DOP') {
+          console.log('_get', _get(res, ['Data', '0'], {}));
           return _get(res, ['Data', '0'], {});
         }
         return res;
