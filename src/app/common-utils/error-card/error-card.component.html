@@ -1,4 +1,5 @@
 <div
+  *ngIf="data"
   [class.card-structure]="data.category === 'mini-tile'"
   [class.small-card-structure]="data.category === 'small-card'"
   [class.app-card-structure]="data.category === 'app-card'"

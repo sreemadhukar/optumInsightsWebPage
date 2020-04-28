@@ -16,6 +16,9 @@ export class CommonFooterComponent {
   @Input() handleCaseForOverviewTile = false;
   routhTo: string;
   public get timePeriodFooter() {
+    if (!this.timePeriod) {
+      return '';
+    }
     this.timePeriod = this.timePeriod.replace(' - ', '&ndash;');
     return this.timePeriod;
   }
