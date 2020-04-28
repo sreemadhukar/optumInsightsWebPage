@@ -68,12 +68,20 @@ export class OverviewAdvocateService {
     }
 
     const callsURL = this.APP_URL + this.CALLS_TREND_SERVICE_PATH + parameters[0];
-    return combineLatest(
-      this.http.get(callsURL, { params }).pipe(
-        map(res => JSON.parse(JSON.stringify(res))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      )
+
+    return this.http.get(callsURL, { params }).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
+      catchError(err => {
+        throw err;
+      })
     );
+
+    // return combineLatest(
+    //   this.http.get(callsURL, { params }).pipe(
+    //     map(res => JSON.parse(JSON.stringify(res))),
+    //     catchError(err => of(JSON.parse(JSON.stringify(err))))
+    //   )
+    // );
   }
 
   public callsTrendLineData(...parameters) {

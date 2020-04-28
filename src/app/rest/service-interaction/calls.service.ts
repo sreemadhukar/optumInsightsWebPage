@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError, retry } from 'rxjs/operators';
-import { combineLatest, of, Observable } from 'rxjs';
-import { ICallsResponse } from '../../modals/i-calls';
+import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class CallsService {
   public combined: any;

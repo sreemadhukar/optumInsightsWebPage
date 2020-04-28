@@ -132,7 +132,9 @@ export class OverviewService {
 
     return this.http.get(prevLastURL).pipe(
       map(res => res),
-      catchError(err => of(err))
+      catchError(err => {
+        throw err;
+      })
     );
   }
 }

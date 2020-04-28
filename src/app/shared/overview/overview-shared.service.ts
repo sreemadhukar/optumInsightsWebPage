@@ -7,6 +7,7 @@ import { AuthorizationService } from '../../auth/_service/authorization.service'
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { lobName } from '../../modals/lob-name';
+import { ICallsResponse } from 'src/app/modals/i-calls';
 
 @Injectable({
   providedIn: 'root'
@@ -1268,7 +1269,8 @@ export class OverviewSharedService {
         timeFilter: 'Last6Months'
       };
       let cIR: any;
-      this.overviewService.getOverviewTotalCalls(parameters).subscribe(calls => {
+      this.overviewService.getOverviewTotalCalls(parameters).subscribe((response: ICallsResponse) => {
+        const calls = response.Data;
         if (
           calls &&
           calls.hasOwnProperty('CallVolByQuesType') &&
@@ -1365,6 +1367,17 @@ export class OverviewSharedService {
          }
          resolve(cIR);
          });*/
+      }, err => {
+        console.log(err);
+        cIR = {
+          category: 'small-card',
+          type: 'donut',
+          title: null,
+          data: null,
+          sdata: null,
+          timeperiod: null
+        };
+        resolve(cIR);
       });
     });
   }

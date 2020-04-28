@@ -200,16 +200,12 @@ export class OverviewAdvocateSharedService {
 
   public getTotalCallsShared(param) {
     this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       const parameters = this.getParameterCategories(param);
-      this.overviewAdvocateService.callsData(...parameters).subscribe(
-        callsTotalData => {
-          resolve(callsTotalData);
-        },
-        err => {
-          console.log('Advocate Page , Error for calls card', err);
-        }
-      );
+
+      this.overviewAdvocateService
+        .callsData(...parameters)
+        .subscribe(callsTotalData => resolve(callsTotalData), err => reject(err));
     });
   }
 
