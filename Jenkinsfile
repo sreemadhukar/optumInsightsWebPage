@@ -33,21 +33,6 @@ pipeline {
     }
     
     stages{
-    stage('Sonar') {
-          agent {
-              label 'docker-nodejs-slave'
-            }
-              steps {          
-                
-                    command """
-                    npm install typescript@latest
-                    npm install
-                    """
-                    
-                glSonarNpmScan gitUserCredentialsId:"$env.SONAR_CREDENTIALS_ID",
-                    additionalProps: ['sonar.sources':'src', 'sonar.javascript.lcov.reportPath':'coverage/lcov.info', 'sonar.ts.lcov.reportpath':'coverage/lcov.info']
-            }
-        }
     stage('Web: Build and Deploy Docker Image to DTR - dev') {
             when {
                 beforeAgent true
