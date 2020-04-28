@@ -1,8 +1,6 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router } from '@angular/router';
-import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from '../../../../../src/app/shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
@@ -86,10 +84,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
 
   constructor(
     private checkStorage: StorageService,
-    private filterExpandService: FilterExpandService,
-    private router: Router,
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private session: SessionService,
     private common: CommonUtilsService,
     private topRowService: TopRowAdvOverviewSharedService,
@@ -100,27 +96,28 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.common.urlResuseStrategy();
       this.createPayloadService.resetTinNumber('overviewAdvocatePage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
     });
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'filter',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'close',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'warning-icon',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'metric-development',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-insert_chart-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-insert_chart-24px.svg')
     );
     /* this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
@@ -149,19 +146,23 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.overviewAdvocateSharedService
       .getAppealsLeftShared(this.createPayloadService.payload)
       .then(appealsLeftData => {
-        let AppealsLeftData: any;
-        if (appealsLeftData && appealsLeftData['Data'][0] !== null) {
+        if (
+          appealsLeftData &&
+          appealsLeftData['Data'][0] &&
+          appealsLeftData['Data'][0][0] !== null &&
+          appealsLeftData['Data'][0][0].LineOfBusiness &&
+          appealsLeftData['Data'][0][0].LineOfBusiness != null
+        ) {
+          let AppealsLeftData: any;
           AppealsLeftData = appealsLeftData['Data'][0];
-          if (AppealsLeftData[0].LineOfBusiness != null && AppealsLeftData[0].LineOfBusiness) {
-            this.totalAppeals = this.common.nFormatter(
-              AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals
-            );
-            this.timePeriodAppeals =
-              this.common.dateFormat(AppealsLeftData[0].StartDate) +
-              '&ndash;' +
-              this.common.dateFormat(AppealsLeftData[0].EndDate);
-            this.appealsloading = false;
-          }
+          this.totalAppeals = this.common.nFormatter(
+            AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals
+          );
+          this.timePeriodAppeals =
+            this.common.dateFormat(AppealsLeftData[0].StartDate) +
+            '&ndash;' +
+            this.common.dateFormat(AppealsLeftData[0].EndDate);
+          this.appealsloading = false;
         } else {
           this.appealsloading = false;
           this.totalAppeals = null;

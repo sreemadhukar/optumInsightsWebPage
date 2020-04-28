@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
-import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { OverviewAdvocateService } from '../../rest/advocate/overview-advocate.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
@@ -26,7 +25,6 @@ export class OverviewAdvocateSharedService {
     private MetricidService: GlossaryMetricidService,
     private common: CommonUtilsService,
     private session: SessionService,
-    private toggle: AuthorizationService,
     private overviewAdvocateService: OverviewAdvocateService
   ) {}
 
@@ -225,7 +223,9 @@ export class OverviewAdvocateSharedService {
           const claimsData = [];
           const paData = [];
           const other = [];
-          if (callsTrendData[0] && callsTrendData[0].status === 200) {
+          if (callsTrendData[0] && callsTrendData[0].status && callsTrendData[0].status !== 200) {
+            resolve(null);
+          } else {
             callsTrendData[0].forEach(element => {
               if (element.CallVolByQuesType.BenefitsEligibility) {
                 this.collectiveBeData = element.CallVolByQuesType.BenefitsEligibility;
@@ -324,8 +324,6 @@ export class OverviewAdvocateSharedService {
               callsTrendFormattedData['Other'] = null;
             }
             resolve(callsTrendFormattedData);
-          } else {
-            resolve(null);
           }
         },
         err => {
@@ -366,8 +364,7 @@ export class OverviewAdvocateSharedService {
                   }
                 ],
                 color: ['#3381FF', '#00B8CC'],
-                gdata: ['card-inner', 'paymentBySubmission'],
-                sdata: null
+                gdata: ['card-inner', 'paymentBySubmission']
               },
               status: null,
               timeperiod: this.setTimePeriodValue(getData, param['viewClaimsByFilter'])
@@ -387,7 +384,7 @@ export class OverviewAdvocateSharedService {
    * @param resObj Parsed response object
    * @param claimsBy View Claims By Filter Value
    */
-  setGraphValues(resObj, claimsBy) {
+  setGraphValues(resObj, claimsBy): Object {
     if (claimsBy === 'DOP') {
       return {
         electronic: resObj.EDISubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount,

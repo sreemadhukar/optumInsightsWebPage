@@ -54,8 +54,8 @@ import { KopFilterReducer } from './store/kopFilter/reducer';
       provide: HTTP_INTERCEPTORS,
       useClass: CacheInterceptor,
       multi: true
-    },
-    { provide: ErrorHandler, useClass: RavenErrorHandler }
+    }
+    // { provide: ErrorHandler, useClass: RavenErrorHandler }
   ],
   entryComponents: [IdleTimeoutDialogComponent],
   bootstrap: [AppComponent]

@@ -261,7 +261,7 @@ export class OverviewSharedService {
 
   createTotalCallsTrend() {
     // let trendIR: Object;
-    const trendIR = null;
+    // const trendIR = null;
     return new Promise(resolve => {
       // this.callsTrendService
       //   .getCallsTrendData()
@@ -1121,9 +1121,9 @@ export class OverviewSharedService {
             // return this.getClaimsTrends(this.baseTimePeriod, this.previousTimePeriod);
             return this.getClaimsTrends(tempArray[0], tempArray[1]);
           })
-          .then(trendData => {
-            let trends: any;
-            trends = trendData;
+          .then(() => {
+            // let trends: any;
+            // trends = trendData;
             return this.createClaimsTAT(claims);
           })
           .then(claimsTAT => {

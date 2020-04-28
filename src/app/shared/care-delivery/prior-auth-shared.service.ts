@@ -27,7 +27,7 @@ export class PriorAuthSharedService {
     const TIN = filterParameters.taxId[0];
     const LOB = filterParameters.lineOfBusiness;
     const serviceSetting = filterParameters.serviceSetting === '' ? 'All' : filterParameters.serviceSetting;
-    const paDecisionType = filterParameters.priorAuthType; // We don't need decision type for now
+    // const paDecisionType = filterParameters.priorAuthType; // We don't need decision type for now
     const paServiceCategory = filterParameters.serviceCategory === '' ? 'All' : filterParameters.serviceCategory;
 
     // const paServiceCategory =  filterParameters.serviceCategory;
@@ -402,7 +402,7 @@ export class PriorAuthSharedService {
                 },
                 {
                   category: 'app-card',
-                  type: 'donutWithLabel',
+                  type: 'donut',
                   title: 'Prior Authorization Approval Rate',
                   MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApprovalRate,
                   toggle: this.toggle.setToggles(

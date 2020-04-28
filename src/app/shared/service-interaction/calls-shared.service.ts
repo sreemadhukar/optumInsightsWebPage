@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { CallsService } from '../../rest/service-interaction/calls.service';
 import { SessionService } from '../session.service';
 import { CommonUtilsService } from '../common-utils.service';
-import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 import { ICallsShared } from '../../modals/i-calls-shared';
@@ -19,8 +18,7 @@ export class CallsSharedService {
     private callsService: CallsService,
     private session: SessionService,
     private common: CommonUtilsService,
-    private toggle: AuthorizationService,
-    private trendsService: TrendingMetricsService
+    private toggle: AuthorizationService
   ) {}
 
   public issueResolution(

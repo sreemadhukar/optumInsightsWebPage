@@ -12,7 +12,7 @@ import { get as _get } from 'lodash';
 export class OverviewAdvocateService {
   public combined: any;
   private APP_URL: string = environment.apiProxyUrl;
-  private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals;
+  // private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals;
   private APPEALS_TREND_SERVICE_PATH: string = environment.apiUrls.AppealsTrend;
   private CALLS_TREND_LINE_SERVICE_PATH: string = environment.apiUrls.CallsTrendLine;
   private CALLS_TREND_SERVICE_PATH: string = environment.apiUrls.CallsTrend;

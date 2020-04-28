@@ -59,7 +59,7 @@ export class PaymentIntegrityComponent implements OnInit {
     public MetricidService: GlossaryMetricidService,
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private filterExpandService: FilterExpandService,
     private session: SessionService,
@@ -68,22 +68,23 @@ export class PaymentIntegrityComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
-    iconRegistry.addSvgIcon(
+    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    this.iconRegistry.addSvgIcon(
       'down-green-trend-icon',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/down-positive-no-circle.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/down-positive-no-circle.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'up-red-trend-icon',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/up-negative-no-circle.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/up-negative-no-circle.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'filter',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'close',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
     this.pageTitle = 'Medical Records Coding Review';
     this.pageSubTitle = 'Reimbursements - Payment Integrity - ' + 'Medical Records Coding Review';
@@ -92,7 +93,6 @@ export class PaymentIntegrityComponent implements OnInit {
          These measurements do not take into account facility claims.`;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     this.loading = true;
-    console.log(environment.apiUrls.NewPaymentIntegrity);
     if (this.internalUser && environment.apiUrls.NewPaymentIntegrity) {
       this.hppData();
     } else {

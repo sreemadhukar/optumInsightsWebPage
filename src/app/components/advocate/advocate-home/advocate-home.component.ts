@@ -3,11 +3,10 @@ import { SessionService } from '../../../shared/session.service';
 import { HomeService } from '../../../rest/advocate/home.service';
 import { dropdownOptions, IUserResponse } from './user.class';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { switchMap, debounceTime, tap, finalize, startWith } from 'rxjs/operators';
+import { switchMap, debounceTime, tap, finalize } from 'rxjs/operators';
 import { Subscription, Observable, of } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
-import { Router } from '@angular/router';
 import { StorageService } from '../../../shared/storage-service.service';
 
 @Component({
@@ -30,6 +29,7 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
   dropDownArray: Array<Object>;
   selectedDropdown: string;
   searchedString: string;
+  blankInput: Boolean = false;
   getData$: Subscription;
   /** Ends Search Servie variables */
   constructor(
@@ -37,13 +37,12 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
     private session: SessionService,
     private searchService: HomeService,
     private iconRegistry: MatIconRegistry,
-    private router: Router,
     private storage: StorageService,
-    sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer
   ) {
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'round-search',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
     this.dropDownArray = dropdownOptions;
   }
@@ -117,10 +116,12 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
     /** Search code ends here */
   }
   valueDropdown(val: string) {
+    this.searchedString = '';
     this.selectedDropdown = val;
     this.searchBox(this.selectedDropdown);
   }
   onSearchInput(value: string) {
+    this.blankInput = false;
     const str = value.trim().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
     // const str = value.trim().replace(/[^a-zA-Z0-9]/g, '');
     if (this.selectedDropdown === 'tin' && value.length >= 3) {
@@ -138,6 +139,13 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
     value.length - str.length < 2
       ? (this.searchedString = value)
       : (this.searchedString = '');
+  }
+  onSearchClick(value: string) {
+    if (value.length === 0) {
+      this.searchedString = '';
+      this.blankInput = true;
+      this.noResponseMessage = `Please type at least ${this.minCharacterType} characters to start your search...`;
+    }
   }
   resetForm() {
     this.searchedString = '';
