@@ -384,7 +384,7 @@ export class TopRowAdvOverviewSharedService {
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
 
       if (parameters[1]['ClaimsBy'] === 'DOS') {
-        if (claimsData.hasOwnProperty('Startdate') && claimsData.hasOwnProperty('Enddate')) {
+        if (claimsData && claimsData.hasOwnProperty('Startdate') && claimsData.hasOwnProperty('Enddate')) {
           timePeriodData =
             this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate);
         }
@@ -462,7 +462,7 @@ export class TopRowAdvOverviewSharedService {
           resolve(claimsSubmitted);
         }
       } else {
-        if (claimsData.hasOwnProperty('StartDate') && claimsData.hasOwnProperty('EndDate')) {
+        if (claimsData && claimsData.hasOwnProperty('StartDate') && claimsData.hasOwnProperty('EndDate')) {
           timePeriodData =
             this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate);
         }
