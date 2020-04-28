@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError, retry } from 'rxjs/operators';
 import { combineLatest, of, Observable } from 'rxjs';
-import { ICalls } from '../../modals/i-calls';
+import { ICallsResponse } from '../../modals/i-calls';
 @Injectable({ providedIn: 'root' })
 export class CallsService {
   public combined: any;
@@ -30,21 +30,22 @@ export class CallsService {
   }
 */
 
-  public getCallsData(...parameters): Observable<ICalls[]> {
+  public getCallsData(...parameters): Observable<any> {
     let params = new HttpParams();
     if (parameters[1].TimeFilter === 'CalendarYear') {
-      params = params.append('TimeFilter', parameters[1].TimeFilter);
-      params = params.append('TimeFilterText', parameters[1].TimeFilterText);
+      params = params.append('time-filter', parameters[1].TimeFilter);
+      params = params.append('time-filter-text', parameters[1].TimeFilterText);
     } else {
-      params = params.append('TimeFilter', parameters[1].TimeFilter);
+      params = params.append('timeilter', parameters[1].TimeFilter);
     }
     const executiveURL = this.APP_URL + this.CALLS_API + parameters[0];
-    return combineLatest(
-      this.http.get(executiveURL, { params }).pipe(
-        map(res => res),
-        retry(2),
-        catchError(err => of(err))
-      )
+
+    return this.http.get(executiveURL, { params }).pipe(
+      map(res => res),
+      retry(2),
+      catchError(err => {
+        throw err;
+      })
     );
   }
 }

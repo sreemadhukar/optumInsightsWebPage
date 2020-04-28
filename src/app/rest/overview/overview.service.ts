@@ -128,7 +128,7 @@ export class OverviewService {
 
   public getOverviewTotalCalls(parameters) {
     const prevLastURL =
-      this.APP_URL + this.CALLS_SERVICE_PATH + parameters.providerkey + '?TimeFilter=' + parameters.timeFilter;
+      this.APP_URL + this.CALLS_SERVICE_PATH + parameters.providerkey + '?time-filter=' + parameters.timeFilter;
 
     return this.http.get(prevLastURL).pipe(
       map(res => res),
