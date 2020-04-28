@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, HostListener, AfterViewInit, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -304,7 +304,7 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
       const boxHeight = '63px';
 
       g.on('mouseenter', function(d) {
-        const hoverTextLength = topFunctions.getTextWidth(d.data.label, 14, 'Arial');
+        // const hoverTextLength = topFunctions.getTextWidth(d.data.label, 14, 'Arial');
 
         divHover.style('height', boxHeight).style('width', boxWidth);
 

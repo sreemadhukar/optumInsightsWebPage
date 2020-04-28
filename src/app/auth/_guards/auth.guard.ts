@@ -1,13 +1,11 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
-import { environment } from '../../../environments/environment';
-import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router, @Inject(DOCUMENT) private document: any) {}
+  constructor(private router: Router) {}
 
   canActivate() {
     if (sessionStorage.getItem('currentUser')) {

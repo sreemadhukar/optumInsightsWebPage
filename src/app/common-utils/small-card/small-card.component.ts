@@ -33,7 +33,7 @@ export class SmallCardComponent implements OnInit {
 */
   constructor(
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private glossaryExpandService: GlossaryExpandService,
     private router: Router
   ) {
@@ -41,9 +41,9 @@ export class SmallCardComponent implements OnInit {
       this.printStyle = true;
     }
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'help',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
     );
   }
 

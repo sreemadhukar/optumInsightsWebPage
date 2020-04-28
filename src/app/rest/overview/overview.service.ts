@@ -12,7 +12,7 @@ export class OverviewService {
   private EXECUTIVE_SERVICE_PATH: string = environment.apiUrls.ExecutiveSummaryPath;
   private PRIOR_AUTH_SERVICE_PATH: string = environment.apiUrls.PriorAuth;
   private CALLS_SERVICE_PATH: string = environment.apiUrls.CallsTrend;
-  private TRENDING_METRICS_PATH: string = environment.apiUrls.TrendingMetrics;
+  // private TRENDING_METRICS_PATH: string = environment.apiUrls.TrendingMetrics;
 
   constructor(private http: HttpClient) {}
 
