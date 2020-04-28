@@ -484,6 +484,7 @@ export class TopRowAdvOverviewSharedService {
             claimsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
             claimsData.LineOfBusiness[lobFullData] != null &&
             claimsData.LineOfBusiness[lobFullData].hasOwnProperty('ClaimFinancialMetrics') &&
+            claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics != null &&
             claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('ApprovedCount') &&
             claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('DeniedCount')
           ) {
@@ -615,6 +616,7 @@ export class TopRowAdvOverviewSharedService {
                 claimsData.LineOfBusiness.hasOwnProperty(lobData) &&
                 claimsData.LineOfBusiness[lobData] != null &&
                 claimsData.LineOfBusiness[lobData].hasOwnProperty('ClaimFinancialMetrics') &&
+                claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics != null &&
                 claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount')
               ) {
                 let colorcodes;
@@ -746,6 +748,7 @@ export class TopRowAdvOverviewSharedService {
                 claimsData.LineOfBusiness.hasOwnProperty(lobData) &&
                 claimsData.LineOfBusiness[lobData] != null &&
                 claimsData.LineOfBusiness[lobData].hasOwnProperty('ClaimFinancialMetrics') &&
+                claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics != null &&
                 claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.hasOwnProperty('AmountDenied')
               ) {
                 const notPaidData = [];
