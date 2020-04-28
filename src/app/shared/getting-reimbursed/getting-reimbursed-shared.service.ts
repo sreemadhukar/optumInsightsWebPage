@@ -1168,11 +1168,6 @@ export class GettingReimbursedSharedService {
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
 
       if (parameters[1]['ClaimsBy'] === 'DOS') {
-        if (claimsData.hasOwnProperty('Startdate') && claimsData.hasOwnProperty('Enddate')) {
-          timePeriodData =
-            this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate);
-        }
-
         if (claimsData != null) {
           if (
             claimsData.hasOwnProperty(lobData) &&
@@ -1183,6 +1178,10 @@ export class GettingReimbursedSharedService {
             claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
             claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')
           ) {
+            if (claimsData.hasOwnProperty('Startdate') && claimsData.hasOwnProperty('Enddate')) {
+              timePeriodData =
+                this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate);
+            }
             claimsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabel',
@@ -1249,11 +1248,6 @@ export class GettingReimbursedSharedService {
           resolve(claimsSubmitted);
         }
       } else {
-        if (claimsData.hasOwnProperty('StartDate') && claimsData.hasOwnProperty('EndDate')) {
-          timePeriodData =
-            this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate);
-        }
-
         if (!claimsData || !claimsData.hasOwnProperty('LineOfBusiness')) {
           claimsSubmitted = {
             category: 'app-card',
@@ -1659,14 +1653,6 @@ export class GettingReimbursedSharedService {
     } else if (appealsData && appealsData[0] != null) {
       let appealsSubmittedCenterNum = 0;
 
-      if (appealsFilterSelected === 'DOR') {
-        appealsSubmittedCenterNum = this.common.nFormatter(
-          appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-            appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
-        );
-      } else if (appealsFilterSelected === 'DOC') {
-        appealsSubmittedCenterNum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
-      }
       if (
         appealsData[0].hasOwnProperty('LineOfBusiness') &&
         appealsData[0].LineOfBusiness !== null &&
@@ -1812,6 +1798,16 @@ export class GettingReimbursedSharedService {
         } else {
           sideData[0] = labelsData;
           sideData[1] = colorsData;
+        }
+        if (appealsFilterSelected === 'DOR') {
+          appealsSubmittedCenterNum = this.common.nFormatter(
+            appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+              appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+          );
+        } else if (appealsFilterSelected === 'DOC') {
+          appealsSubmittedCenterNum = this.common.nFormatter(
+            appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount
+          );
         }
         appealsSubmitted = {
           category: 'app-card',
