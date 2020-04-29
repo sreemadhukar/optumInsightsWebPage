@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd, Params, PRIMARY_OUTLET, NavigationStart } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, Params, PRIMARY_OUTLET } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -27,7 +27,6 @@ export class BreadcrumbsComponent implements OnInit {
     private sanitizer: DomSanitizer
   ) {
     this.breadcrumbs = [];
-    const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       const root: ActivatedRoute = this.activatedRoute.root;
       this.breadcrumbs = this.getBreadcrumbs(root);
@@ -35,9 +34,11 @@ export class BreadcrumbsComponent implements OnInit {
         this.hyperLinkFlag = true;
       }
       this.breadcrumbLength = this.breadcrumbs.length;
-      iconRegistry.addSvgIcon(
+      this.iconRegistry.addSvgIcon(
         'chevron_right',
-        sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/baseline-chevron_right-24px.svg')
+        this.sanitizer.bypassSecurityTrustResourceUrl(
+          '/src/assets/images/icons/Navigation/baseline-chevron_right-24px.svg'
+        )
       );
     });
   }

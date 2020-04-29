@@ -6,7 +6,7 @@ interface CallsMetricsI {
   Total: number;
 }
 
-export interface ICalls {
+interface ICalls {
   ProviderSysKey: number;
   CallVolByQuesType: CallsMetricsI;
   CallTalkTimeByQuesType: CallsMetricsI;
@@ -14,4 +14,10 @@ export interface ICalls {
   ReportEndDate: string;
   CreateDate: string;
   test: any;
+}
+export interface ICallsResponse {
+  Status: string;
+  StatusCode: number;
+  Message: string;
+  Data: ICalls;
 }

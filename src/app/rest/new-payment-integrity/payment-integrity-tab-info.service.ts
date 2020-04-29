@@ -10,7 +10,6 @@ import { of } from 'rxjs';
 export class PaymentIntegrityTabInfoService {
   public APP_URL: string = environment.apiProxyUrl;
   private SERVICE_PATH: string = environment.apiUrls.PaymentIntegrityTabsInfo;
-  private internalUser: boolean = environment.internalAccess;
   constructor(private http: HttpClient) {}
   public tabInfo() {
     const params = new HttpParams();

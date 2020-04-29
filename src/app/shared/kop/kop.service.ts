@@ -7,7 +7,6 @@ import { TimePeriod } from './kop.class.timeperiod';
 import { IssueResolution } from './kop.class.issueresolution';
 import { Reimbursement } from './kop.class.reimbursement';
 import { Engagement } from './kop.class.engagement';
-import { hasOwnProperty } from 'tslint/lib/utils';
 import { NPSDetail } from './detail/nps/kop.class.nps-detail';
 
 @Injectable({
@@ -16,13 +15,8 @@ import { NPSDetail } from './detail/nps/kop.class.nps-detail';
 export class KOPSharedService {
   constructor(private kopService: KopService) {}
 
-  public getNpsDetails(params: any) {
+  public getNpsDetails() {
     return new Promise(resolve => {
-      const { filter: selectedFilter } = params;
-      const { filters } = selectedFilter;
-      const paramsArray = filters.map((param: string) => {
-        return { filter: param };
-      });
       this.kopService.getNpsDetailSummary({ params: {} }).subscribe(
         (response: any) => {
           if (!response || response.length === 0) {
@@ -161,23 +155,16 @@ export class KOPSharedService {
     return new Promise((resolve, reject) => {
       switch (metricKey) {
         case 'kop':
-          this.kopService.getSummary({ params }).subscribe(
-            (response: any) => resolve(response),
-            () => reject()
-          );
+          this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
           break;
         case 'priorauthtat':
-          this.kopService.getPriorAuthTATSummary({ params }).subscribe(
-            (response: any) => resolve(response),
-            () => reject()
-          );
+          this.kopService
+            .getPriorAuthTATSummary({ params })
+            .subscribe((response: any) => resolve(response), () => reject());
           break;
         case 'reimbursementClaims':
           Object.assign(params, { region: 'LEASED MARKETS', markets: ['MINNEAPOLIS, MN', 'CHICAGO, IL'] });
-          this.kopService.getClaimsData({ params }).subscribe(
-            (response: any) => resolve(response),
-            () => reject()
-          );
+          this.kopService.getClaimsData({ params }).subscribe((response: any) => resolve(response), () => reject());
           break;
       }
     });

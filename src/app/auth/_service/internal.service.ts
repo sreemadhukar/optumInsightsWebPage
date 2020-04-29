@@ -14,13 +14,11 @@ export class InternalService {
   private SERVICE_PATH: string = environment.apiUrls.LDAPAuth;
   private sso: any;
   private tempUser: any;
-  private returnUrl: any;
 
   constructor(public http: HttpClient, public router: Router) {}
 
   login(userName, password) {
     if (sessionStorage.getItem('publicKey')) {
-      this.returnUrl = '/OverviewPage';
       const url = this.APP_URL + this.SERVICE_PATH;
       const token = JSON.parse(sessionStorage.getItem('token'));
       let params = new HttpParams();
