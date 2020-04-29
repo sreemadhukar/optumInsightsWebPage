@@ -378,7 +378,7 @@ export class TopRowAdvOverviewSharedService {
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
 
       if (parameters[1]['ClaimsBy'] === 'DOS') {
-        if (claimsData.hasOwnProperty('Startdate') && claimsData.hasOwnProperty('Enddate')) {
+        if (claimsData && claimsData.hasOwnProperty('Startdate') && claimsData.hasOwnProperty('Enddate')) {
           timePeriodData =
             this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate);
         }
@@ -456,7 +456,7 @@ export class TopRowAdvOverviewSharedService {
           resolve(claimsSubmitted);
         }
       } else {
-        if (claimsData.hasOwnProperty('StartDate') && claimsData.hasOwnProperty('EndDate')) {
+        if (claimsData && claimsData.hasOwnProperty('StartDate') && claimsData.hasOwnProperty('EndDate')) {
           timePeriodData =
             this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate);
         }
@@ -478,6 +478,7 @@ export class TopRowAdvOverviewSharedService {
             claimsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
             claimsData.LineOfBusiness[lobFullData] != null &&
             claimsData.LineOfBusiness[lobFullData].hasOwnProperty('ClaimFinancialMetrics') &&
+            claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics != null &&
             claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('ApprovedCount') &&
             claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('DeniedCount')
           ) {
@@ -609,6 +610,7 @@ export class TopRowAdvOverviewSharedService {
                 claimsData.LineOfBusiness.hasOwnProperty(lobData) &&
                 claimsData.LineOfBusiness[lobData] != null &&
                 claimsData.LineOfBusiness[lobData].hasOwnProperty('ClaimFinancialMetrics') &&
+                claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics != null &&
                 claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount')
               ) {
                 // let colorcodes;
@@ -740,6 +742,7 @@ export class TopRowAdvOverviewSharedService {
                 claimsData.LineOfBusiness.hasOwnProperty(lobData) &&
                 claimsData.LineOfBusiness[lobData] != null &&
                 claimsData.LineOfBusiness[lobData].hasOwnProperty('ClaimFinancialMetrics') &&
+                claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics != null &&
                 claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.hasOwnProperty('AmountDenied')
               ) {
                 const notPaidData = [];

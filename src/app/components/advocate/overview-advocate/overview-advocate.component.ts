@@ -434,7 +434,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
         console.log('component then', data);
         this.pbsCard = data;
         this.pbsLoading = false;
-        this.pbsCard['timeperiod'] = this.pbsCard['timeperiod'];
       })
       .catch(reason => {
         console.log('component catch', reason);
