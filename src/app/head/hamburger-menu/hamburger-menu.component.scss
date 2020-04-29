@@ -459,10 +459,6 @@ app-header {
   z-index: 9999 !important;
   overflow-x: hidden;
   overflow-y: auto;
-  .mat-drawer-inner-container {
-    // total height - (header height(74) + butter bar height(40))
-    max-height: calc(100vh - 114px);
-  }
 }
 
 .sidenav-filter {
