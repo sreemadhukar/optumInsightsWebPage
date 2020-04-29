@@ -739,7 +739,7 @@ export class NonPaymentSharedService {
             }
           } else {
             const filter_data_claimSummary = [];
-            if (nonPaymentsTrendData[0].hasOwnProperty('All')) {
+            if (nonPaymentsTrendData && nonPaymentsTrendData[0].All) {
               nonPaymentsTrendData.forEach(element => {
                 let monthlyData = [];
                 monthlyData = element.All.ClaimsLobSummary;
