@@ -58,7 +58,7 @@
   }
   .search-icon {
     position: absolute;
-    color: #757588;
+    color: $strom-grey;
     right: 10px;
     top: 10px;
   }
@@ -85,7 +85,7 @@
   .impact-table-footer {
     // display: inline-flex;
     height: 46px;
-    padding: 16px 16px 20px 16px;
+    padding: 10px 6px 20px 0;
     .impact-left-section {
       display: inline-flex;
       align-items: flex-start;
@@ -213,4 +213,13 @@
 .impact-cards-container {
   display: flex;
   flex-wrap: wrap;
+  .impact-cards-section {
+    margin-bottom: 18px;
+    &:not(:nth-child(3n + 4)) {
+      margin-left: 18px;
+    }
+    &:first-child {
+      margin-left: 0;
+    }
+  }
 }

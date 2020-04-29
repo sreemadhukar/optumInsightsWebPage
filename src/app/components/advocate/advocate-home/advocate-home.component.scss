@@ -96,12 +96,13 @@
         padding: 14px 0 13px 0;
         border-top: 1px solid transparent;
       }
-
       ::ng-deep .search-dropdown-mat-field .mat-form-field-infix {
         padding: 17px 0 16px 0;
         border-top: 1px solid transparent;
       }
-
+      .search-icon {
+        color: $strom-grey;
+      }
       .close-icon {
         color: $strom-grey;
       }
