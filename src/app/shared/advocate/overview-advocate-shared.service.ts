@@ -203,9 +203,10 @@ export class OverviewAdvocateSharedService {
     return new Promise((resolve, reject) => {
       const parameters = this.getParameterCategories(param);
 
-      this.overviewAdvocateService
-        .callsData(...parameters)
-        .subscribe(callsTotalData => resolve(callsTotalData), err => reject(err));
+      this.overviewAdvocateService.callsData(...parameters).subscribe(
+        callsTotalData => resolve(callsTotalData),
+        err => reject(err)
+      );
     });
   }
 
@@ -237,13 +238,16 @@ export class OverviewAdvocateSharedService {
               }
 
               const trendTimePeriod = element.Calldate;
-              if (param.timePeriod === 'Last3Months' || param.timePeriod === 'Last30Days') {
-                this.monthName = this.common
-                  .dateFormat(trendTimePeriod)
-                  .substr(0, 6)
-                  .replace('T', '');
-              } else {
-                this.monthName = this.common.dateFormat(trendTimePeriod).substr(0, 3);
+
+              if (trendTimePeriod) {
+                if (param.timePeriod === 'Last3Months' || param.timePeriod === 'Last30Days') {
+                  this.monthName = this.common
+                    .dateFormat(trendTimePeriod)
+                    .substr(0, 6)
+                    .replace('T', '');
+                } else {
+                  this.monthName = this.common.dateFormat(trendTimePeriod).substr(0, 3);
+                }
               }
               beData.push({
                 name: this.monthName,
