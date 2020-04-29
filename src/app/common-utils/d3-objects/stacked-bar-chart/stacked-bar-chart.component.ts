@@ -251,7 +251,10 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
     //    .tickFormat(d3.formatPrefix('.1', 1e3));
 
     // xAxisGroup.call(xAxis);
-    // yAxisGroup.attr('transform', `translate(${graphWidth}, 0)`).call(yAxis);
+    const yAxisGroupItem = yAxisGroup.attr('transform', `translate(${graphWidth}, 0)`);
+    if (yAxisGroupItem) {
+      yAxisGroupItem.call(yAxis);
+    }
     // });
 
     function printTextPaper(value) {
