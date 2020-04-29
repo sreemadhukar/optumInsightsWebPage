@@ -283,20 +283,16 @@ export class CommonUtilsService {
     if (!timeStamp) {
       return '';
     }
+
     let date1;
     if (timeStamp.includes('T')) {
       date1 = timeStamp.split('T'); // "2019-07-01T00:00:00.000+0000"
     } else {
-      // let date1;
-      if (timeStamp.includes('T')) {
-        date1 = timeStamp.split('T'); // "2019-07-01T00:00:00.000+0000"
-      } else {
-        date1 = timeStamp.split(' '); // "2019-02-01 06:00:00"
-      }
-      const x = date1[0].split('-'); // "2019-02-01"
-      const y = this.ReturnMonthlyString(x[1]) + ' ' + this.dayFormat(x[2]) + ', ' + x[0]; // Feb 02, 2019
-      return y;
+      date1 = timeStamp.split(' '); // "2019-02-01 06:00:00"
     }
+    const x = date1[0].split('-'); // "2019-02-01"
+    const y = this.ReturnMonthlyString(x[1]) + ' ' + this.dayFormat(x[2]) + ', ' + x[0]; // Feb 02, 2019
+    return y;
   }
 
   public checkZeroNegative(value: number): boolean {
