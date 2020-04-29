@@ -381,7 +381,7 @@ export class PaymentsSharedService {
                 type: 'donutWithLabel',
                 status: 404,
                 title: 'Claims Paid',
-                toggle: true,
+                // toggle: true,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -562,7 +562,8 @@ export class PaymentsSharedService {
                 claimsPaid = {
                   category: 'app-card',
                   type: 'donutWithLabel',
-                  title: null,
+                  title: 'Claims Paid',
+                  status: 404,
                   data: null,
                   besideData: null,
                   bottomData: null,
@@ -661,7 +662,8 @@ export class PaymentsSharedService {
                 claimsPaid = {
                   category: 'app-card',
                   type: 'donutWithLabel',
-                  title: null,
+                  title: 'Claims Paid',
+                  status: 404,
                   data: null,
                   besideData: null,
                   bottomData: null,
@@ -753,7 +755,8 @@ export class PaymentsSharedService {
                 claimsPaidRate = {
                   category: 'app-card',
                   type: 'donut',
-                  title: null,
+                  title: 'Claims Yield',
+                  status: 404,
                   data: null,
                   timeperiod: null
                 };
@@ -764,7 +767,7 @@ export class PaymentsSharedService {
                 type: 'donutWithLabel',
                 status: 404,
                 title: 'Claims Paid',
-                toggle: true,
+                // toggle: true,
                 data: null,
                 besideData: null,
                 bottomData: null,

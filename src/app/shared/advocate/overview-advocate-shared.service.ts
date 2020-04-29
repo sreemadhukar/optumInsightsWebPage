@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
-import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { OverviewAdvocateService } from '../../rest/advocate/overview-advocate.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
@@ -26,7 +25,6 @@ export class OverviewAdvocateSharedService {
     private MetricidService: GlossaryMetricidService,
     private common: CommonUtilsService,
     private session: SessionService,
-    private toggle: AuthorizationService,
     private overviewAdvocateService: OverviewAdvocateService
   ) {}
 
@@ -340,9 +338,12 @@ export class OverviewAdvocateSharedService {
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
-        pbsData => {
-          const getData = pbsData[0];
-          if (getData == null) {
+        getData => {
+          if (
+            getData === null ||
+            (getData['error'] && getData['status'] != null) ||
+            (_.get(getData, ['EDISubmissions', 'All']) === null && _.get(getData, ['PaperSubmissions', 'All']) == null)
+          ) {
             this.sendData = {
               category: 'app-card',
               type: 'donutWithLabel',
@@ -351,6 +352,7 @@ export class OverviewAdvocateSharedService {
               data: null,
               timeperiod: null
             };
+            return resolve(this.sendData);
           } else {
             this.sendData = {
               id: 'paymentSubmission',
@@ -366,13 +368,26 @@ export class OverviewAdvocateSharedService {
                   }
                 ],
                 color: ['#3381FF', '#00B8CC'],
-                gdata: ['card-inner', 'paymentBySubmission'],
-                sdata: null
+                gdata: ['card-inner', 'paymentBySubmission']
               },
               status: null,
               timeperiod: this.setTimePeriodValue(getData, param['viewClaimsByFilter'])
             };
           }
+          const checkResponse = { ...this.setGraphValues(getData, param['viewClaimsByFilter']) };
+
+          if (!checkResponse['electronic'] && !checkResponse['paper']) {
+            this.sendData = {
+              category: 'app-card',
+              type: 'donutWithLabel',
+              status: 404,
+              title: 'Payments by Submission',
+              data: null,
+              timeperiod: null
+            };
+            resolve(this.sendData);
+          }
+          console.log('resovel', this.sendData);
           resolve(this.sendData);
         },
         err => {
@@ -387,16 +402,16 @@ export class OverviewAdvocateSharedService {
    * @param resObj Parsed response object
    * @param claimsBy View Claims By Filter Value
    */
-  setGraphValues(resObj, claimsBy) {
+  setGraphValues(resObj, claimsBy): Object {
     if (claimsBy === 'DOP') {
       return {
-        electronic: resObj.EDISubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount,
-        paper: resObj.PaperSubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount
+        electronic: resObj.EDISubmissions.ALL ? resObj.EDISubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount : 0,
+        paper: resObj.PaperSubmissions.ALL ? resObj.PaperSubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount : 0
       };
     }
     return {
-      electronic: resObj.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid,
-      paper: resObj.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid
+      electronic: resObj.EDISubmissions.All ? resObj.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid : 0,
+      paper: resObj.PaperSubmissions.All ? resObj.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid : 0
     };
   }
 
@@ -409,10 +424,10 @@ export class OverviewAdvocateSharedService {
     if (claimsBy === 'DOP') {
       return this.common.dateFormat(resObj.StartDate) + '&ndash;' + this.common.dateFormat(resObj.EndDate);
     }
-    return (
-      this.common.dateFormat(resObj.PaperSubmissions.Startdate) +
-      '&ndash;' +
-      this.common.dateFormat(resObj.PaperSubmissions.Enddate)
-    );
+    const startDate = resObj.PaperSubmissions.Startdate
+      ? resObj.PaperSubmissions.Startdate
+      : resObj.EDISubmissions.Startdate;
+    const endDate = resObj.PaperSubmissions.Enddate ? resObj.PaperSubmissions.Enddate : resObj.EDISubmissions.Enddate;
+    return this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
   }
 }
