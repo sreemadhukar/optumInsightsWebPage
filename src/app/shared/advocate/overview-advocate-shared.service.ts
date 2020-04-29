@@ -335,8 +335,11 @@ export class OverviewAdvocateSharedService {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
         getData => {
-          console.log('getDaat', getData);
-          if (!getData && !getData.EDISubmissions.All && !getData.PaperSubmissions.All) {
+          if (
+            getData === null ||
+            (getData['error'] && getData['status'] != null) ||
+            (_.get(getData, ['EDISubmissions', 'All']) === null && _.get(getData, ['PaperSubmissions', 'All']) == null)
+          ) {
             this.sendData = {
               category: 'app-card',
               type: 'donutWithLabel',
@@ -345,6 +348,7 @@ export class OverviewAdvocateSharedService {
               data: null,
               timeperiod: null
             };
+            return resolve(this.sendData);
           } else {
             this.sendData = {
               id: 'paymentSubmission',
@@ -395,7 +399,6 @@ export class OverviewAdvocateSharedService {
    * @param claimsBy View Claims By Filter Value
    */
   setGraphValues(resObj, claimsBy): Object {
-    console.log('res obje', resObj);
     if (claimsBy === 'DOP') {
       return {
         electronic: resObj.EDISubmissions.ALL ? resObj.EDISubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount : 0,

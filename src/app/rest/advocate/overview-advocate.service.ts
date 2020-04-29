@@ -148,7 +148,8 @@ export class OverviewAdvocateService {
           return _get(res, ['Data', '0'], {});
         }
         return res;
-      })
+      }),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
 }
