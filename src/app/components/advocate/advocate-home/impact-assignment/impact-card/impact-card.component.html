@@ -1,14 +1,17 @@
 <div *ngIf="data != null" class="impact-assignment-card-structure">
   <div class="card-inner">
-    <p class="impact-assignment-tin" *ngIf="data.FormattedTin">
-      {{ data.FormattedTin }}
+    <p class="impact-assignment-tin" [ngClass]="data.FormattedTin ? '' : 'not-available'">
+      {{ data.FormattedTin ? (data.FormattedTin | titlecase) : 'Tin Not Available' }}
     </p>
     <p class="impact-assignment-tin-name" [ngClass]="data.TinName ? '' : 'not-available'">
-      {{ data.TinName ? (data.TinName | titlecase) : 'Health System Name Not Available' }}
+      {{ data.TinName ? (data.TinName | titlecase) : 'Tin Name Not Available' }}
     </p>
     <a class="impact-assignment-provider" *ngIf="data.ProviderSystem" (click)="navigateToHealthSystemDetails()">
       {{ data.ProviderSystem }}
     </a>
+    <p class="impact-assignment-tin-name not-available" *ngIf="!data.ProviderSystem">
+      Health System Name Not Available
+    </p>
     <div class="tins-data">
       <div class="tins-data-section">
         <p class="tins-data-label">TIN Type:</p>

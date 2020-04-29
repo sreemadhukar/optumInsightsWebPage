@@ -71,7 +71,7 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
     this.setPagination();
     this.showTable = false;
     this.isInputEmpty = true;
-    this.getData$ = this.homeService.getAdvDetails('gpalomi1').subscribe(
+    this.getData$ = this.homeService.getAdvDetails(this.session.sessionStorage('loggedUser', 'MsId')).subscribe(
       data => {
         this.completeData = [...data];
         this.afterQuery = [...this.completeData];
