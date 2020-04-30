@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SessionService } from '../../../../shared/session.service';
 import { HomeService } from '../../../../rest/advocate/home.service';
 import { IAdvTinDetailsResponse, pageSizeConf, INITIAL_PAGINATION } from '../user.class';
 import { Subscription } from 'rxjs';
@@ -22,7 +23,12 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
   public pageSizeValues: Array<string>; // Dropdown option values
   public isInputEmpty: boolean;
   public showTable: boolean;
-  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private homeService: HomeService) {
+  constructor(
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    private homeService: HomeService,
+    private session: SessionService
+  ) {
     iconRegistry.addSvgIcon(
       'star',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/star-24px.svg')
@@ -154,7 +160,6 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
       el => regex.test(el.Tin) || regex.test(el.FormattedTin) || regex.test(el.TinName) || regex.test(el.ProviderSystem)
     );
     this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
-    console.log('Impact Card', this.afterQuery);
   }
 
   /**
