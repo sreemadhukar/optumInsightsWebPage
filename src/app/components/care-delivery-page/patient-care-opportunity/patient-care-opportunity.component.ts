@@ -238,6 +238,7 @@ export class PatientCareOpportunityComponent implements OnInit {
             // second number we might have to iterate
             this.customFormattingMeasureDescription(this.customFormatting, this.pcorData[2]);
             this.starRatings = this.pcorData[3];
+            console.log('starRatings', this.starRatings);
           }
         })
 
