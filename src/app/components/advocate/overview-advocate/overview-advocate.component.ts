@@ -2,7 +2,7 @@ import { Component, OnInit, DoCheck } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
-import { SessionService } from '../../../../../src/app/shared/session.service';
+import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { TopRowAdvOverviewSharedService } from '../../../shared/advocate/top-row-adv-overview-shared.service';
 import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';

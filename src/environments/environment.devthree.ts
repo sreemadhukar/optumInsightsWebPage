@@ -5,7 +5,7 @@
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devthree/pdr/uhci/v1/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -60,7 +60,8 @@ export const environment: any = {
     NetworkLever: 'network-lever/',
     PaymentIntegrityTabsInfo: 'pi-tab-info/',
     NewPaymentIntegrity: 'payment-integrity/',
-    ProviderSearch: 'provider-search'
+    ProviderSearch: 'provider-search',
+    AdvocateTinDetails: 'advocate-tin-details/'
   },
   headerKeys: {
     selectedCompany: '',

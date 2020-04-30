@@ -1,0 +1,49 @@
+<div *ngIf="data != null" class="impact-assignment-card-structure">
+  <div class="card-inner">
+    <p class="impact-assignment-tin" [ngClass]="data.FormattedTin ? '' : 'not-available'">
+      {{ data.FormattedTin ? (data.FormattedTin | titlecase) : 'Tin Not Available' }}
+    </p>
+    <p class="impact-assignment-tin-name" [ngClass]="data.TinName ? '' : 'not-available'">
+      {{ data.TinName ? (data.TinName | titlecase) : 'Tin Name Not Available' }}
+    </p>
+    <a class="impact-assignment-provider" *ngIf="data.ProviderSystem" (click)="navigateToHealthSystemDetails()">
+      {{ data.ProviderSystem }}
+    </a>
+    <p class="impact-assignment-tin-name not-available" *ngIf="!data.ProviderSystem">
+      Health System Name Not Available
+    </p>
+    <div class="tins-data">
+      <div class="tins-data-section">
+        <p class="tins-data-label">TIN Type:</p>
+        <p class="tins-data-value" [ngClass]="data.TaxIdType ? '' : 'not-available'">
+          {{ data.TaxIdType ? (data.TaxIdType | titlecase) : 'Not Available' }}
+        </p>
+      </div>
+      <div class="tins-data-section">
+        <p class="tins-data-label">Genesis System ID:</p>
+        <p class="tins-data-value" [ngClass]="data.BicId ? '' : 'not-available'">
+          {{ data.BicId ? data.BicId : 'Not Available' }}
+        </p>
+      </div>
+      <div class="tins-data-section">
+        <p class="tins-data-label">Region:</p>
+        <p class="tins-data-value" [ngClass]="data.Region ? '' : 'not-available'">
+          {{ data.Region ? (data.Region | titlecase) : 'Not Available' }}
+        </p>
+      </div>
+      <div class="tins-data-section">
+        <p class="tins-data-label">Market:</p>
+        <p class="tins-data-value" [ngClass]="data.Market ? '' : 'not-available'">
+          {{ data.Market ? (data.Market | countryFormatter) : 'Not Available' }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="impact-assignment-footer">
+    <hr class="footer-border" />
+    <div class="footer-section">
+      <div class="link-button" *ngIf="linkName" (click)="navigateToOverview()">{{ linkName }}</div>
+      <mat-icon svgIcon="chevron_right" *ngIf="linkName" class="link-button link-arrow"></mat-icon>
+    </div>
+  </div>
+</div>

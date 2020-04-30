@@ -1,0 +1,118 @@
+@import '~src/scss/variables.scss';
+.impact-assignment-card-structure {
+  position: relative;
+  background-color: #ffffff;
+  width: 304px;
+  height: 228px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  color: $black-rock;
+  letter-spacing: 0.2px;
+  .card-inner {
+    padding: 15px;
+    .full-width {
+      width: 100%;
+      justify-content: center;
+      display: flex;
+      margin-bottom: 16px;
+    }
+    .impact-assignment {
+      &-tin {
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        font-size: 18px;
+        line-height: 22px;
+      }
+      &-tin-name,
+      &-provider {
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        line-height: 18px;
+      }
+      &-provider {
+        color: $blue;
+        cursor: pointer;
+      }
+    }
+    .tins-data {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 8px;
+      &-section {
+        width: 50%;
+        margin-bottom: 8px;
+      }
+      &-label {
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        line-height: 18px;
+        color: $strom-grey;
+      }
+      &-value {
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        line-height: 18px;
+      }
+    }
+    .not-available {
+      font-style: italic;
+      color: $strom-grey;
+    }
+  }
+  .impact-assignment-footer {
+    float: left;
+    width: 100%;
+    margin-top: -4px;
+    position: absolute;
+    bottom: 0;
+    .footer-border {
+      border-top: 1px solid #e0e0e0;
+      margin: 0;
+      padding: 0;
+      height: 1px;
+    }
+    .footer-section {
+      height: 40px;
+      display: flex;
+      float: right;
+      .link-button {
+        color: #196ecf;
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        letter-spacing: 0.2px;
+        line-height: 22px;
+        text-align: right;
+        display: block;
+        cursor: pointer;
+        padding: 8px 0 8px 16px;
+      }
+      .link-arrow {
+        padding-left: 0;
+        padding-right: 11px;
+        padding-top: 6px;
+      }
+    }
+  }
+}
+.card-skeleton-small-card:empty {
+  margin: auto;
+  width: 304px;
+  height: 237px;
+
+  background-image: radial-gradient(circle 50px at 50px 50px, lightgray 99%, transparent 0),
+    linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80%),
+    linear-gradient(lightgray 20px, transparent 0), linear-gradient(lightgray 20px, transparent 0);
+
+  background-repeat: no-repeat;
+
+  background-size: 100px 200px, /* circle */ 20px 304px, /* highlight */ 150px 200px, 150px 200px;
+
+  background-position: 10px 75px, /* circle */ 0 0, /* highlight */ 120px 100px, 120px 137.5px;
+
+  animation: shine-small-card 1s infinite;
+}
+
+@keyframes shine-small-card {
+  to {
+    background-position: 10px 75px, 100% 0, /* move highlight to right */ 120px 100px, 120px 137.5px;
+  }
+}
