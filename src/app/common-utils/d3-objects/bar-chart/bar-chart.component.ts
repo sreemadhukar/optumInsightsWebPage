@@ -128,14 +128,13 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
     if (chartOptions.starObject) {
       xScaleConstant = width - 225; // For PCOR graph width should be 709
-      console.log('xScaleConstant', xScaleConstant);
+
       this.chartPCOR = svg
         .append('svg')
         .attr('width', xScaleConstant)
         .attr('height', height + margin.top + margin.bottom + 8)
         .append('g')
         .attr('transform', 'translate(' + 0 + ',' + (margin.top - 3) + ')');
-      console.log('width', width);
     } else {
       /** Following 2 variable are for Prior Auth Bar Grpah */
       xScaleBarWidthConstant = width / 1.79; // 522    when width is 554 , it will touch the border of the the card
@@ -159,8 +158,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
     // PCOR quality measure bar graph
     if (chartOptions.starObject) {
-      const PCORStars = chartOptions.starCount;
-      const PCORStarXCoordinateMultiplier = 17.5;
+      // const PCORStars = chartOptions.starCount;
+      // const PCORStarXCoordinateMultiplier = 17.5;
 
       // for (let i = 0; i < PCORStars; i++) {
       //   const xCoordinate = 14 + PCORStarXCoordinateMultiplier * i;
