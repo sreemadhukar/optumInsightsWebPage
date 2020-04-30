@@ -32,9 +32,7 @@ export class ImpactCardComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-    console.log(this.skeleton);
-  }
+  ngOnInit() {}
 
   providerSelection() {
     if (this.data !== null) {
