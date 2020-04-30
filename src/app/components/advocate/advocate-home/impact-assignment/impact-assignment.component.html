@@ -3,92 +3,100 @@
   <mat-icon matPrefix class="nav-menu-icons search-title-icon" svgIcon="star"></mat-icon>
   <p class="search-title">Personalized for You</p>
 </div>
-<p class="search-sub-title">Tax IDs for IMPACT Assignments</p>
-<div *ngIf="completeData.length > selectPageSize" class="search-box">
-  <input
-    class="search-box-input-query"
-    placeholder="Filter IMPACT Assignments"
-    maxlength="35"
-    type="text"
-    [(ngModel)]="searchInput"
-    (keyup)="enterQuery($event.target.value)"
-    (keydown.backspace)="enterQuery($event.target.value)"
-  />
-  <mat-icon class="search-icon" matSuffix svgIcon="search" *ngIf="isInputEmpty"></mat-icon>
-  <mat-icon
-    class="search-icon close-curser"
-    matSuffix
-    svgIcon="close"
-    (click)="clearValue()"
-    *ngIf="!isInputEmpty"
-  ></mat-icon>
-</div>
+<ng-container *ngIf="completeData && completeData.length > 0; else noImpactAssignments">
+  <p class="search-sub-title">Tax IDs for IMPACT Assignments</p>
+  <div *ngIf="completeData.length > 9" class="search-box">
+    <input
+      class="search-box-input-query"
+      placeholder="Filter IMPACT Assignments"
+      maxlength="35"
+      type="text"
+      [(ngModel)]="searchInput"
+      (keyup)="enterQuery($event.target.value)"
+      (keydown.backspace)="enterQuery($event.target.value)"
+    />
+    <mat-icon class="search-icon" matSuffix svgIcon="search" *ngIf="isInputEmpty"></mat-icon>
+    <mat-icon
+      class="search-icon close-curser"
+      matSuffix
+      svgIcon="close"
+      (click)="clearValue()"
+      *ngIf="!isInputEmpty"
+    ></mat-icon>
+  </div>
 
-<div class="table-show-count" *ngIf="completeData.length > 0">
-  <span class="table-show-text">
-    Showing
-    {{
-      afterQuery.length < selectPageSize * currentPageNumber ? afterQuery.length : selectPageSize * currentPageNumber
-    }}
-    of
-    {{ completeData.length }}
-  </span>
-</div>
+  <div class="table-show-count" *ngIf="completeData.length > 0">
+    <span class="table-show-text">
+      Showing
+      {{
+        afterQuery.length < selectPageSize * currentPageNumber ? afterQuery.length : selectPageSize * currentPageNumber
+      }}
+      of
+      {{ completeData.length }}
+    </span>
+  </div>
 
-<ng-container *ngIf="showTable">
-  <div class="impact-cards-container">
-    <app-impact-card
-      *ngFor="let item of completeData | impactSearch: searchInput | slice: startIndex:endIndex"
-      [data]="item"
-      class="impact-cards-section"
-    ></app-impact-card>
+  <ng-container *ngIf="showTable">
+    <div class="impact-cards-container">
+      <app-impact-card
+        *ngFor="let item of completeData | impactSearch: searchInput | slice: startIndex:endIndex"
+        [data]="item"
+        class="impact-cards-section"
+      ></app-impact-card>
+    </div>
+  </ng-container>
+  <div class="impact-body">
+    <!-- Table footer-->
+    <div *ngIf="afterQuery.length > selectPageSize && completeData.length > 9" class="impact-table-footer">
+      <!--pagination left section-->
+      <div class="impact-left-section">
+        <div class="impact-footer-label">Display</div>
+
+        <mat-select [(ngModel)]="selectPageSize" name="p" (selectionChange)="pageSizeMethod()">
+          <mat-option *ngFor="let p of pageSizeValues" [value]="p">
+            {{ p }}
+          </mat-option>
+        </mat-select>
+        <mat-icon class="impact-left-section-arrow-icon" svgIcon="arrow"></mat-icon>
+        <div class="impact-footer-label ml-8">per page</div>
+      </div>
+      <!--pagination left section ends-->
+      <!-- pagination right section-->
+      <div class="impact-right-section">
+        <div>
+          <form (submit)="enterPageNumber()">
+            <div class="impact-footer-label">Page</div>
+            <input
+              [(ngModel)]="currentPageNumber"
+              name="enterPage"
+              class="page-number"
+              [value]="currentPageNumber"
+              onkeyup="this.value=this.value.replace(/[^\d]/,'')"
+            />
+            <div class="impact-footer-label ml-8">of {{ totalPages }}</div>
+          </form>
+        </div>
+        <div class="pagination-btn-widget">
+          <div (click)="prevClick()" class="previous-button mr-8">
+            <button [ngClass]="currentPageNumber > 1 ? 'button-style-blue' : 'button-style'">
+              <mat-icon svgIcon="leftarrow"></mat-icon>
+            </button>
+          </div>
+          <div (click)="nextClick()" class="next-button">
+            <button [ngClass]="currentPageNumber < totalPages ? 'button-style-blue' : 'button-style'">
+              <mat-icon svgIcon="rightarrow"></mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- pagination right section ends-->
+    </div>
+    <!-- Table footer ends-->
   </div>
 </ng-container>
-<div class="impact-body">
-  <!-- Table footer-->
-  <div *ngIf="afterQuery.length > selectPageSize" class="impact-table-footer">
-    <!--pagination left section-->
-    <div class="impact-left-section">
-      <div class="impact-footer-label">Display</div>
-
-      <mat-select [(ngModel)]="selectPageSize" name="p" (selectionChange)="pageSizeMethod()">
-        <mat-option *ngFor="let p of pageSizeValues" [value]="p">
-          {{ p }}
-        </mat-option>
-      </mat-select>
-      <mat-icon class="impact-left-section-arrow-icon" svgIcon="arrow"></mat-icon>
-      <div class="impact-footer-label ml-8">per page</div>
-    </div>
-    <!--pagination left section ends-->
-    <!-- pagination right section-->
-    <div class="impact-right-section">
-      <div>
-        <form (submit)="enterPageNumber()">
-          <div class="impact-footer-label">Page</div>
-          <input
-            [(ngModel)]="currentPageNumber"
-            name="enterPage"
-            class="page-number"
-            [value]="currentPageNumber"
-            onkeyup="this.value=this.value.replace(/[^\d]/,'')"
-          />
-          <div class="impact-footer-label ml-8">of {{ totalPages }}</div>
-        </form>
-      </div>
-      <div class="pagination-btn-widget">
-        <div (click)="prevClick()" class="previous-button mr-8">
-          <button [ngClass]="currentPageNumber > 1 ? 'button-style-blue' : 'button-style'">
-            <mat-icon svgIcon="leftarrow"></mat-icon>
-          </button>
-        </div>
-        <div (click)="nextClick()" class="next-button">
-          <button [ngClass]="currentPageNumber < totalPages ? 'button-style-blue' : 'button-style'">
-            <mat-icon svgIcon="rightarrow"></mat-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-    <!-- pagination right section ends-->
-  </div>
-  <!-- Table footer ends-->
-</div>
+<ng-template #noImpactAssignments>
+  <p class="no-impact-assignments">
+    Currently, there are no Impact assignments. Please refer to Impact for any required updates and allow 24-48 hours
+    for those updates to be reflected here.
+  </p>
+</ng-template>

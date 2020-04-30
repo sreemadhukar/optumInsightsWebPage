@@ -166,7 +166,19 @@
       font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 14px;
     }
+    .footer-label-position {
+      position: relative;
+      right: 24px;
+    }
   }
+}
+
+.no-impact-assignments {
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  margin: 12px 4px;
+  color: $strom-grey;
 }
 
 :host ::ng-deep .mat-select-arrow-wrapper {
