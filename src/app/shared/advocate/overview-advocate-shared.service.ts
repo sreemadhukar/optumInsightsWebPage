@@ -203,10 +203,9 @@ export class OverviewAdvocateSharedService {
     return new Promise((resolve, reject) => {
       const parameters = this.getParameterCategories(param);
 
-      this.overviewAdvocateService.callsData(...parameters).subscribe(
-        callsTotalData => resolve(callsTotalData),
-        err => reject(err)
-      );
+      this.overviewAdvocateService
+        .callsData(...parameters)
+        .subscribe(callsTotalData => resolve(callsTotalData), err => reject(err));
     });
   }
 
@@ -333,68 +332,83 @@ export class OverviewAdvocateSharedService {
     });
   }
 
-  public paymentsBySubmission(param) {
+  /**
+   * Create data for PBS Card component after fetching
+   * the data from the API of PBS for DOP and DOS filter
+   * @param param passing parameter to the function
+   */
+  public async paymentsBySubmission(param) {
+    // Get the time period Filters value
     this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
-    return new Promise(resolve => {
-      const parameters = this.getParameterCategories(param);
-      this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
-        getData => {
-          if (
-            getData === null ||
-            (getData['error'] && getData['status'] != null) ||
-            (_.get(getData, ['EDISubmissions', 'All']) === null && _.get(getData, ['PaperSubmissions', 'All']) == null)
-          ) {
-            this.sendData = {
-              category: 'app-card',
-              type: 'donutWithLabel',
-              status: 404,
-              title: 'Payments by Submission',
-              data: null,
-              timeperiod: null
-            };
-            return resolve(this.sendData);
-          } else {
-            this.sendData = {
-              id: 'paymentSubmission',
-              category: 'app-card',
-              type: 'stackBarChart',
-              title: 'Payments by Submission',
-              MetricID: this.MetricidService.MetricIDs.PaymentsBySubmission,
-              data: {
-                graphValues: [
-                  {
-                    name: '',
-                    ...this.setGraphValues(getData, param['viewClaimsByFilter'])
-                  }
-                ],
-                color: ['#3381FF', '#00B8CC'],
-                gdata: ['card-inner', 'paymentBySubmission']
-              },
-              status: null,
-              timeperiod: this.setTimePeriodValue(getData, param['viewClaimsByFilter'])
-            };
-          }
-          const checkResponse = { ...this.setGraphValues(getData, param['viewClaimsByFilter']) };
 
-          if (!checkResponse['electronic'] && !checkResponse['paper']) {
-            this.sendData = {
-              category: 'app-card',
-              type: 'donutWithLabel',
-              status: 404,
-              title: 'Payments by Submission',
-              data: null,
-              timeperiod: null
-            };
-            resolve(this.sendData);
+    // Get parameter for the API Call
+    const parameters = this.getParameterCategories(param);
+
+    // Decalre vars to store API resposne/error
+    let getData, getDataErr;
+
+    try {
+      // Call the payment Submission API
+      getData = await this.overviewAdvocateService.paymentsBySubmission(...parameters).toPromise();
+    } catch (err) {
+      getDataErr = err;
+    }
+
+    // Empty Response DOP Filter Value
+    const faultyForDOP = getData === null;
+
+    // Data Empty condition For DOS Filter Value
+    const faultyForDOS =
+      _.get(getData, ['EDISubmissions', 'All']) === null && _.get(getData, ['PaperSubmissions', 'All']) === null;
+
+    // Return error card for faulty or error response
+    if (getDataErr || faultyForDOP || faultyForDOS) {
+      return this.createPbsCardDataForError();
+    }
+
+    // Return Response for the success case
+    return this.mapResponseToPbsCardObj(getData, param);
+  }
+
+  /**
+   * Create Pbs Card data for error or faulty Response
+   */
+  createPbsCardDataForError() {
+    return {
+      category: 'app-card',
+      type: 'donutWithLabel',
+      status: 404,
+      title: 'Payments by Submission',
+      data: null,
+      timeperiod: null
+    };
+  }
+
+  /**
+   * Create PbsCard Body from the response object
+   * @param getData Response Object
+   * @param param Containg Filter value paramter
+   */
+  mapResponseToPbsCardObj(getData, param) {
+    return {
+      id: 'paymentSubmission',
+      category: 'app-card',
+      type: 'stackBarChart',
+      title: 'Payments by Submission',
+      MetricID: this.MetricidService.MetricIDs.PaymentsBySubmission,
+      data: {
+        graphValues: [
+          {
+            name: '',
+            ...this.setGraphValues(getData, param['viewClaimsByFilter'])
           }
-          console.log('resovel', this.sendData);
-          resolve(this.sendData);
-        },
-        err => {
-          console.log('Advocate Page , Error for calls card', err);
-        }
-      );
-    });
+        ],
+        color: ['#3381FF', '#00B8CC'],
+        gdata: ['card-inner', 'paymentBySubmission']
+      },
+      status: null,
+      timeperiod: this.setTimePeriodValue(getData, param['viewClaimsByFilter'])
+    };
   }
 
   /**

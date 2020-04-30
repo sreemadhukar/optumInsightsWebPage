@@ -425,21 +425,21 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs);
   }
 
-  paymentsBySubmissionData() {
+  /**
+   * Fetch the Pbs Card Data
+   */
+  async paymentsBySubmissionData() {
     this.pbsLoading = true;
     this.downRowMockCards = [{}];
     this.pbsCard = [];
-    this.overviewAdvocateSharedService
-      .paymentsBySubmission(this.createPayloadService.payload)
-      .then(data => {
-        console.log('component then', data);
-        this.pbsCard = data;
-        this.pbsLoading = false;
-      })
-      .catch(reason => {
-        console.log('component catch', reason);
-        this.pbsLoading = false;
-        console.log('Error Payment Submission Adovate Overview page Payment', reason);
-      });
+
+    try {
+      const payloadData = this.createPayloadService.payload;
+      this.pbsCard = await this.overviewAdvocateSharedService.paymentsBySubmission(payloadData);
+      this.pbsLoading = false;
+    } catch (reason) {
+      this.pbsLoading = false;
+      console.log('Error Payment Submission Adovate Overview page Payment', reason);
+    }
   }
 }
