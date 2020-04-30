@@ -88,7 +88,8 @@
 }
 
 .search-box-g:focus-within {
-  border: 1.5px solid rgb(77, 144, 254);
+  //  border: 1.7px solid rgb(77, 144, 254);
+  border: 1.5px solid rgb(51, 129, 255);
 }
 
 //input custom width
@@ -98,8 +99,10 @@
 .tinname-input-width {
   width: 230px;
   border: none;
-  height: 40px;
+  height: 39px;
   outline: none;
+  margin-left: 1px;
+  margin-top: 1px;
 }
 
 //table column widths

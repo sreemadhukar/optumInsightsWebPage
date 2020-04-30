@@ -6,7 +6,11 @@ Raven.config(environment.sentryKey).install();
 
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
-    Raven.captureException(err);
+    if (environment.noSentry) {
+      alert(err);
+    } else {
+      Raven.captureException(err);
+    }
     // const eventId = Raven.captureException(err);
     // if (!(err instanceof HttpErrorResponse) && !(err instanceof TypeError)) {
     //   Raven.showReportDialog(eventId);
