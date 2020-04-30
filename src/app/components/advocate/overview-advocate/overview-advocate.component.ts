@@ -17,6 +17,7 @@ import { CreatePayloadService } from '../../../shared/uhci-filters/create-payloa
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
+import { ICallsResponse } from 'src/app/modals/i-calls';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -218,8 +219,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.callsLoading = true;
     this.overviewAdvocateSharedService
       .getTotalCallsShared(this.createPayloadService.payload)
-      .then(totalCallsData => {
-        if (totalCallsData[0] == null) {
+      .then((response: ICallsResponse) => {
+        const totalCallsData = response.Data;
+
+        if (totalCallsData == null) {
           this.callsLoading = false;
           this.callsData = null;
           this.callsLineGraphData = {
@@ -234,11 +237,11 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
         } else {
           let callsLeftData;
           callsLeftData = totalCallsData;
-          this.totalCalls = this.common.nondecimalFormatter(callsLeftData[0].CallVolByQuesType.Total);
+          this.totalCalls = this.common.nondecimalFormatter(callsLeftData.CallVolByQuesType.Total);
           this.timePeriodCalls =
-            this.common.dateFormat(callsLeftData[0].ReportStartDate) +
+            this.common.dateFormat(callsLeftData.ReportStartDate) +
             '&ndash;' +
-            this.common.dateFormat(callsLeftData[0].ReportEndDate);
+            this.common.dateFormat(callsLeftData.ReportEndDate);
           this.callsLoading = false;
         }
       })
@@ -371,14 +374,15 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
       {
-        width: 950,
+        width: 946,
         backgroundColor: 'null',
         barGraphNumberSize: 18,
         barColor: '#196ECF',
         parentDiv: 'non-payment-trend-block',
         tooltipBoolean: true,
         hideYAxis: false,
-        yAxisUnits: '$'
+        yAxisUnits: '$',
+        height: 298
       }
     ];
 
@@ -428,11 +432,12 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.overviewAdvocateSharedService
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
+        console.log('component then', data);
         this.pbsCard = data;
         this.pbsLoading = false;
-        this.pbsCard['timeperiod'] = this.pbsCard['timeperiod'];
       })
       .catch(reason => {
+        console.log('component catch', reason);
         this.pbsLoading = false;
         console.log('Error Payment Submission Adovate Overview page Payment', reason);
       });

@@ -88,7 +88,7 @@ export class MultiLineGraphComponent implements OnInit {
   }
 
   doLineGraph(chartData: any, chartData1: any, chartData2: any, chartData3: any, titleData: any, generalData: any) {
-    function formatDy(dy: number): string {
+    /* function formatDy(dy: number): string {
       if (dy === 0) {
         return '0';
       } else if (dy < 999) {
@@ -98,7 +98,7 @@ export class MultiLineGraphComponent implements OnInit {
       } else if (dy) {
         return (dy / 1000000).toFixed(1) + 'M';
       }
-    }
+    } */
 
     function formatDynamicAbbreviation(tickNumber, tickValue, prefix) {
       const q = tickValue;
@@ -237,7 +237,7 @@ export class MultiLineGraphComponent implements OnInit {
 
     const margin = { top: 85 - topMarginSubtract, right: 62, bottom: 85, left: 48 };
     const width = preWidth - margin.left - margin.right;
-    const height = 520 - margin.top - margin.bottom + 8;
+    // const height = 520 - margin.top - margin.bottom + 8;
 
     const chart = d3
       .select(this.renderChart)
@@ -247,8 +247,7 @@ export class MultiLineGraphComponent implements OnInit {
       .style('background-color', generalData.backgroundColor)
       .append('g')
       .attr('transform', 'translate(' + (margin.left - 7) + ',' + 5 + ')');
-    const div = d3
-      .select(this.renderChart)
+    d3.select(this.renderChart)
       .append('div')
       .attr('class', 'tooltip')
       .style('opacity', 0);
@@ -315,8 +314,7 @@ export class MultiLineGraphComponent implements OnInit {
       .scaleLinear()
       .domain([0, lengthOfData - 1]) // input
       .range([25, width - 25]);
-    const xScalePath = d3
-      .scaleLinear()
+    d3.scaleLinear()
       .domain([0, 2]) // input
       .range([0, width]);
     const xScale3 = d3
@@ -359,7 +357,7 @@ export class MultiLineGraphComponent implements OnInit {
       .text(chartData.name)
       .style('fill', '#2D2D39');
 
-    const text_element1 = chart.select('#forlolCalculations');
+    chart.select('#forlolCalculations');
     // tslint:disable-next-line:no-var-keyword
     // var textWidth1 = text_element1.node().getComputedTextLength();
 
@@ -460,7 +458,7 @@ export class MultiLineGraphComponent implements OnInit {
       }
     }
 
-    const RectBarOne = chart
+    chart
       .selectAll('.multi-line-rect-bar')
       .data(data)
       .enter()
@@ -594,7 +592,7 @@ export class MultiLineGraphComponent implements OnInit {
           .style('opacity', 0);
       });
 
-    const DotOne = chart
+    chart
       .selectAll('.multi-line-dot1')
       .data(data)
       .enter()
@@ -613,7 +611,7 @@ export class MultiLineGraphComponent implements OnInit {
       })
       .attr('r', 6);
 
-    const DotTwo = chart
+    chart
       .selectAll('.multi-line-dot2')
       .data(data1)
       .enter()
@@ -632,7 +630,7 @@ export class MultiLineGraphComponent implements OnInit {
       })
       .attr('r', 6);
 
-    const DotThree = chart
+    chart
       .selectAll('.multi-line-dot3')
       .data(data2)
       .enter()
@@ -651,7 +649,7 @@ export class MultiLineGraphComponent implements OnInit {
       })
       .attr('r', 6);
 
-    const DotFour = chart
+    chart
       .selectAll('.multi-line-dot4')
       .data(data3)
       .enter()

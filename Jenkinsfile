@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-@Library("com.optum.jenkins.pipeline.library@v0.1.24") _
+@Library("com.optum.jenkins.pipeline.library@v0.3.0") _
 
 String dockerHost = 'docker.repo1.uhc.com'
 String namespace = 'uhcinsights'

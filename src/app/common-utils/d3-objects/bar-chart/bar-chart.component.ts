@@ -12,6 +12,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   public noTransition = 0;
   public renderChart: string;
   printStyle: boolean;
+  public chartPA;
+  public chartPCOR;
   @Input() chartOptions: any = {};
 
   constructor(private router: Router) {}
@@ -60,8 +62,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
             .text()
             .split(/\s+/)
             .reverse(),
-          lineNumber = 0,
-          lineHeight = 1.1, // ems
+          // lineNumber = 0,
+          // lineHeight = 1.1, // ems
           y = text.attr('y'),
           dy = parseFloat(text.attr('dy'));
         let tspan = text
@@ -112,17 +114,10 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       barHeight = chartOptions.barHeight; // bar height to be 48
     }
 
-    const margin = { top: 25, right: 10, bottom: 5, left: 10 };
+    const margin = { top: 26, right: 10, bottom: 16, left: 10 };
     const width = preWidth - margin.left - margin.right;
     const height = barHeight * 1.5 - margin.top - margin.bottom;
-
-    const chart = d3
-      .select(this.renderChart)
-      .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .append('g')
-      .attr('transform', 'translate(' + (margin.left + 6) + ',' + (margin.top + 5) + ')');
+    const svg = d3.select(this.renderChart);
 
     let xScaleConstant;
 
@@ -132,11 +127,24 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     /** Following 2 variable are for Prior Auth Bar Grpah */
 
     if (chartOptions.starObject) {
-      xScaleConstant = width - 115; // For PCOR graph width should be 849
+      xScaleConstant = width - 225; // For PCOR graph width should be 709
+
+      this.chartPCOR = svg
+        .append('svg')
+        .attr('width', xScaleConstant)
+        .attr('height', height + margin.top + margin.bottom + 8)
+        .append('g')
+        .attr('transform', 'translate(' + 0 + ',' + (margin.top - 3) + ')');
     } else {
       /** Following 2 variable are for Prior Auth Bar Grpah */
       xScaleBarWidthConstant = width / 1.79; // 522    when width is 554 , it will touch the border of the the card
       xScaleBarStartingPointConstant = width / 2.43; // 384
+      this.chartPA = svg
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + (margin.left + 6) + ',' + (margin.top + 5) + ')');
     }
     const xScale = d3
       .scaleLinear()
@@ -148,45 +156,46 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .domain([0, chartOptions.barSummation])
       .range([0, xScaleBarWidthConstant]);
 
+    // PCOR quality measure bar graph
     if (chartOptions.starObject) {
-      const PCORStars = chartOptions.starCount;
-      const PCORStarXCoordinateMultiplier = 17.5;
+      // const PCORStars = chartOptions.starCount;
+      // const PCORStarXCoordinateMultiplier = 17.5;
 
-      for (let i = 0; i < PCORStars; i++) {
-        const xCoordinate = 16 + PCORStarXCoordinateMultiplier * i;
-        chart
-          .append('g')
-          .attr('transform', 'translate(' + xCoordinate + ',' + -20 + ')')
-          .append('polygon')
-          .attr('fill', '#3381FF')
-          .attr(
-            'points',
-            '8 13.2668737 3.05572809 16 4 10.2111456 -3.02535774e-13 6.11145618 5.52786405 5.26687371 8 0 ' +
-              '10.472136 5.26687371 16 6.11145618 12 10.2111456 12.9442719 16'
-          );
-      }
+      // for (let i = 0; i < PCORStars; i++) {
+      //   const xCoordinate = 14 + PCORStarXCoordinateMultiplier * i;
+
+      //   this.chartPCOR
+      //     .append('g')
+      //     .attr('transform', 'translate(' + xCoordinate + ',' + 16 + ')')
+      //     .append('polygon')
+      //     .attr('fill', '#3381FF')
+      //     .attr(
+      //     'points',
+      //     '8 13.2668737 3.05572809 16 4 10.2111456 -3.02535774e-13 6.11145618 5.52786405 5.26687371 8 0 ' +
+      //     '10.472136 5.26687371 16 6.11145618 12 10.2111456 12.9442719 16'
+      //     );
+      // }
       // This belongs to PCOR
-      chart
-        .append('text')
-        .attr('x', 20 + 16 + xScale(chartOptions.barData))
-        // 20 will make this text attached with bar graph and moving 16px from right is the requirement
-        .attr('y', (height + 20) / 2)
-        .attr('fill', '#2D2D39')
-        .attr('font-size', '20')
-        .attr('text-align', 'right')
-        .style('text-anchor', 'start')
-        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-        .text(chartOptions.barData);
-
-      chart
+      this.chartPCOR
         .append('rect')
-        .attr('x', 20)
-        .attr('y', 5)
+        .attr('x', 36)
+        .attr('y', 0)
         .attr('width', xScale(chartOptions.barData))
         .attr('height', barHeight)
         .attr('fill', chartOptions.color[0].color1);
+      this.chartPCOR
+        .append('text')
+        .attr('x', 20)
+        // 20 will make this text attached with bar graph and moving 16px from right is the requirement
+        .attr('y', 31)
+        .attr('fill', '#2D2D39')
+        .attr('font-size', '20')
+        .attr('text-align', 'right')
+        .style('text-anchor', 'end')
+        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+        .text(chartOptions.barData);
     } else {
-      chart
+      this.chartPA
         .append('rect')
         .attr('x', xScaleBarStartingPointConstant)
         .attr('y', 0)
@@ -195,7 +204,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('fill', chartOptions.color[0].color1);
 
       if (chartOptions.color.length === 2) {
-        chart
+        this.chartPA
           .append('rect')
           .attr('x', xScaleBarStartingPointConstant)
           .attr('y', 0)
@@ -206,7 +215,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
       const uniqueText = 'reasonText' + this.renderChart.slice(1);
       const tspanID = uniqueText + 'tspan';
-      const textWithHover = chart
+      const textWithHover = this.chartPA
         .append('text')
         .attr('id', uniqueText)
         .attr('x', xScale(chartOptions.barSummation / 10))
@@ -304,7 +313,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           });
       }
       // This if for Prior Auth
-      chart
+      this.chartPA
         .append('text')
         .attr('x', xScaleBarStartingPointConstant - 24) // text should be 24px from the bar
         .attr('y', (barHeight + 8) / 2)

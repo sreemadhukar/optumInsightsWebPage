@@ -98,6 +98,9 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     { previousPage: 'callsPage', urlRout: '/ServiceInteraction/Calls' }
   ];
   @select() currentPage;
+  currentPageIndex = 0;
+  valueFrom = 1;
+  valueTo = this.pageSize;
   constructor(
     private iconRegistry: MatIconRegistry,
     private router: Router,
@@ -367,6 +370,8 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   }
   getPageSize(event) {
     this.pageSize = event.pageSize;
+    this.currentPageIndex = event.pageIndex;
+    setTimeout(() => this.showRange(), 500);
   }
 
   customPaginator() {
@@ -435,5 +440,14 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     // parseFloat(res).toFixed(2).replace(/\.?0*$/,'');;
     const val = parseFloat(strvalue).toFixed(2);
     return val;
+  }
+
+  /**
+   * Mutate The value of valueFrom and valueTO
+   * SO Showing 1-25 of 100 label can mutate
+   */
+  showRange() {
+    this.valueFrom = this.currentPageIndex * this.pageSize + 1;
+    this.valueTo = this.valueFrom + this.selectedclaims.connect().value.length - 1;
   }
 }
