@@ -16,6 +16,7 @@ import * as _ from 'lodash';
 })
 export class ImpactCardComponent implements OnInit {
   @Input() data: IAdvTinDetailsResponse;
+  @Input() skeleton;
   linkName = 'Overview';
   constructor(
     private storage: StorageService,
@@ -31,7 +32,9 @@ export class ImpactCardComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.skeleton);
+  }
 
   providerSelection() {
     if (this.data !== null) {
