@@ -304,7 +304,7 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
       const boxHeight = '63px';
 
       g.on('mouseenter', function(d) {
-        const hoverTextLength = topFunctions.getTextWidth(d.data.label, 14, 'Arial');
+        // const hoverTextLength = topFunctions.getTextWidth(d.data.label, 14, 'Arial');
 
         divHover.style('height', boxHeight).style('width', boxWidth);
 

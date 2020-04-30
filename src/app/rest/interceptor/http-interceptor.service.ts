@@ -93,7 +93,7 @@ export class HttpInterceptorService implements HttpInterceptor {
           request.url.indexOf(this.PaymentsBySubmissionDOP) !== -1)
       ) {
         request = request.clone({
-          headers: request.headers.set('application-type', 'Internal')
+          headers: request.headers.set('Application-Type', 'Internal')
         });
       }
       if (environment.internalAccess && request.url.indexOf('api/getTrendAccess' + loggedUserMsId) === -1) {
