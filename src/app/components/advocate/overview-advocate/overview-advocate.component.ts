@@ -374,14 +374,15 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
       {
-        width: 950,
+        width: 946,
         backgroundColor: 'null',
         barGraphNumberSize: 18,
         barColor: '#196ECF',
         parentDiv: 'non-payment-trend-block',
         tooltipBoolean: true,
         hideYAxis: false,
-        yAxisUnits: '$'
+        yAxisUnits: '$',
+        height: 298
       }
     ];
 
