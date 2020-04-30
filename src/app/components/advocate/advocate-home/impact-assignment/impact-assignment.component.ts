@@ -177,7 +177,10 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
       return false;
     }
   }
-
+  clearValue() {
+    this.searchInput = '';
+    this.enterQuery(this.searchInput);
+  }
   ngOnDestroy() {
     this.getData$.unsubscribe();
   }
