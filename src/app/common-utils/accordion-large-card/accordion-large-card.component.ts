@@ -79,6 +79,14 @@ export class AccordionLargeCardComponent implements OnInit {
       'carrot',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'star-blue',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Toggle/star-black-18dp.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'star-grey',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Toggle/star-grey-18dp.svg')
+    );
   }
 
   helpIconClick(title) {
