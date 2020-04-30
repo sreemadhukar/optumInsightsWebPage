@@ -4,7 +4,7 @@
   <p class="search-title">Personalized for You</p>
 </div>
 <p class="search-sub-title">Tax IDs for IMPACT Assignments</p>
-<div class="search-box">
+<div *ngIf="completeData.length > selectPageSize" class="search-box">
   <input
     class="search-box-input-query"
     placeholder="Filter IMPACT Assignments"
@@ -26,7 +26,12 @@
 
 <div class="table-show-count" *ngIf="completeData.length > 0">
   <span class="table-show-text">
-    Showing {{ afterQuery.length < selectPageSize ? afterQuery.length : selectPageSize }} of {{ completeData.length }}
+    Showing
+    {{
+      afterQuery.length < selectPageSize * currentPageNumber ? afterQuery.length : selectPageSize * currentPageNumber
+    }}
+    of
+    {{ completeData.length }}
   </span>
 </div>
 
@@ -41,7 +46,7 @@
 </ng-container>
 <div class="impact-body">
   <!-- Table footer-->
-  <div *ngIf="afterQuery.length > pageSizeValues[0]" class="impact-table-footer">
+  <div *ngIf="afterQuery.length > selectPageSize" class="impact-table-footer">
     <!--pagination left section-->
     <div class="impact-left-section">
       <div class="impact-footer-label">Display</div>
