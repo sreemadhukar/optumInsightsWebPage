@@ -23,6 +23,8 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
   public pageSizeValues: Array<string>; // Dropdown option values
   public isInputEmpty: boolean;
   public showTable: boolean;
+  public noImpactAssignMessage: string;
+  mockCards = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
   constructor(
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
@@ -66,6 +68,8 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // 'gpalomi1'
     // this.session.sessionStorage('loggedUser', 'MsId')
+    this.noImpactAssignMessage = `Currently, there are no Impact assignments. Please refer to Impact
+    for any required updates and allow 24-48 hours for those updates to be reflected here.`;
     this.pageSizeValues = [...pageSizeConf];
     this.selectPageSize = this.pageSizeValues[0];
     this.setPagination();

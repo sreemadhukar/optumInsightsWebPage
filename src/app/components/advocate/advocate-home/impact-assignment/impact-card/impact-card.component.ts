@@ -16,6 +16,7 @@ import * as _ from 'lodash';
 })
 export class ImpactCardComponent implements OnInit {
   @Input() data: IAdvTinDetailsResponse;
+  @Input() skeleton;
   linkName = 'Overview';
   constructor(
     private storage: StorageService,
