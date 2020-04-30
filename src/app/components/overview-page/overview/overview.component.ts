@@ -143,7 +143,7 @@ export class OverviewComponent implements OnInit {
       /* SERVICE CALL TO GET DATA FOR PRIOR AUTH CARD */
       this.priorAuthLoading = true;
       this.overviewsrc
-        .getPriorAuthCardData(this.trendsData)
+        .getPriorAuthCardData()
         .then(data => {
           this.loadPrioirAuthCard = false;
           this.errorloadPrioirAuthCard = false;

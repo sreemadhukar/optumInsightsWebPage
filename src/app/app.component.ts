@@ -65,7 +65,7 @@ export class AppComponent {
       disableClose: true,
       data: { timeOut: this.timeout }
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       this.userIdle.stopWatching();
       if (!sessionStorage.getItem('currentUser')) {
         this.onStartWatching(false);

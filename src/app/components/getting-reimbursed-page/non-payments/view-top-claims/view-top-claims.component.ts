@@ -113,7 +113,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     private ngRedux: NgRedux<IAppState>,
     private common: CommonUtilsService
   ) {
-    this.createPayloadService.getEvent().subscribe(value => {
+    this.createPayloadService.getEvent().subscribe(() => {
       this.ngOnInit();
     });
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());

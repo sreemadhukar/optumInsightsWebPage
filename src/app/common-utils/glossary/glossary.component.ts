@@ -54,7 +54,7 @@ export class GlossaryComponent implements OnInit, DoCheck {
     this.networkLeverUlTag();
   }
   // this function will fetch all the matched glossary items only corresponding to the characters entered by user
-  public getBusinessGlossary(text) {
+  public getBusinessGlossary() {
     // this.glossaryService.getGlossaryByMetricName(text).subscribe(
     //   response => {
     //     console.log('Business Glossary metric name', response);

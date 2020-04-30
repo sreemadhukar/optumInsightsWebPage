@@ -31,7 +31,7 @@ export class NewPaymentIntegrityService {
           resolve(response);
         },
         err => {
-          console.log('Check All RLP HCO Data Error', err);
+          console.log('PI Certification Period Dates Data Error', err);
         }
       );
     });
@@ -42,7 +42,13 @@ export class NewPaymentIntegrityService {
     return new Promise(resolve => {
       this.newPaymentIntegrityService.getNewPaymentIntegrityData(apiDates).subscribe(
         response => {
-          resolve(this.piDataFormating(response));
+          if (!response) {
+            resolve(this.piDataError(response));
+          } else if (response.ProviderSysKey) {
+            resolve(this.piDataFormating(response));
+          } else {
+            resolve(this.piDataError(response));
+          }
           // resolve(response);
         },
         err => {
@@ -135,7 +141,8 @@ export class NewPaymentIntegrityService {
               labels: '*Positive/negative trend comparision is ' + trendLable
             }
           ]
-        }
+        },
+        status: 200
       },
       {
         title: 'Coding Review Results',
@@ -155,7 +162,8 @@ export class NewPaymentIntegrityService {
           hover: true,
           targetValue: codingReviewResultsTargetValue,
           target: codingReviewResultsTarget
-        }
+        },
+        status: 200
       },
       {
         title: 'Medical Records Received vs. Awaiting Submission',
@@ -178,7 +186,8 @@ export class NewPaymentIntegrityService {
           AccountsReceivableOpportunity: this.valueFormatting(value.MedicalRecordsNotReceivedAmount),
           trendComparisionLable: '*Positive/negative trend comparison is ' + trendLable
         },
-        timeperiod: this.session.filterObjValue.timeFrame
+        timeperiod: this.session.filterObjValue.timeFrame,
+        status: 200
       }
     ];
     return summaryItems;
@@ -192,5 +201,75 @@ export class NewPaymentIntegrityService {
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const split = value.split('-');
     return monthNames[parseInt(split[1]) - 1] + ' ' + split[0];
+  }
+  // PI data error handling
+  piDataError(value: any) {
+    if (!value) {
+      const summaryItems = [
+        {
+          category: 'app-card',
+          title: 'Medical Records Requested by UHC',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
+          status: 500
+        },
+        {
+          category: 'app-card',
+          title: 'Coding Review Results',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
+          status: 500
+        },
+        {
+          category: 'large-card',
+          title: 'Medical Records Received vs. Awaiting Submission',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
+          status: 500
+        }
+      ];
+      return summaryItems;
+    } else if (value.error) {
+      const summaryItems = [
+        {
+          category: 'app-card',
+          title: 'Medical Records Requested by UHC',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
+          status: value.status
+        },
+        {
+          category: 'app-card',
+          title: 'Coding Review Results',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
+          status: value.status
+        },
+        {
+          category: 'large-card',
+          title: 'Medical Records Received vs. Awaiting Submission',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
+          status: value.status
+        }
+      ];
+      return summaryItems;
+    } else {
+      const summaryItems = [
+        {
+          category: 'app-card',
+          title: 'Medical Records Requested by UHC',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
+          status: 500
+        },
+        {
+          category: 'app-card',
+          title: 'Coding Review Results',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
+          status: 500
+        },
+        {
+          category: 'large-card',
+          title: 'Medical Records Received vs. Awaiting Submission',
+          MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
+          status: 500
+        }
+      ];
+      return summaryItems;
+    }
   }
 }

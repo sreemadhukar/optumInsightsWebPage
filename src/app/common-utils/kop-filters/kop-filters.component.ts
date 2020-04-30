@@ -29,7 +29,11 @@ export class KopFiltersComponent implements OnInit {
   @Input() customFilter;
   @Input() filterData: FilterData[] = [];
 
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private session: SessionService) {}
+  constructor(
+    private iconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer,
+    private session: SessionService
+  ) {}
 
   ngOnInit() {
     this.selectedFilter = this.filterData.filter(element => element.selected)[0].title;
@@ -62,7 +66,7 @@ export class KopFiltersComponent implements OnInit {
     this.filterFlag.emit(false);
   }
   @HostListener('document:keydown.escape', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
+  handleKeyboardEvent(_event: KeyboardEvent) {
     this.filterFlag.emit(false);
   }
 }

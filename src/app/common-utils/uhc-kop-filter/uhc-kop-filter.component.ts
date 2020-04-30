@@ -39,7 +39,7 @@ export class UhcKopFilterComponent implements OnInit {
 
   constructor(
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private session: SessionService,
     private ngRedux: NgRedux<any>
   ) {}
@@ -64,7 +64,7 @@ export class UhcKopFilterComponent implements OnInit {
     this.filterFlag.emit(false);
   }
   @HostListener('document:keydown.escape', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
+  handleKeyboardEvent(_event: KeyboardEvent) {
     this.filterFlag.emit(false);
   }
 }
