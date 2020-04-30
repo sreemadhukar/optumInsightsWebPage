@@ -28,7 +28,7 @@
       <div class="tins-data-section">
         <p class="tins-data-label">Region:</p>
         <p class="tins-data-value" [ngClass]="data.Region ? '' : 'not-available'">
-          {{ data.Region ? (data.Region | titlecase) : 'Not Available' }}
+          {{ data.Region ? (data.Region | countryFormatter) : 'Not Available' }}
         </p>
       </div>
       <div class="tins-data-section">
