@@ -1,9 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IAdvTinDetailsResponse } from '../../user.class';
-import { SessionService } from '../../../../../shared/session.service';
 import { StorageService } from '../../../../../shared/storage-service.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { APPLY_FILTER } from '../../../../../store/filter/actions';
+import { NgRedux } from '@angular-redux/store';
+import { IAppState } from '../../../../../store/store';
+import { INITIAL_STATE } from '../../../../../store/filter/reducer';
+import * as _ from 'lodash';
+
 @Component({
   selector: 'app-impact-card',
   templateUrl: './impact-card.component.html',
@@ -13,10 +18,10 @@ export class ImpactCardComponent implements OnInit {
   @Input() data: IAdvTinDetailsResponse;
   linkName = 'Overview';
   constructor(
-    private session: SessionService,
     private storage: StorageService,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private ngRedux: NgRedux<IAppState>
   ) {
     this.iconRegistry.addSvgIcon(
       'chevron_right',
@@ -53,6 +58,16 @@ export class ImpactCardComponent implements OnInit {
 
   navigateToOverview() {
     this.providerSelection();
+    const serializedState = JSON.parse(sessionStorage.getItem('state'));
+    if (serializedState) {
+      serializedState.taxId = [{ Tin: this.data.FormattedTin, Tinname: this.data.TinName }];
+    }
+    const initialState = _.clone(INITIAL_STATE, true);
+    initialState.taxId = [{ Tin: this.data.FormattedTin, Tinname: this.data.TinName }];
+    this.ngRedux.dispatch({
+      type: APPLY_FILTER,
+      filterData: serializedState ? serializedState : initialState
+    });
     window.location.href = '/OverviewPageAdvocate';
   }
 }

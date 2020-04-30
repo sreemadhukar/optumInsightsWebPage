@@ -35,6 +35,7 @@
     <app-impact-card
       *ngFor="let item of completeData | impactSearch: searchInput | slice: startIndex:endIndex"
       [data]="item"
+      class="impact-cards-section"
     ></app-impact-card>
   </div>
 </ng-container>

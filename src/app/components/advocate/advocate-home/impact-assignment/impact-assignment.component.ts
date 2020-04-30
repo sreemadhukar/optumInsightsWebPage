@@ -2,9 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HomeService } from '../../../../rest/advocate/home.service';
-import { SessionService } from '../../../../shared/session.service';
 import { IAdvTinDetailsResponse, pageSizeConf, INITIAL_PAGINATION } from '../user.class';
-import { Subscription, Observable, of } from 'rxjs';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-impact-assignment',
   templateUrl: './impact-assignment.component.html',
@@ -23,12 +22,7 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
   public pageSizeValues: Array<string>; // Dropdown option values
   public isInputEmpty: boolean;
   public showTable: boolean;
-  constructor(
-    iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
-    private homeService: HomeService,
-    private session: SessionService
-  ) {
+  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private homeService: HomeService) {
     iconRegistry.addSvgIcon(
       'star',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/star-24px.svg')
