@@ -62,8 +62,7 @@
     <div class="tax-summary-content" [hidden]="isLoading">
       <div class="tax-summary-head" [ngStyle]="{ display: lengthOffilteredData > 0 ? 'block' : 'none' }">
         <span class="tax-summary-count">
-          Showing {{ valueFrom }} - {{ lengthOffilteredData > 25 ? valueTo : lengthOffilteredData }} of
-          {{ lengthOffilteredData }}
+          {{ rangeLabel }}
         </span>
       </div>
       <div class="tax-summary-body">
