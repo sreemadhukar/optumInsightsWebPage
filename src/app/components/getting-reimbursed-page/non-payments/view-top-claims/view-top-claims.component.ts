@@ -241,6 +241,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     if (this.selectedReasonItem === this.selectedSubreason) {
       this.selectedSubreason = 'UNKNOWN';
     }
+    this.resetPaginationAttribute();
     this.loadTable(this.selectedReasonItem, this.selectedSubreason);
     this.loading = true;
   }
@@ -253,7 +254,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       if (this.selectedReasonItem === this.subReasonselected) {
         this.subReasonselected = 'UNKNOWN';
       }
-
+      this.resetPaginationAttribute();
       this.loadTable(this.selectedReasonItem, this.subReasonselected);
       this.loading = true;
     }
@@ -300,11 +301,12 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
           this.selectedclaims.filterPredicate = this.customFilterPredicate();
           this.lengthOffilteredData = this.selectedclaims.filteredData.length;
 
-          // Genrate Label of Range after getting complete length of data
-          this.genrateLabel(this.currentPageIndex, this.pageSize, this.lengthOffilteredData);
           if (this.pageSize > this.numberOfClaims) {
             this.pageSize = this.numberOfClaims;
           }
+
+          // Genrate Label of Range after getting complete length of data
+          this.genrateLabel(this.currentPageIndex, this.pageSize, this.lengthOffilteredData);
         } else {
           this.tableData = {
             category: 'large-card',
@@ -461,5 +463,12 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     const startIndex = page * pageSize;
     const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
     this.rangeLabel = `Showing ${startIndex + 1} – ${endIndex} of ${length}`;
+  }
+
+  resetPaginationAttribute() {
+    this.paginator.pageIndex = 0;
+    this.paginator.pageSize = 25;
+    this.currentPageIndex = 0;
+    this.pageSize = 25;
   }
 }
