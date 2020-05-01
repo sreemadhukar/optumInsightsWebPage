@@ -9,6 +9,7 @@ import { SliceStringPipe } from './slice-string.pipe';
 import { ZeroValueFormatterPipe } from './zero-value-formatter.pipe';
 import { RlpSearchPipe } from './rlp-search.pipe';
 import { SearchHighlightPipe } from './search-highlight.pipe';
+import { ImpactSearchPipe } from './impact-search.pipe';
 
 @NgModule({
   imports: [CommonModule],
@@ -21,7 +22,8 @@ import { SearchHighlightPipe } from './search-highlight.pipe';
     SliceStringPipe,
     ZeroValueFormatterPipe,
     RlpSearchPipe,
-    SearchHighlightPipe
+    SearchHighlightPipe,
+    ImpactSearchPipe
   ],
   exports: [
     CurrencyFormatterPipe,
@@ -32,7 +34,8 @@ import { SearchHighlightPipe } from './search-highlight.pipe';
     SliceStringPipe,
     ZeroValueFormatterPipe,
     RlpSearchPipe,
-    SearchHighlightPipe
+    SearchHighlightPipe,
+    ImpactSearchPipe
   ]
 })
 export class PipesModule {}
