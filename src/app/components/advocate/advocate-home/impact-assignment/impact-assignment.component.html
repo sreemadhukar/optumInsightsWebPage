@@ -28,11 +28,9 @@
   <div class="table-show-count" *ngIf="completeData.length > 0">
     <span class="table-show-text">
       Showing
-      {{
-        afterQuery.length < selectPageSize * currentPageNumber ? afterQuery.length : selectPageSize * currentPageNumber
-      }}
+      {{ currentPageNumber == totalPages ? afterQuery.length - startIndex : selectPageSize }}
       of
-      {{ completeData.length }}
+      {{ afterQuery.length }}
     </span>
   </div>
 
