@@ -1,7 +1,8 @@
 <!-- Show tablecount-->
 <div class="table-show-count" *ngIf="tableData.length > 0">
   <span class="table-show-text">
-    Showing {{ afterQuery.length < selectPageSize ? afterQuery.length : selectPageSize }} of {{ afterQuery.length }}
+    Showing {{ currentPageNumber == totalPages ? afterQuery.length - startIndex : selectPageSize }} of
+    {{ afterQuery.length }}
   </span>
 </div>
 <!-- table container-->
