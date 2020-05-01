@@ -9,7 +9,6 @@
   flex-direction: column;
   @include padding(16px, 0, 64px, 0);
   background-color: $alice-blue;
-
   .home-advocate-content {
     display: flex;
     -webkit-flex-flow: row wrap;
