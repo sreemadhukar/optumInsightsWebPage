@@ -387,7 +387,6 @@ export class OverviewAdvocateSharedService {
             };
             resolve(this.sendData);
           }
-          console.log('resovel', this.sendData);
           resolve(this.sendData);
         },
         err => {

@@ -95,8 +95,13 @@
   </div>
 </ng-container>
 <ng-template #noImpactAssignments>
-  <p class="no-impact-assignments">
+  <p class="no-impact-assignments" *ngIf="showTable">
     Currently, there are no Impact assignments. Please refer to Impact for any required updates and allow 24-48 hours
     for those updates to be reflected here.
   </p>
 </ng-template>
+<div class="impact-cards-container card-loader-margin">
+  <div *ngFor="let data of mockCards; let i = index" class="impact-cards-section">
+    <app-impact-card [skeleton]="!showTable" *ngIf="!showTable"> </app-impact-card>
+  </div>
+</div>

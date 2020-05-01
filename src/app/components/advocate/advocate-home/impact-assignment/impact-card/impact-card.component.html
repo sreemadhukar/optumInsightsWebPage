@@ -1,7 +1,7 @@
 <div *ngIf="data != null" class="impact-assignment-card-structure">
   <div class="card-inner">
     <p class="impact-assignment-tin" [ngClass]="data.FormattedTin ? '' : 'not-available'">
-      {{ data.FormattedTin ? (data.FormattedTin | titlecase) : 'Tin Not Available' }}
+      {{ data.FormattedTin ? data.FormattedTin : 'Tin Not Available' }}
     </p>
     <p class="impact-assignment-tin-name" [ngClass]="data.TinName ? '' : 'not-available'">
       {{ data.TinName ? (data.TinName | titlecase) : 'Tin Name Not Available' }}
@@ -28,13 +28,25 @@
       <div class="tins-data-section">
         <p class="tins-data-label">Region:</p>
         <p class="tins-data-value" [ngClass]="data.Region ? '' : 'not-available'">
-          {{ data.Region ? (data.Region | countryFormatter) : 'Not Available' }}
+          {{
+            data.Region
+              ? data.Region.trim().length < 3
+                ? data.Region
+                : (data.Region | countryFormatter)
+              : 'Not Available'
+          }}
         </p>
       </div>
       <div class="tins-data-section">
         <p class="tins-data-label">Market:</p>
         <p class="tins-data-value" [ngClass]="data.Market ? '' : 'not-available'">
-          {{ data.Market ? (data.Market | countryFormatter) : 'Not Available' }}
+          {{
+            data.Market
+              ? data.Market.trim().length < 3
+                ? data.Market
+                : (data.Market | countryFormatter)
+              : 'Not Available'
+          }}
         </p>
       </div>
     </div>
@@ -45,5 +57,10 @@
       <div class="link-button" *ngIf="linkName" (click)="navigateToOverview()">{{ linkName }}</div>
       <mat-icon svgIcon="chevron_right" *ngIf="linkName" class="link-button link-arrow"></mat-icon>
     </div>
+  </div>
+</div>
+<div *ngIf="skeleton" class="impact-assignment-card-structure">
+  <div>
+    <div class="card-skeleton-impact-card"></div>
   </div>
 </div>
