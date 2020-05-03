@@ -20,8 +20,8 @@
           (click)="section[i] = !section[i]; reasonsCollapose(i)"
         >
           <div class="bar-graph-inside-content">
-            <div class="bar-graph-inside-left-block">
-              <div class="bar-graph-inside-left-block-content">
+            <div class="bar-graph-inside-left-block" [class.bar-graphs-noicon]="item.data.barText == 0">
+              <div class="bar-graph-inside-left-block-content" [class.bar-graph-text]="item.data.barText == 0">
                 <!-- <mat-icon class="bar-graph-block-icon" [class.bar-graph-icon-hide]="item.data.barText == 0" *ngIf="!section[i]"
                 svgIcon="open"></mat-icon>
               <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon> -->
