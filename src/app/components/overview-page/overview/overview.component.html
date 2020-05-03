@@ -1,13 +1,8 @@
 <div class="overview-body" color="primary" id="print-overview">
-  <div
-    class="overview-content"
-    style="page-break-after: always"
-    [ngClass]="{ 'content-align-print': printStyle === true }"
-  >
+  <div class="overview-content" [ngClass]="{ 'content-align-print': printStyle === true }">
     <div class="cards cust-width-title">
       <div class="page-title">{{ pageTitle }}</div>
-      <div *ngIf="!printStyle" class="page-subtitle">{{ pagesubTitle }}</div>
-      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ pagesubTitle }}</div>
+      <div [ngClass]="printStyle ? 'print-page-subtitle' : 'page-subtitle'">{{ pagesubTitle }}</div>
     </div>
     <div class="cards cust-width-blank-print">
       <app-print> </app-print>
@@ -88,11 +83,7 @@
     <app-clarify-claims-message></app-clarify-claims-message>
   </div>
 
-  <div
-    class="overview-content"
-    style="page-break-after: always"
-    [ngClass]="{ 'content-align-print': printStyle === true }"
-  >
+  <div class="overview-content" [ngClass]="{ 'content-align-print': printStyle === true }">
     <div class="self-service-heading">
       <div class="cards cust-width-title">
         <div class="title-opportunity">{{ opportunities }}</div>
