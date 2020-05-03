@@ -74,12 +74,25 @@
     float: left;
   }
 }
+.bar-graphs-noicon {
+  display: flex;
+  margin-left: 39px;
+}
+
 .bar-graph-inside-left-block-content {
   display: flex;
   box-sizing: border-box;
-  margin-top: 35px;
+  margin-top: 30px;
   margin-right: 26px;
   width: 195px;
+}
+.bar-graph-text {
+  // when bar graph  value 0
+  display: flex;
+  box-sizing: border-box;
+  margin-top: 30px;
+
+  width: 120px;
 }
 .sub-item-inside-block-content {
   float: left;
@@ -213,10 +226,7 @@ height: 45px; */
 }
 .bar-graph-block-icon {
   float: left;
-  /* margin-top: -2px; */
-  margin-left: 39px; /* height: 20px;
-  width: 20px; */
-  // margin-right: 12px;
+  margin: 1px 8px 0 39px;
   margin-right: 8px;
 }
 .bar-graph-icon-hide {
