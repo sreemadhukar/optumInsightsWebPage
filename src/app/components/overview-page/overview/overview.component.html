@@ -82,8 +82,16 @@
     </div>-->
     <app-clarify-claims-message></app-clarify-claims-message>
   </div>
-
-  <div class="overview-content" [ngClass]="{ 'content-align-print': printStyle === true }">
+  <div
+    *ngIf="selfServiceMiniCards.length > 0"
+    class="overview-content"
+    [ngClass]="{ 'content-align-print': printStyle === true }"
+  >
+    <div
+      *ngIf="printStyle && countSmallCard <= 4 && countSmallCard > 2 && countMiniTile > 2"
+      class="height3Separator"
+    ></div>
+    <div *ngIf="printStyle && countSmallCard > 4" class="height4Separator"></div>
     <div class="self-service-heading">
       <div class="cards cust-width-title">
         <div class="title-opportunity">{{ opportunities }}</div>
