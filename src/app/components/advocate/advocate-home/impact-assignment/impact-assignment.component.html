@@ -45,10 +45,7 @@
   </ng-container>
   <div class="impact-body">
     <!-- Table footer-->
-    <div
-      *ngIf="afterQuery.length > selectPageSize && completeData.length > this.pageSizeValues[0]"
-      class="impact-table-footer"
-    >
+    <div *ngIf="afterQuery.length > selectPageSize" class="impact-table-footer">
       <!--pagination left section-->
       <div class="impact-left-section">
         <div class="impact-footer-label">Display</div>
