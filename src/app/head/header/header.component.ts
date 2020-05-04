@@ -3,34 +3,25 @@
 import {
   Component,
   OnInit,
-  AfterViewInit,
-  AfterViewChecked,
   HostListener,
   ElementRef,
   Input,
   Output,
   EventEmitter,
-  Renderer2,
-  ViewEncapsulation,
-  ViewChildren,
-  QueryList,
   OnDestroy,
   Inject
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { formatDate } from '@angular/common';
-import { MatExpansionPanel } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable, Subscription } from 'rxjs';
-import { CommonUtilsService } from '../../shared/common-utils.service';
 import { StorageService } from '../../shared/storage-service.service';
 import { EventEmitterService } from '../../shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
-import { DOCUMENT, Location } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../../auth/_service/authentication.service';
 
@@ -99,12 +90,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private breakpointObserver: BreakpointObserver,
     public el: ElementRef,
-    private renderer: Renderer2,
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private themeService: ThemeService,
     private router: Router,
-    private utils: CommonUtilsService,
     private checkStorage: StorageService,
     private eventEmitter: EventEmitterService,
     private sessionService: SessionService,
@@ -143,25 +132,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
       // PLEASE DON'T MODIFY THIS
     });
 
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'person',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-person-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-person-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'expand-more',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/round-expand_more-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/round-expand_more-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'menu',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/round-menu-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/round-menu-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'cross',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'done',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-done-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-done-24px.svg')
     );
 
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
@@ -195,6 +184,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       // this.checkedClicked.provider = this.sessionService.checkedClicked.provider;
       this.myView = true;
       this.userView = false;
+      sessionStorage.setItem('advocateView', 'false');
       this.router.navigate(['/OverviewPageAdvocate']);
     } else if (value === 'userView') {
       // this.sessionService.checkedClicked.myView = false;
@@ -204,13 +194,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       // this.checkedClicked.provider = this.sessionService.checkedClicked.provider;
       this.userView = true;
       this.myView = false;
+      sessionStorage.setItem('advocateView', 'true');
       this.router.navigate(['/OverviewPage']);
     }
     this.openDropdownBool = false;
   }
 
   @HostListener('document:click', ['$event.target'])
-  advocateUserClick(targetElement) {
+  advocateUserClick() {
     /*const HeaderElement = document.querySelector('.header-div');
     const ButtonElement = document.querySelector('.user-div');
     const dropdownElement1 = document.querySelector('.vertical-menu');

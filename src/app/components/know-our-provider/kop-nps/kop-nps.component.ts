@@ -5,7 +5,6 @@ import { FilterExpandService } from 'src/app/shared/filter-expand.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { SessionService } from 'src/app/shared/session.service';
 import { FILTER_MASTER_DATA } from 'src/app/store/kopFilter/kopFilterMasterData';
 import { select, NgRedux } from '@angular-redux/store';
 import { KOPSharedService } from 'src/app/shared/kop/kop.service';
@@ -44,20 +43,19 @@ export class KopNpsComponent implements OnInit, OnDestroy {
   constructor(
     private eventEmitter: EventEmitterService,
     private filterExpandService: FilterExpandService,
-    private sessionService: SessionService,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     private router: Router,
     private kopSharedService: KOPSharedService,
     private ngRedux: NgRedux<any>
   ) {
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'filter',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'error',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
     );
   }
 
@@ -87,7 +85,7 @@ export class KopNpsComponent implements OnInit, OnDestroy {
 
   getNPSData() {
     this.kopSharedService
-      .getNpsDetails({ filter: this.currentFilter })
+      .getNpsDetails()
       .then((data: any) => {
         if (data) {
           this.kopNpsData = data;
@@ -97,7 +95,7 @@ export class KopNpsComponent implements OnInit, OnDestroy {
           this.isError = true;
         }
       })
-      .catch(err => {
+      .catch(() => {
         this.npsLoaded = true;
         this.isError = true;
       });

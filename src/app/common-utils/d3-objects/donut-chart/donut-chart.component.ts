@@ -20,7 +20,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   constructor(private router: Router) {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_event) {
     this.doDonutChart(this.chartOptions, this.noTransition);
   }
   ngOnInit() {
@@ -73,8 +73,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .text()
             .split(/\s+/)
             .reverse(),
-          lineNumber = 0,
-          lineHeight = 1.1, // ems
+          // lineNumber = 0,
+          // lineHeight = 1.1, // ems
           y = textLabel.attr('y'),
           dy = parseFloat(textLabel.attr('dy'));
         let tspan = textLabel
@@ -532,6 +532,67 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .style('text-anchor', 'start')
             .text(chartOptions.sdata.data);
         }
+      } else if (chartOptions.sdata.sign === 'pi-trend-neutral') {
+        if (this.chartOptions.centerData) {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 40)
+            .attr('r', 16)
+            .attr('fill', '#e0e0e0');
+
+          chart
+            .append('svg:image')
+            .attr('x', -34)
+            .attr('y', 30)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 45)
+            .style('font-size', '14px')
+            .style('fill', '#757588')
+            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+            .style('text-anchor', 'start')
+            .text(chartOptions.sdata.data);
+        } else {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 29)
+            .attr('r', 16)
+            .attr('fill', '#e0e0e0');
+
+          if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+            chart
+              .append('svg:image')
+              .attr('x', -36)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+          } else {
+            chart
+              .append('svg:image')
+              .attr('x', -34)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
+          }
+
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 32)
+            .style('font-size', '14px')
+            .style('fill', '#2d2d39')
+            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+            .style('text-anchor', 'start')
+            .text(chartOptions.sdata.data);
+        }
       }
     } else {
       if (this.donutType === 'app-card') {
@@ -584,7 +645,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           return donutColor(d.data.color);
         })
         .transition()
-        .delay(function(d, i) {
+        .delay(function(_d, i) {
           return i * 700;
         })
         .duration(1000)
@@ -632,7 +693,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           boxWidth = '113px';
           textWidth = 84;
         }
-        const hoverTextLength = getTextWidth(d.data.label, 14, 'Arial');
+        // const hoverTextLength = getTextWidth(d.data.label, 14, 'Arial');
 
         divHover.style('height', boxHeight).style('width', boxWidth);
 
@@ -681,14 +742,14 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .style('font-family', 'UHCSans-Regular')
           .text(this.textOnHover);
       })
-        .on('mousemove', function(d) {
+        .on('mousemove', function() {
           divHover
             .transition()
             .duration(10)
             .style('opacity', 1);
           divHover.style('left', d3.event.layerX + 7.5 + 'px').style('top', d3.event.layerY - 35 + 'px');
         })
-        .on('mouseleave', function(d) {
+        .on('mouseleave', function() {
           divHover
             .transition()
             .duration(10)

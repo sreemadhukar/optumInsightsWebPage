@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 import { Router } from '@angular/router';
 @Component({
@@ -26,7 +26,7 @@ export class ColorGreyMiniBarChartComponent implements OnInit, AfterViewInit {
     this.doBarChart(this.chartOptions, this.transition);
   }
 
-  doBarChart(chartOptions: any, transition: number) {
+  doBarChart(chartOptions: any, _transition: number) {
     // const preWidth = document.getElementsByClassName('top-5-block')[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')

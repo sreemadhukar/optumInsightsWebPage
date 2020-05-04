@@ -1,0 +1,20 @@
+{
+  "ProviderSysKey": 983,
+  "ClaimSubmitted": 100337,
+  "MedicalRecordsRequested": 6404,
+  "MedicalRecordsReceived": 4022,
+  "MedicalRecordsNotReceived": 2379,
+  "MedicalRecordsNotReceivedAmount": 2655402.7600000002,
+  "MedicalRecordReviewedWithFindings": 1004,
+  "MedicalRecordReviewedWithoutFindings": 2628,
+  "MedicalRecordsRequestedRate": 0.06382491005312098,
+  "MedicalRecordsReceivedRate": 0.6280449718925671,
+  "MedicalRecordsNotReceivedRate": 0.37148657089319176,
+  "MedicalRecordsReviewed": 3632,
+  "CodingReviewResultRate": 0.723568281938326,
+  "AccountReceivableOpportunityTrend": 25.78395149229201,
+  "RequestRateTrend": -18.127695108951873,
+  "ClaimsProcessedDate": "March 31, 2020",
+  "VarianceStartDate": "2020-02",
+  "VarianceEndDate": "2020-03"
+}

@@ -6,7 +6,6 @@ import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../_service/authentication.service';
 import { InternalService } from '../_service/internal.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
 import { SessionService } from '../../shared/session.service';
 import { MatDialog, MatIconRegistry } from '@angular/material';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
@@ -47,7 +46,6 @@ export class LoginStubComponent implements OnInit {
     private authService: AuthenticationService,
     private internalService: InternalService,
     private router: Router,
-    private providerSharedService: ProviderSharedService,
     private dialog: MatDialog,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
@@ -61,9 +59,9 @@ export class LoginStubComponent implements OnInit {
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     this.checkExecutive = this.sessionService.checkExecutiveRole();
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'error',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
     );
   }
 
@@ -104,32 +102,35 @@ export class LoginStubComponent implements OnInit {
 
     this.returnUrl = '/ProviderSearch';
     if (this.isInternal) {
-      // if (this.authService.isLoggedIn()) {
-      // if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
-      //   if (this.checkAdv.value) {
-      //     // window.location.href = '/OverviewPageAdvocate';
-      //     window.location.href = '/OverviewPageAdvocate/HealthSystemDetails';
-      //   } else if (this.checkPro.value || this.checkExecutive.value) {
-      //     window.location.href = '/NationalExecutive';
-      //   }
-      //   // else if (this.checkPro.value) {
-      //   //   window.location.href = '/OverviewPage';
-      //   // }
-      // } else {
-      //   this.router.navigate([this.returnUrl]);
-      // }
       this.blankScreen = false;
       sessionStorage.clear();
       sessionStorage.setItem('cache', JSON.stringify(false));
-      this.sessionService.emitChangeEvent();
-      // } else {
-
+      // this.sessionService.emitChangeEvent();
       this.authService.getJwt().subscribe(data => {
         sessionStorage.setItem('token', JSON.stringify(data['token']));
         this.internalService.getPublicKey();
       });
 
-      // }
+      /*if (this.authService.isLoggedIn()) {
+        if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
+          if (this.checkAdv.value) {
+            // window.location.href = '/OverviewPageAdvocate';
+            window.location.href = '/OverviewPageAdvocate/Home';
+          } else if (this.checkPro.value || this.checkExecutive.value) {
+            window.location.href = '/NationalExecutive';
+          }
+          // else if (this.checkPro.value) {
+          //   window.location.href = '/OverviewPage';
+          // }
+        } else {
+          this.router.navigate([this.returnUrl]);
+        }
+      } else {
+        this.internalService.getPublicKey();
+        this.authService.getJwt().subscribe(data => {
+          sessionStorage.setItem('token', JSON.stringify(data['token']));
+        });
+      }*/
     } else {
       if (this.route.queryParams) {
         this.route.queryParams.subscribe(params => {
@@ -154,7 +155,7 @@ export class LoginStubComponent implements OnInit {
                   this.router.navigate(['/OverviewPage']);
                 }
               })
-              .catch(error => {
+              .catch(() => {
                 // this.openErrorDialog();
                 this.router.navigate(['/AccessDenied']);
               });
@@ -205,11 +206,13 @@ export class LoginStubComponent implements OnInit {
             this.router.navigate(['/NationalExecutive']);
           } else if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Project'))) {
             this.router.navigate(['/NationalExecutive']);
+          } else if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Advocate'))) {
+            this.router.navigate(['/OverviewPageAdvocate/Home']);
           } else {
             this.router.navigate(['/ProviderSearch']);
           }
         },
-        error => {
+        () => {
           this.error = true;
           this.loading = false;
           this.blankScreen = false;
@@ -228,7 +231,7 @@ export class LoginStubComponent implements OnInit {
       panelClass: 'custom'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       if (!sessionStorage.getItem('currentUser')) {
         this.blankScreen = false;
       }
@@ -245,7 +248,7 @@ export class LoginStubComponent implements OnInit {
       panelClass: 'custom'
     });
 
-    dialogErrorRef.afterClosed().subscribe(result => {
+    dialogErrorRef.afterClosed().subscribe(() => {
       if (!environment.internalAccess) {
         this.document.location.href = environment.apiUrls.linkLoginPage;
       }

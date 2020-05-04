@@ -54,7 +54,8 @@ h1.example-app-name {
 }
 
 .example-is-mobile .bg-white {
-  background-color: #fff;
+  // background-color: #fff;
+  background-color: #eeeeee;
 }
 
 app-header {
@@ -70,6 +71,14 @@ app-header {
 
 .footer-block {
   z-index: 9;
+}
+
+.mat-drawer-container.mat-drawer-opened {
+  z-index: 2;
+}
+.mat-drawer-backdrop.mat-drawer-shown {
+  background-color: rgba(45, 45, 57, 0.5);
+  position: fixed;
 }
 
 /************ CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
@@ -225,9 +234,9 @@ app-header {
 
 /*left menu on click bg changing issue*/
 
-.lastNavCategory {
-  /*padding-left: 32px !important;*/
-}
+// .lastNavCategory {
+/*padding-left: 32px !important;*/
+// }
 
 .mat-expansion-panel-body {
   padding: 0px !important;
@@ -446,14 +455,10 @@ app-header {
 }
 
 .sidenav-glossary {
-  position: absolute !important;
+  // position: absolute !important;
   z-index: 9999 !important;
   overflow-x: hidden;
   overflow-y: auto;
-  .mat-drawer-inner-container {
-    // total height - (header height(74) + butter bar height(40))
-    max-height: calc(100vh - 114px);
-  }
 }
 
 .sidenav-filter {
@@ -510,11 +515,11 @@ app-header {
   overflow-x: hidden !important;
 }
 
-.kop-landing {
-  .mat-drawer-inner-container {
-    height: 100vh !important;
-  }
-}
+// .kop-landing {
+//   .mat-drawer-inner-container {
+//     height: 100vh !important;
+//   }
+// }
 
 .simulate-external-view {
   padding: 38px 26px 28px;
@@ -608,10 +613,6 @@ app-header {
 
 .mat-list-base .second-level-link {
   padding-left: 32px !important;
-}
-
-.copyright-text {
-  margin-right: 16px;
 }
 
 .Group-premium-designation {

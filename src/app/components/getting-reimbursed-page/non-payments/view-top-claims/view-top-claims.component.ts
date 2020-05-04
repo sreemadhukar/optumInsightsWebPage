@@ -1,11 +1,9 @@
-import { filter } from 'rxjs/operators';
 import { CommonUtilsService } from './../../../../shared/common-utils.service';
 import { StorageService } from './../../../../shared/storage-service.service';
-import { NonPaymentSharedService } from './../../../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
 import { CreatePayloadService } from './../../../../shared/uhci-filters/create-payload.service';
 
 import { SessionService } from './../../../../shared/session.service';
-import { Component, OnInit, AfterViewInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -14,7 +12,7 @@ import { MatSort, MatTableDataSource, Sort } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { CURRENT_PAGE, REMOVE_FILTER } from './../../../../store/filter/actions';
 import { NgRedux, select } from '@angular-redux/store';
-import { Router, NavigationStart } from '@angular/router';
+import { Router } from '@angular/router';
 import { IAppState } from './../../../../store/store';
 import * as d3 from 'd3';
 import { TopClaimsSharedService } from './../../../../shared/getting-reimbursed/non-payments/top-claims-shared.service';
@@ -100,45 +98,51 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     { previousPage: 'callsPage', urlRout: '/ServiceInteraction/Calls' }
   ];
   @select() currentPage;
+  currentPageIndex = 0;
+  rangeLabel: string;
+
   constructor(
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private checkStorage: StorageService,
     private session: SessionService,
     private reasonReceived: TopReasonsEmitterService,
-    sanitizer: DomSanitizer,
-    private nonPaymentService: NonPaymentSharedService,
+    private sanitizer: DomSanitizer,
     private topClaimsSharedService: TopClaimsSharedService,
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>,
     private common: CommonUtilsService
   ) {
-    this.createPayloadService.getEvent().subscribe(value => {
+    this.createPayloadService.getEvent().subscribe(() => {
       this.ngOnInit();
     });
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('viewTopClaimsPage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
       this.common.urlResuseStrategy();
     });
 
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'backButton',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/TIN-List-Back-Button-Icon.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/TIN-List-Back-Button-Icon.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'search',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'close',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    iconRegistry.addSvgIcon('info', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/info-24px.svg'));
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
+      'info',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/info-24px.svg')
+    );
+    this.iconRegistry.addSvgIcon(
       'downarrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-24px.svg')
     );
   }
 
@@ -237,6 +241,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     if (this.selectedReasonItem === this.selectedSubreason) {
       this.selectedSubreason = 'UNKNOWN';
     }
+    this.resetPaginationAttribute();
     this.loadTable(this.selectedReasonItem, this.selectedSubreason);
     this.loading = true;
   }
@@ -249,7 +254,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       if (this.selectedReasonItem === this.subReasonselected) {
         this.subReasonselected = 'UNKNOWN';
       }
-
+      this.resetPaginationAttribute();
       this.loadTable(this.selectedReasonItem, this.subReasonselected);
       this.loading = true;
     }
@@ -295,9 +300,13 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
 
           this.selectedclaims.filterPredicate = this.customFilterPredicate();
           this.lengthOffilteredData = this.selectedclaims.filteredData.length;
+
           if (this.pageSize > this.numberOfClaims) {
             this.pageSize = this.numberOfClaims;
           }
+
+          // Genrate Label of Range after getting complete length of data
+          this.genrateLabel(this.currentPageIndex, this.pageSize, this.lengthOffilteredData);
         } else {
           this.tableData = {
             category: 'large-card',
@@ -364,8 +373,11 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
+
   getPageSize(event) {
     this.pageSize = event.pageSize;
+    this.currentPageIndex = event.pageIndex;
+    this.genrateLabel(this.currentPageIndex, this.pageSize, this.lengthOffilteredData);
   }
 
   customPaginator() {
@@ -434,5 +446,29 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     // parseFloat(res).toFixed(2).replace(/\.?0*$/,'');;
     const val = parseFloat(strvalue).toFixed(2);
     return val;
+  }
+
+  /**
+   * Process on page,pageSize and length
+   * And compute Range Label
+   * @param  page Current page of tabel
+   * @param  pageSize PageSize of table
+   * @param  length Total item of table
+   */
+  genrateLabel(page, pageSize, length) {
+    if (length === 0 || pageSize === 0) {
+      return `0 of ${length}`;
+    }
+    length = Math.max(length, 0);
+    const startIndex = page * pageSize;
+    const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
+    this.rangeLabel = `Showing ${startIndex + 1} – ${endIndex} of ${length}`;
+  }
+
+  resetPaginationAttribute() {
+    this.paginator.pageIndex = 0;
+    this.paginator.pageSize = 25;
+    this.currentPageIndex = 0;
+    this.pageSize = 25;
   }
 }

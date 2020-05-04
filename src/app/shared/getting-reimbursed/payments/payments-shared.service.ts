@@ -1,6 +1,5 @@
 /* @author gmounika */
 import { Injectable } from '@angular/core';
-import { GettingReimbursedModule } from '../../../components/getting-reimbursed-page/getting-reimbursed.module';
 import { GettingReimbursedService } from '../../../rest/getting-reimbursed/getting-reimbursed.service';
 import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
@@ -15,11 +14,8 @@ import { environment } from 'src/environments/environment';
 })
 export class PaymentsSharedService {
   public nonPaymentData: any = null;
-  private tin: string;
-  private lob: string;
   private timeFrame: string;
   private providerKey: number;
-  private nonPaymentBy: string;
   private isInternalInt: boolean = environment.internalIntAccess;
   constructor(
     private gettingReimbursedService: GettingReimbursedService,
@@ -53,7 +49,7 @@ export class PaymentsSharedService {
   }
 
   calculateTrends(parameters, paymentsData) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       let baseTimePeriod: any;
       if (this.timeFrame === 'Last 12 Months') {
         baseTimePeriod = 'PreviousLast12Months';
@@ -101,7 +97,7 @@ export class PaymentsSharedService {
   }
 
   public getPaymentsData(parameters, toggleData) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       let summaryData: Array<object> = [];
       let claimsPaid: object;
       let claimsPaidRate: object;
@@ -146,18 +142,18 @@ export class PaymentsSharedService {
                 claimsData.LineOfBusiness[lobData].hasOwnProperty('ClaimFinancialMetrics') &&
                 claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount')
               ) {
-                let colorcodes;
-                if (lobData === 'ALL') {
-                  colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
-                } else if (lobData === 'MedicareAndRetirement') {
-                  colorcodes = ['#3381FF'];
-                } else if (lobData === 'CommunityAndState') {
-                  colorcodes = ['#80B0FF'];
-                } else if (lobData === 'EmployerAndIndividual') {
-                  colorcodes = ['#003DA1'];
-                } else {
-                  colorcodes = ['#00B8CC'];
-                }
+                // let colorcodes;
+                // if (lobData === 'ALL') {
+                //   colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
+                // } else if (lobData === 'MedicareAndRetirement') {
+                //   colorcodes = ['#3381FF'];
+                // } else if (lobData === 'CommunityAndState') {
+                //   colorcodes = ['#80B0FF'];
+                // } else if (lobData === 'EmployerAndIndividual') {
+                //   colorcodes = ['#003DA1'];
+                // } else {
+                //   colorcodes = ['#00B8CC'];
+                // }
                 const paidData = [];
                 if (
                   claimsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
@@ -381,7 +377,7 @@ export class PaymentsSharedService {
                 type: 'donutWithLabel',
                 status: 404,
                 title: 'Claims Paid',
-                toggle: true,
+                // toggle: true,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -427,18 +423,18 @@ export class PaymentsSharedService {
                 claimsData[lobData].ClaimsLobSummary.length &&
                 claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
               ) {
-                let colorcodes;
-                if (lobData === 'All') {
-                  colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
-                } else if (lobData === 'Mr') {
-                  colorcodes = ['#3381FF'];
-                } else if (lobData === 'Cs') {
-                  colorcodes = ['#80B0FF'];
-                } else if (lobData === 'Ei') {
-                  colorcodes = ['#003DA1'];
-                } else {
-                  colorcodes = ['#00B8CC'];
-                }
+                // let colorcodes;
+                // if (lobData === 'All') {
+                //   colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
+                // } else if (lobData === 'Mr') {
+                //   colorcodes = ['#3381FF'];
+                // } else if (lobData === 'Cs') {
+                //   colorcodes = ['#80B0FF'];
+                // } else if (lobData === 'Ei') {
+                //   colorcodes = ['#003DA1'];
+                // } else {
+                //   colorcodes = ['#00B8CC'];
+                // }
                 const paidData = [];
                 if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
                   if (
@@ -562,7 +558,8 @@ export class PaymentsSharedService {
                 claimsPaid = {
                   category: 'app-card',
                   type: 'donutWithLabel',
-                  title: null,
+                  title: 'Claims Paid',
+                  status: 404,
                   data: null,
                   besideData: null,
                   bottomData: null,
@@ -661,7 +658,8 @@ export class PaymentsSharedService {
                 claimsPaid = {
                   category: 'app-card',
                   type: 'donutWithLabel',
-                  title: null,
+                  title: 'Claims Paid',
+                  status: 404,
                   data: null,
                   besideData: null,
                   bottomData: null,
@@ -753,7 +751,8 @@ export class PaymentsSharedService {
                 claimsPaidRate = {
                   category: 'app-card',
                   type: 'donut',
-                  title: null,
+                  title: 'Claims Yield',
+                  status: 404,
                   data: null,
                   timeperiod: null
                 };
@@ -764,7 +763,7 @@ export class PaymentsSharedService {
                 type: 'donutWithLabel',
                 status: 404,
                 title: 'Claims Paid',
-                toggle: true,
+                // toggle: true,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -823,7 +822,7 @@ export class PaymentsSharedService {
     parameters = this.getParameterCategories(param);
     // let paidArray:  Array<Object> = [];
     if (param.viewClaimsByFilter === 'DOP') {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         let paidBreakdown = [];
         this.gettingReimbursedService.getPaymentData(...parameters).subscribe((paymentDatafetch: any) => {
           try {
@@ -890,7 +889,7 @@ export class PaymentsSharedService {
         });
       });
     } else {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         let paidBreakdown = [];
         this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
           try {

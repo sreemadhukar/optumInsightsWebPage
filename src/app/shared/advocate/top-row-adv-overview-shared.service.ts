@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
 import { TopRowAdvOverviewService } from '../../rest/advocate/top-row-adv-overview.service';
-import { AdvocateModule } from '../../components/advocate/advocate.module';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 import * as _ from 'lodash';
-import { environment } from '../../../environments/environment';
-import { GettingReimbursedSharedService } from '../getting-reimbursed/getting-reimbursed-shared.service';
-import { PaymentsSharedService } from '../getting-reimbursed/payments/payments-shared.service';
 import { lobName } from '../../modals/lob-name';
 
 @Injectable({
@@ -28,9 +24,7 @@ export class TopRowAdvOverviewSharedService {
     private MetricidService: GlossaryMetricidService,
     private common: CommonUtilsService,
     private session: SessionService,
-    private toggle: AuthorizationService,
-    private gettingReimbursedSharedService: GettingReimbursedSharedService,
-    private paymentsSharedService: PaymentsSharedService
+    private toggle: AuthorizationService
   ) {}
   /** Function to show hovers labels as per Lob**/
 
@@ -372,19 +366,18 @@ export class TopRowAdvOverviewSharedService {
         MetricID: this.MetricidService.MetricIDs.ClaimsYield
       };
     }
-    console.log('claims Yield', claimsYield);
     return claimsYield;
   }
 
   claimSubmissionsData(parameters, claimsData) {
     let claimsSubmitted: object;
     let timePeriodData: String;
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
 
       if (parameters[1]['ClaimsBy'] === 'DOS') {
-        if (claimsData.hasOwnProperty('Startdate') && claimsData.hasOwnProperty('Enddate')) {
+        if (claimsData && claimsData.hasOwnProperty('Startdate') && claimsData.hasOwnProperty('Enddate')) {
           timePeriodData =
             this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate);
         }
@@ -462,7 +455,7 @@ export class TopRowAdvOverviewSharedService {
           resolve(claimsSubmitted);
         }
       } else {
-        if (claimsData.hasOwnProperty('StartDate') && claimsData.hasOwnProperty('EndDate')) {
+        if (claimsData && claimsData.hasOwnProperty('StartDate') && claimsData.hasOwnProperty('EndDate')) {
           timePeriodData =
             this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate);
         }
@@ -484,13 +477,14 @@ export class TopRowAdvOverviewSharedService {
             claimsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
             claimsData.LineOfBusiness[lobFullData] != null &&
             claimsData.LineOfBusiness[lobFullData].hasOwnProperty('ClaimFinancialMetrics') &&
+            claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics != null &&
             claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('ApprovedCount') &&
             claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('DeniedCount')
           ) {
-            const startDate = (claimsData || {}).StartDate;
+            // const startDate = (claimsData || {}).StartDate;
 
-            const endDate = (claimsData || {}).EndDate;
-            const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+            // const endDate = (claimsData || {}).EndDate;
+            // const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
             claimsSubmitted = {
               category: 'small-card',
               type: 'donutWithLabel',
@@ -566,7 +560,7 @@ export class TopRowAdvOverviewSharedService {
     return new Promise(resolve => {
       // const toggleData = { isSummary: true, page: 'Claims Payments', menu: 'Getting Reimbursed' };
       this.toggle.setToggles('Claims Paid', 'TopRow', 'OverviewAdvocate', false),
-        this.getPaymentsData(param, this.toggle)
+        this.getPaymentsData(param)
           .then(payment => {
             if (typeof payment === null || typeof payment === undefined) {
               tempPaymentData = null;
@@ -581,8 +575,8 @@ export class TopRowAdvOverviewSharedService {
     });
   }
 
-  public getPaymentsData(parameters, toggleData) {
-    return new Promise((resolve, reject) => {
+  public getPaymentsData(parameters) {
+    return new Promise(resolve => {
       let claimsPaid: object;
       this.topRowService.getPaymentsData(parameters).subscribe(
         claimsData => {
@@ -615,20 +609,21 @@ export class TopRowAdvOverviewSharedService {
                 claimsData.LineOfBusiness.hasOwnProperty(lobData) &&
                 claimsData.LineOfBusiness[lobData] != null &&
                 claimsData.LineOfBusiness[lobData].hasOwnProperty('ClaimFinancialMetrics') &&
+                claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics != null &&
                 claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount')
               ) {
-                let colorcodes;
-                if (lobData === 'ALL') {
-                  colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
-                } else if (lobData === 'MedicareAndRetirement') {
-                  colorcodes = ['#3381FF'];
-                } else if (lobData === 'CommunityAndState') {
-                  colorcodes = ['#80B0FF'];
-                } else if (lobData === 'EmployerAndIndividual') {
-                  colorcodes = ['#003DA1'];
-                } else {
-                  colorcodes = ['#00B8CC'];
-                }
+                // let colorcodes;
+                // if (lobData === 'ALL') {
+                //   colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
+                // } else if (lobData === 'MedicareAndRetirement') {
+                //   colorcodes = ['#3381FF'];
+                // } else if (lobData === 'CommunityAndState') {
+                //   colorcodes = ['#80B0FF'];
+                // } else if (lobData === 'EmployerAndIndividual') {
+                //   colorcodes = ['#003DA1'];
+                // } else {
+                //   colorcodes = ['#00B8CC'];
+                // }
                 const paidData = [];
                 if (
                   claimsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
@@ -746,6 +741,7 @@ export class TopRowAdvOverviewSharedService {
                 claimsData.LineOfBusiness.hasOwnProperty(lobData) &&
                 claimsData.LineOfBusiness[lobData] != null &&
                 claimsData.LineOfBusiness[lobData].hasOwnProperty('ClaimFinancialMetrics') &&
+                claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics != null &&
                 claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.hasOwnProperty('AmountDenied')
               ) {
                 const notPaidData = [];
@@ -840,18 +836,18 @@ export class TopRowAdvOverviewSharedService {
                 claimsData[lobData].ClaimsLobSummary.length &&
                 claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
               ) {
-                let colorcodes;
-                if (lobData === 'All') {
-                  colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
-                } else if (lobData === 'Mr') {
-                  colorcodes = ['#3381FF'];
-                } else if (lobData === 'Cs') {
-                  colorcodes = ['#80B0FF'];
-                } else if (lobData === 'Ei') {
-                  colorcodes = ['#003DA1'];
-                } else {
-                  colorcodes = ['#00B8CC'];
-                }
+                // let colorcodes;
+                // if (lobData === 'All') {
+                //   colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
+                // } else if (lobData === 'Mr') {
+                //   colorcodes = ['#3381FF'];
+                // } else if (lobData === 'Cs') {
+                //   colorcodes = ['#80B0FF'];
+                // } else if (lobData === 'Ei') {
+                //   colorcodes = ['#003DA1'];
+                // } else {
+                //   colorcodes = ['#00B8CC'];
+                // }
                 const paidData = [];
                 if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
                   if (

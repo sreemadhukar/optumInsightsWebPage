@@ -7,7 +7,6 @@ import { TimePeriod } from './kop.class.timeperiod';
 import { IssueResolution } from './kop.class.issueresolution';
 import { Reimbursement } from './kop.class.reimbursement';
 import { Engagement } from './kop.class.engagement';
-import { hasOwnProperty } from 'tslint/lib/utils';
 import { NPSDetail } from './detail/nps/kop.class.nps-detail';
 
 @Injectable({
@@ -16,13 +15,8 @@ import { NPSDetail } from './detail/nps/kop.class.nps-detail';
 export class KOPSharedService {
   constructor(private kopService: KopService) {}
 
-  public getNpsDetails(params: any) {
+  public getNpsDetails() {
     return new Promise(resolve => {
-      const { filter: selectedFilter } = params;
-      const { filters } = selectedFilter;
-      const paramsArray = filters.map((param: string) => {
-        return { filter: param };
-      });
       this.kopService.getNpsDetailSummary({ params: {} }).subscribe(
         (response: any) => {
           if (!response || response.length === 0) {
@@ -57,7 +51,7 @@ export class KOPSharedService {
             timePeriod
           });
         },
-        (error: any) => {
+        () => {
           return resolve(null);
         }
       );

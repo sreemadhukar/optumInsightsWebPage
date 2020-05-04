@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpHeaders, HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +10,7 @@ export class RefreshTokenService {
   private Refresh_Token_Path: string = environment.apiUrls.RefreshToken;
   constructor(private http: HttpClient) {}
 
-  public getRefreshToken(sub) {
+  public getRefreshToken(_sub) {
     const url = this.APP_URL + this.Refresh_Token_Path;
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     const RefreshToken = currentUser[0].RefreshToken;

@@ -4,7 +4,7 @@ import * as _ from 'lodash';
   name: 'countryFormatter'
 })
 export class CountryFormatterPipe implements PipeTransform {
-  transform(value: any, args?: any): any {
+  transform(value: any): any {
     if (value.includes(',')) {
       const pattern = value.split(',');
       pattern[0] = _.startCase(pattern[0].toLowerCase());

@@ -20,8 +20,8 @@
           (click)="section[i] = !section[i]; reasonsCollapose(i)"
         >
           <div class="bar-graph-inside-content">
-            <div class="bar-graph-inside-left-block">
-              <div class="bar-graph-inside-left-block-content">
+            <div class="bar-graph-inside-left-block" [class.bar-graphs-noicon]="item.data.barText == 0">
+              <div class="bar-graph-inside-left-block-content" [class.bar-graph-text]="item.data.barText == 0">
                 <!-- <mat-icon class="bar-graph-block-icon" [class.bar-graph-icon-hide]="item.data.barText == 0" *ngIf="!section[i]"
                 svgIcon="open"></mat-icon>
               <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon> -->
@@ -32,11 +32,49 @@
                   svgIcon="carrot"
                   [@rotatedState]="section[i] ? 'rotated' : 'default'"
                 ></mat-icon>
+
+                <div class="no-stars-count" *ngIf="item.data.starCount == 1">
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                  <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                  <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                  <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                  <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                </div>
+
+                <div class="no-stars-count" *ngIf="item.data.starCount == 2">
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                  <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                  <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                  <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                </div>
+
+                <div class="no-stars-count" *ngIf="item.data.starCount == 3">
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                  <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                  <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                </div>
+
+                <div class="no-stars-count" *ngIf="item.data.starCount == 4">
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                  <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                </div>
+
+                <div class="no-stars-count" *ngIf="item.data.starCount == 5">
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                  <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                </div>
               </div>
               <div class="bar-graph-inside-right-block" #barsParentBlock>
-                <div>
-                  <app-bar-chart *ngIf="item.data != null && item.data" [chartOptions]="item.data"> </app-bar-chart>
-                </div>
+                <app-bar-chart *ngIf="item.data != null && item.data" [chartOptions]="item.data"> </app-bar-chart>
               </div>
             </div>
           </div>
@@ -48,18 +86,17 @@
           </div>
 
           <div class="top-5-block">
-            <h3 class="inner-blocks-header">{{ qualitySubTitle }}</h3>
             <div *ngFor="let listitem of qualityPcorData; let j = index">
               <div class="horizontal-line">
                 <div class="accor-content-space">
                   <div
-                    [class.extra-margin-bottom-24]="subsection[j]"
+                    [class.extra-margin-bottom-7]="subsection[j]"
                     [class.bar-graphs-nohover]="item.data.barText == 0"
                     [class.bar-graphs-sub-content]="item.data.barText != 0"
                     (click)="subsection[j] = !subsection[j]; subItemsCollapose(j)"
                   >
                     <div class="sub-item-content">
-                      <div class="bar-graph-inside-left-block-content">
+                      <div class="sub-item-inside-block-content">
                         <div class="display-inline-block">
                           <!-- <mat-icon class="bar-graph-block-icon" [class.bar-graph-icon-hide]="item.data.barText == 0"
                           *ngIf="!subsection[j]" svgIcon="open"></mat-icon>
@@ -80,43 +117,43 @@
                     <div class="bar-graph-inside-right-block">
                       <div class="stars-count-div">
                         <div class="no-stars-count" *ngIf="qualityStarCount == 1">
-                          <i class="star-blue"></i>
-                          <i class="star-grey"></i>
-                          <i class="star-grey"></i>
-                          <i class="star-grey"></i>
-                          <i class="star-grey"></i>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                          <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                          <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                          <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                          <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
                         </div>
 
                         <div class="no-stars-count" *ngIf="qualityStarCount == 2">
-                          <i class="star-blue"></i>
-                          <i class="star-blue"></i>
-                          <i class="star-grey"></i>
-                          <i class="star-grey"></i>
-                          <i class="star-grey"></i>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                          <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                          <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                          <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
                         </div>
 
                         <div class="no-stars-count" *ngIf="qualityStarCount == 3">
-                          <i class="star-blue"></i>
-                          <i class="star-blue"></i>
-                          <i class="star-blue"></i>
-                          <i class="star-grey"></i>
-                          <i class="star-grey"></i>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                          <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
+                          <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
                         </div>
 
                         <div class="no-stars-count" *ngIf="qualityStarCount == 4">
-                          <i class="star-blue"></i>
-                          <i class="star-blue"></i>
-                          <i class="star-blue"></i>
-                          <i class="star-blue"></i>
-                          <i class="star-grey"></i>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                          <mat-icon svgIcon="star-grey" class="rounded-star-grey"></mat-icon>
                         </div>
 
                         <div class="no-stars-count" *ngIf="qualityStarCount == 5">
-                          <i class="star-blue"></i>
-                          <i class="star-blue"></i>
-                          <i class="star-blue"></i>
-                          <i class="star-blue"></i>
-                          <i class="star-blue"></i>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
+                          <mat-icon svgIcon="star-blue" class="rounded-star-blue"></mat-icon>
                         </div>
                         <div class="cms-weight-div">
                           <div class="cms-weight-style">CMS Weight:</div>
@@ -138,8 +175,9 @@
                       <span class="measure-content" *ngIf="listitem.DescriptionTwo">{{ listitem.DescriptionTwo }}</span>
                       <div *ngIf="listitem.DescriptionBulletPoints">
                         <span *ngFor="let item of listitem.DescriptionBulletPoints" class="measure-content"
-                          >{{ item }}<br
-                        /></span>
+                          >{{ item }}
+                          <br />
+                        </span>
                       </div>
                     </div>
                     <div class="flex-row-container">
@@ -150,7 +188,8 @@
 
                       <div class="flex-row-item2 vertical-line2 ">
                         <h3 class="accord-sub-title sub-title-2">
-                          # of Members to Achieve 5 <br />
+                          # of Members to Achieve 5
+                          <br />
                           STAR Threshold
                         </h3>
                         <div class="sub-accor-text2">
@@ -166,19 +205,19 @@
                         </div>
                       </div>
 
-                      <div class="flex-row-item1  vertical-line2 mt-47">
+                      <div class="flex-row-item1  vertical-line2 mt-24">
                         <h3 class="accord-sub-title">Eligible Members</h3>
                         <div class="sub-row2-first">{{ listitem.EligibleMemberscount }}</div>
                       </div>
 
-                      <div class="flex-row-item2 vertical-line2 mt-47">
+                      <div class="flex-row-item2 vertical-line2 mt-24">
                         <h3 class="accord-sub-title sub-title-2">Non-compliant members</h3>
                         <div class="sub-accor-row2">
                           {{ listitem.NoncompliantMemberscount }}
                         </div>
                       </div>
 
-                      <div class="flex-row-item1 height-90 mt-47">
+                      <div class="flex-row-item1 height-90 mt-24">
                         <h3 class="accord-sub-title sub-title-2">Compliant Members</h3>
                         <div class="sub-accor-row2">
                           {{ listitem.CompliantMemberscount }}

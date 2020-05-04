@@ -1,7 +1,6 @@
 /* @author gmounika */
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { SessionService } from './session.service';
 import { TimePeriod } from '../head/uhci-filters/filter-settings/filter-options';
 import { lobName } from '../modals/lob-name';
 
@@ -14,7 +13,7 @@ export class CommonUtilsService {
   public currentYearMinusTwo = (this.currentYear - 2).toString();
   public currentYearMinusThree = (this.currentYear - 3).toString();
 
-  constructor(private router: Router, private session: SessionService) {}
+  constructor(private router: Router) {}
 
   public nFormatter(fnumber) {
     if (fnumber >= 1000000000) {
@@ -270,11 +269,21 @@ export class CommonUtilsService {
     return day;
   }
   public dateFormatPriorAuth(timeStamp: string): string {
+    if (!timeStamp) {
+      return '';
+    }
     const x = timeStamp.split('-'); // "02-09-2020"
+    if (x && x.length <= 0) {
+      return '';
+    }
     const y = this.ReturnMonthlyString(x[0]) + ' ' + this.dayFormat(x[1]) + ', ' + x[2]; // Feb 02, 2019
     return y;
   }
   public dateFormat(timeStamp: string): string {
+    if (!timeStamp) {
+      return '';
+    }
+
     let date1;
     if (timeStamp.includes('T')) {
       date1 = timeStamp.split('T'); // "2019-07-01T00:00:00.000+0000"

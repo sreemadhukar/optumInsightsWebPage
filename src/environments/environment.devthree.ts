@@ -5,7 +5,7 @@
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devthree/pdr/uhci/v1/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -47,17 +47,21 @@ export const environment: any = {
     KOPReimbursementClaims: 'kop-reimbursement-metrics/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
-    AppealsFHIR: 'appeals/v2.0/',
+    AppealsFHIR: 'claims-appeals-metrics/',
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
     RefreshToken: 'getRefreshToken/',
     HealthSystemDetails: 'providerInfo/',
     KOPBusinessGlossary: 'business-glossaries-kop/',
-    CallsTrendLine: 'calls-trend/',
-    // PaymentsBySubmission: 'claim-submissions/',
+    CallsTrendLine: 'calls-trends/',
+    PaymentsBySubmissionDOP: 'dop-claim-submissions/',
     PaymentsBySubmission: 'claim-submissions/v2.0/',
     GroupPremiumDesignation: 'group-premium-designation/',
-    NetworkLever: 'network-lever/'
+    NetworkLever: 'network-lever/',
+    PaymentIntegrityTabsInfo: 'pi-tab-info/',
+    NewPaymentIntegrity: 'payment-integrity/',
+    ProviderSearch: 'provider-search',
+    AdvocateTinDetails: 'advocate-tin-details/'
   },
   headerKeys: {
     selectedCompany: '',

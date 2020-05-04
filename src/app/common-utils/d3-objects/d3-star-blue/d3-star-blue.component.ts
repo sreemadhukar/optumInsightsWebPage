@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, HostListener, ViewEncapsulation, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, HostListener, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -27,7 +27,7 @@ export class D3StarBlueComponent implements OnInit, AfterViewInit {
     this.doStarComponent(this.chartOptions.chartData, this.chartOptions.gdata[1]);
   }
 
-  onResize(event) {
+  onResize(_event) {
     this.doStarComponent(this.chartOptions.chartData, this.chartOptions.gdata[1]);
   }
 
@@ -52,20 +52,20 @@ export class D3StarBlueComponent implements OnInit, AfterViewInit {
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    const x = 30;
-    const y = 15;
+    // const x = 30;
+    // const y = 15;
 
-    const multiplier = 8;
-    const x1 = multiplier * 9.9 + x;
-    const y1 = multiplier * 1.1 + y;
-    const x2 = multiplier * 3.3 + x;
-    const y2 = multiplier * 21.78 + y;
-    const x3 = multiplier * 19.8 + x;
-    const y3 = multiplier * 8.58 + y;
-    const x4 = multiplier * 0 + x;
-    const y4 = multiplier * 8.58 + y;
-    const x5 = multiplier * 16.5 + x;
-    const y5 = multiplier * 21.78 + y;
+    // const multiplier = 8;
+    // const x1 = multiplier * 9.9 + x;
+    // const y1 = multiplier * 1.1 + y;
+    // const x2 = multiplier * 3.3 + x;
+    // const y2 = multiplier * 21.78 + y;
+    // const x3 = multiplier * 19.8 + x;
+    // const y3 = multiplier * 8.58 + y;
+    // const x4 = multiplier * 0 + x;
+    // const y4 = multiplier * 8.58 + y;
+    // const x5 = multiplier * 16.5 + x;
+    // const y5 = multiplier * 21.78 + y;
     svg
       .append('svg:image')
       .attr('x', 28)

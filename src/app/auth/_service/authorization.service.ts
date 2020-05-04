@@ -7,8 +7,6 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class AuthorizationService {
-  private toggleData: Object;
-  private val: boolean;
   private jwtPath: string = environment.originUrl;
 
   constructor(public http: HttpClient) {}

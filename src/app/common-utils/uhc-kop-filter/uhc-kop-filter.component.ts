@@ -1,10 +1,7 @@
 import { Component, OnInit, Output, HostListener, EventEmitter, Input } from '@angular/core';
-import { MatIconRegistry } from '@angular/material';
-import { DomSanitizer } from '@angular/platform-browser';
-import { SessionService } from '../../shared/session.service';
 import { Observable } from 'rxjs';
 import { FILTER_MASTER_DATA } from 'src/app/store/kopFilter/kopFilterMasterData';
-import { NgRedux, select } from '@angular-redux/store';
+import { NgRedux } from '@angular-redux/store';
 import { APPLY_KOP_FILTER, RESET_KOP_FILTER } from 'src/app/store/kopFilter/actions';
 
 export interface FilterData {
@@ -37,12 +34,7 @@ export class UhcKopFilterComponent implements OnInit {
   public selectedFilter: any;
   filteredOptions: Observable<any[]>;
 
-  constructor(
-    private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
-    private session: SessionService,
-    private ngRedux: NgRedux<any>
-  ) {}
+  constructor(private ngRedux: NgRedux<any>) {}
 
   ngOnInit() {
     const currentFilterState = this.ngRedux.getState();
@@ -64,7 +56,7 @@ export class UhcKopFilterComponent implements OnInit {
     this.filterFlag.emit(false);
   }
   @HostListener('document:keydown.escape', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
+  handleKeyboardEvent(_event: KeyboardEvent) {
     this.filterFlag.emit(false);
   }
 }
