@@ -62,7 +62,8 @@ export const environment: any = {
     NetworkLever: 'network-lever/',
     PaymentIntegrityTabsInfo: 'pi-tab-info/',
     NewPaymentIntegrity: 'payment-integrity/',
-    ProviderSearch: 'provider-search'
+    ProviderSearch: 'provider-search',
+    AdvocateTinDetails: 'advocate-tin-details/'
   },
   headerKeys: {
     selectedCompany: '',

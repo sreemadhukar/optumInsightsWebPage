@@ -26,6 +26,8 @@ import {
   MatProgressSpinnerModule
 } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
+import { ImpactAssignmentComponent } from './advocate-home/impact-assignment/impact-assignment.component';
+import { ImpactCardComponent } from './advocate-home/impact-assignment/impact-card/impact-card.component';
 /** Search component ends here */
 @NgModule({
   imports: [
@@ -52,7 +54,9 @@ import { MatSelectModule } from '@angular/material/select';
     HealthSystemDetailsComponent,
     TaxSummaryComponent,
     AdvocateHomeComponent,
-    DropdownComponent
+    DropdownComponent,
+    ImpactAssignmentComponent,
+    ImpactCardComponent
   ],
   providers: [TopRowAdvOverviewSharedService, NonPaymentSharedService, OverviewAdvocateSharedService, HomeService]
 })

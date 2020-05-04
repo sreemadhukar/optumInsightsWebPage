@@ -98,6 +98,9 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     { previousPage: 'callsPage', urlRout: '/ServiceInteraction/Calls' }
   ];
   @select() currentPage;
+  currentPageIndex = 0;
+  rangeLabel: string;
+
   constructor(
     private iconRegistry: MatIconRegistry,
     private router: Router,
@@ -238,6 +241,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     if (this.selectedReasonItem === this.selectedSubreason) {
       this.selectedSubreason = 'UNKNOWN';
     }
+    this.resetPaginationAttribute();
     this.loadTable(this.selectedReasonItem, this.selectedSubreason);
     this.loading = true;
   }
@@ -250,7 +254,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       if (this.selectedReasonItem === this.subReasonselected) {
         this.subReasonselected = 'UNKNOWN';
       }
-
+      this.resetPaginationAttribute();
       this.loadTable(this.selectedReasonItem, this.subReasonselected);
       this.loading = true;
     }
@@ -296,9 +300,13 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
 
           this.selectedclaims.filterPredicate = this.customFilterPredicate();
           this.lengthOffilteredData = this.selectedclaims.filteredData.length;
+
           if (this.pageSize > this.numberOfClaims) {
             this.pageSize = this.numberOfClaims;
           }
+
+          // Genrate Label of Range after getting complete length of data
+          this.genrateLabel(this.currentPageIndex, this.pageSize, this.lengthOffilteredData);
         } else {
           this.tableData = {
             category: 'large-card',
@@ -365,8 +373,11 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
+
   getPageSize(event) {
     this.pageSize = event.pageSize;
+    this.currentPageIndex = event.pageIndex;
+    this.genrateLabel(this.currentPageIndex, this.pageSize, this.lengthOffilteredData);
   }
 
   customPaginator() {
@@ -435,5 +446,29 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     // parseFloat(res).toFixed(2).replace(/\.?0*$/,'');;
     const val = parseFloat(strvalue).toFixed(2);
     return val;
+  }
+
+  /**
+   * Process on page,pageSize and length
+   * And compute Range Label
+   * @param  page Current page of tabel
+   * @param  pageSize PageSize of table
+   * @param  length Total item of table
+   */
+  genrateLabel(page, pageSize, length) {
+    if (length === 0 || pageSize === 0) {
+      return `0 of ${length}`;
+    }
+    length = Math.max(length, 0);
+    const startIndex = page * pageSize;
+    const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
+    this.rangeLabel = `Showing ${startIndex + 1} – ${endIndex} of ${length}`;
+  }
+
+  resetPaginationAttribute() {
+    this.paginator.pageIndex = 0;
+    this.paginator.pageSize = 25;
+    this.currentPageIndex = 0;
+    this.pageSize = 25;
   }
 }
