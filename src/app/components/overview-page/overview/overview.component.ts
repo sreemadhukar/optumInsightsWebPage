@@ -8,7 +8,6 @@ import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-overview',
@@ -23,13 +22,13 @@ export class OverviewComponent implements OnInit {
   mainCards: any;
   mockMainCards: Array<any>;
   selfServiceMiniCards: any;
-  pageTitle: String = '';
-  pagesubTitle: String = '';
-  userName: String = '';
-  opportunities: String = '';
-  selfServiceLink: String = '';
-  opportunitiesQuestion: String = '';
-  welcomeMessage: String = '';
+  pageTitle: string;
+  pagesubTitle: string;
+  userName: string;
+  opportunities: string;
+  selfServiceLink: string;
+  opportunitiesQuestion: string;
+  welcomeMessage: string;
   subscription: any;
   loading = false;
   claimsLoading = false;
