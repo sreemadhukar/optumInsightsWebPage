@@ -27,6 +27,7 @@ export class OverviewComponent implements OnInit {
   userName: string;
   opportunities: string;
   selfServiceLink: string;
+  selfServiceLinkParam: Object;
   opportunitiesQuestion: string;
   welcomeMessage: string;
   subscription: any;
@@ -244,11 +245,13 @@ export class OverviewComponent implements OnInit {
       this.pageTitle = this.sessionService.getHealthCareOrgName();
       this.pagesubTitle = 'Overview - Your Insights at a glance.';
       this.opportunitiesQuestion = 'Opportunities - How much can online self service save you';
+      this.selfServiceLinkParam = null;
       this.opportunities = '';
     } else {
       this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
       this.pagesubTitle = 'Your Insights at a glance.';
       this.opportunities = 'Opportunities';
+      this.selfServiceLinkParam = { title: this.selfServiceLink, path: '/ServiceInteraction/SelfService' };
       this.opportunitiesQuestion = 'How much can online self service save you?';
     }
   }

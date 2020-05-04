@@ -84,7 +84,7 @@
   <app-layoutseperator *ngIf="printStyle && countSmallCard > 4" [height]="450"></app-layoutseperator>
   <app-page-header
     [pageSubTitle]="opportunities"
-    [link]="{ title: selfServiceLink, path: '/ServiceInteraction/SelfService' }"
+    [link]="selfServiceLinkParam"
     [pageSubTitleDescription]="opportunitiesQuestion"
   ></app-page-header>
   <app-layoutseperator [height]="16"></app-layoutseperator>
