@@ -5,7 +5,7 @@
 </div>
 <ng-container *ngIf="completeData && completeData.length > 0; else noImpactAssignments">
   <p class="search-sub-title">Tax IDs for IMPACT Assignments</p>
-  <div *ngIf="completeData.length > 9" class="search-box">
+  <div *ngIf="completeData.length > this.pageSizeValues[0]" class="search-box">
     <input
       class="search-box-input-query"
       placeholder="Filter IMPACT Assignments"
@@ -45,7 +45,7 @@
   </ng-container>
   <div class="impact-body">
     <!-- Table footer-->
-    <div *ngIf="afterQuery.length > selectPageSize && completeData.length > 9" class="impact-table-footer">
+    <div *ngIf="afterQuery.length > selectPageSize" class="impact-table-footer">
       <!--pagination left section-->
       <div class="impact-left-section">
         <div class="impact-footer-label">Display</div>
