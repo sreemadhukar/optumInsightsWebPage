@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationError, Event } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { UserIdleService } from 'angular-user-idle';
@@ -28,7 +28,7 @@ export class AppComponent {
     private userIdle: UserIdleService,
     private filterClose: FilterCloseService
   ) {
-    router.events.subscribe((event: Event) => {
+    this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
       }
 
@@ -65,7 +65,7 @@ export class AppComponent {
       disableClose: true,
       data: { timeOut: this.timeout }
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       this.userIdle.stopWatching();
       if (!sessionStorage.getItem('currentUser')) {
         this.onStartWatching(false);

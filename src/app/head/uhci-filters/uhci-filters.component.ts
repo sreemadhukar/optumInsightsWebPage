@@ -5,6 +5,7 @@ import { APPLY_FILTER, RESET_FILTER } from '../../store/filter/actions';
 import {
   TimePeriod,
   LineOfBusiness,
+  Commercial,
   ServiceSetting,
   ServiceCategory,
   PriorAuthDecisionType,
@@ -18,7 +19,6 @@ import {
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
-import { Location } from '@angular/common';
 import { SessionService } from '../../shared/session.service';
 import { TaxId } from './filter-settings/filter-options';
 import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
@@ -34,6 +34,7 @@ export class UhciFiltersComponent implements OnInit {
   @select(['uhc', 'timePeriod']) timePeriod;
   @select(['uhc', 'taxId']) taxId;
   @select(['uhc', 'lineOfBusiness']) lineOfBusiness;
+  @select(['uhc', 'commercial']) commercial;
   @select(['uhc', 'serviceSetting']) serviceSetting;
   @select(['uhc', 'serviceCategory']) serviceCategory;
   @select(['uhc', 'priorAuthType']) priorAuthType;
@@ -49,6 +50,8 @@ export class UhciFiltersComponent implements OnInit {
   selectedTimePeriod: MetricPropType;
   lobs = LineOfBusiness;
   selectedLob: MetricPropType;
+  commericalLob = Commercial;
+  selectedCommerical: MetricPropType;
   claims = ClaimsFilter;
   appeals = AppealsFilter;
   selectedClaims: MetricPropType;
@@ -76,16 +79,17 @@ export class UhciFiltersComponent implements OnInit {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
-    private location: Location,
+    private sanitizer: DomSanitizer,
     private session: SessionService,
     private createPayloadService: CreatePayloadService,
     private gettingReimbursedservice: GettingReimbursedSharedService,
     private common: CommonUtilsService
   ) {
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'arrowdn',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        '/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg'
+      )
     );
     this.collapseToggle = filterToggles;
     // this.selectedService=this.serviceCategories[0].name;
@@ -106,6 +110,9 @@ export class UhciFiltersComponent implements OnInit {
     this.taxId.subscribe(taxId => (this.selectedTaxIds = taxId));
     this.lineOfBusiness.subscribe(
       lineOfBusiness => (this.selectedLob = this.lobs.find(val => val.name === lineOfBusiness))
+    );
+    this.commercial.subscribe(
+      commercial => (this.selectedCommerical = this.commericalLob.find(val => val.name === commercial))
     );
     this.claimsFilter.subscribe(
       claimsFilter => (this.selectedClaims = this.claims.find(val => val.name === claimsFilter))
@@ -178,6 +185,7 @@ export class UhciFiltersComponent implements OnInit {
           return item;
         }),
         lineOfBusiness: this.selectedLob.name,
+        commercial: this.selectedLob.name === 'EI' ? this.selectedCommerical.name : 'All',
         serviceSetting: this.selectedServiceSetting.name,
         serviceCategory: this.selectedService,
         priorAuthType:

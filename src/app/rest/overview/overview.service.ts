@@ -12,7 +12,7 @@ export class OverviewService {
   private EXECUTIVE_SERVICE_PATH: string = environment.apiUrls.ExecutiveSummaryPath;
   private PRIOR_AUTH_SERVICE_PATH: string = environment.apiUrls.PriorAuth;
   private CALLS_SERVICE_PATH: string = environment.apiUrls.CallsTrend;
-  private TRENDING_METRICS_PATH: string = environment.apiUrls.TrendingMetrics;
+  // private TRENDING_METRICS_PATH: string = environment.apiUrls.TrendingMetrics;
 
   constructor(private http: HttpClient) {}
 
@@ -128,11 +128,13 @@ export class OverviewService {
 
   public getOverviewTotalCalls(parameters) {
     const prevLastURL =
-      this.APP_URL + this.CALLS_SERVICE_PATH + parameters.providerkey + '?TimeFilter=' + parameters.timeFilter;
+      this.APP_URL + this.CALLS_SERVICE_PATH + parameters.providerkey + '?time-filter=' + parameters.timeFilter;
 
     return this.http.get(prevLastURL).pipe(
       map(res => res),
-      catchError(err => of(err))
+      catchError(err => {
+        throw err;
+      })
     );
   }
 }

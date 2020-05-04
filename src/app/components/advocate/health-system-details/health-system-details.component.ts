@@ -4,8 +4,8 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { Router } from '@angular/router';
 import { GroupPremiumDesignationService } from './../../../rest/group-premium-designation/group-premium-designation.service';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
-import { NgRedux, select } from '@angular-redux/store';
-import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
+import { NgRedux } from '@angular-redux/store';
+import { REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from '../../../../../src/app/shared/session.service';
@@ -32,16 +32,17 @@ export class HealthSystemDetailsComponent implements OnInit {
     private session: SessionService
   ) {
     // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.common.urlResuseStrategy();
       this.createPayloadService.resetTinNumber('HealthSystemDetails');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
     });
+    this.hppIndicator();
   }
 
   ngOnInit() {
-    this.hppIndicator();
     this.healthSystemData = null;
     this.checkStorage.emitEvent('HealthSystemDetails');
     this.getHealthSystemDetails();
@@ -66,7 +67,18 @@ export class HealthSystemDetailsComponent implements OnInit {
   }
 
   hppIndicator() {
-    this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(value => {
+    this.GroupPremiumDesignation = false;
+    const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    if (
+      this.groupPremiumDesignationService.data !== null &&
+      typeof this.groupPremiumDesignationService.data !== 'undefined'
+    ) {
+      if (currentUser[0].ProviderKey === this.groupPremiumDesignationService.data.ProviderKey) {
+        this.GroupPremiumDesignation = this.groupPremiumDesignationService.data.HppIndicator;
+        console.log(' this.GroupPremiumDesignation', this.GroupPremiumDesignation);
+      }
+    }
+    this.groupPremiumDesignationService.gppObservable.subscribe(value => {
       let data = <any>{};
       data = value;
       this.GroupPremiumDesignation = data.HppIndicator;

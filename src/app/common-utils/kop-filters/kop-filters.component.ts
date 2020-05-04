@@ -1,11 +1,7 @@
 import { Component, OnInit, Output, HostListener, EventEmitter, Input } from '@angular/core';
-import { MatIconRegistry } from '@angular/material';
-import { DomSanitizer } from '@angular/platform-browser';
 import { SessionService } from '../../shared/session.service';
-import { Location } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { MatInput } from '@angular/material';
 
 export interface FilterData {
   title: string;
@@ -29,7 +25,7 @@ export class KopFiltersComponent implements OnInit {
   @Input() customFilter;
   @Input() filterData: FilterData[] = [];
 
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private session: SessionService) {}
+  constructor(private session: SessionService) {}
 
   ngOnInit() {
     this.selectedFilter = this.filterData.filter(element => element.selected)[0].title;
@@ -62,7 +58,7 @@ export class KopFiltersComponent implements OnInit {
     this.filterFlag.emit(false);
   }
   @HostListener('document:keydown.escape', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
+  handleKeyboardEvent(_event: KeyboardEvent) {
     this.filterFlag.emit(false);
   }
 }

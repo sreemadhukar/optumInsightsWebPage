@@ -63,7 +63,7 @@
         [mode]="'side'"
         [fixedInViewport]="true"
         [opened]="!(!sideNavFlag || makeAbsolute)"
-        [class.display-none]="makeAbsolute"
+        [class.display-none]="makeAbsolute || boolRemoveLeftNav"
         [ngClass]="fromKOP || advocateView ? 'top-40' : 'top-0'"
         color="primary"
       >

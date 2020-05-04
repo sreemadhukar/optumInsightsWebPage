@@ -60,7 +60,7 @@
   }
 }
 .non-payment-trend-block {
-  width: 950px;
+  width: 946px;
   border-radius: 2px;
   background-color: #ffffff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -196,7 +196,7 @@
 
   .appeals-trend-block,
   .calls-trend-block {
-    width: 961px;
+    width: 946px;
     // height: 387px;
     border-radius: 2px;
     background-color: #ffffff;
@@ -233,7 +233,7 @@
     border-top: 1px solid #efefef;
     position: absolute;
     margin-top: 35px;
-    width: 961px;
+    width: 946px;
     z-index: 99999;
   }
   .timeperiod-text {
@@ -256,8 +256,9 @@
     // height: 150px;
     color: #2d2d39;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-    font-size: 56px;
+    font-size: 41px;
     padding-left: 32px;
+    line-height: 48px;
   }
 
   .appeal-set {
@@ -358,15 +359,19 @@
 
   .total-calls {
     height: 150px;
-    color: #2d2d39;
+    color: $black-rock;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-    font-size: 56px;
+    font-size: 41px;
     padding-left: 32px;
+    line-height: 48px;
+  }
 
-    &-sub-title {
-      color: $strom-grey;
-      font-size: 16px;
-    }
+  .total-calls-sub-title,
+  .total-appeals-sub-title {
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    color: $strom-grey;
+    font-size: 16px;
+    line-height: 22px;
   }
 
   .footer-border {
@@ -410,5 +415,20 @@
     margin-right: 12px;
     height: 20px;
     width: 20px;
+  }
+
+  .appeals-progress {
+    padding: 20px 280px 0;
+    height: 230px;
+    &-icon {
+      width: 96px;
+      height: 96px;
+    }
+    &-text {
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      color: $black-rock;
+      font-size: 14px;
+      text-align: center;
+    }
   }
 }

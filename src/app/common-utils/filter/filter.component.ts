@@ -7,7 +7,6 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { lobName } from '../../modals/lob-name';
-import { MatInput } from '@angular/material';
 
 export interface FilterData {
   title: string;
@@ -125,7 +124,7 @@ export class FilterComponent implements OnInit {
   ];
   constructor(
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private session: SessionService,
     private location: Location
   ) {
@@ -153,13 +152,17 @@ export class FilterComponent implements OnInit {
     this.ssarrowmark = false;
     this.patypearrowmark = false;
     this.sctypearrowmark = false;
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'arrowdn',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        '/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg'
+      )
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'arrowup',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_up-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        '/src/assets/images/icons/Action/baseline-keyboard_arrow_up-24px.svg'
+      )
     );
   }
   public clickArrowMark(value) {
@@ -364,7 +367,7 @@ export class FilterComponent implements OnInit {
     );
   }
   @HostListener('document:keydown.escape', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
+  handleKeyboardEvent(_event: KeyboardEvent) {
     this.filterFlag.emit(false);
   }
 

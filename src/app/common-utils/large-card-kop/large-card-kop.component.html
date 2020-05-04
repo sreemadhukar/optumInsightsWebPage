@@ -4,7 +4,7 @@
       [title]="cardData.title"
       [noHeaderClick]="noHeaderClick"
       class="full-display"
-      (helpIconClicked)="helpIconClick($event)"
+      (helpIconClicked)="helpIconClick()"
     ></app-common-header>
     <div class="card-inner-large-content" [ngSwitch]="cardData.type">
       <ng-container *ngSwitchCase="'cards'">

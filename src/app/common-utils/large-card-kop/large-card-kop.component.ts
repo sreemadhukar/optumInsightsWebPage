@@ -22,21 +22,21 @@ export class LargeCardKopComponent implements OnInit {
 
   constructor(
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private glossaryExpandService: GlossaryExpandService
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'help',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'insert-chart',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-insert_chart-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-insert_chart-24px.svg')
     );
   }
 
-  helpIconClick(title) {
+  helpIconClick() {
     if (this.data) {
       this.glossaryExpandService.setMessage(this.data.title, this.data.MetricID);
     }

@@ -1,10 +1,8 @@
-import { Component, OnInit, Input, HostListener, ViewChild, DoCheck } from '@angular/core';
+import { Component, OnInit, Input, HostListener, DoCheck } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith, debounceTime } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { GlossaryService } from './../../rest/glossary/glossary.service';
-import { catchError } from 'rxjs/operators';
-import { MatInput } from '@angular/material';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 
@@ -54,7 +52,7 @@ export class GlossaryComponent implements OnInit, DoCheck {
     this.networkLeverUlTag();
   }
   // this function will fetch all the matched glossary items only corresponding to the characters entered by user
-  public getBusinessGlossary(text) {
+  public getBusinessGlossary() {
     // this.glossaryService.getGlossaryByMetricName(text).subscribe(
     //   response => {
     //     console.log('Business Glossary metric name', response);
@@ -209,7 +207,7 @@ export class GlossaryComponent implements OnInit, DoCheck {
 
   public networkLeverUlTag() {
     setTimeout(function() {
-      const a = document.querySelectorAll('.network-lever-ul') as HTMLCollectionOf<HTMLElement>;
+      const a: any = document.querySelectorAll('.network-lever-ul');
       a[0].style.paddingLeft = '30px';
       const x = Array.from(a[0].children as HTMLCollectionOf<HTMLElement>);
       x.forEach(element => {

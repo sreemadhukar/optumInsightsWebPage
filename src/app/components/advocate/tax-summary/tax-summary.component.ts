@@ -1,12 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { SessionService } from '../../../shared/session.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 import { MatSort, Sort } from '@angular/material/sort';
 import * as d3 from 'd3';
-import { StorageService } from '../../../shared/storage-service.service';
 
 @Component({
   selector: 'app-tax-summary',
@@ -23,15 +21,12 @@ export class TaxSummaryComponent implements OnInit {
   pageSize = 25;
   filterObj = {};
 
-  constructor(
-    private iconRegistry: MatIconRegistry,
-    private session: SessionService,
-    private checkStorage: StorageService,
-    sanitizer: DomSanitizer
-  ) {
-    iconRegistry.addSvgIcon(
+  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+    this.iconRegistry.addSvgIcon(
       'arrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        '/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg'
+      )
     );
   }
 
@@ -60,7 +55,7 @@ export class TaxSummaryComponent implements OnInit {
       this.sort.active = sortState.active;
       this.sort.direction = sortState.direction;
       this.sort.sortChange.emit(sortState);
-      this.taxSummaryData.filterPredicate = (data, filter) => {
+      this.taxSummaryData.filterPredicate = data => {
         if (data[this.filterObj['key']] && this.filterObj['key']) {
           return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
         }
