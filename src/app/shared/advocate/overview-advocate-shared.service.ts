@@ -215,15 +215,15 @@ export class OverviewAdvocateSharedService {
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.callsTrendLineData(...parameters).subscribe(
-        callsTrendData => {
+        response => {
           const beData = [];
           const claimsData = [];
           const paData = [];
           const other = [];
-          if (callsTrendData[0] && callsTrendData[0].status && callsTrendData[0].status !== 200) {
-            resolve(null);
-          } else {
-            callsTrendData[0].forEach(element => {
+
+          if (response.Data) {
+            const callsTrendData = response.Data;
+            callsTrendData.forEach(element => {
               if (element.CallVolByQuesType.BenefitsEligibility) {
                 this.collectiveBeData = element.CallVolByQuesType.BenefitsEligibility;
               }
@@ -324,10 +324,13 @@ export class OverviewAdvocateSharedService {
               callsTrendFormattedData['Other'] = null;
             }
             resolve(callsTrendFormattedData);
+          } else {
+            resolve(null);
           }
         },
         err => {
           console.log('Advocate Page , Error for calls card', err);
+          resolve(null);
         }
       );
     });
