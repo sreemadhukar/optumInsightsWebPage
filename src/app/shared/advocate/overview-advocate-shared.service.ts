@@ -203,9 +203,10 @@ export class OverviewAdvocateSharedService {
     return new Promise((resolve, reject) => {
       const parameters = this.getParameterCategories(param);
 
-      this.overviewAdvocateService
-        .callsData(...parameters)
-        .subscribe(callsTotalData => resolve(callsTotalData), err => reject(err));
+      this.overviewAdvocateService.callsData(...parameters).subscribe(
+        callsTotalData => resolve(callsTotalData),
+        err => reject(err)
+      );
     });
   }
 

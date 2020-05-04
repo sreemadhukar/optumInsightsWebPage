@@ -16,17 +16,20 @@ import { IAppState } from '../../../store/store';
 })
 export class OverviewComponent implements OnInit {
   @Input() printStyle;
+  countSmallCard: number;
+  countMiniTile: number;
   overviewItems: any;
   mainCards: any;
   mockMainCards: Array<any>;
   selfServiceMiniCards: any;
-  pageTitle: String = '';
-  pagesubTitle: String = '';
-  userName: String = '';
-  opportunities: String = '';
-  selfServiceLink: String = '';
-  opportunitiesQuestion: String = '';
-  welcomeMessage: String = '';
+  pageTitle: string;
+  pagesubTitle: string;
+  userName: string;
+  opportunities: string;
+  selfServiceLink: string;
+  selfServiceLinkParam: Object;
+  opportunitiesQuestion: string;
+  welcomeMessage: string;
   subscription: any;
   loading = false;
   claimsLoading = false;
@@ -57,7 +60,6 @@ export class OverviewComponent implements OnInit {
   errorloadMedicareStarRatingCard = false;
   errorloadTotalCallsCard = false;
   isHeac = false;
-
   /***************** DONT CHANGE THESE *************/
   trendsData: any;
 
@@ -75,6 +77,8 @@ export class OverviewComponent implements OnInit {
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
     this.welcomeMessage = '';
+    this.countSmallCard = 0;
+    this.countMiniTile = 0;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     this.iconRegistry.addSvgIcon(
@@ -119,16 +123,19 @@ export class OverviewComponent implements OnInit {
           this.claimsTatBlock = data[2];
           if (this.claimsPaidBlock.data != null && this.claimsPaidBlock.toggle) {
             this.loadClaimsPaidCard = true;
+            this.countSmallCard++;
           } else if (this.claimsPaidBlock.status != null && this.claimsPaidBlock.toggle) {
             this.errorloadClaimsPaidCard = true;
           }
           if (this.claimsYieldBlock.data != null && this.claimsYieldBlock.toggle) {
             this.loadClaimsYieldCard = true;
+            this.countSmallCard++;
           } else if (this.claimsYieldBlock.status != null && this.claimsYieldBlock.toggle) {
             this.errorloadClaimsYieldCard = true;
           }
           if (this.claimsTatBlock.data != null) {
             this.loadclaimsTatCard = true;
+            this.countSmallCard++;
           } else if (this.claimsTatBlock.status != null) {
             this.errorloadClaimsTatCard = true;
           }
@@ -149,6 +156,7 @@ export class OverviewComponent implements OnInit {
           this.priorAuthBlock = data;
           if (this.priorAuthBlock.data != null && this.priorAuthBlock.toggle) {
             this.loadPrioirAuthCard = true;
+            this.countSmallCard++;
           } else if (this.priorAuthBlock.status != null && this.priorAuthBlock.toggle) {
             this.errorloadPrioirAuthCard = true;
           }
@@ -168,6 +176,7 @@ export class OverviewComponent implements OnInit {
           this.totalCallsBlock = data;
           if (this.totalCallsBlock.data != null && this.totalCallsBlock.toggle) {
             this.loadTotalCallsCard = true;
+            this.countSmallCard++;
           } else if (this.totalCallsBlock.status != null && this.totalCallsBlock.toggle) {
             this.errorloadTotalCallsCard = true;
           }
@@ -201,6 +210,7 @@ export class OverviewComponent implements OnInit {
 
           if (this.selfServiceAdoptionBlock.data != null && this.selfServiceAdoptionBlock.toggle) {
             this.loadselfServiceAdoptionCard = true;
+            this.countSmallCard++;
           } else if (this.selfServiceAdoptionBlock.status != null && this.selfServiceAdoptionBlock.toggle) {
             this.errorloadselfServiceAdoptionCard = true;
           }
@@ -211,6 +221,11 @@ export class OverviewComponent implements OnInit {
           }
 
           this.selfServiceMiniCards = this.overviewItems[1];
+          for (let i = 0; i < this.selfServiceMiniCards.length; i++) {
+            if (this.selfServiceMiniCards[i].data) {
+              this.countMiniTile++;
+            }
+          }
         })
         .catch(reason => {
           this.loading = true;
@@ -230,11 +245,13 @@ export class OverviewComponent implements OnInit {
       this.pageTitle = this.sessionService.getHealthCareOrgName();
       this.pagesubTitle = 'Overview - Your Insights at a glance.';
       this.opportunitiesQuestion = 'Opportunities - How much can online self service save you';
+      this.selfServiceLinkParam = null;
       this.opportunities = '';
     } else {
       this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
       this.pagesubTitle = 'Your Insights at a glance.';
       this.opportunities = 'Opportunities';
+      this.selfServiceLinkParam = { title: this.selfServiceLink, path: '/ServiceInteraction/SelfService' };
       this.opportunitiesQuestion = 'How much can online self service save you?';
     }
   }

@@ -35,14 +35,14 @@
 
     <!-- Commenting following lines of code to remove medicare star rating card -->
     <!--app-small-card
-      class="cards"
-      *ngIf="loadMedicareStarRatingCard && !loading"
-      class="cards"
-      [data]="medicareStarRatingBlock"
-    >
-    </app-small-card>
-    <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
-    <app-error-card *ngIf="errorloadMedicareStarRatingCard" class="cards" [data]="item"></app-error-card-->
+        class="cards"
+        *ngIf="loadMedicareStarRatingCard && !loading"
+        class="cards"
+        [data]="medicareStarRatingBlock"
+      >
+      </app-small-card>
+      <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
+      <app-error-card *ngIf="errorloadMedicareStarRatingCard" class="cards" [data]="item"></app-error-card-->
 
     <app-small-card class="cards" *ngIf="loadclaimsTatCard && !loading" class="cards" [data]="claimsTatBlock">
     </app-small-card>
@@ -67,19 +67,24 @@
     <app-error-card *ngIf="errorloadTotalCallsCard" class="cards" [data]="item"></app-error-card>
 
     <!--<div *ngFor="let item of mainCards; let i = index">
-      <app-small-card *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-small-card>
-      <app-error-card *ngIf="item.status != null && item.toggle" class="cards" [data]="item"></app-error-card>
-    </div>
-    <div *ngFor="let data of mockMainCards; let i = index">
-      <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
-    </div>-->
+        <app-small-card *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-small-card>
+        <app-error-card *ngIf="item.status != null && item.toggle" class="cards" [data]="item"></app-error-card>
+      </div>
+      <div *ngFor="let data of mockMainCards; let i = index">
+        <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
+      </div>-->
     <app-clarify-claims-message></app-clarify-claims-message>
   </div>
 
   <app-layoutseperator [height]="32"></app-layoutseperator>
+  <app-layoutseperator
+    *ngIf="printStyle && countSmallCard <= 4 && countSmallCard > 2 && countMiniTile > 2"
+    [height]="700"
+  ></app-layoutseperator>
+  <app-layoutseperator *ngIf="printStyle && countSmallCard > 4" [height]="450"></app-layoutseperator>
   <app-page-header
     [pageSubTitle]="opportunities"
-    [link]="{ title: selfServiceLink, path: '/ServiceInteraction/SelfService' }"
+    [link]="selfServiceLinkParam"
     [pageSubTitleDescription]="opportunitiesQuestion"
   ></app-page-header>
   <app-layoutseperator [height]="16"></app-layoutseperator>
