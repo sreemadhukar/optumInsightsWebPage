@@ -18,7 +18,7 @@ export class OverviewComponent implements OnInit {
   @Input() printStyle;
   overviewItems: any;
   mainCards: any;
-  mockMainCards: any;
+  mockMainCards: Array<any>;
   selfServiceMiniCards: any;
   pageTitle: String = '';
   pagesubTitle: String = '';
@@ -72,7 +72,6 @@ export class OverviewComponent implements OnInit {
     public sessionService: SessionService
   ) {
     this.selfServiceLink = 'Self Service Details';
-    this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
     this.welcomeMessage = '';
@@ -87,6 +86,7 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setHeader();
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewPage' });
     // Temporary Heac ability
     const heac = JSON.parse(sessionStorage.getItem('heac'));
@@ -217,7 +217,9 @@ export class OverviewComponent implements OnInit {
           console.log(reason);
         });
     });
+  }
 
+  setHeader() {
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
     this.userName =
       this.session.sessionStorage('loggedUser', 'LastName') +

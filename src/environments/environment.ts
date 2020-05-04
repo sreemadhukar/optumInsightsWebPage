@@ -1,15 +1,18 @@
-// import { EnvironmentConfig } from './i.config';
-
 /**
  * Base Environment Configuration Instance
  * MAINTAIN ALPHABETIC ORDER
  */
+export const config = {
+  originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
+  intApi: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
+  devOneApi: 'https://pedapi1-peddev.ocp-ctc-core-nonprod.optum.com/',
+  devTwoApi: 'https://pedapi2-peddev.ocp-ctc-core-nonprod.optum.com/',
+  devThreeApi: 'https://gateway-stage-core.optum.com/api/devthree/pdr/uhci/v1/',
+  stageApi: 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/'
+};
+
 export const environment: any = {
   /*
-  Pointing to QA1 environment
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devthree/pdr/uhci/v1/',
-  originUrl: 'https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/',
-   */
   /*
   QA1 pointing to INT environment to interact with INT API
   apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
@@ -20,13 +23,9 @@ export const environment: any = {
   // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   // apiProxyUrl: 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/',
-
-  //  apiProxyUrl: 'https://pedapi2-peddev.ocp-ctc-core-nonprod.optum.com/',
-
   // stage
-
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
-  originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
+  apiProxyUrl: config.intApi,
+  originUrl: config.originUrl,
 
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -76,7 +75,7 @@ export const environment: any = {
     RefreshToken: 'getRefreshToken/',
     HealthSystemDetails: 'providerInfo/',
     KOPBusinessGlossary: 'business-glossaries-kop/',
-    CallsTrendLine: 'calls-trend/',
+    CallsTrendLine: 'calls-trends/',
     PaymentsBySubmissionDOP: 'dop-claim-submissions/',
     PaymentsBySubmission: 'claim-submissions/v2.0/',
     GroupPremiumDesignation: 'group-premium-designation/',
