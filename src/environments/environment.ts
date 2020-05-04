@@ -24,7 +24,7 @@ export const environment: any = {
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   // apiProxyUrl: 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/',
   // stage
-  apiProxyUrl: config.intApi,
+  apiProxyUrl: config.stageApi,
   originUrl: config.originUrl,
 
   apiUrls: {
@@ -75,7 +75,7 @@ export const environment: any = {
     RefreshToken: 'getRefreshToken/',
     HealthSystemDetails: 'providerInfo/',
     KOPBusinessGlossary: 'business-glossaries-kop/',
-    CallsTrendLine: 'calls-trend/',
+    CallsTrendLine: 'calls-trends/',
     PaymentsBySubmissionDOP: 'dop-claim-submissions/',
     PaymentsBySubmission: 'claim-submissions/v2.0/',
     GroupPremiumDesignation: 'group-premium-designation/',

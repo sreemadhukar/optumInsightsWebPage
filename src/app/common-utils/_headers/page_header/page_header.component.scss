@@ -1,0 +1,39 @@
+@import '~src/scss/variables.scss';
+
+.layout_header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  width: 100%;
+  color: $black-rock;
+  .layout_header_title {
+    .page-title {
+      font-size: 36px;
+      line-height: 40px;
+    }
+    .page-subtitle {
+      font-size: 28px;
+      line-height: 32px;
+    }
+    .page-subtitle-description {
+      font-size: 22px;
+      line-height: 28px;
+    }
+  }
+  .layout_header_right {
+    .header_link_1 {
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $blue;
+      a {
+        color: unset;
+      }
+    }
+  }
+  .header_items_bottom {
+    align-self: flex-end;
+  }
+}

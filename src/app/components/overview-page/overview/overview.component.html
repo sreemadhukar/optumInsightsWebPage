@@ -1,14 +1,7 @@
-<div class="overview-body" color="primary" id="print-overview">
-  <div class="overview-content" [ngClass]="{ 'content-align-print': printStyle === true }">
-    <div class="cards cust-width-title">
-      <div class="page-title">{{ pageTitle }}</div>
-      <div [ngClass]="printStyle ? 'print-page-subtitle' : 'page-subtitle'">{{ pagesubTitle }}</div>
-    </div>
-    <div class="cards cust-width-blank-print">
-      <app-print> </app-print>
-    </div>
-    <div class="height1Separator"></div>
-
+<app-layoutcontainer id="print-overview" style="page-break-after: always" class="overview">
+  <app-page-header [pageTitle]="pageTitle" [pageSubTitle]="pagesubTitle" [print]="true"></app-page-header>
+  <app-layoutseperator [height]="32"></app-layoutseperator>
+  <div class="cards_container">
     <app-small-card class="cards" *ngIf="loadClaimsPaidCard && !claimsLoading && !printStyle" [data]="claimsPaidBlock">
     </app-small-card>
     <app-heac-small-card
@@ -42,14 +35,14 @@
 
     <!-- Commenting following lines of code to remove medicare star rating card -->
     <!--app-small-card
-      class="cards"
-      *ngIf="loadMedicareStarRatingCard && !loading"
-      class="cards"
-      [data]="medicareStarRatingBlock"
-    >
-    </app-small-card>
-    <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
-    <app-error-card *ngIf="errorloadMedicareStarRatingCard" class="cards" [data]="item"></app-error-card-->
+        class="cards"
+        *ngIf="loadMedicareStarRatingCard && !loading"
+        class="cards"
+        [data]="medicareStarRatingBlock"
+      >
+      </app-small-card>
+      <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
+      <app-error-card *ngIf="errorloadMedicareStarRatingCard" class="cards" [data]="item"></app-error-card-->
 
     <app-small-card class="cards" *ngIf="loadclaimsTatCard && !loading" class="cards" [data]="claimsTatBlock">
     </app-small-card>
@@ -74,39 +67,31 @@
     <app-error-card *ngIf="errorloadTotalCallsCard" class="cards" [data]="item"></app-error-card>
 
     <!--<div *ngFor="let item of mainCards; let i = index">
-      <app-small-card *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-small-card>
-      <app-error-card *ngIf="item.status != null && item.toggle" class="cards" [data]="item"></app-error-card>
-    </div>
-    <div *ngFor="let data of mockMainCards; let i = index">
-      <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
-    </div>-->
+        <app-small-card *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-small-card>
+        <app-error-card *ngIf="item.status != null && item.toggle" class="cards" [data]="item"></app-error-card>
+      </div>
+      <div *ngFor="let data of mockMainCards; let i = index">
+        <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
+      </div>-->
     <app-clarify-claims-message></app-clarify-claims-message>
   </div>
 
-  <div class="overview-content" [ngClass]="{ 'content-align-print': printStyle === true }">
-    <div class="self-service-heading">
-      <div class="cards cust-width-title">
-        <div class="title-opportunity">{{ opportunities }}</div>
-        <div class="page-question">{{ opportunitiesQuestion }}</div>
-      </div>
-      <div class="cards cust-width-blank cust-width-title">
-        <div *ngIf="!printStyle" class="page-question self-service-link">
-          <a [routerLink]="['/ServiceInteraction/SelfService']"
-            >{{ selfServiceLink }}
-            <mat-icon class="icon-display" svgIcon="arrow"></mat-icon>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="height1Separator"></div>
-    <div *ngFor="let data of mockSelfServiceMiniCards; let i = index">
-      <app-mini-tile class="cards" [skeleton]="loading" *ngIf="loading"> </app-mini-tile>
-    </div>
+  <app-layoutseperator [height]="32"></app-layoutseperator>
+  <app-layoutseperator
+    *ngIf="printStyle && countSmallCard <= 4 && countSmallCard > 2 && countMiniTile > 2"
+    [height]="700"
+  ></app-layoutseperator>
+  <app-layoutseperator *ngIf="printStyle && countSmallCard > 4" [height]="450"></app-layoutseperator>
+  <app-page-header
+    [pageSubTitle]="opportunities"
+    [link]="selfServiceLinkParam"
+    [pageSubTitleDescription]="opportunitiesQuestion"
+  ></app-page-header>
+  <app-layoutseperator [height]="16"></app-layoutseperator>
+  <div class="cards_container">
     <div *ngFor="let item of selfServiceMiniCards; let i = index">
       <app-mini-tile *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-mini-tile>
       <app-error-card *ngIf="item.status != null && item.toggle" [data]="item"></app-error-card>
     </div>
   </div>
-</div>
-
-<!-- <app-uhc-loader *ngIf="loading"></app-uhc-loader> -->
+</app-layoutcontainer>
