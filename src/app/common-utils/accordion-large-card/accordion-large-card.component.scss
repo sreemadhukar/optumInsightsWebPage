@@ -25,6 +25,8 @@
 .qulity-measure-star-block {
   .white-bg {
     background: $white;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
   }
   .card-inner-large {
     // background-color: $white;
@@ -57,7 +59,7 @@
   /* padding: 16px; */
   float: left;
   width: 954px; /* margin-bottom: 33px; */
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.15);
   border-radius: 2px;
 }
 .bar-graph-inside-left-block {
@@ -72,12 +74,25 @@
     float: left;
   }
 }
+.bar-graphs-noicon {
+  display: flex;
+  margin-left: 39px;
+}
+
 .bar-graph-inside-left-block-content {
   display: flex;
   box-sizing: border-box;
-  margin-top: 35px;
+  margin-top: 30px;
   margin-right: 26px;
-  width: 187px;
+  width: 195px;
+}
+.bar-graph-text {
+  // when bar graph  value 0
+  display: flex;
+  box-sizing: border-box;
+  margin-top: 30px;
+
+  width: 120px;
 }
 .sub-item-inside-block-content {
   float: left;
@@ -211,10 +226,7 @@ height: 45px; */
 }
 .bar-graph-block-icon {
   float: left;
-  /* margin-top: -2px; */
-  margin-left: 32px; /* height: 20px;
-  width: 20px; */
-  // margin-right: 12px;
+  margin: 1px 8px 0 39px;
   margin-right: 8px;
 }
 .bar-graph-icon-hide {

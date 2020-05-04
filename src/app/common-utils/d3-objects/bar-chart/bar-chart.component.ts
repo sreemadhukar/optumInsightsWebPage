@@ -114,7 +114,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       barHeight = chartOptions.barHeight; // bar height to be 48
     }
 
-    const margin = { top: 26, right: 10, bottom: 16, left: 10 };
+    const margin = { top: 16, right: 10, bottom: 16, left: 10 };
     const width = preWidth - margin.left - margin.right;
     const height = barHeight * 1.5 - margin.top - margin.bottom;
     const svg = d3.select(this.renderChart);
@@ -127,14 +127,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     /** Following 2 variable are for Prior Auth Bar Grpah */
 
     if (chartOptions.starObject) {
-      xScaleConstant = width - 225; // For PCOR graph width should be 709
+      xScaleConstant = width - 231; // For PCOR graph width should be 703
 
       this.chartPCOR = svg
         .append('svg')
         .attr('width', xScaleConstant)
         .attr('height', height + margin.top + margin.bottom + 8)
         .append('g')
-        .attr('transform', 'translate(' + 0 + ',' + (margin.top - 3) + ')');
+        .attr('transform', 'translate(' + 0 + ',' + (margin.top + 3) + ')');
     } else {
       /** Following 2 variable are for Prior Auth Bar Grpah */
       xScaleBarWidthConstant = width / 1.79; // 522    when width is 554 , it will touch the border of the the card
