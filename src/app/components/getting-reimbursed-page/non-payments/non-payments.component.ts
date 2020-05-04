@@ -1,14 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ViewEncapsulation,
-  ElementRef,
-  Renderer2,
-  AfterViewChecked,
-  Output,
-  EventEmitter,
-  Input
-} from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, AfterViewChecked, Output, EventEmitter, Input } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -30,7 +20,6 @@ import { TopReasonsEmitterService } from '../../../shared/getting-reimbursed/non
   selector: 'app-non-payments',
   templateUrl: './non-payments.component.html',
   styleUrls: ['./non-payments.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   animations: [
     // Each unique animation requires its own trigger. The first argument of the trigger function is the name
     trigger('rotatedState', [
