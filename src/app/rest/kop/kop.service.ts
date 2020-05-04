@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { get as _get } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,11 @@ export class KopService {
   public getSummary({ params }) {
     const url = this.APP_URL + this.SERVICE_PATH_KOP;
     return this.http.post(url, params).pipe(
-      map(res => JSON.parse(JSON.stringify(res))),
+      // map(res => {
+      //   console.log(JSON.parse(JSON.stringify(_get(res, ['Data'], {}))));
+      //   JSON.parse(JSON.stringify(_get(res, ['Data'], {})));
+      // }),
+      map(res => res),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
