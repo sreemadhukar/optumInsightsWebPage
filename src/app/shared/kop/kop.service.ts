@@ -190,9 +190,9 @@ export class KOPSharedService {
           const totalResponse = [];
           if (metricKey === 'kop') {
             if (response[0] && response[0]['StatusCode'] === 200) {
-              const respo = response[0]['Data'];
-              for (let i = 0; i < respo.length; i++) {
-                totalResponse.push(respo[i]);
+              const npsResponse = response[0]['Data'];
+              for (let i = 0; i < npsResponse.length; i++) {
+                totalResponse.push(npsResponse[i]);
               }
             } else {
               return resolve([]);
