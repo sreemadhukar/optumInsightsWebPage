@@ -20,7 +20,6 @@ export class OverviewComponent implements OnInit {
   mainCards: any;
   mockMainCards: any;
   selfServiceMiniCards: any;
-  mockSelfServiceMiniCards: any;
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
@@ -181,7 +180,6 @@ export class OverviewComponent implements OnInit {
       /***************** DON"T CHANGE THESE *************/
       this.loading = true;
       this.mockMainCards = [{}, {}, {}, {}, {}, {}];
-      this.mockSelfServiceMiniCards = [{}, {}, {}, {}];
       this.overviewItems = [];
       this.mainCards = [];
       this.selfServiceMiniCards = [];
