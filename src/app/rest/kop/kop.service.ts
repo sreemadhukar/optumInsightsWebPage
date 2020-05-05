@@ -3,7 +3,6 @@ import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { get as _get } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
