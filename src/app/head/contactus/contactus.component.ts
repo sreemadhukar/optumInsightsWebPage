@@ -62,10 +62,10 @@ export class ContactusComponent implements OnInit {
     text:
       "We're here to help! Please reach out to your UnitedHealthcare contact with any questions or locate your state's contact information."
   };
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon(
+  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+    this.iconRegistry.addSvgIcon(
       'carrot',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
     );
   }
 

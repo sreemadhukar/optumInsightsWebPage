@@ -55,6 +55,9 @@ import { ClickElsewhereDirective } from './directives/ClickElsewhereDirective';
 
 import { RlpCommonUtilsModule } from '../components/performance/rlp-common-utils/rlp-common-utils.module';
 import { RlpLongCardComponent } from './rlp-long-card/rlp-long-card.component';
+import { LayoutContainerComponent } from './_layouts/layout_container/layoutcontainer.component';
+import { LayoutSeparatorComponent } from './_layouts/layout_seperator/layout_seperator.component';
+import { PageHeaderComponent } from './_headers/page_header/page_header.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -67,6 +70,9 @@ import { RlpLongCardComponent } from './rlp-long-card/rlp-long-card.component';
     RlpCommonUtilsModule
   ],
   exports: [
+    LayoutContainerComponent,
+    LayoutSeparatorComponent,
+    PageHeaderComponent,
     MiniTileComponent,
     CardComponent,
     CommonFooterComponent,
@@ -109,6 +115,9 @@ import { RlpLongCardComponent } from './rlp-long-card/rlp-long-card.component';
     RlpLongCardComponent
   ],
   declarations: [
+    LayoutContainerComponent,
+    LayoutSeparatorComponent,
+    PageHeaderComponent,
     MiniTileComponent,
     CardComponent,
     CommonHeaderComponent,

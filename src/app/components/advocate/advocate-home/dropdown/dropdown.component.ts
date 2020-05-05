@@ -11,10 +11,12 @@ export class DropdownComponent implements OnInit {
   @Output() valueChange = new EventEmitter();
   selected: string;
   itemsList: any;
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon(
+  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+    this.iconRegistry.addSvgIcon(
       'arrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        '/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg'
+      )
     );
   }
 

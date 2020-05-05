@@ -1,30 +1,16 @@
-import { TopClaimsSharedService } from 'src/app/shared/getting-reimbursed/non-payments/top-claims-shared.service';
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-  ChangeDetectorRef,
-  ElementRef,
-  Renderer2,
-  AfterViewChecked,
-  Output,
-  EventEmitter,
-  Input
-} from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, AfterViewChecked, Output, EventEmitter, Input } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { MatIconRegistry, PageEvent } from '@angular/material';
+import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { Router } from '@angular/router';
-import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
 import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
-import { NgRedux, select } from '@angular-redux/store';
+import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
@@ -34,7 +20,6 @@ import { TopReasonsEmitterService } from '../../../shared/getting-reimbursed/non
   selector: 'app-non-payments',
   templateUrl: './non-payments.component.html',
   styleUrls: ['./non-payments.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   animations: [
     // Each unique animation requires its own trigger. The first argument of the trigger function is the name
     trigger('rotatedState', [
@@ -86,21 +71,19 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private iconRegistry: MatIconRegistry,
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
-    private cdRef: ChangeDetectorRef,
     private glossaryExpandService: GlossaryExpandService,
-    private filterExpandService: FilterExpandService,
     private session: SessionService,
     private router: Router,
     private nonPaymentService: NonPaymentSharedService,
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService,
     private common: CommonUtilsService,
-    private reasonsEmitter: TopReasonsEmitterService,
-    private topClaimsSharedService: TopClaimsSharedService
+    private reasonsEmitter: TopReasonsEmitterService
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('nonPaymentsPage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
@@ -108,33 +91,33 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     });
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'open',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-add-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-add-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'close-bar',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-remove-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-remove-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'asc-sort',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-arrow_drop_up-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-arrow_drop_up-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'desc-sort',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-arrow_drop_down-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-arrow_drop_down-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'filter',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'close',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'carrot',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
     );
     this.printRoute = '/GettingReimbursed/NonPayments/print-nonpayments';
     this.pageTitle = 'Claims Non-Payments';
@@ -282,7 +265,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.type = event.direction;
   }
   subReasonClicked(value: string, index: number) {
-    const routetoThis = '/GettingReimbursed/ViewTopClaims';
     const subReasonSelected = this.reasonWithData
       .filter(item => item.mainReason === value)
       .map(item => item.subReason[index]);
@@ -316,6 +298,5 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
         '.mat-sort-header-sorted > .mat-sort-header-button> .sort-header-desc'
       ) as HTMLElement).style.color = '#2d2d39';
     }
-    // this.cdRef.detectChanges();
   }
 }

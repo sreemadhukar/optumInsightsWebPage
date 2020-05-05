@@ -147,11 +147,12 @@
         </div>
         <div class="line-graph-padding">
           <!--<app-large-card-advocate *ngIf="!callsLineGraphLoading" [appealsLineGraph]="callsTrendLineGraph"></app-large-card-advocate>-->
-          <app-multi-line-graph *ngIf="!callsLoading" [chartOptions]="callsTrendLineGraph"> </app-multi-line-graph>
+          <app-multi-line-graph *ngIf="!callsLoading && callsTrendLineGraph" [chartOptions]="callsTrendLineGraph">
+          </app-multi-line-graph>
         </div>
       </div>
 
-      <div class="calls-grpah-set">
+      <div class="calls-grpah-set" *ngIf="callsData && callsData.length > 0">
         <div class="mr-img" *ngIf="callsData[0] && callsData[0].key === 'B&E'"></div>
         <div class="lob-values" *ngIf="callsData[0]">Eligibility & Benefits ({{ callsData[0].value }})</div>
         <div class="cs-img" *ngIf="callsData[1] && callsData[1].key === 'CLAIMS'"></div>

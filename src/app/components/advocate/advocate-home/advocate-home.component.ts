@@ -3,11 +3,10 @@ import { SessionService } from '../../../shared/session.service';
 import { HomeService } from '../../../rest/advocate/home.service';
 import { dropdownOptions, IUserResponse } from './user.class';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { switchMap, debounceTime, tap, finalize, startWith } from 'rxjs/operators';
+import { switchMap, debounceTime, tap, finalize } from 'rxjs/operators';
 import { Subscription, Observable, of } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
-import { Router } from '@angular/router';
 import { StorageService } from '../../../shared/storage-service.service';
 
 @Component({
@@ -38,13 +37,12 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
     private session: SessionService,
     private searchService: HomeService,
     private iconRegistry: MatIconRegistry,
-    private router: Router,
     private storage: StorageService,
-    sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer
   ) {
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'round-search',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
     this.dropDownArray = dropdownOptions;
   }
@@ -87,7 +85,7 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
         switchMap(value => {
           const str = value.trim().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
           // const str = value.trim().replace(/[^a-zA-Z0-9]/g, '');
-          if (this.selectedDropdown === 'tin' && value.length >= 3) {
+          if (this.selectedDropdown === 'tin' && value && value.length >= 3) {
             value = value.slice(0, 2) + '-' + value.slice(2);
           }
           return value &&
@@ -104,7 +102,7 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
       .subscribe(
         users => {
           this.filteredUsers = of(users);
-          if (users.length) {
+          if (users && users.length) {
             this.noSearchFound = false;
           } else {
             this.noSearchFound = true;

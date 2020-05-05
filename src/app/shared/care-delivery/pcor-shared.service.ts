@@ -3,7 +3,6 @@ import { PcorService } from '../../rest/care-delivery/pcor.service';
 import { SessionService } from '../session.service';
 import { CommonUtilsService } from '../common-utils.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
-import { AuthorizationService } from '../../auth/_service/authorization.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,8 +11,7 @@ export class PcorSharedService {
     private MetricidService: GlossaryMetricidService,
     private pcorService: PcorService,
     private session: SessionService,
-    private common: CommonUtilsService,
-    private toggle: AuthorizationService
+    private common: CommonUtilsService
   ) {}
 
   /** The following service method is fetching data for
@@ -114,12 +112,12 @@ export class PcorSharedService {
             let preparedData: Array<any> = [];
             if (PCORData) {
               // Captilize the first alphabet of the string
-              const capitalize = s => {
-                if (typeof s !== 'string') {
-                  return '';
-                }
-                return s.charAt(0).toUpperCase() + s.slice(1);
-              };
+              // const capitalize = s => {
+              //   if (typeof s !== 'string') {
+              //     return '';
+              //   }
+              //   return s.charAt(0).toUpperCase() + s.slice(1);
+              // };
 
               const template = ['0', '1', '2', '3', '4', '5'];
               const accorTitle = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five'];

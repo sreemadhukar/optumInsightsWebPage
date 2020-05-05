@@ -1,0 +1,16 @@
+<div class="layout_header">
+  <div class="layout_header_title">
+    <div class="page-title" *ngIf="pageTitle">{{ pageTitle }}</div>
+    <app-layoutseperator *ngIf="pageTitle && pageSubTitle" [height]="32"></app-layoutseperator>
+    <div class="page-subtitle" *ngIf="pageSubTitle">{{ pageSubTitle }}</div>
+    <app-layoutseperator [height]="16" *ngIf="pageSubTitle && pageSubTitleDescription"></app-layoutseperator>
+    <div class="page-subtitle-description" *ngIf="pageSubTitleDescription">{{ pageSubTitleDescription }}</div>
+  </div>
+  <div class="layout_header_right" [class.header_items_bottom]="link">
+    <app-print *ngIf="print"> </app-print>
+    <div class="header_link_1" *ngIf="link && link.title">
+      <a [routerLink]="link.path">{{ link.title }} </a>
+      <mat-icon class="icon-display" svgIcon="arrow"></mat-icon>
+    </div>
+  </div>
+</div>

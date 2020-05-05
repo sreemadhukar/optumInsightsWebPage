@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SessionService } from 'src/app/shared/session.service';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
 import { NewPaymentIntegrityService } from '../../../../shared/new-payment-integrity/new-payment-integrity.service';
@@ -24,8 +23,7 @@ export class NewPaymentIntegrityComponent implements OnInit {
   constructor(
     public newPaymentIntegrityService: NewPaymentIntegrityService,
     private glossaryExpandService: GlossaryExpandService,
-    public MetricidService: GlossaryMetricidService,
-    private session: SessionService
+    public MetricidService: GlossaryMetricidService
   ) {}
 
   ngOnInit() {

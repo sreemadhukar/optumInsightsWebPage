@@ -85,7 +85,7 @@
                 </ng-container>
               </mat-autocomplete>
               <ng-container *ngIf="!searchedString">
-                <mat-icon matSuffix svgIcon="search"></mat-icon>
+                <mat-icon matSuffix class="search-icon" svgIcon="search"></mat-icon>
               </ng-container>
               <ng-container *ngIf="searchedString">
                 <mat-icon
@@ -100,6 +100,14 @@
         </div>
       </div>
       <!-- Search code ends here -->
+      <!-- impact assignment code starts here-->
+      <div>
+        <app-impact-assignment></app-impact-assignment>
+      </div>
+      <!-- impact assignment code ends here-->
     </div>
+    <!-- ends cards cust-width-title -->
   </div>
+  <!-- ends home-advocate-content-->
 </div>
+<!-- ends home-advocate-body-->
