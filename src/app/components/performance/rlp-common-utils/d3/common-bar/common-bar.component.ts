@@ -26,17 +26,17 @@ export class CommonBarComponent implements OnInit, AfterViewInit {
       .style('height', this.config.height)
       .style('display', 'flex')
       .style('border-radius', '0 2px 2px 0');
-    const barLeft = bar
+    bar
       .append('div')
       .style('width', this.config.percentage)
       .style('height', '100%')
       .style('background-color', this.config.color[0]);
-    const barDivider = bar
+    bar
       .append('div')
       .style('width', '1px')
       .style('height', '100%')
       .style('background-color', 'white');
-    const barRight = bar
+    bar
       .append('div')
       .style('flex-grow', '1')
       .style('height', '100%')

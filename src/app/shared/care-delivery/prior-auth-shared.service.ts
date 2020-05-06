@@ -27,7 +27,7 @@ export class PriorAuthSharedService {
     const TIN = filterParameters.taxId[0];
     const LOB = filterParameters.lineOfBusiness;
     const serviceSetting = filterParameters.serviceSetting === '' ? 'All' : filterParameters.serviceSetting;
-    const paDecisionType = filterParameters.priorAuthType; // We don't need decision type for now
+    // const paDecisionType = filterParameters.priorAuthType; // We don't need decision type for now
     const paServiceCategory = filterParameters.serviceCategory === '' ? 'All' : filterParameters.serviceCategory;
 
     // const paServiceCategory =  filterParameters.serviceCategory;
@@ -196,11 +196,11 @@ export class PriorAuthSharedService {
           let PANotApprovedCountChecker;
           if (((providerSystems || {}).PriorAuthorizations || {}).LineOfBusiness) {
             let data;
-            // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+
             let PAApprovedCount;
             let PANotApprovedCount;
-            let PANotPendingCount;
-            let PANotCancelledCount;
+            let PAPendingCount;
+            let PACancelledCount;
 
             // LOB all
 
@@ -259,11 +259,19 @@ export class PriorAuthSharedService {
 
             PAApprovedCount = data.PriorAuthApprovedCount;
             PANotApprovedCount = data.PriorAuthNotApprovedCount;
-            PANotPendingCount = data.PriorAuthPendingCount;
-            PANotCancelledCount = data.PriorAuthCancelledCount;
+            PAPendingCount = data.PriorAuthPendingCount;
+            PACancelledCount = data.PriorAuthCancelledCount;
+            const PARequestedCount = PAApprovedCount + PANotApprovedCount + PACancelledCount;
+            const TotalApprovedNotapproved = PARequestedCount - PACancelledCount; // sum of approved and not approved
+            let PAApprovalRate;
 
-            const PARequestedCount = PAApprovedCount + PANotApprovedCount;
-            const PAApprovalRate = PAApprovedCount / PARequestedCount;
+            if (TotalApprovedNotapproved === 0) {
+              // If sum of approved count and not approved count 0 make it approvalrate is 0
+              PAApprovalRate = 0;
+            } else {
+              PAApprovalRate = PAApprovedCount / TotalApprovedNotapproved;
+            }
+
             PANotApprovedReasonBool = PAApprovalRate === 1;
             PANotApprovedCountChecker = PAApprovedCount;
 
@@ -293,50 +301,11 @@ export class PriorAuthSharedService {
                 TATHourLabel = UrgentTATConversion + ' Hours';
               }
             }
-            // Add checker for if PA requested is zero
-            const priorAuthorizationCounts = [
-              PAApprovedCount,
-              PANotApprovedCount,
-              PANotPendingCount,
-              PANotCancelledCount
-            ];
+
+            const priorAuthorizationCounts = [PAApprovedCount, PANotApprovedCount, PAPendingCount, PACancelledCount];
             const priorAuthorizationLabels = ['Approved', 'Not Approved', 'Pending', 'Canceled'];
-            if (PARequestedCount === 0) {
-              if (PANotPendingCount + PANotCancelledCount > 0) {
-                PACount = [
-                  {
-                    category: 'app-card',
-                    type: 'donutWithLabel',
-                    title: 'Prior Authorization Requested',
-                    MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
-                    toggle: this.toggle.setToggles(
-                      'Prior Authorization Requested',
-                      'Prior Authorizations',
-                      'Care Delivery',
-                      false
-                    ),
-                    data: {
-                      graphValues: priorAuthorizationCounts,
-                      centerNumber: this.common.nFormatter(PARequestedCount),
-                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                      labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                      gdata: ['card-inner', 'PARequested'],
-                      hover: true
-                    },
-                    besideData: {
-                      labels: this.common.sideLabelWords(priorAuthorizationCounts, priorAuthorizationLabels),
-                      color: this.common.sideLabelColor(priorAuthorizationCounts)
-                    },
-                    timeperiod:
-                      this.common.dateFormat(providerSystems.StartDate) +
-                      '&ndash;' +
-                      this.common.dateFormat(providerSystems.EndDate)
-                  }
-                ];
-              } else {
-                PACount = appCardPriorAuthError;
-              }
-            } else {
+            if (PARequestedCount > 0 && PAApprovalRate !== 0) {
+              // if PA requested is not zero and approval rate not zero
               PACount = [
                 {
                   category: 'app-card',
@@ -397,6 +366,68 @@ export class PriorAuthSharedService {
                     this.common.dateFormat(providerSystems.EndDate)
                 }
               ];
+            } else if (PAApprovalRate === 0) {
+              // If approval rate (sum of Approval rate and not approved rate is zero) is zero
+              //  we should hide the right side label
+
+              PACount = [
+                {
+                  category: 'app-card',
+                  type: 'donutWithLabel',
+                  title: 'Prior Authorization Requested',
+                  MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
+                  toggle: this.toggle.setToggles(
+                    'Prior Authorization Requested',
+                    'Prior Authorizations',
+                    'Care Delivery',
+                    false
+                  ),
+                  data: {
+                    graphValues: priorAuthorizationCounts,
+                    centerNumber: this.common.nFormatter(PARequestedCount),
+                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                    labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                    gdata: ['card-inner', 'PARequested'],
+                    hover: true
+                  },
+                  besideData: {
+                    labels: this.common.sideLabelWords(priorAuthorizationCounts, priorAuthorizationLabels),
+                    color: this.common.sideLabelColor(priorAuthorizationCounts),
+                    value: this.common.sideLabelValues(priorAuthorizationCounts)
+                  },
+                  timeperiod:
+                    this.common.dateFormat(providerSystems.StartDate) +
+                    '&ndash;' +
+                    this.common.dateFormat(providerSystems.EndDate)
+                },
+                {
+                  category: 'app-card',
+                  type: 'donut',
+                  title: 'Prior Authorization Approval Rate',
+                  MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApprovalRate,
+                  toggle: this.toggle.setToggles(
+                    'Prior Authorization Approval Rate',
+                    'Prior Authorizations',
+                    'Care Delivery',
+                    false
+                  ),
+                  data: {
+                    graphValues: [PAApprovalRate, 1 - PAApprovalRate],
+                    centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
+                    color: ['#3381FF', '#E0E0E0'],
+                    gdata: ['card-inner', 'PAApprovalRate']
+                  },
+                  besideData: {
+                    verticalData: null
+                  },
+                  timeperiod:
+                    this.common.dateFormat(providerSystems.StartDate) +
+                    '&ndash;' +
+                    this.common.dateFormat(providerSystems.EndDate)
+                }
+              ];
+            } else {
+              PACount = appCardPriorAuthError;
             }
           } else {
             PACount = appCardPriorAuthError;
@@ -515,6 +546,7 @@ export class PriorAuthSharedService {
       this.getNewPAData(filterParameters)
         .then(data => {
           this.priorAuthDataCombined = data;
+          console.log('priorAuthDataCombined-->', this.priorAuthDataCombined);
           const emptyPATrends = [
             {
               data: '',
@@ -530,6 +562,7 @@ export class PriorAuthSharedService {
         .then(data => {
           if (this.priorAuthDataCombined[0].length > 0 && this.priorAuthDataCombined[0][0].data !== null) {
             this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
+            console.log('priorAuthDataCombined-->', data[1]);
           }
           resolve(this.priorAuthDataCombined);
         })

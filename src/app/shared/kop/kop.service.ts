@@ -7,7 +7,6 @@ import { TimePeriod } from './kop.class.timeperiod';
 import { IssueResolution } from './kop.class.issueresolution';
 import { Reimbursement } from './kop.class.reimbursement';
 import { Engagement } from './kop.class.engagement';
-import { hasOwnProperty } from 'tslint/lib/utils';
 import { NPSDetail } from './detail/nps/kop.class.nps-detail';
 
 @Injectable({
@@ -16,13 +15,8 @@ import { NPSDetail } from './detail/nps/kop.class.nps-detail';
 export class KOPSharedService {
   constructor(private kopService: KopService) {}
 
-  public getNpsDetails(params: any) {
+  public getNpsDetails() {
     return new Promise(resolve => {
-      const { filter: selectedFilter } = params;
-      const { filters } = selectedFilter;
-      const paramsArray = filters.map((param: string) => {
-        return { filter: param };
-      });
       this.kopService.getNpsDetailSummary({ params: {} }).subscribe(
         (response: any) => {
           if (!response || response.length === 0) {
@@ -161,16 +155,23 @@ export class KOPSharedService {
     return new Promise((resolve, reject) => {
       switch (metricKey) {
         case 'kop':
-          this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getSummary({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
         case 'priorauthtat':
-          this.kopService
-            .getPriorAuthTATSummary({ params })
-            .subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getPriorAuthTATSummary({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
         case 'reimbursementClaims':
           Object.assign(params, { region: 'LEASED MARKETS', markets: ['MINNEAPOLIS, MN', 'CHICAGO, IL'] });
-          this.kopService.getClaimsData({ params }).subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getClaimsData({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
       }
     });
@@ -187,15 +188,26 @@ export class KOPSharedService {
       Promise.all(tasks)
         .then((response: any) => {
           const totalResponse = [];
-          response.forEach((responseItem: any) => {
-            if (responseItem && responseItem instanceof Array && responseItem.length > 0) {
-              responseItem.forEach((innerResponseItem: any) => {
-                totalResponse.push(innerResponseItem);
-              });
+          if (metricKey === 'kop') {
+            if (response[0] && response[0]['StatusCode'] === 200) {
+              const npsResponse = response[0]['Data'];
+              for (let i = 0; i < npsResponse.length; i++) {
+                totalResponse.push(npsResponse[i]);
+              }
             } else {
               return resolve([]);
             }
-          });
+          } else {
+            response.forEach((responseItem: any) => {
+              if (responseItem && responseItem instanceof Array && responseItem.length > 0) {
+                responseItem.forEach((innerResponseItem: any) => {
+                  totalResponse.push(innerResponseItem);
+                });
+              } else {
+                return resolve([]);
+              }
+            });
+          }
           return resolve(totalResponse);
         })
         .catch(() => {

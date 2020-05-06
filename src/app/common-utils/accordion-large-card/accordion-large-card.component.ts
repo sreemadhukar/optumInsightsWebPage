@@ -1,4 +1,3 @@
-import { filter } from 'rxjs/operators';
 import { Component, OnInit, Input, Output, ElementRef, Renderer2, EventEmitter } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { MatIconRegistry } from '@angular/material';
@@ -50,7 +49,7 @@ export class AccordionLargeCardComponent implements OnInit {
     private common: CommonUtilsService
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'help',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
     );
@@ -79,6 +78,14 @@ export class AccordionLargeCardComponent implements OnInit {
     iconRegistry.addSvgIcon(
       'carrot',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'star-blue',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Toggle/star-black-18dp.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'star-grey',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Toggle/star-grey-18dp.svg')
     );
   }
 

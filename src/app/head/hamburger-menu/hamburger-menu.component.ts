@@ -13,7 +13,6 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { MatExpansionPanel, MatDialog, MatSidenav, MatDialogConfig } from '@angular/material';
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
@@ -26,7 +25,7 @@ import { StorageService } from '../../shared/storage-service.service';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
 import { FilterExpandService } from '../../shared/filter-expand.service';
-import { DOCUMENT, Location } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
@@ -71,6 +70,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   public mobileQuery: boolean;
   public healthSystemName: string;
   public isKop: boolean;
+  public boolRemoveLeftNav: Boolean = false;
   disableChangeProvider: boolean = environment.internalAccess;
   internalUser: boolean = environment.internalAccess;
   externalProvidersCount = false;
@@ -121,7 +121,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     { icon: 'prior-auth', name: 'Prior Authorizations', path: '/CareDelivery/priorAuth', disabled: false },
     {
       icon: 'pcor',
-      name: 'Patient Care Opportunity ',
+      name: 'Patient Care Opportunity',
       path: '/CareDelivery/PatientCareOpportunity',
       disabled: true
     },
@@ -161,14 +161,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   /** CONSTRUCTOR **/
   constructor(
     public groupPremiumDesignationService: GroupPremiumDesignationService,
-    private breakpointObserver: BreakpointObserver,
     private cdRef: ChangeDetectorRef,
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private authService: AuthenticationService,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private themeService: ThemeService,
     private dialog: MatDialog,
     private checkStorage: StorageService,
@@ -176,7 +175,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private filterExpandService: FilterExpandService,
     private filterCloseService: FilterCloseService,
     private pcorService: PcorService,
-    private location: Location,
     public sessionService: SessionService,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
@@ -197,17 +195,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     if (this.checkAdv.value) {
       this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
 
-      iconRegistry.addSvgIcon(
+      this.iconRegistry.addSvgIcon(
         'dashboard',
-        sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
+        this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
       );
-      iconRegistry.addSvgIcon(
+      this.iconRegistry.addSvgIcon(
         'home',
-        sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/dashboard-24px.svg')
+        this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/dashboard-24px.svg')
       );
 
       this.navCategories[0].disabled = false;
-      console.log(this.navCategories);
     } else {
       iconRegistry.addSvgIcon(
         'home',
@@ -231,9 +228,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
         if (this.groupPremiumDesignationService && this.internalUser && currentUser.ProviderKey) {
-          this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
-            this.GroupPremiumDesignation = response.HppIndicator;
-          });
+          const groupPremiumDesignationDataHandler = this.groupPremiumDesignationService.groupPremiumDesignationData();
+          if (groupPremiumDesignationDataHandler) {
+            groupPremiumDesignationDataHandler.subscribe(response => {
+              this.GroupPremiumDesignation = response.HppIndicator;
+            });
+          }
         }
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
@@ -246,7 +246,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             event.url === '/AccessDenied'
           )
         );
-
+        this.boolRemoveLeftNav = event.url.includes('OverviewPageAdvocate/Home') ? true : false;
         /*
          for login, providerSearch screen , filters has no role to play, so for them Filters should be close,
          we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
@@ -283,8 +283,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
          */
         if (this.sessionService.isRlpData() && this.internalUser) {
           this.insertRlpNav(this.sessionService.isRlpData());
-        } else {
-          console.log('No Data at Session Storage for Rlp');
         }
 
         // If the environment is not Internal then disable the Rlp
@@ -319,7 +317,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
           sessionStorage.getItem('advocateView') === 'true' &&
           !this.makeAbsolute &&
           event.url !== '/OverviewPageAdvocate' &&
-          event.url !== '/OverviewPageAdvocate/HealthSystemDetails' &&
+          event.url !== '/OverviewPageAdvocate/Home' &&
           this.checkAdv.value
         ) {
           this.advocateView = true;
@@ -395,7 +393,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       this.AcoFlag = value.value;
     });
     this.navCategories = this.navCategoriesTotal.filter(item => !item.kop);
-
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
       this.navCategories = this.navCategoriesTotal.filter(item => item.kop);
@@ -503,12 +500,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
    bar PCOR will be hidden
    */
   insertPCORnav() {
-    if (!this.navCategories.some(i => i.name === 'Patient Care Opportunity')) {
-      this.navCategories[4].disabled = false;
-    }
+    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Patient Care Opportunity');
+    this.navCategories[getIndex].disabled = false;
   }
   removePCORnav() {
-    this.navCategories[4].disabled = true;
+    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Patient Care Opportunity');
+    this.navCategories[getIndex].disabled = true;
   }
   checkToggle(bool: boolean) {
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
@@ -575,10 +572,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   }
   checkPcorData() {
     const parametersExecutive = [this.sessionService.providerKeyData(), true];
-    this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
+    this.pcorService.getPCORMedicareData(...parametersExecutive).subscribe(
       data => {
-        const PCORData = data.PatientCareOpportunity;
-        if (PCORData === null || PCORData === undefined) {
+        if (!data || !data.ReportingPeriod) {
           try {
             this.removePCORnav();
             sessionStorage.removeItem('pcor');
@@ -738,8 +734,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     setTimeout(() => {
       sessionStorage.removeItem('advocateView');
       this.advocateView = false;
-    }, 500);
+    }, 300);
     location.href = '/OverviewPageAdvocate';
+    sessionStorage.setItem('advocateView', 'false');
   }
 
   /**

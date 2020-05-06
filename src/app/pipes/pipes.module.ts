@@ -8,6 +8,8 @@ import { CountryFormatterPipe } from './country-formatter.pipe';
 import { SliceStringPipe } from './slice-string.pipe';
 import { ZeroValueFormatterPipe } from './zero-value-formatter.pipe';
 import { RlpSearchPipe } from './rlp-search.pipe';
+import { SearchHighlightPipe } from './search-highlight.pipe';
+import { ImpactSearchPipe } from './impact-search.pipe';
 
 @NgModule({
   imports: [CommonModule],
@@ -19,7 +21,9 @@ import { RlpSearchPipe } from './rlp-search.pipe';
     CountryFormatterPipe,
     SliceStringPipe,
     ZeroValueFormatterPipe,
-    RlpSearchPipe
+    RlpSearchPipe,
+    SearchHighlightPipe,
+    ImpactSearchPipe
   ],
   exports: [
     CurrencyFormatterPipe,
@@ -29,7 +33,9 @@ import { RlpSearchPipe } from './rlp-search.pipe';
     CountryFormatterPipe,
     SliceStringPipe,
     ZeroValueFormatterPipe,
-    RlpSearchPipe
+    RlpSearchPipe,
+    SearchHighlightPipe,
+    ImpactSearchPipe
   ]
 })
 export class PipesModule {}

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { GettingReimbursedService } from '../../../rest/getting-reimbursed/getting-reimbursed.service';
 import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
-import { AuthorizationService } from '../../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../../glossary-metricid.service';
 import { GettingReimbursedPayload } from '../payload.class';
 import { lobName } from '../../../modals/lob-name';
@@ -16,13 +15,11 @@ export class AppealsSharedService {
   private lob: string;
   private timeFrame: string;
   private providerKey: number;
-  private nonPaymentBy: string;
   constructor(
     private MetricidService: GlossaryMetricidService,
     private gettingReimbursedService: GettingReimbursedService,
     private common: CommonUtilsService,
-    private session: SessionService,
-    private toggle: AuthorizationService
+    private session: SessionService
   ) {}
   public sharedAppealsYearWiseData(parameters) {
     let appeals: object;
@@ -38,7 +35,7 @@ export class AppealsSharedService {
       /** Changed the function name from appealsData to claimsAppealsData for PDP API*/
       this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
         const lobFullData = this.common.getFullLobData(this.lob);
-        if (appealsData != null && appealsData.hasOwnProperty('status')) {
+        if (appealsData != null && appealsData.hasOwnProperty('Status')) {
           appealsSubmitted = {
             category: 'app-card',
             type: 'donutWithoutLabelBottom',
@@ -287,7 +284,7 @@ export class AppealsSharedService {
     this.lob = param.lineOfBusiness ? param.lineOfBusiness : 'ALL';
     this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
     this.providerKey = this.session.providerKeyData();
-    const reasonArray: Array<Object> = []; // change to let later
+    // const reasonArray: Array<Object> = []; // change to let later
     return new Promise(resolve => {
       let parameters;
       parameters = [this.providerKey, new GettingReimbursedPayload(param)];
@@ -313,7 +310,7 @@ export class AppealsSharedService {
               timeperiod: null
             });
           } else if (appealsReasonData !== null) {
-            if (appealsReasonData != null && appealsReasonData.hasOwnProperty('status')) {
+            if (appealsReasonData != null && appealsReasonData.hasOwnProperty('Status')) {
               reason.push({
                 category: 'app-card',
                 type: 'donut',
@@ -389,9 +386,9 @@ export class AppealsSharedService {
         /** Changed the function name from appealsData to claimsAppealsData for PDP API*/
         this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.getFullLobData(this.lob);
-          const lobData = this.common.matchLobWithData(this.lob);
+          // const lobData = this.common.matchLobWithData(this.lob);
 
-          if (appealsData && appealsData.hasOwnProperty('status')) {
+          if (appealsData && appealsData.hasOwnProperty('Status')) {
             appealsOverturnedRate = {
               category: 'app-card',
               // type: 'donutWithBottomLabelOnly',
@@ -504,7 +501,7 @@ export class AppealsSharedService {
                   }
                   for (let a = 0; a < getTopFiveReasons.length; a++) {
                     reasonsVal1[a] = getTopFiveReasons[a].Count;
-                    const value1 = Number(reasonsVal1[a]);
+                    // const value1 = Number(reasonsVal1[a]);
                     reasonsVal2[a] = topFiveReasonTotal - getTopFiveReasons[a].Count;
                     barVal[a] =
                       Number(((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed()) >= 1
@@ -589,8 +586,8 @@ export class AppealsSharedService {
         /** Changed the function name from appealsData to claimsAppealsData for PDP API*/
         this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.getFullLobData(this.lob);
-          const lobData = this.common.matchLobWithData(this.lob);
-          if (appealsData && appealsData.hasOwnProperty('status')) {
+          // const lobData = this.common.matchLobWithData(this.lob);
+          if (appealsData && appealsData.hasOwnProperty('Status')) {
             appealsOverturnedRate = {
               category: 'app-card',
               // type: 'donutWithBottomLabelOnly',
@@ -705,7 +702,7 @@ export class AppealsSharedService {
                   }
                   for (let a = 0; a < getTopFiveReasons.length; a++) {
                     reasonsVal1[a] = getTopFiveReasons[a].Count;
-                    const value1 = Number(reasonsVal1[a]);
+                    // const value1 = Number(reasonsVal1[a]);
                     reasonsVal2[a] = topFiveReasonTotal - getTopFiveReasons[a].Count;
                     barVal[a] =
                       Number(((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed()) >= 1
@@ -803,7 +800,7 @@ export class AppealsSharedService {
     let appealsOverturned = {};
     let appealsSubmittedTitle = 'Claims Appeals Submitted';
 
-    if (appealsData && appealsData.hasOwnProperty('status')) {
+    if (appealsData && appealsData.hasOwnProperty('Status')) {
       appealsSubmitted = {
         category: 'app-card',
         type: 'donutWithoutLabelBottom',

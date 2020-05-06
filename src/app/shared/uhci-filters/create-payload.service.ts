@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, combineLatest, Observable } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { select } from '@angular-redux/store';
 import { PayLoad } from './payload.class';
 import * as _ from 'lodash';
@@ -98,9 +98,13 @@ export class CreatePayloadService {
 
   resetTinNumber(appliedPage) {
     // this.taxId.subscribe(taxId => (this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }]));
+    this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }];
     if (appliedPage) {
-      this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }];
-      this.payload = this.getPayload(this.initialState);
+      if (appliedPage === 'priorAuthPage') {
+        this.payload = this.getPayloadForPriorAuth(this.initialState);
+      } else {
+        this.payload = this.getPayload(this.initialState);
+      }
     }
     /* commented for mutiple api call solution*/
     // this.emitFilterEvent(appliedPage);

@@ -17,32 +17,32 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(_event) {
-    this.doRotatingArrowChart(this.chartOptions, this.customWidth, this.customHeight);
+    this.doRotatingArrowChart(this.chartOptions, this.customWidth);
   }
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.gdata[1];
   }
 
   ngAfterViewInit() {
-    this.doRotatingArrowChart(this.chartOptions, this.customWidth, this.customHeight);
+    this.doRotatingArrowChart(this.chartOptions, this.customWidth);
   }
 
-  doRotatingArrowChart(chartOptions: any, customWidth: number, customHeight: number) {
+  doRotatingArrowChart(chartOptions: any, customWidth: number) {
     // const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
 
     let width = 230;
-    let height = 220;
+    // let height = 220;
 
     if (customWidth > 0) {
       width = customWidth;
     }
 
-    if (customHeight > 0) {
-      height = customHeight;
-    }
+    // if (customHeight > 0) {
+    //   height = customHeight;
+    // }
 
     const tatCircleLink = 'src/assets/images/TATCirclewithArrow.png';
 
@@ -63,24 +63,23 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
         .attr('height', '220px')
         .attr('xlink:href', tatCircleLink);
 
-      let circleColor;
-      let textColor;
-      let arrowLink;
+      // let circleColor;
+      // let textColor;
+      // let arrowLink;
       if (chartOptions.sdata) {
-        if (chartOptions.sdata.sign === 'up') {
-          circleColor = '#E1FADF';
-          textColor = '#007000';
-          arrowLink = 'src/assets/images/trend-up.svg';
-        } else if (chartOptions.sdata.sign === 'down') {
-          circleColor = '#FFE6F0';
-          textColor = '#B10C00';
-          arrowLink = 'src/assets/images/trend-down.svg';
-        } else if (chartOptions.sdata.sign === 'neutral') {
-          circleColor = '#e0e0e0';
-          textColor = '#2d2d39';
-          arrowLink = 'src/assets/images/flat-no-change.svg';
-        }
-
+        //   if (chartOptions.sdata.sign === 'up') {
+        //     circleColor = '#E1FADF';
+        //     textColor = '#007000';
+        //     arrowLink = 'src/assets/images/trend-up.svg';
+        //   } else if (chartOptions.sdata.sign === 'down') {
+        //     circleColor = '#FFE6F0';
+        //     textColor = '#B10C00';
+        //     arrowLink = 'src/assets/images/trend-down.svg';
+        //   } else if (chartOptions.sdata.sign === 'neutral') {
+        //     circleColor = '#e0e0e0';
+        //     textColor = '#2d2d39';
+        //     arrowLink = 'src/assets/images/flat-no-change.svg';
+        //   }
         /* chart
         .append('circle')
         .attr('cx', width / 3)
@@ -187,25 +186,24 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       )
       .attr('fill', '#3381FF');*/
 
-      let circleColor;
-      let textColor;
-      let arrowLink;
+      // let circleColor;
+      // let textColor;
+      // let arrowLink;
 
       if (chartOptions.sdata) {
-        if (chartOptions.sdata.sign === 'up') {
-          circleColor = '#E1FADF';
-          textColor = '#007000';
-          arrowLink = 'src/assets/images/trend-up.svg';
-        } else if (chartOptions.sdata.sign === 'down') {
-          circleColor = '#FFE6F0';
-          textColor = '#B10C00';
-          arrowLink = 'src/assets/images/trend-down.svg';
-        } else if (chartOptions.sdata.sign === 'neutral') {
-          circleColor = '#e0e0e0';
-          textColor = '#2d2d39';
-          arrowLink = 'src/assets/images/flat-no-change.svg';
-        }
-
+        // if (chartOptions.sdata.sign === 'up') {
+        //   circleColor = '#E1FADF';
+        //   textColor = '#007000';
+        //   arrowLink = 'src/assets/images/trend-up.svg';
+        // } else if (chartOptions.sdata.sign === 'down') {
+        //   circleColor = '#FFE6F0';
+        //   textColor = '#B10C00';
+        //   arrowLink = 'src/assets/images/trend-down.svg';
+        // } else if (chartOptions.sdata.sign === 'neutral') {
+        //   circleColor = '#e0e0e0';
+        //   textColor = '#2d2d39';
+        //   arrowLink = 'src/assets/images/flat-no-change.svg';
+        // }
         /* chart
         .append('circle')
         .attr('cx', width / 3)

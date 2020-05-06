@@ -22,6 +22,9 @@ import { retry, catchError } from 'rxjs/operators';
 export class HttpInterceptorService implements HttpInterceptor {
   protected emitter = new EventEmitter<boolean>();
   refreshtoken = false;
+  private APPEAL_CLAIM = environment.apiUrls.AppealsFHIR;
+  private APPEAL_OVERTURN = environment.apiUrls.AppealsOverturn;
+  private PaymentsBySubmissionDOP = environment.apiUrls.PaymentsBySubmissionDOP;
 
   constructor(
     public http: HttpClient,
@@ -83,10 +86,26 @@ export class HttpInterceptorService implements HttpInterceptor {
           });
         }
       }
-      if (environment.internalAccess && request.url.indexOf('api/getTrendAccess' + loggedUserMsId) === -1) {
+      if (
+        environment.internalAccess &&
+        (request.url.indexOf(this.APPEAL_CLAIM) !== -1 ||
+          request.url.indexOf(this.APPEAL_OVERTURN) !== -1 ||
+          request.url.indexOf(this.PaymentsBySubmissionDOP) !== -1)
+      ) {
         request = request.clone({
-          headers: request.headers.set('applicationType', 'Internal')
+          headers: request.headers.set('Application-Type', 'Internal')
         });
+      }
+      if (environment.internalAccess && request.url.indexOf('api/getTrendAccess' + loggedUserMsId) === -1) {
+        if (
+          request.url.indexOf(this.APPEAL_CLAIM) === -1 &&
+          request.url.indexOf(this.APPEAL_OVERTURN) === -1 &&
+          request.url.indexOf(this.PaymentsBySubmissionDOP) === -1
+        ) {
+          request = request.clone({
+            headers: request.headers.set('applicationType', 'Internal')
+          });
+        }
       }
     }
     if (request.url.indexOf('myinsightOptumIdHandshake') !== -1 || request.url.indexOf('ldapauth') !== -1) {

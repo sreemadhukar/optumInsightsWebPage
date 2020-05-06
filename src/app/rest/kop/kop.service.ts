@@ -21,9 +21,9 @@ export class KopService {
   }
   public getSummary({ params }) {
     const url = this.APP_URL + this.SERVICE_PATH_KOP;
-    return this.http.get(url, { params }).pipe(
-      map(res => JSON.parse(JSON.stringify(res))),
-      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    return this.http.post(url, params).pipe(
+      map(res => res),
+      catchError(err => of(err))
     );
   }
 

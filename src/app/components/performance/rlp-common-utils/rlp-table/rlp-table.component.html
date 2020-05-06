@@ -1,7 +1,8 @@
 <!-- Show tablecount-->
 <div class="table-show-count" *ngIf="tableData.length > 0">
   <span class="table-show-text">
-    Showing {{ tableData.length > 25 ? selectPageSize : tableData.length }} of {{ tableData.length }}
+    Showing {{ currentPageNumber == totalPages ? afterQuery.length - startIndex : selectPageSize }} of
+    {{ afterQuery.length }}
   </span>
 </div>
 <!-- table container-->
@@ -18,6 +19,7 @@
           [(ngModel)]="qTinSearch"
           (keyup)="enterQuery()"
           (keydown.backspace)="enterQuery()"
+          maxlength="10"
         />
         <mat-icon class="search-icon" matSuffix svgIcon="search" *ngIf="!qTinSearch"></mat-icon>
         <mat-icon
@@ -31,10 +33,10 @@
     </div>
     <div class="rlp-table-group">
       <div class="table-head-text">{{ tableHeader[1] }}</div>
-      <div class="search-box">
+      <div class="search-box-g">
         <input
           type="text"
-          class="table-input-query tinname-input-width"
+          class="table-input-query-g tinname-input-width"
           placeholder=""
           [(ngModel)]="qGroupNameSearch"
           (keyup)="enterQuery()"
@@ -51,7 +53,7 @@
       </div>
     </div>
     <div class="rlp-table-bar" (click)="sortIconRate()">
-      <div class="table-head-text">
+      <div class="table-head-text padding-left-90">
         {{ tableHeader[2] }}
       </div>
       <mat-icon class="nav-menu-icons nav-menu-icons-down-arrow" *ngIf="!isAscending" svgIcon="downarrow"></mat-icon>

@@ -6,12 +6,12 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { ActivatedRoute } from '@angular/router';
-import { MatIconRegistry, MatDialog, MatDialogRef } from '@angular/material';
+import { MatIconRegistry, MatDialog } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { SessionService } from 'src/app/shared/session.service';
-declare const externalRatingIntercept: any;
+// declare const externalRatingIntercept: any;
 import { PcorModalComponent } from '../pcor-modal/pcor-modal.component';
 
 @Component({
@@ -66,9 +66,9 @@ export class PatientCareOpportunityComponent implements OnInit {
     private dialog: MatDialog
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'external-link',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/open_in_new-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/open_in_new-24px.svg')
     );
   }
 
@@ -152,9 +152,9 @@ export class PatientCareOpportunityComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.isInternal) {
+    /*if (!this.isInternal) {
       externalRatingIntercept();
-    }
+    }*/
     this.route.queryParams.subscribe((queryParams: any) => {
       if (queryParams && queryParams.selectedItemId) {
         this.selectedItemId = queryParams.selectedItemId;
@@ -238,6 +238,7 @@ export class PatientCareOpportunityComponent implements OnInit {
             // second number we might have to iterate
             this.customFormattingMeasureDescription(this.customFormatting, this.pcorData[2]);
             this.starRatings = this.pcorData[3];
+            console.log('starRatings', this.starRatings);
           }
         })
 
