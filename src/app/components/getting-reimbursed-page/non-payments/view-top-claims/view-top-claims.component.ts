@@ -46,7 +46,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   ProviderSysKey: any;
   viewClaimsValue: any;
   providerName: string;
-  isLoading = true;
   lengthOffilteredData: any;
   dataNotavaiable: Boolean = false;
   viewsClaimsFullData: any;
@@ -164,12 +163,11 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       this.temp.subReason = 'UNKNOWN';
     }
 
-    this.isLoading = true;
     this.loading = true;
     this.dollarData = false;
 
     // pagination
-    this.paginator._intl.itemsPerPageLabel = 'Display';
+    // this.paginator._intl.itemsPerPageLabel = 'Display';
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'viewTopClaimsPage' });
     // VieCaliamFilter
@@ -242,21 +240,20 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       this.selectedSubreason = 'UNKNOWN';
     }
     this.resetPaginationAttribute();
-    this.loadTable(this.selectedReasonItem, this.selectedSubreason);
     this.loading = true;
+    this.loadTable(this.selectedReasonItem, this.selectedSubreason);
   }
   // sub reasons selection from dropdown
   selectsubReason({ value }) {
     if (value) {
       this.dataNotavaiable = true;
-      this.isLoading = false;
       this.subReasonselected = value;
       if (this.selectedReasonItem === this.subReasonselected) {
         this.subReasonselected = 'UNKNOWN';
       }
       this.resetPaginationAttribute();
-      this.loadTable(this.selectedReasonItem, this.subReasonselected);
       this.loading = true;
+      this.loadTable(this.selectedReasonItem, this.subReasonselected);
     }
   }
   goback() {
@@ -271,11 +268,9 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
 
   // load table data
   loadTable(reasonSelected, subReason) {
-    this.isLoading = false;
     this.topClaimsSharedService
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
       .then((claimsDetailsData: any) => {
-        this.isLoading = true;
         this.loading = false;
         this.selectedclaims = [];
         this.claimsData = claimsDetailsData;
@@ -293,7 +288,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
           this.selectedclaims = new MatTableDataSource(this.claimsData);
 
           this.dollarData = true;
-          this.isLoading = false;
           this.dataNotavaiable = false;
           this.selectedclaims.sort = this.sort;
           this.selectedclaims.paginator = this.paginator;
@@ -315,7 +309,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
             data: null
           };
           this.dollarData = false;
-          this.isLoading = true;
         }
       })
       .catch(error => {

@@ -37,7 +37,7 @@ import { RESET_KOP_FILTER } from 'src/app/store/kopFilter/actions';
 import { NgRedux } from '@angular-redux/store';
 import { GroupPremiumDesignationService } from '../../rest/group-premium-designation/group-premium-designation.service';
 import { UserReviewService } from 'src/app/shared/user-review.service';
-declare const externalRatingIntercept: any;
+// declare const externalRatingIntercept: any;
 
 @Component({
   selector: 'app-hamburger-menu',
