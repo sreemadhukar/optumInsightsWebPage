@@ -158,23 +158,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
     // PCOR quality measure bar graph
     if (chartOptions.starObject) {
-      // const PCORStars = chartOptions.starCount;
-      // const PCORStarXCoordinateMultiplier = 17.5;
-
-      // for (let i = 0; i < PCORStars; i++) {
-      //   const xCoordinate = 14 + PCORStarXCoordinateMultiplier * i;
-
-      //   this.chartPCOR
-      //     .append('g')
-      //     .attr('transform', 'translate(' + xCoordinate + ',' + 16 + ')')
-      //     .append('polygon')
-      //     .attr('fill', '#3381FF')
-      //     .attr(
-      //     'points',
-      //     '8 13.2668737 3.05572809 16 4 10.2111456 -3.02535774e-13 6.11145618 5.52786405 5.26687371 8 0 ' +
-      //     '10.472136 5.26687371 16 6.11145618 12 10.2111456 12.9442719 16'
-      //     );
-      // }
       // This belongs to PCOR
       this.chartPCOR
         .append('rect')
@@ -189,10 +172,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         // 20 will make this text attached with bar graph and moving 16px from right is the requirement
         .attr('y', 31)
         .attr('fill', '#2D2D39')
-        .attr('font-size', '20')
-        .attr('text-align', 'right')
-        .style('text-anchor', 'end')
-        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+        .attr('class', ' bar-graph-Textstyle')
         .text(chartOptions.barData);
     } else {
       this.chartPA
