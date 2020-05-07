@@ -4,6 +4,7 @@
   margin-top: 6px;
   margin-bottom: 30px;
 }
+
 .line-top,
 .line,
 .line1 {
@@ -14,31 +15,39 @@
   border-color: #b3babc;
   z-index: 999;
 }
+
 .line {
   height: 16px;
 }
+
 .line1 {
   height: 16px;
   border-color: #e0e0e0;
   width: 418px;
   margin-left: -32px !important;
 }
+
 ::ng-deep .mat-radio-label-content {
   margin: 5px;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
 }
+
 ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked ::ng-deep .mat-radio-outer-circle {
   border-color: $blue !important;
 }
+
 ::ng-deep .mat-radio-button.mat-accent ::ng-deep .mat-radio-inner-circle {
   background-color: $blue !important;
 }
+
 ::ng-deep .mat-radio-outer-circle {
   border-color: #b3babc;
 }
+
 ::ng-deep .mat-drawer-backdrop.mat-drawer-shown {
-  background-color: rgba(45, 45, 57, 0.5);
+  // background-color: rgba(45, 45, 57, 0.5);
+  background-color: $overlay-background-color;
 }
 
 .titleData {
@@ -66,6 +75,7 @@
     }
   }
 }
+
 .lobgrp {
   width: 100%;
   display: inline-block;
@@ -92,7 +102,6 @@
     font-size: 16px;
     letter-spacing: 0.2px;
   }
-
   :-ms-input-placeholder {
     /* Internet Explorer 10-11 */
     color: #757588;
@@ -100,7 +109,6 @@
     font-size: 16px;
     letter-spacing: 0.2px;
   }
-
   ::-ms-input-placeholder {
     /* Microsoft Edge */
     color: #757588;
@@ -136,11 +144,13 @@
     }
   }
 }
+
 .titleDisplay {
   font-style: italic;
   color: lightgray;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 }
+
 .titleDisable {
   pointer-events: none;
   cursor: pointer;
@@ -156,6 +166,7 @@
     color: lightgray;
   }
 }
+
 .applybtn,
 .resetbtn {
   box-sizing: border-box;
@@ -163,9 +174,11 @@
   width: 50%;
   font-family: 'UHCSans-SemiBold', 'Arial';
 }
+
 .btn-display {
   margin-top: 24px;
 }
+
 .resetbtn:visited,
 .resetbtn:hover,
 .resetbtn:active,
@@ -173,17 +186,21 @@
   background-color: #ffffff;
   box-shadow: 0 2px 4px 0 #ffffff;
 }
+
 ::ng-deep .mat-option {
   padding: 7.5px 0 7.5px 12px !important;
   height: 32px !important;
   line-height: 32px !important;
 }
+
 ::ng-deep.mat-button-focus-overlay {
   background-color: #ffffff;
 }
+
 ::ng-deep .mat-autocomplete-panel {
   max-height: 0% !important;
 }
+
 ::ng-deep .mat-form-field {
   width: 100%;
 }
@@ -198,10 +215,12 @@
   font-size: 16px;
   height: 200px !important;
 }
+
 ::ng-deep .mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
   background-color: $blue;
   color: $white;
 }
+
 ::ng-deep .mat-option:hover:not(.mat-option-disabled),
 .mat-option:focus:not(.mat-option-disabled) {
   background-color: $blue;
@@ -209,9 +228,11 @@
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
 }
+
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
   padding: 10px 0 16px 0;
 }
+
 ::ng-deep .mat-form-field-appearance-outline.mat-focused ::ng-deep .mat-form-field-outline-thick {
   color: $blue;
 }

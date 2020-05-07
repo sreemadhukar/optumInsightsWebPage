@@ -76,8 +76,10 @@ app-header {
 .mat-drawer-container.mat-drawer-opened {
   z-index: 2;
 }
+
 .mat-drawer-backdrop.mat-drawer-shown {
-  background-color: rgba(45, 45, 57, 0.5);
+  // background-color: rgba(45, 45, 57, 0.5);
+  background-color: $overlay-background-color;
   position: fixed;
 }
 
@@ -235,9 +237,10 @@ app-header {
 /*left menu on click bg changing issue*/
 
 // .lastNavCategory {
-/*padding-left: 32px !important;*/
-// }
 
+/*padding-left: 32px !important;*/
+
+// }
 .mat-expansion-panel-body {
   padding: 0px !important;
 }
@@ -446,6 +449,7 @@ app-header {
   margin-top: 20px;
   margin-left: 10px;
 }
+
 .mat-filter-details {
   margin-top: 20px;
 }
@@ -520,7 +524,6 @@ app-header {
 //     height: 100vh !important;
 //   }
 // }
-
 .simulate-external-view {
   padding: 38px 26px 28px;
   border-bottom: 1px solid #e0e0e0;
