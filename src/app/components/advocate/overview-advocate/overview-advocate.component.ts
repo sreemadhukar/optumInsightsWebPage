@@ -2,7 +2,7 @@ import { Component, OnInit, DoCheck } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
-import { SessionService } from '../../../../../src/app/shared/session.service';
+import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { TopRowAdvOverviewSharedService } from '../../../shared/advocate/top-row-adv-overview-shared.service';
 import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
@@ -17,6 +17,7 @@ import { CreatePayloadService } from '../../../shared/uhci-filters/create-payloa
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
+import { ICallsResponse } from 'src/app/modals/i-calls';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -218,8 +219,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.callsLoading = true;
     this.overviewAdvocateSharedService
       .getTotalCallsShared(this.createPayloadService.payload)
-      .then(totalCallsData => {
-        if (totalCallsData[0] == null) {
+      .then((response: ICallsResponse) => {
+        const totalCallsData = response.Data;
+
+        if (totalCallsData == null) {
           this.callsLoading = false;
           this.callsData = null;
           this.callsLineGraphData = {
@@ -234,11 +237,11 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
         } else {
           let callsLeftData;
           callsLeftData = totalCallsData;
-          this.totalCalls = this.common.nondecimalFormatter(callsLeftData[0].CallVolByQuesType.Total);
+          this.totalCalls = this.common.nondecimalFormatter(callsLeftData.CallVolByQuesType.Total);
           this.timePeriodCalls =
-            this.common.dateFormat(callsLeftData[0].ReportStartDate) +
+            this.common.dateFormat(callsLeftData.ReportStartDate) +
             '&ndash;' +
-            this.common.dateFormat(callsLeftData[0].ReportEndDate);
+            this.common.dateFormat(callsLeftData.ReportEndDate);
           this.callsLoading = false;
         }
       })
@@ -371,14 +374,15 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
       {
-        width: 950,
+        width: 946,
         backgroundColor: 'null',
         barGraphNumberSize: 18,
         barColor: '#196ECF',
         parentDiv: 'non-payment-trend-block',
         tooltipBoolean: true,
         hideYAxis: false,
-        yAxisUnits: '$'
+        yAxisUnits: '$',
+        height: 298
       }
     ];
 
@@ -430,11 +434,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .then(data => {
         this.pbsCard = data;
         this.pbsLoading = false;
-        this.pbsCard['timeperiod'] = this.pbsCard['timeperiod'];
       })
       .catch(reason => {
         this.pbsLoading = false;
-        console.log('Error Payment Submission Adovate Overview page Payment', reason);
+        console.log('Error Payment Submission Advocate Overview page Payment', reason);
       });
   }
 }

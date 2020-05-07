@@ -59,10 +59,10 @@
 
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
 
-    <div class="tax-summary-content" [hidden]="isLoading">
+    <div class="tax-summary-content" [hidden]="loading">
       <div class="tax-summary-head" [ngStyle]="{ display: lengthOffilteredData > 0 ? 'block' : 'none' }">
         <span class="tax-summary-count">
-          Showing {{ lengthOffilteredData > 24 ? pageSize : lengthOffilteredData }} of {{ numberOfClaims }}
+          {{ rangeLabel }}
         </span>
       </div>
       <div class="tax-summary-body">

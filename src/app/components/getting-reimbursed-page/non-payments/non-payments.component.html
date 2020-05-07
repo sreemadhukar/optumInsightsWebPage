@@ -1,108 +1,105 @@
-<div class="gettingReimburse-body" [ngClass]="{ 'bg-color-print': printStyle === true }">
-  <div class="nonPayment-content">
-    <div class="nonPayment-content-cust">
-      <app-breadcrumbs></app-breadcrumbs>
-      <app-print> </app-print>
-      <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
-        {{ pageTitle }}
-      </div>
-      <div *ngIf="!subtitle" class="page-subtitle">
-        {{ pageSubTitle }}
-      </div>
-      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ printpageSubTitle }}</div>
-      <app-filters-applied></app-filters-applied>
+<app-layoutcontainer id="print-overview" class="nonpayments">
+  <div class="nonPayment-content-cust">
+    <app-breadcrumbs></app-breadcrumbs>
+    <app-print> </app-print>
+    <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
+      {{ pageTitle }}
     </div>
-    <div class="height1Separator"></div>
-    <div *ngFor="let data of mockCards; let i = index">
-      <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
+    <div *ngIf="!subtitle" class="page-subtitle">
+      {{ pageSubTitle }}
     </div>
-    <div *ngFor="let item of nonPaymentData1">
-      <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
-      <app-error-card *ngIf="item.status != null && !item.toggle" class="cards" [data]="item"></app-error-card>
-    </div>
+    <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ printpageSubTitle }}</div>
+    <app-filters-applied></app-filters-applied>
+  </div>
+  <div class="height1Separator"></div>
+  <div *ngFor="let data of mockCards; let i = index">
+    <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
+  </div>
+  <div *ngFor="let item of nonPaymentData1">
+    <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
+    <app-error-card *ngIf="item.status != null && !item.toggle" class="cards" [data]="item"></app-error-card>
+  </div>
 
-    <!-- Top reasons for Claims Start here -->
+  <!-- Top reasons for Claims Start here -->
 
-    <!-- Top Reasons for Claims Ends here -->
+  <!-- Top Reasons for Claims Ends here -->
 
-    <!-- Claims Non - Payment Trend  Starts Here -->
-    <div *ngIf="printStyle" class="height-separator1-print"></div>
+  <!-- Claims Non - Payment Trend  Starts Here -->
+  <div *ngIf="printStyle" class="height-separator1-print"></div>
 
-    <div>
-      <app-large-card [skeletonLarge]="loadingTopReasons" *ngIf="loadingTopReasons"></app-large-card>
-      <app-error-card
-        *ngIf="
-          !topReasonsCategoryDisplay && !loadingTopReasons && barChartsArray != null && barChartsArray.status != null
-        "
-        class="cards"
-        [data]="barChartsArray"
-      ></app-error-card>
-      <div class="top-reasons-for-claims-non-payment-block" *ngIf="topReasonsCategoryDisplay && !loadingTopReasons">
-        <app-common-header [title]="title" class="full-display white-bg" (helpIconClicked)="helpIconClick($event)">
-        </app-common-header>
-        <div class="bar-graphs-block">
+  <div>
+    <app-large-card [skeletonLarge]="loadingTopReasons" *ngIf="loadingTopReasons"></app-large-card>
+    <app-error-card
+      *ngIf="
+        !topReasonsCategoryDisplay && !loadingTopReasons && barChartsArray != null && barChartsArray.status != null
+      "
+      class="cards"
+      [data]="barChartsArray"
+    ></app-error-card>
+    <div class="top-reasons-for-claims-non-payment-block" *ngIf="topReasonsCategoryDisplay && !loadingTopReasons">
+      <app-common-header [title]="title" class="full-display white-bg" (helpIconClicked)="helpIconClick($event)">
+      </app-common-header>
+      <div class="bar-graphs-block">
+        <div
+          class="bar-graphs"
+          *ngFor="let barchart of barChartsArray; let i = index"
+          [class.extra-margin-bottom-40]="i + 1 == barChartsArray.length && !section[i]"
+        >
           <div
-            class="bar-graphs"
-            *ngFor="let barchart of barChartsArray; let i = index"
-            [class.extra-margin-bottom-40]="i + 1 == barChartsArray.length && !section[i]"
+            [class.extra-margin-bottom-16]="section[i]"
+            class="bar-graphs-content"
+            (click)="section[i] = !section[i]; reasonsCollapose(i)"
           >
-            <div
-              [class.extra-margin-bottom-16]="section[i]"
-              class="bar-graphs-content"
-              (click)="section[i] = !section[i]; reasonsCollapose(i)"
-            >
-              <div class="bar-graph-inside-content">
-                <div class="bar-graph-inside-left-block">
-                  <div class="bar-graph-inside-left-block-content">
-                    <!-- <mat-icon class="bar-graph-block-icon" *ngIf="!section[i]" svgIcon="open"></mat-icon>
+            <div class="bar-graph-inside-content">
+              <div class="bar-graph-inside-left-block">
+                <div class="bar-graph-inside-left-block-content">
+                  <!-- <mat-icon class="bar-graph-block-icon" *ngIf="!section[i]" svgIcon="open"></mat-icon>
                   <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon> -->
-                    <mat-icon
-                      class="bar-graph-block-icon"
-                      svgIcon="carrot"
-                      [@rotatedState]="section[i] ? 'rotated' : 'default'"
-                    ></mat-icon>
-                    <p class="bar-graph-title">{{ barchart.title }}</p>
-                    <p class="bar-graph-value">{{ barchart.value }}</p>
-                  </div>
+                  <mat-icon
+                    class="bar-graph-block-icon"
+                    svgIcon="carrot"
+                    [@rotatedState]="section[i] ? 'rotated' : 'default'"
+                  ></mat-icon>
+                  <p class="bar-graph-title">{{ barchart.title }}</p>
+                  <p class="bar-graph-value">{{ barchart.value }}</p>
                 </div>
               </div>
-              <div class="bar-graph-inside-right-block" #barsParentBlock>
-                <app-color-grey-mini-bar-chart [chartOptions]="barchart"></app-color-grey-mini-bar-chart>
-                <!-- large bar
+            </div>
+            <div class="bar-graph-inside-right-block" #barsParentBlock>
+              <app-color-grey-mini-bar-chart [chartOptions]="barchart"></app-color-grey-mini-bar-chart>
+              <!-- large bar
                 <div
                   class="bar-graph-inside-right-block-bars"
                   [style.width.px]="(barchart.numeric / barChartsArray[0].numeric) * barsParentBlock.offsetWidth"
                 ></div>
                 -->
-              </div>
             </div>
-            <div class="inner-block" *ngIf="section[i]">
-              <div class="inner-block-bdr">
-                <div class="bottom-shadow">
-                  <div class="hide-bottom-arrow-block"></div>
-                </div>
+          </div>
+          <div class="inner-block" *ngIf="section[i]">
+            <div class="inner-block-bdr">
+              <div class="bottom-shadow">
+                <div class="hide-bottom-arrow-block"></div>
+              </div>
 
-                <div *ngFor="let inside of barchart.top5; let j = index" class="top-5-block">
-                  <!-- <h3 class="inner-blocks-header">
+              <div *ngFor="let inside of barchart.top5; let j = index" class="top-5-block">
+                <!-- <h3 class="inner-blocks-header">
                       Top Reason{{ barchart.top5.length === 1 ? '' : 's' }} for {{ barchart.title }}
                     </h3> -->
-                  <div *ngIf="j < 5">
-                    <div [class.extra-margin-top-18]="j == 0">
-                      <div class="inside-bar-graph-content">
-                        <div class="inside-bar-graph-left-block">
-                          <div class="inside-block-content">
-                            <span class="top-5-text">{{ inside.text }}</span>
-                            <span class="top-5-value">{{ inside.value }}</span>
-                          </div>
-                          <span>
-                            <a class="top-claims" (click)="subReasonClicked(barchart.title, j)">
-                              View Top Claims</a
-                            ></span
-                          >
+                <div *ngIf="j < 5">
+                  <div [class.extra-margin-top-18]="j == 0">
+                    <div class="inside-bar-graph-content">
+                      <div class="inside-bar-graph-left-block">
+                        <div class="inside-block-content">
+                          <span class="top-5-text">{{ inside.text }}</span>
+                          <span class="top-5-value">{{ inside.value }}</span>
                         </div>
+                        <span>
+                          <a class="top-claims" (click)="subReasonClicked(barchart.title, j)"> View Top Claims</a></span
+                        >
+                      </div>
 
-                        <app-color-grey-mini-bar-chart [chartOptions]="inside"></app-color-grey-mini-bar-chart>
-                        <!-- where to add the bar
+                      <app-color-grey-mini-bar-chart [chartOptions]="inside"></app-color-grey-mini-bar-chart>
+                      <!-- where to add the bar
                         <div class="inside-bar-graph-right-block">
                           <div class="inside-grey-block-bars" #barsGreyBlock>
                             <div
@@ -119,7 +116,6 @@
                           </div>
                         </div>
                          where to add the bar -->
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -127,35 +123,31 @@
             </div>
           </div>
         </div>
-        <div class="full-display white-bg">
-          <app-common-footer [timePeriod]="timePeriodTopReaons" [title]="title" class="width-100"></app-common-footer>
-        </div>
+      </div>
+      <div class="full-display white-bg">
+        <app-common-footer [timePeriod]="timePeriodTopReaons" [title]="title" class="width-100"></app-common-footer>
       </div>
     </div>
+  </div>
 
-    <div *ngIf="printStyle" class="height-separator2-print"></div>
-    <app-error-card
-      *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
-      class="cards"
-      [data]="monthlyLineGraph"
-    ></app-error-card>
-    <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
-      <app-common-header
-        [title]="trendTitle"
-        class="full-display bottom-margin-block"
-        (helpIconClicked)="helpIconClick($event)"
-      ></app-common-header>
-      <div class="full-display">
-        <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
-        <!--div class="timeperiod-block">
+  <div *ngIf="printStyle" class="height-separator2-print"></div>
+  <app-error-card
+    *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
+    class="cards"
+    [data]="monthlyLineGraph"
+  ></app-error-card>
+  <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
+    <app-common-header
+      [title]="trendTitle"
+      class="full-display bottom-margin-block"
+      (helpIconClicked)="helpIconClick($event)"
+    ></app-common-header>
+    <div class="full-display">
+      <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
+      <!--div class="timeperiod-block">
          <p class="timeperiod-text">{{ timePeriod }}</p>
        </div-->
-      </div>
-      <app-common-footer [timePeriod]="timePeriodLineGraph" class="width-100 time-period-trend"></app-common-footer>
     </div>
-
-    <!-- Claims Non - Payment Trend Ends Here -->
-
-    <!--app-clarify-claims-message></app-clarify-claims-message-->
+    <app-common-footer [timePeriod]="timePeriodLineGraph" class="width-100 time-period-trend"></app-common-footer>
   </div>
-</div>
+</app-layoutcontainer>

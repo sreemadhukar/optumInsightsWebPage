@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { findIndex as _findIndex } from 'lodash';
 import { UserReviewService } from 'src/app/shared/user-review.service';
-declare const externalRatingIntercept: any;
+// declare const externalRatingIntercept: any;
 
 export interface FilterOptions {
   title: string;
