@@ -8,8 +8,12 @@
 ::ng-deep .priorauth .odd .app-card-structure {
   margin: 15px 0 15px 15px !important;
 }
-::ng-deep .priorauth .card-structure .card-inner-large {
-  margin: 15px 0 !important;
+::ng-deep .priorauth .card-structure {
+  width: 100%;
+  .card-inner-large {
+    margin: 15px 0 !important;
+    width: 100% !important;
+  }
 }
 
 .cards {
