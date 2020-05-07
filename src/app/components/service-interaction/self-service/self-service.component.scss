@@ -2,83 +2,61 @@
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
 
-.selfService-body {
-  overflow-x: hidden;
-  overflow-y: hidden;
+::ng-deep .selfservice .even .app-card-structure {
+  margin: 15px 15px 15px 0px !important;
+}
+::ng-deep .selfservice .odd .app-card-structure {
+  margin: 15px 0 15px 15px !important;
+}
+
+.cust-width-title {
+  width: 100%;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  color: $black-rock;
+}
+
+.page-title {
+  flex-basis: 100%;
+  font-size: 36px;
+  @include padding(16px, 0, 20px, 0);
+  line-height: 40px;
+  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+}
+.title-opportunity {
+  flex-basis: 100%;
+  font-size: 28px;
+  line-height: 1;
+  margin-bottom: 16px;
+  color: $black-rock;
+}
+
+.page-question {
+  flex-basis: 100%;
+  font-size: 22px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.opportunity-content {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  @include padding(28px, 0, 64px, 0);
-  // at other pages padding-top is 16px but due to unknown reason at this page breadcrumb margin is not working
-  background-color: $alice-blue;
-
-  .selfService-content {
+  .self-service-heading {
+    display: flex;
+    padding-top: 30px;
+  }
+  .oppurtunity-cards {
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
-    width: 1000px;
-    margin: auto;
-
-    .height1Separator {
-      height: 0;
-      width: 1200px;
-    }
-
-    & > .cards {
-      text-align: left;
-    }
-
-    .cust-width-title {
-      width: 961px;
-      margin-left: 10px;
-      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-      color: $black-rock;
-      margin-top: -12px;
-
-      .page-title {
-        flex-basis: 100%;
-        font-size: 36px;
-        @include padding(16px, 0, 20px, 0);
-        line-height: 40px;
-        font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
-      }
-      .title-opportunity {
-        flex-basis: 100%;
-        font-size: 28px;
-        line-height: 1;
-        margin-bottom: 16px;
-        color: $black-rock;
-      }
-
-      .page-question {
-        flex-basis: 100%;
-        font-size: 22px;
-        line-height: 1;
-        margin-bottom: 8px;
-      }
-    }
-    .opportunity-content {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: left;
-      .self-service-heading {
-        display: flex;
-        padding-top: 30px;
-      }
-    }
-
-    .cust-width-blank {
-      width: 487px;
-      margin-left: 20px;
-    }
-    @media (max-width: 1300px) {
-      .cust-width-blank {
-        width: 437px;
-      }
-    }
-    @media only screen and (max-width: 1024px) {
-      @include padding(16px, 0, 16px, 0);
+    div :first-child {
+      margin-left: -10px;
     }
   }
+}
+
+.cust-width-blank {
+  width: 487px;
+  margin-left: 20px;
 }
 
 .print-page {
