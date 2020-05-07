@@ -48,14 +48,15 @@ export const environment: any = {
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
     HealthSystemDetails: 'providerInfo/',
-    CallsTrendLine: 'calls-trend/',
+    CallsTrendLine: 'calls-trends/',
     PaymentsBySubmissionDOP: 'dop-claim-submissions/',
     PaymentsBySubmission: 'claim-submissions/v2.0/',
     GroupPremiumDesignation: 'group-premium-designation/',
     NetworkLever: 'network-lever/',
     PaymentIntegrityTabsInfo: 'pi-tab-info/',
     NewPaymentIntegrity: 'payment-integrity/',
-    ProviderSearch: 'provider-search'
+    ProviderSearch: 'provider-search',
+    AdvocateTinDetails: 'advocate-tin-details/'
   },
   headerKeys: {
     selectedCompany: '',

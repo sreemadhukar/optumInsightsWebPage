@@ -73,8 +73,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .text()
             .split(/\s+/)
             .reverse(),
-          lineNumber = 0,
-          lineHeight = 1.1, // ems
+          // lineNumber = 0,
+          // lineHeight = 1.1, // ems
           y = textLabel.attr('y'),
           dy = parseFloat(textLabel.attr('dy'));
         let tspan = textLabel
@@ -693,7 +693,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           boxWidth = '113px';
           textWidth = 84;
         }
-        const hoverTextLength = getTextWidth(d.data.label, 14, 'Arial');
+        // const hoverTextLength = getTextWidth(d.data.label, 14, 'Arial');
 
         divHover.style('height', boxHeight).style('width', boxWidth);
 

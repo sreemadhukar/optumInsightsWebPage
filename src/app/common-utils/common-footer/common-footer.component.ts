@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog, MatIconRegistry } from '@angular/material';
+import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -23,9 +23,11 @@ export class CommonFooterComponent {
     return this.timePeriod;
   }
   constructor(private router: Router, private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'chevron_right',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/baseline-chevron_right-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        '/src/assets/images/icons/Navigation/baseline-chevron_right-24px.svg'
+      )
     );
   }
 

@@ -1,31 +1,17 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { map, startWith, debounceTime } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { ProviderSharedService } from './../../../shared/provider/provider-shared.service';
 import { Providers } from './../../../shared/provider/provider.class';
 import { MatIconRegistry, MatAutocompleteSelectedEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from './../../../shared/storage-service.service';
 import { SessionService } from '../../../shared/session.service';
-import { NgRedux, select } from '@angular-redux/store';
-import { DOCUMENT, Location } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 
-import {
-  AfterViewInit,
-  AfterViewChecked,
-  HostListener,
-  ElementRef,
-  Input,
-  Output,
-  EventEmitter,
-  Renderer2,
-  ViewEncapsulation,
-  ViewChildren,
-  QueryList,
-  OnDestroy
-} from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from 'src/app/auth/_service/authentication.service';
 
@@ -69,48 +55,47 @@ export class SelectProviderComponent implements OnInit {
   public EmailId = '';
 
   constructor(
-    private fb: FormBuilder,
     private providerSharedService: ProviderSharedService,
     private iconRegistry: MatIconRegistry,
     private storage: StorageService,
     private router: Router,
     private sessionService: SessionService,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private authService: AuthenticationService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     this.checkExecutive = this.sessionService.checkExecutiveRole();
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'cross',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
     );
 
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'search',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
     iconRegistry.addSvgIcon(
       'noData',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
     );
 
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'person',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-person-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'expand-more',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/round-expand_more-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/round-expand_more-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'menu',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/round-menu-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/round-menu-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'cross',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
     );
   }
 

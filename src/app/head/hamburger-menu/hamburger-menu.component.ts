@@ -13,7 +13,6 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { MatExpansionPanel, MatDialog, MatSidenav, MatDialogConfig } from '@angular/material';
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
@@ -26,7 +25,7 @@ import { StorageService } from '../../shared/storage-service.service';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
 import { FilterExpandService } from '../../shared/filter-expand.service';
-import { DOCUMENT, Location } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
@@ -162,14 +161,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   /** CONSTRUCTOR **/
   constructor(
     public groupPremiumDesignationService: GroupPremiumDesignationService,
-    private breakpointObserver: BreakpointObserver,
     private cdRef: ChangeDetectorRef,
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private authService: AuthenticationService,
-    sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,
     private themeService: ThemeService,
     private dialog: MatDialog,
     private checkStorage: StorageService,
@@ -177,7 +175,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private filterExpandService: FilterExpandService,
     private filterCloseService: FilterCloseService,
     private pcorService: PcorService,
-    private location: Location,
     public sessionService: SessionService,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
@@ -198,17 +195,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     if (this.checkAdv.value) {
       this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
 
-      iconRegistry.addSvgIcon(
+      this.iconRegistry.addSvgIcon(
         'dashboard',
-        sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
+        this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
       );
-      iconRegistry.addSvgIcon(
+      this.iconRegistry.addSvgIcon(
         'home',
-        sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/dashboard-24px.svg')
+        this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/dashboard-24px.svg')
       );
 
       this.navCategories[0].disabled = false;
-      console.log(this.navCategories);
     } else {
       iconRegistry.addSvgIcon(
         'home',

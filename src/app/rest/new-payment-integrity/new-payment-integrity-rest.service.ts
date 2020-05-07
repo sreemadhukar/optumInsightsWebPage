@@ -11,7 +11,6 @@ export class NewPaymentIntegrityServiceRest {
   public APP_URL: string = environment.apiProxyUrl;
   public currentUser: any;
   private SERVICE_PATH: string = environment.apiUrls.NewPaymentIntegrity;
-  private internalUser: boolean = environment.internalAccess;
   constructor(private http: HttpClient) {}
   public getNewPaymentIntegrityData(date: any) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
