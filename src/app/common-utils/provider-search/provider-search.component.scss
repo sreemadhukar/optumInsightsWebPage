@@ -57,9 +57,12 @@
   padding: 18px 0;
   cursor: pointer;
 }
+
 ::ng-deep .cdk-overlay-dark-backdrop {
-  background: rgba(45, 45, 57, 0.5);
+  // background: rgba(45, 45, 57, 0.5);
+  background-color: $overlay-background-color;
 }
+
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
   padding: 0 4px;
 }
@@ -78,15 +81,19 @@
 ::ng-deep.mat-autocomplete-hidden {
   // visibility: visible !important;
 }
+
 ::ng-deep .mat-option {
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
 }
+
 ::ng-deep .mat-option-text {
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
 }
+
 ::ng-deep .mat-form-field-wrapper {
   padding-bottom: 4px;
 }
+
 .remove {
   height: 0;
 }
