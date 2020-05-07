@@ -171,6 +171,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     });
 
     this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
+    this.setPagination(this.totalPages !== 0 ? 1 : 0, 0, +this.selectPageSize);
   }
 
   /**

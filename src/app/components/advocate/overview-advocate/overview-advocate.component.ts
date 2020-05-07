@@ -2,7 +2,7 @@ import { Component, OnInit, DoCheck } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
-import { SessionService } from '../../../../../src/app/shared/session.service';
+import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { TopRowAdvOverviewSharedService } from '../../../shared/advocate/top-row-adv-overview-shared.service';
 import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
@@ -374,14 +374,15 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
       {
-        width: 950,
+        width: 946,
         backgroundColor: 'null',
         barGraphNumberSize: 18,
         barColor: '#196ECF',
         parentDiv: 'non-payment-trend-block',
         tooltipBoolean: true,
         hideYAxis: false,
-        yAxisUnits: '$'
+        yAxisUnits: '$',
+        height: 298
       }
     ];
 
@@ -431,14 +432,12 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.overviewAdvocateSharedService
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
-        console.log('component then', data);
         this.pbsCard = data;
         this.pbsLoading = false;
       })
       .catch(reason => {
-        console.log('component catch', reason);
         this.pbsLoading = false;
-        console.log('Error Payment Submission Adovate Overview page Payment', reason);
+        console.log('Error Payment Submission Advocate Overview page Payment', reason);
       });
   }
 }

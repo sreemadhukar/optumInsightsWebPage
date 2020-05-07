@@ -252,7 +252,7 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
 
     // xAxisGroup.call(xAxis);
     const yAxisGroupItem = yAxisGroup.attr('transform', `translate(${graphWidth}, 0)`);
-    if (yAxisGroupItem) {
+    if (yAxisGroupItem && yAxis.__proto__.hasOwnProperty('apply')) {
       yAxisGroupItem.call(yAxis);
     }
     // });

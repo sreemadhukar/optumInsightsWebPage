@@ -366,7 +366,6 @@ export class TopRowAdvOverviewSharedService {
         MetricID: this.MetricidService.MetricIDs.ClaimsYield
       };
     }
-    console.log('claims Yield', claimsYield);
     return claimsYield;
   }
 

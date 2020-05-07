@@ -1,105 +1,100 @@
-<div class="gettingReimburse-body">
-  <div class="gettingReimburse-content">
-    <div class="cust-width-title">
-      <app-breadcrumbs></app-breadcrumbs>
-      <div class="cards cust-width-blank">
-        <app-print> </app-print>
-      </div>
-      <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">{{ pageTitle }}</div>
-      <div class="page-subtitle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ pagesubTitle }}</div>
-      <div class="breadcrumb-top-padding">
-        <div class="filter-padd">
-          <app-filters-applied
-            [tabName]="gettingReimbursedSharedService.gettingReimbursedTabName"
-            *ngIf="!printStyle"
-          ></app-filters-applied>
-        </div>
-        <div class="container--tabs" *ngIf="!printStyle">
-          <section class="row">
-            <ul class="nav nav-tabs">
-              <li
-                *ngFor="let item of tabOptions; let i = index"
-                (click)="matOptionClicked(i)"
-                [ngClass]="{ active: previousSelectedTab === i }"
-                attr.id="{{ item.title }}"
-              >
-                <span>
-                  {{ item.title }}
-                  <div class="nav-values">
-                    {{ item.value1 }}
-                    <!--<span
+<app-layoutcontainer id="print-overview">
+  <div class="cust-width-title">
+    <app-breadcrumbs></app-breadcrumbs>
+    <div class="cards cust-width-blank">
+      <app-print> </app-print>
+    </div>
+    <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">{{ pageTitle }}</div>
+    <div class="page-subtitle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ pagesubTitle }}</div>
+    <div class="breadcrumb-top-padding">
+      <app-filters-applied
+        [tabName]="gettingReimbursedSharedService.gettingReimbursedTabName"
+        *ngIf="!printStyle"
+      ></app-filters-applied>
+      <div class="container--tabs" *ngIf="!printStyle">
+        <section class="row">
+          <ul class="nav nav-tabs">
+            <li
+              *ngFor="let item of tabOptions; let i = index"
+              (click)="matOptionClicked(i)"
+              [ngClass]="{ active: previousSelectedTab === i }"
+              attr.id="{{ item.title }}"
+            >
+              <span>
+                {{ item.title }}
+                <div class="nav-values">
+                  {{ item.value1 }}
+                  <!--<span
                       *ngIf="item.sdata != null"
                       class="metrics"
                       [ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'"
                     >
                       {{ item.sdata.value }}
                     </span>-->
-                  </div>
-                </span>
-              </li>
-            </ul>
-          </section>
-        </div>
-
-        <!--       <button *ngFor="let option of tabOptions; let i = index" (click)="matOptionClicked(i)">{{ option }}</button>-->
-        <div *ngIf="!printStyle" class="page-subtitle">
-          <p class="page-subtitle-heading">{{ currentTabTitle }}</p>
-          <div *ngIf="currentTabTitle == 'Claims Payments*'" class="np-link">
-            <a [routerLink]="['/GettingReimbursed/NonPayments']">
-              <span class="non-payment-link"> Looking for Non-Payments? </span>
-            </a>
-          </div>
-          <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Processed'">
-            <button *ngIf="!printStyle" (click)="onDetailsButtonClick(buttonNumber)" class="details-button">
-              {{ buttonName }}
-            </button>
-          </div>
-        </div>
-        <div *ngIf="currentTabTitle == 'Claims Non-Payments'">
-          <span class="non-paymentTab-subtitle"
-            >Note: Claims non-payment metrics are calculated based on billed charges.</span
-          >
-        </div>
-        <div class="height1Separator"></div>
-        <div *ngIf="!printStyle">
-          <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary; let i = index">
-            <div>
-              <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
-              <!--<app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>-->
-              <app-card *ngIf="!loading && item.data != null && !item.toggle" class="cards" [chartData]="item">
-              </app-card>
-              <app-error-card
-                *ngIf="!loading && item.status != null && !item.toggle"
-                class="cards"
-                [data]="item"
-              ></app-error-card>
-            </div>
-          </div>
-          <div *ngFor="let data of mockCards; let i = index">
-            <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
-          </div>
-        </div>
-
-        <!-- start print style -->
-        <div *ngIf="printStyle">
-          <div *ngFor="let x of summaryItems; let i = index">
-            <div [ngClass]="{ pageBreakheight: i === 2 }"></div>
-            <div class="page-subtitle">
-              <p class="page-subtitle-heading print-page-subtitle-heading">{{ x.title }}</p>
-            </div>
-            <div class="height1Separator"></div>
-            <div class="getting-reimbursed-cards" *ngFor="let item of x.data">
-              <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
-              <div>
-                <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
-                <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- end Print Style-->
+                </div>
+              </span>
+            </li>
+          </ul>
+        </section>
       </div>
+
+      <!--       <button *ngFor="let option of tabOptions; let i = index" (click)="matOptionClicked(i)">{{ option }}</button>-->
+      <div *ngIf="!printStyle" class="page-subtitle">
+        <p class="page-subtitle-heading">{{ currentTabTitle }}</p>
+        <div *ngIf="currentTabTitle == 'Claims Payments*'" class="np-link">
+          <a [routerLink]="['/GettingReimbursed/NonPayments']">
+            <span class="non-payment-link"> Looking for Non-Payments? </span>
+          </a>
+        </div>
+        <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Processed'">
+          <button *ngIf="!printStyle" (click)="onDetailsButtonClick(buttonNumber)" class="details-button">
+            {{ buttonName }}
+          </button>
+        </div>
+      </div>
+      <div *ngIf="currentTabTitle == 'Claims Non-Payments'">
+        <span class="non-paymentTab-subtitle"
+          >Note: Claims non-payment metrics are calculated based on billed charges.</span
+        >
+      </div>
+      <div class="height1Separator"></div>
+      <div *ngIf="!printStyle">
+        <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary; let i = index">
+          <div>
+            <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
+            <!--<app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>-->
+            <app-card *ngIf="!loading && item.data != null && !item.toggle" class="cards" [chartData]="item">
+            </app-card>
+            <app-error-card
+              *ngIf="!loading && item.status != null && !item.toggle"
+              class="cards"
+              [data]="item"
+            ></app-error-card>
+          </div>
+        </div>
+        <div *ngFor="let data of mockCards; let i = index">
+          <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
+        </div>
+      </div>
+
+      <!-- start print style -->
+      <div *ngIf="printStyle">
+        <div *ngFor="let x of summaryItems; let i = index">
+          <div [ngClass]="{ pageBreakheight: i === 2 }"></div>
+          <div class="page-subtitle">
+            <p class="page-subtitle-heading print-page-subtitle-heading">{{ x.title }}</p>
+          </div>
+          <div class="height1Separator"></div>
+          <div class="getting-reimbursed-cards" *ngFor="let item of x.data">
+            <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
+            <div>
+              <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
+              <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end Print Style-->
     </div>
-    <!--app-clarify-claims-message *ngIf="showDOSmessage"></app-clarify-claims-message-->
   </div>
-</div>
+</app-layoutcontainer>

@@ -155,16 +155,23 @@ export class KOPSharedService {
     return new Promise((resolve, reject) => {
       switch (metricKey) {
         case 'kop':
-          this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getSummary({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
         case 'priorauthtat':
-          this.kopService
-            .getPriorAuthTATSummary({ params })
-            .subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getPriorAuthTATSummary({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
         case 'reimbursementClaims':
           Object.assign(params, { region: 'LEASED MARKETS', markets: ['MINNEAPOLIS, MN', 'CHICAGO, IL'] });
-          this.kopService.getClaimsData({ params }).subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getClaimsData({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
       }
     });
@@ -181,15 +188,26 @@ export class KOPSharedService {
       Promise.all(tasks)
         .then((response: any) => {
           const totalResponse = [];
-          response.forEach((responseItem: any) => {
-            if (responseItem && responseItem instanceof Array && responseItem.length > 0) {
-              responseItem.forEach((innerResponseItem: any) => {
-                totalResponse.push(innerResponseItem);
-              });
+          if (metricKey === 'kop') {
+            if (response[0] && response[0]['StatusCode'] === 200) {
+              const npsResponse = response[0]['Data'];
+              for (let i = 0; i < npsResponse.length; i++) {
+                totalResponse.push(npsResponse[i]);
+              }
             } else {
               return resolve([]);
             }
-          });
+          } else {
+            response.forEach((responseItem: any) => {
+              if (responseItem && responseItem instanceof Array && responseItem.length > 0) {
+                responseItem.forEach((innerResponseItem: any) => {
+                  totalResponse.push(innerResponseItem);
+                });
+              } else {
+                return resolve([]);
+              }
+            });
+          }
           return resolve(totalResponse);
         })
         .catch(() => {

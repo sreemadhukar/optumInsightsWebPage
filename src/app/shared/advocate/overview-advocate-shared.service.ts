@@ -203,9 +203,10 @@ export class OverviewAdvocateSharedService {
     return new Promise((resolve, reject) => {
       const parameters = this.getParameterCategories(param);
 
-      this.overviewAdvocateService
-        .callsData(...parameters)
-        .subscribe(callsTotalData => resolve(callsTotalData), err => reject(err));
+      this.overviewAdvocateService.callsData(...parameters).subscribe(
+        callsTotalData => resolve(callsTotalData),
+        err => reject(err)
+      );
     });
   }
 
@@ -214,15 +215,15 @@ export class OverviewAdvocateSharedService {
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.callsTrendLineData(...parameters).subscribe(
-        callsTrendData => {
+        response => {
           const beData = [];
           const claimsData = [];
           const paData = [];
           const other = [];
-          if (callsTrendData[0] && callsTrendData[0].status && callsTrendData[0].status !== 200) {
-            resolve(null);
-          } else {
-            callsTrendData[0].forEach(element => {
+
+          if (response.Data) {
+            const callsTrendData = response.Data;
+            callsTrendData.forEach(element => {
               if (element.CallVolByQuesType.BenefitsEligibility) {
                 this.collectiveBeData = element.CallVolByQuesType.BenefitsEligibility;
               }
@@ -237,13 +238,16 @@ export class OverviewAdvocateSharedService {
               }
 
               const trendTimePeriod = element.Calldate;
-              if (param.timePeriod === 'Last3Months' || param.timePeriod === 'Last30Days') {
-                this.monthName = this.common
-                  .dateFormat(trendTimePeriod)
-                  .substr(0, 6)
-                  .replace('T', '');
-              } else {
-                this.monthName = this.common.dateFormat(trendTimePeriod).substr(0, 3);
+
+              if (trendTimePeriod) {
+                if (param.timePeriod === 'Last3Months' || param.timePeriod === 'Last30Days') {
+                  this.monthName = this.common
+                    .dateFormat(trendTimePeriod)
+                    .substr(0, 6)
+                    .replace('T', '');
+                } else {
+                  this.monthName = this.common.dateFormat(trendTimePeriod).substr(0, 3);
+                }
               }
               beData.push({
                 name: this.monthName,
@@ -320,10 +324,13 @@ export class OverviewAdvocateSharedService {
               callsTrendFormattedData['Other'] = null;
             }
             resolve(callsTrendFormattedData);
+          } else {
+            resolve(null);
           }
         },
         err => {
           console.log('Advocate Page , Error for calls card', err);
+          resolve(null);
         }
       );
     });
@@ -383,7 +390,6 @@ export class OverviewAdvocateSharedService {
             };
             resolve(this.sendData);
           }
-          console.log('resovel', this.sendData);
           resolve(this.sendData);
         },
         err => {
