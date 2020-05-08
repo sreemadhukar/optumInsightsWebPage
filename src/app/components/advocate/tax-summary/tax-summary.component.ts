@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { HealthSystemDetailsSharedService } from '../../../shared/advocate/health-system-details-shared.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -17,12 +18,16 @@ export class TaxSummaryComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   taxSummaryData: any;
   numberOfTins: any;
-  taxSummaryColumns: string[] = ['Tin', 'TinName', 'TaxIdType', 'TaxIdOwnership'];
+  taxSummaryColumns: string[] = ['TinCheckBox', 'Tin', 'TinName', 'TaxIdType', 'TaxIdOwnership'];
   pageSize = 25;
   filterObj = {};
   tinOwnershipSelected = 'Owned';
-
-  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+  allChecked: Boolean = false;
+  constructor(
+    private iconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer,
+    private healthSystemDetailsSharedService: HealthSystemDetailsSharedService
+  ) {
     this.iconRegistry.addSvgIcon(
       'arrow',
       this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -41,13 +46,37 @@ export class TaxSummaryComponent implements OnInit {
       }
     }
   }
-
+  checkAllChecked() {
+    this.allChecked = !this.allChecked;
+    for (let i = 0; i < this.data.All.length; i++) {
+      this.data.All[i]['checked'] = this.allChecked;
+    }
+    this.healthSystemDetailsSharedService.sharedParams = [];
+    if (this.allChecked) {
+      this.healthSystemDetailsSharedService.sharedParams = this.data.All.map(item => item.Tin);
+    }
+  }
+  // event.target.value is fetching the actual id of the response
+  checkBoxChecked(row) {
+    row.checked = !row.checked;
+    row.checked
+      ? this.healthSystemDetailsSharedService.sharedParams.push(row.Tin)
+      : this.healthSystemDetailsSharedService.sharedParams.splice(
+          this.healthSystemDetailsSharedService.sharedParams.indexOf(row.Tin),
+          1
+        );
+  }
   getPageSize(event) {
     this.pageSize = event.pageSize;
   }
 
   getTaxSummaryData() {
     if (this.data.All && this.data.All.length > 0) {
+      for (let i = 0; i < this.data.All.length; i++) {
+        this.data.All[i]['id'] = i + 1;
+        this.data.All[i]['checked'] = false;
+      }
+      console.log('Health', this.data);
       this.numberOfTins = this.data.All.length;
       this.taxSummaryData = new MatTableDataSource(this.data.All);
       this.taxSummaryData.sort = this.sort;

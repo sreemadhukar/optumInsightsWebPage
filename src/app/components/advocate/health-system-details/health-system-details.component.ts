@@ -63,7 +63,23 @@ export class HealthSystemDetailsComponent implements OnInit {
   }
 
   viewInsights() {
-    this.router.navigate(['/OverviewPageAdvocate']);
+    if (this.healthSystemService.sharedParams.length === 0) {
+      this.router.navigate(['/OverviewPageAdvocate']);
+    } else {
+      console.log('check', this.healthSystemService.sharedParams);
+    }
+
+    // const serializedState = JSON.parse(sessionStorage.getItem('state'));
+    // if (serializedState) {
+    //   serializedState.taxId = [{ Tin: this.data.FormattedTin, Tinname: this.data.TinName }];
+    // }
+    // const initialState = _.clone(INITIAL_STATE, true);
+    // initialState.taxId = [{ Tin: this.data.FormattedTin, Tinname: this.data.TinName }];
+    // this.ngRedux.dispatch({
+    //   type: APPLY_FILTER,
+    //   filterData: serializedState ? serializedState : initialState
+    // });
+    // window.location.href = '/OverviewPageAdvocate';
   }
 
   hppIndicator() {
