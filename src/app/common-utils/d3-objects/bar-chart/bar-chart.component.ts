@@ -200,10 +200,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('id', uniqueText)
         .attr('x', xScale(chartOptions.barSummation / 10))
         .attr('y', (height + 10) / 2)
-        .attr('fill', '#2D2D39')
-        .attr('font-size', '16')
-        .attr('text-anchor', 'start')
-        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('class', ' text-with-hover')
         .text(chartOptions.barText)
         .call(wrap, 250, tspanID, 16);
 
@@ -238,11 +235,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         const div = d3
           .select(this.renderChart)
           .append('div')
-          .attr('class', 'tooltip')
-          .style('height', 'auto')
-          .style('width', '438px')
-          .style('opacity', 0)
-          .style('border-radius', '2px');
+          .attr('class', 'tooltip');
 
         const svg2 = div
           .append('svg')
@@ -254,10 +247,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .append('text')
           .attr('id', uniqueText + 'hover')
           .attr('y', (height + 10) / 2)
-          .attr('fill', '#2D2D39')
-          .attr('font-size', '14')
-          .attr('text-anchor', 'start')
-          .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+          .attr('class', 'PA-text-style2')
           .text(chartOptions.barText)
           .call(wrap, 420, tspanID + 'hover', 14);
 
@@ -297,11 +287,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .append('text')
         .attr('x', xScaleBarStartingPointConstant - 24) // text should be 24px from the bar
         .attr('y', (barHeight + 8) / 2)
-        .attr('fill', '#2D2D39')
-        .attr('font-size', '20')
-        .attr('float', 'right')
-        .style('text-anchor', 'end')
-        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+        .attr('class', 'PA-text-style')
 
         .text(formatDy(chartOptions.barData));
     }
