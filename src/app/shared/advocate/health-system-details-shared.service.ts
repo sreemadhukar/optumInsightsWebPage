@@ -7,7 +7,7 @@ import { HealthSystemDetailsService } from '../../rest/advocate/health-system-de
 })
 export class HealthSystemDetailsSharedService {
   public providerKey;
-
+  public sharedParams: Array<any> = [];
   constructor(private session: SessionService, private healthSystemDetailsService: HealthSystemDetailsService) {}
 
   public getHealthSystemData() {
