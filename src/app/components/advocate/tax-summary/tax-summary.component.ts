@@ -45,6 +45,19 @@ export class TaxSummaryComponent implements OnInit {
         this.taxSummaryData.paginator = null;
       }
     }
+    const serializedState = JSON.parse(sessionStorage.getItem('state'));
+    this.taxSummaryData.filteredData.forEach(value => {
+      serializedState.taxId.forEach(val => {
+        if (val.Tin !== 'All' && val.Tin === value.Tin) {
+          value.checked = true;
+          this.healthSystemDetailsSharedService.sharedParams.push({
+            Tin: value.Tin,
+            Tinname: value.TinName,
+            number: parseInt(value.Tin.replace('-', ''))
+          });
+        }
+      });
+    });
   }
   checkAllChecked() {
     this.allChecked = !this.allChecked;
@@ -60,7 +73,11 @@ export class TaxSummaryComponent implements OnInit {
   checkBoxChecked(row) {
     row.checked = !row.checked;
     row.checked
-      ? this.healthSystemDetailsSharedService.sharedParams.push(row.Tin)
+      ? this.healthSystemDetailsSharedService.sharedParams.push({
+          Tin: row.Tin,
+          Tinname: row.TinName,
+          number: parseInt(row.Tin.replace('-', ''))
+        })
       : this.healthSystemDetailsSharedService.sharedParams.splice(
           this.healthSystemDetailsSharedService.sharedParams.indexOf(row.Tin),
           1
@@ -76,7 +93,6 @@ export class TaxSummaryComponent implements OnInit {
         this.data.All[i]['id'] = i + 1;
         this.data.All[i]['checked'] = false;
       }
-      console.log('Health', this.data);
       this.numberOfTins = this.data.All.length;
       this.taxSummaryData = new MatTableDataSource(this.data.All);
       this.taxSummaryData.sort = this.sort;

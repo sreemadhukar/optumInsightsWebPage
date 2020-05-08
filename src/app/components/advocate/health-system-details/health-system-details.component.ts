@@ -7,6 +7,9 @@ import { CreatePayloadService } from '../../../shared/uhci-filters/create-payloa
 import { NgRedux } from '@angular-redux/store';
 import { REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
+import { APPLY_FILTER } from '../../../store/filter/actions';
+import { INITIAL_STATE } from '../../../store/filter/reducer';
+import * as _ from 'lodash';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from '../../../../../src/app/shared/session.service';
 
@@ -66,20 +69,18 @@ export class HealthSystemDetailsComponent implements OnInit {
     if (this.healthSystemService.sharedParams.length === 0) {
       this.router.navigate(['/OverviewPageAdvocate']);
     } else {
-      console.log('check', this.healthSystemService.sharedParams);
+      const serializedState = JSON.parse(sessionStorage.getItem('state'));
+      if (serializedState) {
+        serializedState.taxId = this.healthSystemService.sharedParams;
+      }
+      const initialState = _.clone(INITIAL_STATE, true);
+      initialState.taxId = this.healthSystemService.sharedParams;
+      this.ngRedux.dispatch({
+        type: APPLY_FILTER,
+        filterData: serializedState ? serializedState : initialState
+      });
+      window.location.href = '/OverviewPageAdvocate';
     }
-
-    // const serializedState = JSON.parse(sessionStorage.getItem('state'));
-    // if (serializedState) {
-    //   serializedState.taxId = [{ Tin: this.data.FormattedTin, Tinname: this.data.TinName }];
-    // }
-    // const initialState = _.clone(INITIAL_STATE, true);
-    // initialState.taxId = [{ Tin: this.data.FormattedTin, Tinname: this.data.TinName }];
-    // this.ngRedux.dispatch({
-    //   type: APPLY_FILTER,
-    //   filterData: serializedState ? serializedState : initialState
-    // });
-    // window.location.href = '/OverviewPageAdvocate';
   }
 
   hppIndicator() {
