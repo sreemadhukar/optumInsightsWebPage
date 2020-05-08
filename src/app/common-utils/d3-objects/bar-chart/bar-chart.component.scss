@@ -9,6 +9,10 @@
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
   pointer-events: none;
   z-index: 9999;
+  height: auto;
+  width: 438px;
+  opacity: 0;
+  border-radius: 2px;
 }
 
 .tooltip::after {
@@ -27,4 +31,25 @@
   font-size: 20px;
   text-align: right;
   text-anchor: end;
+}
+.text-with-hover {
+  color: #2d2d39;
+  font-size: 16px;
+  text-anchor: start;
+  font-family: 'UHCSans-Medium', 'Helvetica', 'Arial', 'sans-serif';
+}
+
+.PA-text-style {
+  color: #2d2d39;
+  font-size: 20px;
+  float: right;
+  text-anchor: end;
+  font-family: 'UHCSans-SemiBold', 'Helvetica', 'Arial', 'sans-serif';
+}
+.PA-text-style2 {
+  fill: #2d2d39;
+  color: #2d2d39;
+  font-size: 14px;
+  text-anchor: start;
+  font-family: 'UHCSans-SemiBold', 'Helvetica', 'Arial', 'sans-serif';
 }
