@@ -10,10 +10,12 @@ export const LeftNavData = {
   // Class for general global variables.
 
   OverviewAdvocatepath: '/OverviewPageAdvocate',
-  OverviewAdvocateHomepath: 'OverviewAdvocatepath/Home'
+  OverviewAdvocateHomepath: 'OverviewAdvocatepath/Home',
+  PCORTtitle: 'Patient Care Opportunity'
 };
 export const OverviewAdvocate = {
-  paymentBySubissionTitle: 'Payments by Submission'
+  paymentBySubissionTitle: 'Payments by Submission',
+  timeFilter: 'time-filter'
 };
 export const cardType = {
   LargeCard: 'large-card',

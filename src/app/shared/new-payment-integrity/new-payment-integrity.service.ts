@@ -1,3 +1,4 @@
+import { PaymentIntrigityData, cardType } from './../../constant/constant';
 import { Injectable } from '@angular/core';
 import { PaymentIntegrityTabInfoService } from '../../rest/new-payment-integrity/payment-integrity-tab-info.service';
 import { NewPaymentIntegrityServiceRest } from '../../rest/new-payment-integrity/new-payment-integrity-rest.service';
@@ -114,9 +115,9 @@ export class NewPaymentIntegrityService {
     }
     const summaryItems = [
       {
-        category: 'app-card',
+        category: cardType.appCard,
         type: 'donutWithSideBottomLabel',
-        title: 'Medical Records Requested by UHC',
+        title: PaymentIntrigityData.MRTitle,
         MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
         data: {
           graphValues: [value.MedicalRecordsRequested, value.ClaimSubmitted],
@@ -145,7 +146,7 @@ export class NewPaymentIntegrityService {
         status: 200
       },
       {
-        title: 'Coding Review Results',
+        title: PaymentIntrigityData.CRTitle,
         MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
         data: {
           type: 'bar chart',
@@ -166,7 +167,7 @@ export class NewPaymentIntegrityService {
         status: 200
       },
       {
-        title: 'Medical Records Received vs. Awaiting Submission',
+        title: PaymentIntrigityData.MRRTitle,
         MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
         data: {
           type: 'large bar chart',
@@ -207,20 +208,20 @@ export class NewPaymentIntegrityService {
     if (!value) {
       const summaryItems = [
         {
-          category: 'app-card',
-          title: 'Medical Records Requested by UHC',
+          category: cardType.appCard,
+          title: PaymentIntrigityData.MRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
           status: 500
         },
         {
-          category: 'app-card',
-          title: 'Coding Review Results',
+          category: cardType.appCard,
+          title: PaymentIntrigityData.CRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
           status: 500
         },
         {
-          category: 'large-card',
-          title: 'Medical Records Received vs. Awaiting Submission',
+          category: cardType.LargeCard,
+          title: PaymentIntrigityData.MRRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
           status: 500
         }
@@ -229,20 +230,20 @@ export class NewPaymentIntegrityService {
     } else if (value.error) {
       const summaryItems = [
         {
-          category: 'app-card',
-          title: 'Medical Records Requested by UHC',
+          category: cardType.appCard,
+          title: PaymentIntrigityData.MRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
           status: value.status
         },
         {
-          category: 'app-card',
-          title: 'Coding Review Results',
+          category: cardType.appCard,
+          title: PaymentIntrigityData.CRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
           status: value.status
         },
         {
-          category: 'large-card',
-          title: 'Medical Records Received vs. Awaiting Submission',
+          category: cardType.LargeCard,
+          title: PaymentIntrigityData.MRRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
           status: value.status
         }
@@ -251,20 +252,20 @@ export class NewPaymentIntegrityService {
     } else {
       const summaryItems = [
         {
-          category: 'app-card',
-          title: 'Medical Records Requested by UHC',
+          category: cardType.appCard,
+          title: PaymentIntrigityData.MRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
           status: 500
         },
         {
-          category: 'app-card',
-          title: 'Coding Review Results',
+          category: cardType.appCard,
+          title: PaymentIntrigityData.CRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
           status: 500
         },
         {
-          category: 'large-card',
-          title: 'Medical Records Received vs. Awaiting Submission',
+          category: cardType.LargeCard,
+          title: PaymentIntrigityData.MRRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
           status: 500
         }
