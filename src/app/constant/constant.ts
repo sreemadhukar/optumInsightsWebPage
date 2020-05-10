@@ -17,6 +17,5 @@ export const OverviewAdvocate = {
 };
 export const cardType = {
   LargeCard: 'large-card',
-  appCard: 'app-card',
-  table: 'rlp-table-bar'
+  appCard: 'app-card'
 };
