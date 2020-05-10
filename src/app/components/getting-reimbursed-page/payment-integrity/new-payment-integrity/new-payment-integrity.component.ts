@@ -1,3 +1,4 @@
+import { PaymentIntrigityData } from './../../../../constant/constant';
 import { Component, OnInit, Input } from '@angular/core';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
@@ -37,23 +38,24 @@ export class NewPaymentIntegrityComponent implements OnInit {
         this.currentSummary = [
           {
             category: 'app-card',
-            title: 'Medical Records Requested by UHC',
+            title: PaymentIntrigityData.MRTitle,
             MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
             status: response.status
           },
           {
             category: 'app-card',
-            title: 'Coding Review Results',
+            title: PaymentIntrigityData.CRTitle,
             MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
             status: response.status
           },
           {
             category: 'large-card',
-            title: 'Medical Records Received vs. Awaiting Submission',
+            title: PaymentIntrigityData.MRRTitle,
             MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
             status: response.status
           }
         ];
+
         this.loading = false;
       } else if (response.length > 0) {
         const temp = [];
