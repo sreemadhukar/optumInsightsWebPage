@@ -12,3 +12,11 @@ export const LeftNavData = {
   OverviewAdvocatepath: '/OverviewPageAdvocate',
   OverviewAdvocateHomepath: 'OverviewAdvocatepath/Home'
 };
+export const OverviewAdvocate = {
+  paymentBySubissionTitle: 'Payments by Submission'
+};
+export const cardType = {
+  LargeCard: 'large-card',
+  appCard: 'app-card',
+  table: 'rlp-table-bar'
+};

@@ -1,3 +1,4 @@
+import { LeftNavData } from './../../constant/constant';
 import {
   Component,
   AfterViewInit,
@@ -266,9 +267,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.loading = true;
         // Role based access for Advocates Overview page
         if (this.checkAdv.value) {
-          this.navCategories[1].path = '/OverviewPageAdvocate';
+          this.navCategories[1].path = LeftNavData.OverviewAdvocatepath;
+          console.log('271 left nav', LeftNavData.OverviewAdvocatepath);
           if (window.location.pathname === '/OverviewPage' && !event.url.includes('print-')) {
-            window.location.href = '/OverviewPageAdvocate';
+            window.location.href = LeftNavData.OverviewAdvocatepath;
           }
         }
         // this.checkPcorData();
@@ -316,7 +318,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         if (
           sessionStorage.getItem('advocateView') === 'true' &&
           !this.makeAbsolute &&
-          event.url !== '/OverviewPageAdvocate' &&
+          event.url !== LeftNavData.OverviewAdvocatepath &&
           event.url !== '/OverviewPageAdvocate/Home' &&
           this.checkAdv.value
         ) {
@@ -493,7 +495,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   advocateRole() {
     this.sessionService.checkAdvocateRole();
-    this.navCategories[1].path = '/OverviewPageAdvocate';
+    this.navCategories[1].path = LeftNavData.OverviewAdvocatepath;
   }
 
   /* To check whether we have data for the PCOR or not, if we don't have data for PCOR then in the navigation
@@ -584,7 +586,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             if (this.router.url.includes('CareDelivery/PatientCareOpportunity')) {
               // Role based access for Advocates Overview page
               if (this.checkAdv.value) {
-                this.router.navigate(['/OverviewPageAdvocate']);
+                this.router.navigate([LeftNavData.OverviewAdvocatepath]);
               } else if (this.checkPro.value) {
                 this.router.navigate(['/OverviewPage']);
               }
@@ -735,7 +737,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       sessionStorage.removeItem('advocateView');
       this.advocateView = false;
     }, 300);
-    location.href = '/OverviewPageAdvocate';
+    location.href = LeftNavData.OverviewAdvocatepath;
     sessionStorage.setItem('advocateView', 'false');
   }
 

@@ -60,11 +60,12 @@ export class OverviewAdvocateService {
     }
 
     let params = new HttpParams();
+    const timeFilter = 'time-filter';
     if (parameters[1].TimeFilter === 'CalendarYear') {
-      params = params.append('time-filter', parameters[1].TimeFilter);
+      params = params.append(timeFilter, parameters[1].TimeFilter);
       params = params.append('time-filter-text', parameters[1].TimeFilterText);
     } else {
-      params = params.append('time-filter', parameters[1].TimeFilter);
+      params = params.append(timeFilter, parameters[1].TimeFilter);
     }
 
     const callsURL = this.APP_URL + this.CALLS_TREND_SERVICE_PATH + parameters[0];

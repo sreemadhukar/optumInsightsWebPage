@@ -5,6 +5,7 @@ import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { OverviewAdvocateService } from '../../rest/advocate/overview-advocate.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 import * as _ from 'lodash';
+import { OverviewAdvocate } from 'src/app/constant/constant';
 
 @Injectable({
   providedIn: 'root'
@@ -203,10 +204,9 @@ export class OverviewAdvocateSharedService {
     return new Promise((resolve, reject) => {
       const parameters = this.getParameterCategories(param);
 
-      this.overviewAdvocateService.callsData(...parameters).subscribe(
-        callsTotalData => resolve(callsTotalData),
-        err => reject(err)
-      );
+      this.overviewAdvocateService
+        .callsData(...parameters)
+        .subscribe(callsTotalData => resolve(callsTotalData), err => reject(err));
     });
   }
 
@@ -351,17 +351,18 @@ export class OverviewAdvocateSharedService {
               category: 'app-card',
               type: 'donutWithLabel',
               status: 404,
-              title: 'Payments by Submission',
+              title: OverviewAdvocate.paymentBySubissionTitle,
               data: null,
               timeperiod: null
             };
+
             return resolve(this.sendData);
           } else {
             this.sendData = {
               id: 'paymentSubmission',
               category: 'app-card',
               type: 'stackBarChart',
-              title: 'Payments by Submission',
+              title: OverviewAdvocate.paymentBySubissionTitle,
               MetricID: this.MetricidService.MetricIDs.PaymentsBySubmission,
               data: {
                 graphValues: [
@@ -384,10 +385,11 @@ export class OverviewAdvocateSharedService {
               category: 'app-card',
               type: 'donutWithLabel',
               status: 404,
-              title: 'Payments by Submission',
+              title: OverviewAdvocate.paymentBySubissionTitle,
               data: null,
               timeperiod: null
             };
+
             resolve(this.sendData);
           }
           resolve(this.sendData);
