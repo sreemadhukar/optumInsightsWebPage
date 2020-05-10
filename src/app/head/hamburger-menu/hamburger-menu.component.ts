@@ -122,7 +122,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     { icon: 'prior-auth', name: 'Prior Authorizations', path: '/CareDelivery/priorAuth', disabled: false },
     {
       icon: 'pcor',
-      name: 'Patient Care Opportunity',
+      name: LeftNavData.PCORTtitle,
       path: '/CareDelivery/PatientCareOpportunity',
       disabled: true
     },
@@ -502,11 +502,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
    bar PCOR will be hidden
    */
   insertPCORnav() {
-    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Patient Care Opportunity');
+    const getIndex: number = this.navCategories.findIndex(item => item.name === LeftNavData.PCORTtitle);
     this.navCategories[getIndex].disabled = false;
   }
   removePCORnav() {
-    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Patient Care Opportunity');
+    const getIndex: number = this.navCategories.findIndex(item => item.name === LeftNavData.PCORTtitle);
     this.navCategories[getIndex].disabled = true;
   }
   checkToggle(bool: boolean) {
