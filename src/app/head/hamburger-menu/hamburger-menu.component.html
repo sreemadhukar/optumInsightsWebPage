@@ -264,7 +264,7 @@
       <!-- END OF RIGHT SIDE FILTER Glossary BAR-->
 
       <mat-sidenav-content color="primary">
-        <router-outlet></router-outlet>
+        <router-outlet (activate)="changeOfRoutes()"></router-outlet>
       </mat-sidenav-content>
     </mat-sidenav-container>
     <app-footer-common class="footer-block" [class.display-none]="makeAbsolute"></app-footer-common>

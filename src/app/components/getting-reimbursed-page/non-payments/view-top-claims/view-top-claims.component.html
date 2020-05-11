@@ -52,7 +52,7 @@
 
   <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
 
-  <div class="tax-summary-content" [hidden]="isLoading">
+  <div class="tax-summary-content" [hidden]="loading" *ngIf="claimsData">
     <div class="tax-summary-head" [ngStyle]="{ display: lengthOffilteredData > 0 ? 'block' : 'none' }">
       <span class="tax-summary-count">
         {{ rangeLabel }}
@@ -167,6 +167,9 @@
         </mat-paginator>
       </div>
     </div>
+
+    <app-error-card [hidden]="loading" *ngIf="!claimsData" class="cards" [data]="tableData"></app-error-card>
+    <!-- tin-list-body-->
   </div>
 
   <app-error-card *ngIf="dataNotavaiable && tableData != null" class="cards" [data]="tableData"></app-error-card>
