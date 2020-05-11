@@ -17,7 +17,10 @@
     <app-error-card *ngIf="item.data == null && item.status != null" class="cards" [data]="item"></app-error-card>
   </div>
 
-  <div *ngFor="let data of mockCards; let i = index">
+  <div
+    *ngFor="let data of mockCards; let i = index; let odd = odd; let even = even"
+    [ngClass]="{ odd: odd, even: even }"
+  >
     <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
   </div>
 
