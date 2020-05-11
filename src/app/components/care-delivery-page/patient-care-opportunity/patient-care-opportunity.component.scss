@@ -1,66 +1,62 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 
-.content-wrapper {
-  overflow-x: hidden;
-  overflow-y: hidden;
-  display: flex;
-  flex-direction: column;
-  background-color: $alice-blue;
-  @include padding(16px, 0, 64px, 0);
-  .main-content {
-    display: flex;
-    -webkit-flex-flow: row wrap;
-    justify-content: left;
-    width: 1000px;
-    margin: auto;
-    flex-wrap: wrap;
-
-    .cust-width-title {
-      width: 961px;
-      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
-      color: $black-rock;
-      margin-left: 10px;
-
-      .page-title {
-        flex-basis: 100%;
-        font-size: 36px;
-        @include padding(16px, 0, 10px, 0);
-        line-height: 40px;
-      }
-      .print-page-title {
-        padding-top: 30px;
-        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-        line-height: 30px;
-      }
-      .print-page-subtitle {
-        font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
-        line-height: 40px;
-        flex-basis: 100%;
-        font-size: 24px;
-        display: flex;
-        flex-direction: row;
-        position: relative;
-        justify-content: space-between;
-      }
-    }
-    .cards {
-      .non-small-card-header-title {
-        color: #2d2d39 !important;
-        word-break: break-word;
-        width: 360px;
-      }
-    }
-    .page-subtitle1 {
-      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
-      flex-basis: 100%;
-      font-size: 24px;
-      line-height: 40px;
-      @include padding(0, 0, 20px, 0);
-      color: $black-rock;
-    }
+// Patch for cards
+::ng-deep .pcor .left .app-card-structure {
+  margin: 15px 15px 15px 0px !important;
+}
+::ng-deep .pcor .right .app-card-structure {
+  margin: 15px 0 15px 15px !important;
+}
+::ng-deep .pcor .qulity-measure-star-block {
+  .card-inner-large {
+    margin: 15px 0 !important;
+    width: 100% !important;
   }
 }
+
+.cust-width-title {
+  width: 100%;
+  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+
+  .page-title {
+    flex-basis: 100%;
+    font-size: 36px;
+    @include padding(16px, 0, 10px, 0);
+    line-height: 40px;
+  }
+  .print-page-title {
+    padding-top: 30px;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    line-height: 30px;
+  }
+  .print-page-subtitle {
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+    line-height: 40px;
+    flex-basis: 100%;
+    font-size: 24px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    justify-content: space-between;
+  }
+}
+.cards {
+  .non-small-card-header-title {
+    color: #2d2d39 !important;
+    word-break: break-word;
+    width: 360px;
+  }
+}
+.page-subtitle1 {
+  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+  flex-basis: 100%;
+  font-size: 24px;
+  line-height: 40px;
+  @include padding(0, 0, 20px, 0);
+  color: $black-rock;
+}
+
 .print-page-subtitle-header {
   color: #2d2d39;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
@@ -120,11 +116,11 @@
 .report-Tile {
   box-sizing: border-box;
   height: 79px;
-  width: 954px;
+  width: 100%;
   border: 1px solid #757588;
   border-radius: 2px;
   background-color: $alice-blue;
-  margin: 12px;
+  margin: 15px 0;
   padding: 12px 16px 12px 16px;
 
   .report-Title {
