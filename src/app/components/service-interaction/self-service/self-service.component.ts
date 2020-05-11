@@ -24,8 +24,6 @@ export class SelfServiceComponent implements OnInit {
   opportunities: String = '';
   opportunitiesQuestion: String = '';
 
-  mockCards: any;
-  mockSelfServiceMiniCards = [{}, {}, {}, {}];
   selfServiceMiniCards = [];
 
   loading: boolean;
@@ -53,8 +51,6 @@ export class SelfServiceComponent implements OnInit {
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'selfServicePage' });
-    this.mockCards = [{}, {}, {}];
-    this.mockSelfServiceMiniCards = [{}, {}, {}, {}];
     this.selfServiceMiniCards = [];
     this.loading = true;
     if (this.printStyle) {

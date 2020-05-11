@@ -9,6 +9,9 @@
     width: 840px !important;
   }
 }
+::ng-deep .app-card-structure {
+  margin: 12px 5px;
+}
 
 .getting-reimbursed-cards {
   display: inline-flex;

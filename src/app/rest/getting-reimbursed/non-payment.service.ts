@@ -23,10 +23,16 @@ export class NonPaymentService {
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
     } else {
-      nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=PAYMENT_METRICS';
+      nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?request-type=PAYMENT_METRICS';
       return combineLatest(
         this.http.post(nonPaymentURL, parameters[1]).pipe(
-          map(res => JSON.parse(JSON.stringify(res[0]))),
+          map((res: any) => {
+            if (res.Data == null) {
+              return null;
+            } else {
+              return res.Data[0];
+            }
+          }),
           catchError(err => of(JSON.parse(JSON.stringify(err))))
         )
       );
@@ -46,10 +52,16 @@ export class NonPaymentService {
         )
       );
     } else {
-      nonPaymentURL = this.APP_URL + nonPaymentUrl + parameters[0] + '?requestType=NONPAYMENT_TOPCATEGORIES';
+      nonPaymentURL = this.APP_URL + nonPaymentUrl + parameters[0] + '?request-type=NONPAYMENT_TOPCATEGORIES';
       return combineLatest(
         this.http.post(nonPaymentURL, parameters[1]).pipe(
-          map(res => JSON.parse(JSON.stringify(res[0]))),
+          map((res: any) => {
+            if (res.Data == null) {
+              return null;
+            } else {
+              return res.Data[0];
+            }
+          }),
           catchError(err => of(JSON.parse(JSON.stringify(err))))
         )
       );
@@ -63,7 +75,7 @@ export class NonPaymentService {
       const apiCall = parameters.map(param => this.http.post(nonPaymentURL, param[1]));
       return combineLatest(apiCall);
     } else {
-      nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?requestType=NONPAYMENT_TOPSUBCATEGORIES';
+      nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?request-type=NONPAYMENT_TOPSUBCATEGORIES';
       const apiCall = parameters.map(param => this.http.post(nonPaymentURL, param[1]));
       return combineLatest(apiCall);
     }
@@ -101,10 +113,16 @@ export class NonPaymentService {
         )
       );
     } else {
-      const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?requestType=NONPAYMENT_BYMONTH';
+      const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?request-type=NONPAYMENT_BYMONTH';
       return combineLatest(
         this.http.post(nonPaymentURL, parameters[0][1]).pipe(
-          map(res => JSON.parse(JSON.stringify(res[0]))),
+          map((res: any) => {
+            if (res.Data == null) {
+              return null;
+            } else {
+              return res.Data[0];
+            }
+          }),
           catchError(err => of(JSON.parse(JSON.stringify(err))))
         )
       );
