@@ -6,7 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { findIndex as _findIndex } from 'lodash';
-import { UserReviewService } from 'src/app/shared/user-review.service';
+// import { UserReviewService } from 'src/app/shared/user-review.service';
 // declare const externalRatingIntercept: any;
 
 export interface FilterOptions {
@@ -56,13 +56,13 @@ export class KopOnboardingComponent implements OnInit, OnDestroy {
     }
   ];
 
+  // private userreviewservice: UserReviewService // add these to constructor if needed
   constructor(
     private eventEmitter: EventEmitterService,
     private filterExpandService: FilterExpandService,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
-    private router: Router,
-    private userreviewservice: UserReviewService
+    private router: Router
   ) {
     this.iconRegistry.addSvgIcon(
       'filter',
@@ -94,7 +94,7 @@ export class KopOnboardingComponent implements OnInit, OnDestroy {
 
   getNPSData() {}
 
-  changeOfRoutes() {
-    this.userreviewservice.removeCreatedCookies();
-  }
+  // changeOfRoutes() {
+  //   this.userreviewservice.removeCreatedCookies();
+  // }
 }
