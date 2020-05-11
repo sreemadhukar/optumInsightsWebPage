@@ -17,13 +17,13 @@ export class RoleGuard implements CanActivate {
     if (this.isInternal) {
       if (sessionStorage.getItem('currentUser')) {
         const expectedRole = route.data.expectedRole;
-        if (expectedRole === 'UHCI_Advocate') {
-          this.checkAdv = this.sessionService.checkAdvocateRole();
-          if (this.checkAdv.value) {
-            // logged in and advocate role, so return true
-            return true;
-          }
-        } else if (expectedRole === 'UHCI_Project') {
+        console.log('expectedRole', expectedRole);
+        this.checkAdv = this.sessionService.checkAdvocateRole();
+        if (expectedRole === 'UHCI_Advocate' && this.checkAdv.value) {
+          // logged in and advocate role, so return true
+          return true;
+        }
+        if (expectedRole === 'UHCI_Project') {
           this.checkPro = this.sessionService.checkProjectRole();
           this.checkExecutive = this.sessionService.checkExecutiveRole();
           this.checkAdv = this.sessionService.checkAdvocateRole();
@@ -31,6 +31,7 @@ export class RoleGuard implements CanActivate {
             // logged in and project/ executive role so return true
             return true;
           }
+          return true;
         }
       }
       // not logged in so redirect to login page with the return url
