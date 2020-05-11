@@ -156,7 +156,8 @@ export class UhciFiltersComponent implements OnInit {
   }
 
   disableTimePeriod(timeFrame) {
-    if (
+    /* Uncomment if the data is not available for 2018 */
+    /* if (
       this.selectedPage === 'gettingReimbursedSummary' ||
       this.selectedPage === 'paymentsPage' ||
       this.selectedPage === 'nonPaymentsPage'
@@ -166,11 +167,11 @@ export class UhciFiltersComponent implements OnInit {
           value.disable = true;
         }
       });
-    } else {
-      timeFrame.forEach(value => {
-        value.disable = false;
-      });
-    }
+    } else { */
+    timeFrame.forEach(value => {
+      value.disable = false;
+    });
+    // }
     this.timeFrames = timeFrame;
     return timeFrame;
   }

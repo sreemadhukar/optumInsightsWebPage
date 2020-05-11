@@ -167,10 +167,7 @@
         </mat-paginator>
       </div>
     </div>
-
-    <app-error-card [hidden]="loading" *ngIf="!claimsData" class="cards" [data]="tableData"></app-error-card>
-    <!-- tin-list-body-->
   </div>
 
-  <app-error-card *ngIf="dataNotavaiable && tableData != null" class="cards" [data]="tableData"></app-error-card>
+  <app-error-card [hidden]="loading" *ngIf="!claimsData" class="cards" [data]="tableData"></app-error-card>
 </app-layoutcontainer>
