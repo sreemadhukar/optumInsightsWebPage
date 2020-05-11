@@ -483,13 +483,23 @@ export class NonPaymentSharedService {
     // this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise(resolve => {
       this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
-        data => {
+        (data: any) => {
           // array
           let mappedData;
           if (paramtersSubCategory[0][1].ClaimsBy === 'DOP') {
-            mappedData = data;
+            if (data.Data == null) {
+              mappedData = null;
+            } else {
+              mappedData = data.Data[0];
+            }
           } else {
-            mappedData = data.map(item => item[0]);
+            mappedData = data.map((item: any) => {
+              if (item.Data == null) {
+                return (mappedData = null);
+              } else {
+                return (mappedData = item.Data[0]);
+              }
+            });
           }
           for (let i = 0; i < topReasons.length; i++) {
             // deep copy
