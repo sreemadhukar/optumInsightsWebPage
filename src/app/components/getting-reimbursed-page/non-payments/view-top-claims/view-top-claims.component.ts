@@ -459,9 +459,11 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   }
 
   resetPaginationAttribute() {
-    this.paginator.pageIndex = 0;
-    this.paginator.pageSize = 25;
-    this.currentPageIndex = 0;
-    this.pageSize = 25;
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+      this.paginator.pageSize = 25;
+      this.currentPageIndex = 0;
+      this.pageSize = 25;
+    }
   }
 }
