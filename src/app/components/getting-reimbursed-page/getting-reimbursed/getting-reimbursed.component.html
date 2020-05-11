@@ -72,7 +72,7 @@
             ></app-error-card>
           </div>
         </div>
-        <div *ngFor="let data of mockCards; let i = index">
+        <div class="getting-reimbursed-cards" *ngFor="let data of mockCards; let i = index">
           <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
         </div>
       </div>

@@ -22,6 +22,7 @@ export class CallsComponent implements OnInit {
   pageSubTitle: String = '';
   timePeriod: string;
   lob: string;
+  mockCards: any = [{}, {}];
   taxID: Array<string>;
   loading: boolean;
   subscription: any;
