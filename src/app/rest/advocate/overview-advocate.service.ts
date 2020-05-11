@@ -1,4 +1,3 @@
-import { OverviewAdvocate } from 'src/app/constant/constant';
 /* @author gmounika */
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
@@ -7,6 +6,7 @@ import { map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { IPaymentBySubResponse } from '../../modals/i-payment-by-submission';
 import { get as _get } from 'lodash';
+import { OverviewAdvocate } from 'src/app/modals/title-config';
 
 @Injectable({
   providedIn: 'root'

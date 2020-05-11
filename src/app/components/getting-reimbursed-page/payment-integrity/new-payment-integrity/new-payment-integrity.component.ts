@@ -1,8 +1,9 @@
-import { PaymentIntrigityData, cardType } from './../../../../constant/constant';
 import { Component, OnInit, Input } from '@angular/core';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
 import { NewPaymentIntegrityService } from '../../../../shared/new-payment-integrity/new-payment-integrity.service';
+import { PaymentIntrigityData } from 'src/app/modals/title-config';
+import { cardType } from 'src/app/modals/cardType-config';
 
 @Component({
   selector: 'app-new-payment-integrity',
