@@ -20,6 +20,7 @@ export class TaxSummaryComponent implements OnInit {
   taxSummaryColumns: string[] = ['Tin', 'TinName', 'TaxIdType', 'TaxIdOwnership'];
   pageSize = 25;
   filterObj = {};
+  tinOwnershipSelected = 'Owned';
 
   constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
