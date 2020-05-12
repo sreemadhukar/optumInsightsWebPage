@@ -395,7 +395,7 @@ export class PaymentsSharedService {
             }
           } else {
             lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
-            if (!claimsData.hasOwnProperty(lobData)) {
+            if (!claimsData || !claimsData.hasOwnProperty(lobData)) {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',

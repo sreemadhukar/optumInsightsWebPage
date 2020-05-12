@@ -519,6 +519,8 @@ export class OverviewSharedService {
   reduceClaimsProcessingTimeMiniTile(EDI, PAPER, oppurtunities) {
     return new Promise(resolve => {
       if (
+        EDI &&
+        PAPER &&
         EDI.hasOwnProperty('All') &&
         EDI.All != null &&
         EDI.All.hasOwnProperty('ClaimsLobSummary') &&
