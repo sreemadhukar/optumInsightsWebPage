@@ -11,7 +11,7 @@
       <table mat-table [dataSource]="taxSummaryData" matSort matSortDirection="asc">
         <ng-container matColumnDef="TinCheckBox">
           <th mat-header-cell *matHeaderCellDef>
-            <div>
+            <div class="checkbox-container-th">
               <label class="checkbox-label">
                 <input
                   type="checkbox"
@@ -28,7 +28,7 @@
             </div>
           </th>
           <td mat-cell class="tax-summary-table-cell" *matCellDef="let element; let i = index; let isLast = last">
-            <div class="checkbox-container">
+            <div class="checkbox-container-td">
               <label class="checkbox-label">
                 <input
                   type="checkbox"
