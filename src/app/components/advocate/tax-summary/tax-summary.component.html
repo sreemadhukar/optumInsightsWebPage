@@ -12,30 +12,35 @@
         <ng-container matColumnDef="TinCheckBox">
           <th mat-header-cell *matHeaderCellDef>
             <div>
-              <input
-                type="checkbox"
-                id="all"
-                name="featureAll"
-                value="taxSummaryData.length"
-                [checked]="allChecked"
-                ([ngModel])="(allChecked)"
-                (click)="checkAllChecked()"
-              />
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  id="all"
+                  name="featureAll"
+                  value="taxSummaryData.length"
+                  [checked]="allChecked"
+                  ([ngModel])="(allChecked)"
+                  (click)="checkAllChecked()"
+                />
+                <span class="checkbox-custom rectangular"></span>
+              </label>
             </div>
           </th>
           <td mat-cell class="tax-summary-table-cell" *matCellDef="let element; let i = index; let isLast = last">
-            <!-- <mat-checkbox [checked]="element.checked" (change)="checkBoxChecked(element)">{{
-                item.label
-            }}</mat-checkbox> -->
-            <input
-              type="checkbox"
-              id="{{ i + 1 }}"
-              name="feature{{ i + 1 }}"
-              value="{{ element.id }}"
-              [checked]="element.checked"
-              ([ngModel])="(element.checked)"
-              (click)="checkBoxChecked(element)"
-            />
+            <div class="checkbox-container">
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  id="{{ i + 1 }}"
+                  name="feature{{ i + 1 }}"
+                  value="{{ element.id }}"
+                  [checked]="element.checked"
+                  ([ngModel])="(element.checked)"
+                  (click)="checkBoxChecked(element)"
+                />
+                <span class="checkbox-custom rectangular"></span>
+              </label>
+            </div>
           </td>
         </ng-container>
         <ng-container matColumnDef="Tin">
