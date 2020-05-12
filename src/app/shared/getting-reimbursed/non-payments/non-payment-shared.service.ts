@@ -487,11 +487,12 @@ export class NonPaymentSharedService {
           // array
           let mappedData;
           if (paramtersSubCategory[0][1].ClaimsBy === 'DOP') {
-            if (data.Data == null) {
-              mappedData = null;
-            } else {
-              mappedData = data.Data[0];
-            }
+            // if (data.Data == null) {
+            //   mappedData = null;
+            // } else {
+            //   mappedData = data.Data[0];  // to be used when the api has changed as data.Data[0]
+            // }
+            mappedData = data;
           } else {
             mappedData = data.map((item: any) => {
               if (item.Data == null) {
