@@ -2,6 +2,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { INITIAL_PAGINATION, pageSizeConf } from '../../../../modals/rlp-data';
+
 @Component({
   selector: 'app-rlp-table',
   templateUrl: './rlp-table.component.html',
@@ -22,6 +23,8 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   public totalPages: number; // total Number of pages i.e. Number of available records/ PageSize
   public pageSizeValues: Array<string>; // Dropdown option values
   public isAscending: boolean; // used to check sorting of the table
+  public isAscending1: boolean; // used to check sorting of the table
+  public isAscending2: boolean; // used to check sorting of the table
   public showTableBody: boolean;
   public showTableHeader: boolean;
   constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
@@ -62,6 +65,8 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     this.sortTableData();
     this.setPagination();
     this.isAscending = true;
+    this.isAscending1 = true;
+    this.isAscending2 = true;
     this.tableHeader = this.data.thead;
     this.showTableBody = true;
     this.showTableHeader = true;
@@ -145,6 +150,50 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     this.tableData = [...this.sortTableData(this.isAscending)];
   }
 
+  sortGroupNameData() {
+    // return asc
+    //  ? this.tableData.sort((a, b) => a.groupName > b.groupName)
+    //   : this.tableData.sort((b, a) => a.groupName < b.groupName);
+    this.tableData = [
+      ...this.tableData.sort((a, b) => {
+        return a.groupName < b.groupName ? 1 : a.groupName > b.groupName ? -1 : 0;
+      })
+    ];
+  }
+
+  sortGroupName() {
+    console.log(this.isAscending1);
+    console.log(this.tableData);
+    this.isAscending1 = !this.isAscending1;
+    //   this.tableData = [...this.sortGroupNameData(this.isAscending1)];
+  }
+
+  sortTinData() {
+    //  return asc
+    //   ? this.tableData.sort((a, b) => a.tin - b.tin)
+    //   : this.tableData.sort((b, a) => a.tin - b.tin);
+    this.tableData = [
+      ...this.tableData.sort((a, b) => {
+        return a.tin < b.tin ? 1 : a.tin > b.tin ? -1 : 0;
+      })
+    ];
+  }
+
+  sortTin() {
+    console.log(this.isAscending2);
+    console.log(this.tableData);
+    this.isAscending2 = !this.isAscending2;
+    //   this.tableData = [...this.sortTinData(this.isAscending2)];
+
+    // this.tableData =  this.tableData.sort((a, b) => {
+    //  const isAsc = sort.direction === 'asc';
+    //      return this.compare(a.tin, b.tin, isAsc);
+    // });
+  }
+
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
   /**
    * enterQuery() is the function for setting up totalPages dynamically on the basis of search
    * for both Tin and Group name

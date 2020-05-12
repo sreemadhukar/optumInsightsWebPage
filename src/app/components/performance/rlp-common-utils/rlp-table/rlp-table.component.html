@@ -10,7 +10,7 @@
   <!--Table header starts-->
   <div class="table-header-labels" *ngIf="showTableHeader">
     <div class="rlp-table-tin">
-      <div class="table-head-text">{{ tableHeader[0] }}</div>
+      <div class="table-head-text" (click)="sortTinData()">{{ tableHeader[0] }}</div>
       <div class="search-box">
         <input
           type="text"
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="rlp-table-group">
-      <div class="table-head-text">{{ tableHeader[1] }}</div>
+      <div class="table-head-text" (click)="sortGroupNameData()">{{ tableHeader[1] }}</div>
       <div class="search-box-g">
         <input
           type="text"
