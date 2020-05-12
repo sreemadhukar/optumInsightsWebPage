@@ -46,6 +46,13 @@
       </div>
     </div>
     <div class="line"></div>
-    <app-tax-summary *ngIf="healthSystemData" [data]="healthSystemData" class="tax-summary-block"></app-tax-summary>
+    <app-tax-summary
+      *ngIf="healthSystemData"
+      [data]="healthSystemData"
+      class="tax-summary-block"
+      (selectedTaxIds)="selectedTaxIds($event)"
+      [selectedTaxId]="selectedTaxId"
+    >
+    </app-tax-summary>
   </div>
 </div>
