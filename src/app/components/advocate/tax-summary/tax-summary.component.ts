@@ -15,7 +15,7 @@ import * as _ from 'lodash';
 })
 export class TaxSummaryComponent implements OnInit {
   @Input() data;
-  @Output() selectedTaxIds = new EventEmitter();
+  @Output() tinValues = new EventEmitter();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @Input() selectedTaxId;
@@ -58,7 +58,7 @@ export class TaxSummaryComponent implements OnInit {
     }
     if (this.allChecked) {
       this.selectedTaxId = INITIAL_STATE.taxId;
-      this.selectedTaxIds.emit(this.selectedTaxId);
+      this.tinValues.emit(this.selectedTaxId);
     }
   }
 
@@ -75,7 +75,7 @@ export class TaxSummaryComponent implements OnInit {
           number: parseInt(row.Tin.replace('-', ''))
         })
       : this.selectedTaxId.splice(this.selectedTaxId.indexOf(row.Tin), 1);
-    this.selectedTaxIds.emit(this.selectedTaxId);
+    this.tinValues.emit(this.selectedTaxId);
   }
 
   getPageSize(event) {

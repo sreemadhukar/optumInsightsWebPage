@@ -105,7 +105,7 @@ export class HealthSystemDetailsComponent implements OnInit {
     });
   }
 
-  selectedTaxIds($event) {
+  getSelectedTaxIds($event) {
     this.selectedTin = $event;
   }
 }

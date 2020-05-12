@@ -50,7 +50,7 @@
       *ngIf="healthSystemData"
       [data]="healthSystemData"
       class="tax-summary-block"
-      (selectedTaxIds)="selectedTaxIds($event)"
+      (tinValues)="getSelectedTaxIds($event)"
       [selectedTaxId]="selectedTaxId"
     >
     </app-tax-summary>
