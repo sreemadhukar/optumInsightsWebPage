@@ -1,11 +1,12 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { HealthSystemDetailsSharedService } from '../../../shared/advocate/health-system-details-shared.service';
+import { Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 import { MatSort, Sort } from '@angular/material/sort';
 import * as d3 from 'd3';
+import { INITIAL_STATE } from '../../../store/filter/reducer';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-tax-summary',
@@ -14,8 +15,10 @@ import * as d3 from 'd3';
 })
 export class TaxSummaryComponent implements OnInit {
   @Input() data;
+  @Output() tinValues = new EventEmitter();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @Input() selectedTaxId;
   taxSummaryData: any;
   numberOfTins: any;
   taxSummaryColumns: string[] = ['TinCheckBox', 'Tin', 'TinName', 'TaxIdType', 'TaxIdOwnership'];
@@ -23,11 +26,7 @@ export class TaxSummaryComponent implements OnInit {
   filterObj = {};
   tinOwnershipSelected = 'Owned';
   allChecked: Boolean = false;
-  constructor(
-    private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
-    private healthSystemDetailsSharedService: HealthSystemDetailsSharedService
-  ) {
+  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
       'arrow',
       this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -45,44 +44,40 @@ export class TaxSummaryComponent implements OnInit {
         this.taxSummaryData.paginator = null;
       }
     }
-    const serializedState = JSON.parse(sessionStorage.getItem('state'));
-    this.taxSummaryData.filteredData.forEach(value => {
-      serializedState.taxId.forEach(val => {
-        if (val.Tin !== 'All' && val.Tin === value.Tin) {
-          value.checked = true;
-          this.healthSystemDetailsSharedService.sharedParams.push({
-            Tin: value.Tin,
-            Tinname: value.TinName,
-            number: parseInt(value.Tin.replace('-', ''))
-          });
-        }
-      });
+    this.selectedTaxId.forEach(val => {
+      const selectedValue = _.find(this.taxSummaryData.filteredData, { Tin: val.Tin });
+      selectedValue.checked = true;
+      this.taxSummaryData.filteredData.indexOf(selectedValue);
     });
   }
+
   checkAllChecked() {
     this.allChecked = !this.allChecked;
     for (let i = 0; i < this.data.All.length; i++) {
       this.data.All[i]['checked'] = this.allChecked;
     }
-    this.healthSystemDetailsSharedService.sharedParams = [];
     if (this.allChecked) {
-      this.healthSystemDetailsSharedService.sharedParams = this.data.All.map(item => item.Tin);
+      this.selectedTaxId = INITIAL_STATE.taxId;
+      this.tinValues.emit(this.selectedTaxId);
     }
   }
+
   // event.target.value is fetching the actual id of the response
   checkBoxChecked(row) {
     row.checked = !row.checked;
+    if (this.selectedTaxId[0].Tin === 'All') {
+      this.selectedTaxId = [];
+    }
     row.checked
-      ? this.healthSystemDetailsSharedService.sharedParams.push({
+      ? this.selectedTaxId.push({
           Tin: row.Tin,
           Tinname: row.TinName,
           number: parseInt(row.Tin.replace('-', ''))
         })
-      : this.healthSystemDetailsSharedService.sharedParams.splice(
-          this.healthSystemDetailsSharedService.sharedParams.indexOf(row.Tin),
-          1
-        );
+      : this.selectedTaxId.splice(this.selectedTaxId.indexOf(row.Tin), 1);
+    this.tinValues.emit(this.selectedTaxId);
   }
+
   getPageSize(event) {
     this.pageSize = event.pageSize;
   }

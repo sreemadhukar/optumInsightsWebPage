@@ -4,7 +4,7 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { Router } from '@angular/router';
 import { GroupPremiumDesignationService } from './../../../rest/group-premium-designation/group-premium-designation.service';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
-import { NgRedux } from '@angular-redux/store';
+import { NgRedux, select } from '@angular-redux/store';
 import { REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { APPLY_FILTER } from '../../../store/filter/actions';
@@ -12,6 +12,7 @@ import { INITIAL_STATE } from '../../../store/filter/reducer';
 import * as _ from 'lodash';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from '../../../../../src/app/shared/session.service';
+import { TaxId } from '../../../head/uhci-filters/filter-settings/filter-options';
 
 @Component({
   selector: 'app-health-system-details',
@@ -23,6 +24,9 @@ export class HealthSystemDetailsComponent implements OnInit {
   healthSystemData: any;
   subscription: any;
   GroupPremiumDesignation: any;
+  selectedTaxId: TaxId[];
+  @select(['uhc', 'taxId']) taxId;
+  selectedTin;
 
   constructor(
     private healthSystemService: HealthSystemDetailsSharedService,
@@ -37,6 +41,7 @@ export class HealthSystemDetailsComponent implements OnInit {
     // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.taxId.subscribe(taxId => (this.selectedTaxId = taxId));
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.common.urlResuseStrategy();
       this.createPayloadService.resetTinNumber('HealthSystemDetails');
@@ -49,6 +54,7 @@ export class HealthSystemDetailsComponent implements OnInit {
     this.healthSystemData = null;
     this.checkStorage.emitEvent('HealthSystemDetails');
     this.getHealthSystemDetails();
+    this.selectedTin = this.selectedTaxId;
   }
 
   getHealthSystemDetails() {
@@ -66,21 +72,17 @@ export class HealthSystemDetailsComponent implements OnInit {
   }
 
   viewInsights() {
-    if (this.healthSystemService.sharedParams.length === 0) {
-      this.router.navigate(['/OverviewPageAdvocate']);
-    } else {
-      const serializedState = JSON.parse(sessionStorage.getItem('state'));
-      if (serializedState) {
-        serializedState.taxId = this.healthSystemService.sharedParams;
-      }
-      const initialState = _.clone(INITIAL_STATE, true);
-      initialState.taxId = this.healthSystemService.sharedParams;
-      this.ngRedux.dispatch({
-        type: APPLY_FILTER,
-        filterData: serializedState ? serializedState : initialState
-      });
-      window.location.href = '/OverviewPageAdvocate';
+    const serializedState = JSON.parse(sessionStorage.getItem('state'));
+    if (serializedState) {
+      serializedState.taxId = this.selectedTin;
     }
+    const initialState = _.clone(INITIAL_STATE, true);
+    initialState.taxId = this.selectedTin;
+    this.ngRedux.dispatch({
+      type: APPLY_FILTER,
+      filterData: serializedState ? serializedState : initialState
+    });
+    this.router.navigate(['/OverviewPageAdvocate']);
   }
 
   hppIndicator() {
@@ -101,5 +103,9 @@ export class HealthSystemDetailsComponent implements OnInit {
       this.GroupPremiumDesignation = data.HppIndicator;
       console.log(' this.GroupPremiumDesignation', this.GroupPremiumDesignation);
     });
+  }
+
+  getSelectedTaxIds($event) {
+    this.selectedTin = $event;
   }
 }
