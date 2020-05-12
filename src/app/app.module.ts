@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -20,7 +20,7 @@ import { UserIdleModule } from 'angular-user-idle';
 import { IdleTimeoutDialogComponent } from './auth/idle-timeout-dialog/idle-timeout-dialog.component';
 import { NgReduxModule, NgRedux } from '@angular-redux/store';
 import { FilterReducer } from './store/filter/reducer';
-// import { RavenErrorHandler } from './components/error-handler/error-handler';
+import { RavenErrorHandler } from './components/error-handler/error-handler';
 import { saveState } from './store/filter/localStorage';
 import { combineReducers, createStore, Store, applyMiddleware } from 'redux';
 import { KopFilterReducer } from './store/kopFilter/reducer';
@@ -54,8 +54,8 @@ import { KopFilterReducer } from './store/kopFilter/reducer';
       provide: HTTP_INTERCEPTORS,
       useClass: CacheInterceptor,
       multi: true
-    }
-    // { provide: ErrorHandler, useClass: RavenErrorHandler }
+    },
+    { provide: ErrorHandler, useClass: RavenErrorHandler }
   ],
   entryComponents: [IdleTimeoutDialogComponent],
   bootstrap: [AppComponent]
