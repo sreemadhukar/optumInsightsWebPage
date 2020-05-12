@@ -16,6 +16,7 @@
                 <input
                   type="checkbox"
                   id="all"
+                  class="checkall"
                   name="featureAll"
                   value="taxSummaryData.length"
                   [checked]="allChecked"
@@ -31,6 +32,7 @@
               <label class="checkbox-label">
                 <input
                   type="checkbox"
+                  class="check-particular"
                   id="{{ i + 1 }}"
                   name="feature{{ i + 1 }}"
                   value="{{ element.id }}"

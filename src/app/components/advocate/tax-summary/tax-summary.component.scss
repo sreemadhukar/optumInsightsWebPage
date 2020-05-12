@@ -78,18 +78,27 @@
         -o-transition: all 0.3s ease-out;
       }
       input:checked ~ .checkbox-custom::after {
+        border: solid $white;
+        background-color: transparent;
+        border-radius: 0;
+        opacity: 1;
+        left: 6px;
+        top: 0;
+        width: 6px;
+      }
+      input.check-particular:checked ~ .checkbox-custom::after {
         -webkit-transform: rotate(45deg) scale(1);
         -ms-transform: rotate(45deg) scale(1);
         transform: rotate(45deg) scale(1);
-        opacity: 1;
-        left: 5px;
-        top: 1px;
-        width: 6px;
         height: 12px;
-        border: solid $white;
-        border-width: 0 2px 2px 0;
-        background-color: transparent;
-        border-radius: 0;
+        border-width: 0 3px 3px 0;
+      }
+      input.checkall:checked ~ .checkbox-custom::after {
+        -webkit-transform: rotate(90deg) scale(1);
+        -ms-transform: rotate(90deg) scale(1);
+        transform: rotate(90deg) scale(1);
+        height: 15px;
+        border-width: 0 3px 0 0;
       }
     }
   }
