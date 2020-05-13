@@ -22,9 +22,9 @@ export class CallsComponent implements OnInit {
   pageSubTitle: String = '';
   timePeriod: string;
   lob: string;
+  mockCards: any = [{}, {}];
   taxID: Array<string>;
   loading: boolean;
-  mockCards: any;
   subscription: any;
   callsDataAvailable = false;
   constructor(
@@ -65,7 +65,6 @@ export class CallsComponent implements OnInit {
     }
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'callsPage' });
     this.loading = true;
-    this.mockCards = [{}, {}];
     this.callsItems = [];
     this.callsDataAvailable = false;
     this.callsServiceSrc

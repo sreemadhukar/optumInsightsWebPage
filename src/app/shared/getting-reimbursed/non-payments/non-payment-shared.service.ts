@@ -483,13 +483,24 @@ export class NonPaymentSharedService {
     // this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise(resolve => {
       this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
-        data => {
+        (data: any) => {
           // array
           let mappedData;
           if (paramtersSubCategory[0][1].ClaimsBy === 'DOP') {
+            // if (data.Data == null) {
+            //   mappedData = null;
+            // } else {
+            //   mappedData = data.Data[0];  // to be used when the api has changed as data.Data[0]
+            // }
             mappedData = data;
           } else {
-            mappedData = data.map(item => item[0]);
+            mappedData = data.map((item: any) => {
+              if (item.Data == null) {
+                return (mappedData = null);
+              } else {
+                return (mappedData = item.Data[0]);
+              }
+            });
           }
           for (let i = 0; i < topReasons.length; i++) {
             // deep copy
@@ -733,7 +744,6 @@ export class NonPaymentSharedService {
             }
           } else {
             const filter_data_claimSummary = [];
-            console.log('non Payment response', nonPaymentsTrendData);
             if (nonPaymentsTrendData && nonPaymentsTrendData[0].All) {
               nonPaymentsTrendData.forEach(element => {
                 let monthlyData = [];
@@ -750,7 +760,6 @@ export class NonPaymentSharedService {
                   });
                 }
               });
-              console.log('non Payment', filter_data_claimSummary);
               filter_data_claimSummary.sort(function(a, b) {
                 let dateA: any;
                 dateA = new Date(a.month);
