@@ -105,6 +105,9 @@ export class HttpInterceptorService implements HttpInterceptor {
           request = request.clone({
             headers: request.headers.set('applicationType', 'Internal')
           });
+          request = request.clone({
+            headers: request.headers.set('Application-Type', 'Internal')
+          });
         }
       }
     }
