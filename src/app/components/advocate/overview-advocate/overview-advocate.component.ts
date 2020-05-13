@@ -276,12 +276,12 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
         } else {
           // this.callsLineGraphLoading = false;
           let callsTrendData;
-          callsTrendData = totalCallsTrendData;
+          callsTrendData = { ...totalCallsTrendData };
           this.callsTrendLineGraph = new CallsTrendData(callsTrendData, CallsGeneralData, 'calls-trend-block');
           this.callsData = [];
-          for (const key in callsTrendData) {
-            if (callsTrendData.hasOwnProperty(key)) {
-              this.callsData.push({ key: key, value: this.sumArray(callsTrendData[key]) });
+          for (const key in totalCallsTrendData) {
+            if (totalCallsTrendData.hasOwnProperty(key)) {
+              this.callsData.push({ key: key, value: this.sumArray(totalCallsTrendData[key]) });
               /* if (
                 this.callsData[0].length +
                   this.callsData[1].length +

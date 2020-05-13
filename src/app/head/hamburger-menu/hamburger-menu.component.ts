@@ -38,6 +38,9 @@ import { NgRedux } from '@angular-redux/store';
 import { GroupPremiumDesignationService } from '../../rest/group-premium-designation/group-premium-designation.service';
 import { PCORData } from './../../modals/title-config';
 import { routingLinks } from './../../modals/route-config';
+// import { UserReviewService } from 'src/app/shared/user-review.service';
+// declare const externalRatingIntercept: any;
+
 @Component({
   selector: 'app-hamburger-menu',
   templateUrl: './hamburger-menu.component.html',
@@ -182,6 +185,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private viewPortScroller: ViewportScroller,
     private checkRlpService: CheckHcoRlpService,
     private ngRedux: NgRedux<any>,
+    // private userreviewservice: UserReviewService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -492,6 +496,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       }
     }
   }
+
+  // changeOfRoutes() {
+  //   this.userreviewservice.removeCreatedCookies();
+  // }
 
   advocateRole() {
     this.sessionService.checkAdvocateRole();

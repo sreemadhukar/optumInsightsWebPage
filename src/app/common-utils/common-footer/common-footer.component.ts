@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-common-footer',
@@ -50,20 +51,62 @@ export class CommonFooterComponent {
     this.router.navigate([this.routhTo]);
   }
 
-  removeLeadingZero(date) {
-    const textDate = this.decodeHtml(date);
-    const startDate = textDate.substring(4, 6),
-      endDate = textDate.substring(17, 19);
+  removeLeadingZero(text) {
+    const textData = this.decodeHtml(text);
+    const months = this.getMonths(textData);
+    if (months.m1 && !months.m2) {
+      const date = textData.substr(textData.indexOf(months.m1) + 4, 2);
+      return textData.replace(date, `${+date}`);
+    } else if (months.m1 && months.m2 && months.m1 === months.m2) {
+      const startDate = textData.substr(textData.indexOf(months.m1) + 4, 2);
+      const endDate = textData.substr(textData.lastIndexOf(months.m1) + 4, 2);
+      return this.replaceTwoDigitToOne(startDate, endDate, textData);
+    } else if (months.m1 && months.m2) {
+      const startDate = textData.substr(textData.indexOf(months.m1) + 4, 2);
+      const endDate = textData.substr(textData.indexOf(months.m2) + 4, 2);
+      return this.replaceTwoDigitToOne(startDate, endDate, textData);
+    } else {
+      return textData;
+    }
+  }
+
+  replaceTwoDigitToOne(startDate, endDate, textData) {
     if (startDate === endDate) {
       const regex = new RegExp(`${startDate}`, 'g');
-      return textDate.replace(regex, `${+startDate}`);
+      return textData.replace(regex, `${+startDate}`);
     }
-    return textDate.replace(startDate, `${+startDate}`).replace(endDate, `${+endDate}`);
+    return textData.replace(startDate, `${+startDate}`).replace(endDate, `${+endDate}`);
   }
 
   decodeHtml(htmlEntity) {
     const txt = document.createElement('textarea');
     txt.innerHTML = htmlEntity;
     return txt.value;
+  }
+
+  getMonths(str) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec'];
+    let m1, m2;
+    for (let i = 0; i < months.length; i++) {
+      if (str.indexOf(months[i]) !== -1) {
+        m1 = months[i];
+        if (str.lastIndexOf(months[i]) === str.indexOf(months[i])) {
+          const lessMonth = [...months];
+          _.pull(lessMonth, months[i]);
+
+          for (let j = 0; j < lessMonth.length; j++) {
+            if (str.indexOf(lessMonth[j]) !== -1) {
+              m2 = lessMonth[j];
+              break;
+            }
+          }
+          break;
+        } else {
+          m2 = m1;
+          break;
+        }
+      }
+    }
+    return { m1: m1, m2: m2 };
   }
 }
