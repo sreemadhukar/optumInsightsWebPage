@@ -2,6 +2,13 @@
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
 
+::ng-deep .overviewadvocate .card-structure {
+  display: block !important;
+  .card-inner-large {
+    margin: unset;
+    width: 100%;
+  }
+}
 ::ng-deep .overviewadvocate .app-card-structure {
   margin: 15px 15px 15px 0 !important;
 }
@@ -11,9 +18,10 @@
 .container-flex {
   display: flex;
   justify-content: space-between;
+  margin: 15px 0;
 }
 
-.non-payment-trend-block {
+.card-block {
   width: 100%;
   border-radius: 2px;
   background-color: #ffffff;
