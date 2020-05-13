@@ -441,12 +441,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
     this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
       data => {
+        this.moveBackHeader(true);
         this.glossaryFlag = true;
         this.glossaryTitle = data.value;
         this.glossaryMetricID = data.MetricID;
-        setTimeout(() => {
-          this.viewPortScroller.scrollToPosition([0, 0]);
-        }, 500);
+        // setTimeout(() => {
+        // this.viewPortScroller.scrollToPosition([0, 0]);
+        // }, 500);
         this.stopBodyScroll(true);
       },
       err => {
@@ -456,6 +457,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
     this.clickFilterIcon = this.filterExpandService.url.subscribe(
       data => {
+        this.moveBackHeader(true);
         this.filterFlag = true;
         this.customFilter = false;
         this.filterurl = data;
@@ -472,6 +474,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       data => {
         this.filterFlag = true;
         if (data) {
+          this.moveBackHeader(true);
           const { filterData = [], customFilter, url } = data;
           this.filterData = filterData;
           this.customFilter = customFilter;
@@ -675,17 +678,28 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   closeGlossary() {
     this.glossaryFlag = false;
     this.glossaryTitle = null;
+    this.moveBackHeader(false);
     this.stopBodyScroll(false);
   }
   filterFlagChange(flag) {
     this.filterFlag = flag;
     this.filterurl = null;
+    this.moveBackHeader(false);
     this.stopBodyScroll(false);
   }
   closeFilter() {
     this.filterFlag = false;
     this.filterurl = null;
+    this.moveBackHeader(false);
     this.stopBodyScroll(false);
+  }
+
+  moveBackHeader(flag: boolean) {
+    if (flag) {
+      document.getElementsByClassName('example-toolbar')[0].classList.add('background');
+    } else {
+      document.getElementsByClassName('example-toolbar')[0].classList.remove('background');
+    }
   }
 
   stopBodyScroll(flag: boolean) {
@@ -705,7 +719,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     if (this.glossaryFlag) {
       this.glossaryFlag = false;
     }
+    this.moveBackHeader(false);
     this.stopBodyScroll(false);
+    this.moveBackHeader(false);
   }
 
   /**
