@@ -1,10 +1,12 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 import { MatSort, Sort } from '@angular/material/sort';
 import * as d3 from 'd3';
+import { INITIAL_STATE } from '../../../store/filter/reducer';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-tax-summary',
@@ -13,15 +15,17 @@ import * as d3 from 'd3';
 })
 export class TaxSummaryComponent implements OnInit {
   @Input() data;
+  @Output() tinValues = new EventEmitter();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @Input() selectedTaxId;
   taxSummaryData: any;
   numberOfTins: any;
-  taxSummaryColumns: string[] = ['Tin', 'TinName', 'TaxIdType', 'TaxIdOwnership'];
+  taxSummaryColumns: string[] = ['TinCheckBox', 'Tin', 'TinName', 'TaxIdType', 'TaxIdOwnership'];
   pageSize = 25;
   filterObj = {};
   tinOwnershipSelected = 'Owned';
-
+  allChecked: Boolean = false;
   constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
       'arrow',
@@ -40,6 +44,38 @@ export class TaxSummaryComponent implements OnInit {
         this.taxSummaryData.paginator = null;
       }
     }
+    this.selectedTaxId.forEach(val => {
+      const selectedValue = _.find(this.taxSummaryData.filteredData, { Tin: val.Tin });
+      selectedValue.checked = true;
+      this.taxSummaryData.filteredData.indexOf(selectedValue);
+    });
+  }
+
+  checkAllChecked() {
+    this.allChecked = !this.allChecked;
+    for (let i = 0; i < this.data.All.length; i++) {
+      this.data.All[i]['checked'] = this.allChecked;
+    }
+    if (this.allChecked) {
+      this.selectedTaxId = INITIAL_STATE.taxId;
+      this.tinValues.emit(this.selectedTaxId);
+    }
+  }
+
+  // event.target.value is fetching the actual id of the response
+  checkBoxChecked(row) {
+    row.checked = !row.checked;
+    if (this.selectedTaxId[0].Tin === 'All') {
+      this.selectedTaxId = [];
+    }
+    row.checked
+      ? this.selectedTaxId.push({
+          Tin: row.Tin,
+          Tinname: row.TinName,
+          number: parseInt(row.Tin.replace('-', ''))
+        })
+      : this.selectedTaxId.splice(this.selectedTaxId.indexOf(row.Tin), 1);
+    this.tinValues.emit(this.selectedTaxId);
   }
 
   getPageSize(event) {
@@ -48,6 +84,10 @@ export class TaxSummaryComponent implements OnInit {
 
   getTaxSummaryData() {
     if (this.data.All && this.data.All.length > 0) {
+      for (let i = 0; i < this.data.All.length; i++) {
+        this.data.All[i]['id'] = i + 1;
+        this.data.All[i]['checked'] = false;
+      }
       this.numberOfTins = this.data.All.length;
       this.taxSummaryData = new MatTableDataSource(this.data.All);
       this.taxSummaryData.sort = this.sort;
