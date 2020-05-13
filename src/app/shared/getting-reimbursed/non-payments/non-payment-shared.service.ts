@@ -733,6 +733,7 @@ export class NonPaymentSharedService {
             }
           } else {
             const filter_data_claimSummary = [];
+            console.log('non Payment response', nonPaymentsTrendData);
             if (nonPaymentsTrendData && nonPaymentsTrendData[0].All) {
               nonPaymentsTrendData.forEach(element => {
                 let monthlyData = [];
@@ -749,6 +750,7 @@ export class NonPaymentSharedService {
                   });
                 }
               });
+              console.log('non Payment', filter_data_claimSummary);
               filter_data_claimSummary.sort(function(a, b) {
                 let dateA: any;
                 dateA = new Date(a.month);
