@@ -43,7 +43,7 @@ export class OverviewService {
     eparams = eparams.append('filter', 'executive');
 
     const executiveURL = this.APP_URL + this.EXECUTIVE_SERVICE_PATH + parameters[0];
-    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?request-type=PAYMENT_METRICS';
 
     return combineLatest(
       this.http.get(executiveURL, { params: eparams }).pipe(
@@ -51,15 +51,33 @@ export class OverviewService {
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
       this.http.post(claimsURL, tParams).pipe(
-        map(res => JSON.parse(JSON.stringify(res[0]))),
+        map((res: any) => {
+          if (res.Data == null) {
+            return null;
+          } else {
+            return res.Data[0];
+          }
+        }),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
       this.http.post(claimsURL, ediparams).pipe(
-        map(res => res[0]),
+        map((res: any) => {
+          if (res.Data == null) {
+            return null;
+          } else {
+            return res.Data[0];
+          }
+        }),
         catchError(err => of(err))
       ),
       this.http.post(claimsURL, pprparams).pipe(
-        map(res => res[0]),
+        map((res: any) => {
+          if (res.Data == null) {
+            return null;
+          } else {
+            return res.Data[0];
+          }
+        }),
         catchError(err => of(err))
       )
     );
@@ -79,9 +97,16 @@ export class OverviewService {
       };
     }
 
-    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters.providerkey + '?requestType=PAYMENT_METRICS';
+    const claimsURL =
+      this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters.providerkey + '?request-type=PAYMENT_METRICS';
     return this.http.post(claimsURL, tParams).pipe(
-      map(res => JSON.parse(JSON.stringify(res[0]))),
+      map((res: any) => {
+        if (res.Data == null) {
+          return null;
+        } else {
+          return res.Data[0];
+        }
+      }),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
