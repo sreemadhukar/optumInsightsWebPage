@@ -2,6 +2,15 @@
 @import '~src/scss/mixins';
 
 // Patch.Will be removed after page header refactor
+
+::ng-deep .nonpayments .card-structure {
+  width: 100%;
+  .card-inner-large {
+    margin: unset;
+    width: 100%;
+  }
+}
+
 ::ng-deep .nonpayments .app-card-structure {
   margin-left: 0 !important;
 }
@@ -39,12 +48,13 @@
   width: 100px;
 }
 
-.top-reasons-for-claims-non-payment-block {
+.card-block {
+  margin: 15px 0;
   width: 100%;
-
-  // box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  margin: 12px 0;
-  float: left;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  display: inline-block;
 }
 .bar-graphs-block {
   // /*padding: 16px;*/
@@ -382,17 +392,6 @@
   left: 36px;
   top: 1px;
   border-radius: 20px;
-}
-// Claims Non Payment Trend Css Begins
-.non-payment-trend-block {
-  width: 100%;
-  // height: 450px;
-  border-radius: 2px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  margin: 12px 0;
-  float: left;
-  position: relative;
 }
 
 .bottom-margin-block {
