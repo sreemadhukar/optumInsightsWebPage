@@ -36,7 +36,11 @@
       class="cards"
       [data]="barChartsArray"
     ></app-error-card>
-    <div class="top-reasons-for-claims-non-payment-block" *ngIf="topReasonsCategoryDisplay && !loadingTopReasons">
+    <div
+      class="top-reasons-for-claims-non-payment-block"
+      *ngIf="topReasonsCategoryDisplay && !loadingTopReasons"
+      [ngClass]="{ 'non-payments-top-reasons-print': printStyle === true }"
+    >
       <app-common-header [title]="title" class="full-display white-bg" (helpIconClicked)="helpIconClick($event)">
       </app-common-header>
       <div class="bar-graphs-block">
@@ -136,7 +140,11 @@
     class="cards"
     [data]="monthlyLineGraph"
   ></app-error-card>
-  <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
+  <div
+    class="non-payment-trend-block"
+    [ngClass]="{ 'non-payments-trend-print': printStyle === true }"
+    *ngIf="trendMonthDisplay"
+  >
     <app-common-header
       [title]="trendTitle"
       class="full-display bottom-margin-block"
