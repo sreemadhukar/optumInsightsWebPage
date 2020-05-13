@@ -20,6 +20,7 @@ export class TaxSummaryComponent implements OnInit {
   taxSummaryColumns: string[] = ['Tin', 'TinName', 'TaxIdType', 'TaxIdOwnership'];
   pageSize = 25;
   filterObj = {};
+  tinOwnershipSelected = 'Owned';
 
   constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
@@ -55,6 +56,7 @@ export class TaxSummaryComponent implements OnInit {
       this.sort.active = sortState.active;
       this.sort.direction = sortState.direction;
       this.sort.sortChange.emit(sortState);
+      this.searchTaxId('Owned', 'TaxIdOwnership');
       this.taxSummaryData.filterPredicate = data => {
         if (data[this.filterObj['key']] && this.filterObj['key']) {
           return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);

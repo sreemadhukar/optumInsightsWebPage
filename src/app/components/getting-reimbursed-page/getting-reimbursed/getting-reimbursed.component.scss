@@ -10,15 +10,13 @@
   }
 }
 
-.getting-reimbursed-cards {
+::ng-deep .getting-reimbursed-cards .app-card-structure {
   display: inline-flex;
-  margin-left: -8px;
-  /*margin-top: 15px;*/
-  margin-top: 10px;
+  margin: 15px 16px 15px 0px !important;
 }
 .height1Separator {
   height: 0;
-  width: 1200px;
+  width: 100%;
 }
 .cards {
   text-align: left;
