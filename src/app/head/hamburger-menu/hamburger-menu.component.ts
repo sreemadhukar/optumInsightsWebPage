@@ -1,4 +1,3 @@
-import { LeftNavData } from './../../constant/constant';
 import {
   Component,
   AfterViewInit,
@@ -37,6 +36,8 @@ import { CheckHcoRlpService } from '../../shared/performance/check-hco-rlp.servi
 import { RESET_KOP_FILTER } from 'src/app/store/kopFilter/actions';
 import { NgRedux } from '@angular-redux/store';
 import { GroupPremiumDesignationService } from '../../rest/group-premium-designation/group-premium-designation.service';
+import { PCORData } from './../../modals/title-config';
+import { routingLinks } from './../../modals/route-config';
 // import { UserReviewService } from 'src/app/shared/user-review.service';
 // declare const externalRatingIntercept: any;
 
@@ -124,7 +125,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     { icon: 'prior-auth', name: 'Prior Authorizations', path: '/CareDelivery/priorAuth', disabled: false },
     {
       icon: 'pcor',
-      name: LeftNavData.PCORTtitle,
+      name: PCORData.PCORTitle,
       path: '/CareDelivery/PatientCareOpportunity',
       disabled: true
     },
@@ -270,10 +271,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.loading = true;
         // Role based access for Advocates Overview page
         if (this.checkAdv.value) {
-          this.navCategories[1].path = LeftNavData.OverviewAdvocatepath;
-          console.log('271 left nav', LeftNavData.OverviewAdvocatepath);
+          this.navCategories[1].path = routingLinks.OverviewAdvocatepath;
+
           if (window.location.pathname === '/OverviewPage' && !event.url.includes('print-')) {
-            window.location.href = LeftNavData.OverviewAdvocatepath;
+            window.location.href = routingLinks.OverviewAdvocatepath;
           }
         }
         // this.checkPcorData();
@@ -321,7 +322,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         if (
           sessionStorage.getItem('advocateView') === 'true' &&
           !this.makeAbsolute &&
-          event.url !== LeftNavData.OverviewAdvocatepath &&
+          event.url !== routingLinks.OverviewAdvocatepath &&
           event.url !== '/OverviewPageAdvocate/Home' &&
           this.checkAdv.value
         ) {
@@ -502,18 +503,18 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   advocateRole() {
     this.sessionService.checkAdvocateRole();
-    this.navCategories[1].path = LeftNavData.OverviewAdvocatepath;
+    this.navCategories[1].path = routingLinks.OverviewAdvocatepath;
   }
 
   /* To check whether we have data for the PCOR or not, if we don't have data for PCOR then in the navigation
    bar PCOR will be hidden
    */
   insertPCORnav() {
-    const getIndex: number = this.navCategories.findIndex(item => item.name === LeftNavData.PCORTtitle);
+    const getIndex: number = this.navCategories.findIndex(item => item.name === PCORData.PCORTitle);
     this.navCategories[getIndex].disabled = false;
   }
   removePCORnav() {
-    const getIndex: number = this.navCategories.findIndex(item => item.name === LeftNavData.PCORTtitle);
+    const getIndex: number = this.navCategories.findIndex(item => item.name === PCORData.PCORTitle);
     this.navCategories[getIndex].disabled = true;
   }
   checkToggle(bool: boolean) {
@@ -593,7 +594,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             if (this.router.url.includes('CareDelivery/PatientCareOpportunity')) {
               // Role based access for Advocates Overview page
               if (this.checkAdv.value) {
-                this.router.navigate([LeftNavData.OverviewAdvocatepath]);
+                this.router.navigate([routingLinks.OverviewAdvocatepath]);
               } else if (this.checkPro.value) {
                 this.router.navigate(['/OverviewPage']);
               }
@@ -744,7 +745,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       sessionStorage.removeItem('advocateView');
       this.advocateView = false;
     }, 300);
-    location.href = LeftNavData.OverviewAdvocatepath;
+    location.href = routingLinks.OverviewAdvocatepath;
     sessionStorage.setItem('advocateView', 'false');
   }
 
