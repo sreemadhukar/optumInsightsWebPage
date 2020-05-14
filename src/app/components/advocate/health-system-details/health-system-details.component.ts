@@ -107,5 +107,6 @@ export class HealthSystemDetailsComponent implements OnInit {
 
   getSelectedTaxIds($event) {
     this.selectedTin = $event;
+    console.log(this.selectedTin);
   }
 }

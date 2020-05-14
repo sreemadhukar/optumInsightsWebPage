@@ -5,7 +5,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 import { MatSort, Sort } from '@angular/material/sort';
 import * as d3 from 'd3';
-import { INITIAL_STATE } from '../../../store/filter/reducer';
 import * as _ from 'lodash';
 
 @Component({
@@ -26,6 +25,7 @@ export class TaxSummaryComponent implements OnInit {
   filterObj = {};
   tinOwnershipSelected = 'Owned';
   allChecked: Boolean = false;
+  selectAll: Boolean = false;
   constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
       'arrow',
@@ -47,34 +47,53 @@ export class TaxSummaryComponent implements OnInit {
     this.selectedTaxId.forEach(val => {
       const selectedValue = _.find(this.taxSummaryData.filteredData, { Tin: val.Tin });
       selectedValue.checked = true;
+      this.allChecked = true;
       this.taxSummaryData.filteredData.indexOf(selectedValue);
     });
   }
 
   checkAllChecked() {
     this.allChecked = !this.allChecked;
-    for (let i = 0; i < this.data.All.length; i++) {
-      this.data.All[i]['checked'] = this.allChecked;
+    for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
+      this.taxSummaryData.filteredData[i]['checked'] = this.allChecked;
+      if (this.allChecked && this.taxSummaryData.filteredData.length !== this.taxSummaryData.data.length) {
+        this.selectAll = false;
+        this.selectedTaxId.push({
+          Tin: this.taxSummaryData.filteredData[i].Tin,
+          Tinname: this.taxSummaryData.filteredData[i].TinName
+        });
+        if (this.selectedTaxId[0].Tin === 'All') {
+          this.selectedTaxId.shift();
+        }
+      } else {
+        this.selectedTaxId.splice(this.selectedTaxId.indexOf(this.taxSummaryData.filteredData[i].Tin), 1);
+      }
     }
-    if (this.allChecked) {
-      this.selectedTaxId = INITIAL_STATE.taxId;
-      this.tinValues.emit(this.selectedTaxId);
+    if (this.allChecked && this.taxSummaryData.filteredData.length === this.taxSummaryData.data.length) {
+      this.selectAll = true;
+      this.selectedTaxId = [{ Tin: 'All', Tinname: 'All' }];
     }
+    this.tinValues.emit(this.selectedTaxId);
   }
 
   // event.target.value is fetching the actual id of the response
   checkBoxChecked(row) {
     row.checked = !row.checked;
-    if (this.selectedTaxId[0].Tin === 'All') {
-      this.selectedTaxId = [];
+    if (row.checked) {
+      this.allChecked = true;
+      this.selectedTaxId.push({
+        Tin: row.Tin,
+        Tinname: row.TinName
+      });
+      if (this.selectedTaxId[0].Tin === 'All') {
+        this.selectedTaxId.shift();
+      }
+    } else {
+      this.selectedTaxId.splice(this.selectedTaxId.indexOf(row.Tin), 1);
     }
-    row.checked
-      ? this.selectedTaxId.push({
-          Tin: row.Tin,
-          Tinname: row.TinName,
-          number: parseInt(row.Tin.replace('-', ''))
-        })
-      : this.selectedTaxId.splice(this.selectedTaxId.indexOf(row.Tin), 1);
+    if (this.selectedTaxId.length === 0) {
+      this.allChecked = false;
+    }
     this.tinValues.emit(this.selectedTaxId);
   }
 
