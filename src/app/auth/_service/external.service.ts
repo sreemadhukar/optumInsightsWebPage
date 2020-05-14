@@ -13,7 +13,7 @@ export class ExternalService {
   constructor(
     private authService: AuthenticationService,
     private storageService: StorageService,
-    private checkErrorService: ErrorHandlingService
+    private readonly checkErrorService: ErrorHandlingService
   ) {}
 
   public CheckExternal(code, token) {

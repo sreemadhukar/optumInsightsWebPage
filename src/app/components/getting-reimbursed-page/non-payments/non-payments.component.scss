@@ -2,6 +2,15 @@
 @import '~src/scss/mixins';
 
 // Patch.Will be removed after page header refactor
+
+::ng-deep .nonpayments .card-structure {
+  width: 100%;
+  .card-inner-large {
+    margin: unset;
+    width: 100%;
+  }
+}
+
 ::ng-deep .nonpayments .app-card-structure {
   margin-left: 0 !important;
 }
@@ -37,14 +46,17 @@
   // height: 120px;
   height: 270px;
   width: 100px;
+  clear: both;
 }
 
-.top-reasons-for-claims-non-payment-block {
+.card-block {
+  margin: 15px 0;
   width: 100%;
-
-  // box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  margin: 12px 0;
-  float: left;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  display: inline-block;
+  position: relative;
 }
 .bar-graphs-block {
   // /*padding: 16px;*/
@@ -383,17 +395,6 @@
   top: 1px;
   border-radius: 20px;
 }
-// Claims Non Payment Trend Css Begins
-.non-payment-trend-block {
-  width: 100%;
-  // height: 450px;
-  border-radius: 2px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  margin: 12px 0;
-  float: left;
-  position: relative;
-}
 
 .bottom-margin-block {
   margin-bottom: 15px;
@@ -418,4 +419,13 @@
 }
 .time-period-trend {
   float: left;
+}
+.non-payments-top-reasons-print,
+.non-payments-trend-print {
+  border: 1px solid $gainsboro;
+  box-shadow: none;
+  width: auto;
+}
+.non-payments-trend-print {
+  width: 958px;
 }

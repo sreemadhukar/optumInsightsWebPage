@@ -64,13 +64,13 @@
         [fixedInViewport]="true"
         [opened]="!(!sideNavFlag || makeAbsolute)"
         [class.display-none]="makeAbsolute || boolRemoveLeftNav"
-        [ngClass]="fromKOP || advocateView ? 'top-40' : 'top-0'"
+        [ngClass]="fromKOP || advocateView ? 'top-112' : ''"
         color="primary"
       >
         <!-- UHC LOGO BLOCK -->
-        <div class="uhc-logo-block">
+        <!-- <div class="uhc-logo-block">
           <img class="uhc-logo" src="/src/assets/images/UHC Logo@2x.png" />
-        </div>
+        </div> -->
         <!-- END OF UHC LOGO BLOCK -->
         <!-- HEALTHSYSTEM REPRESENTATION BLOCK -->
         <div class="health-system-representation-block" *ngIf="!isKop">
@@ -265,6 +265,7 @@
 
       <mat-sidenav-content color="primary">
         <router-outlet></router-outlet>
+        <!-- <router-outlet (activate)="changeOfRoutes()"></router-outlet> -->
       </mat-sidenav-content>
     </mat-sidenav-container>
     <app-footer-common class="footer-block" [class.display-none]="makeAbsolute"></app-footer-common>

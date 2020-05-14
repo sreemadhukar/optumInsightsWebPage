@@ -156,7 +156,8 @@ export class CreatePayloadService {
   }
 
   getPayloadForGettingReimbursed(temporaryState) {
-    if (
+    /* Uncomment if the data is not available for 2018 */
+    /* if (
       temporaryState.currentPage === 'paymentsPage' ||
       temporaryState.currentPage === 'nonPaymentsPage' ||
       temporaryState.currentPage === 'gettingReimbursedSummary'
@@ -164,12 +165,12 @@ export class CreatePayloadService {
       if (temporaryState.timePeriod === '2018') {
         temporaryState.timePeriod = 'Last6Months';
       }
-    } else {
-      const serializedState = JSON.parse(sessionStorage.getItem('state'));
-      if (serializedState && serializedState.timePeriod) {
-        temporaryState.timePeriod = serializedState.timePeriod;
-      }
+    } else { */
+    const serializedState = JSON.parse(sessionStorage.getItem('state'));
+    if (serializedState && serializedState.timePeriod) {
+      temporaryState.timePeriod = serializedState.timePeriod;
     }
+    // }
     return temporaryState.currentPage;
   }
 

@@ -199,8 +199,6 @@ export class PriorAuthSharedService {
 
             let PAApprovedCount;
             let PANotApprovedCount;
-            let PAPendingCount;
-            let PACancelledCount;
 
             // LOB all
 
@@ -259,8 +257,8 @@ export class PriorAuthSharedService {
 
             PAApprovedCount = data.PriorAuthApprovedCount;
             PANotApprovedCount = data.PriorAuthNotApprovedCount;
-            PAPendingCount = data.PriorAuthPendingCount;
-            PACancelledCount = data.PriorAuthCancelledCount;
+            const PAPendingCount = data.PriorAuthPendingCount;
+            const PACancelledCount = data.PriorAuthCancelledCount;
             const PARequestedCount = PAApprovedCount + PANotApprovedCount + PACancelledCount;
             const TotalApprovedNotapproved = PARequestedCount - PACancelledCount; // sum of approved and not approved
             let PAApprovalRate;

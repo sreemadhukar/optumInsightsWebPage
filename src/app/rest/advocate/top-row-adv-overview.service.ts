@@ -15,9 +15,15 @@ export class TopRowAdvOverviewService {
   constructor(private http: HttpClient) {}
 
   public getPaymentData(...parameters) {
-    const nonPaymentURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+    const nonPaymentURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?request-type=PAYMENT_METRICS';
     return this.http.post(nonPaymentURL, parameters[1]).pipe(
-      map(res => JSON.parse(JSON.stringify(res[0]))),
+      map((res: any) => {
+        if (res.Data == null) {
+          return null;
+        } else {
+          return res.Data[0];
+        }
+      }),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
@@ -31,15 +37,21 @@ export class TopRowAdvOverviewService {
     /*SEE ABOVE*/
     let claimsURL;
     if (parameters[1]['ClaimsBy'] === 'DOP') {
-      claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=CLAIMS';
+      claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?request-type=CLAIMS';
       return this.http.post(claimsURL, par).pipe(
-        map(res => JSON.parse(JSON.stringify(res))),
+        map((res: any) => res.Data),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
     } else {
-      claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+      claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?request-type=PAYMENT_METRICS';
       return this.http.post(claimsURL, par).pipe(
-        map(res => JSON.parse(JSON.stringify(res[0]))),
+        map((res: any) => {
+          if (res.Data == null) {
+            return null;
+          } else {
+            return res.Data[0];
+          }
+        }),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
     }

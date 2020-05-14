@@ -17,16 +17,22 @@ export class NonPaymentService {
   public getNonPaymentData(...parameters) {
     let nonPaymentURL;
     if (parameters[1]['ClaimsBy'] === 'DOP') {
-      nonPaymentURL = this.APP_URL + this.NON_PAYMENT_DOP + parameters[0] + '?requestType=CLAIMS';
+      nonPaymentURL = this.APP_URL + this.NON_PAYMENT_DOP + parameters[0] + '?request-type=CLAIMS';
       return this.http.post(nonPaymentURL, parameters[1]).pipe(
-        map(res => JSON.parse(JSON.stringify(res))),
+        map((res: any) => res.Data),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
     } else {
-      nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=PAYMENT_METRICS';
+      nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?request-type=PAYMENT_METRICS';
       return combineLatest(
         this.http.post(nonPaymentURL, parameters[1]).pipe(
-          map(res => JSON.parse(JSON.stringify(res[0]))),
+          map((res: any) => {
+            if (res.Data == null) {
+              return null;
+            } else {
+              return res.Data[0];
+            }
+          }),
           catchError(err => of(JSON.parse(JSON.stringify(err))))
         )
       );
@@ -38,18 +44,24 @@ export class NonPaymentService {
     if (parameters[1]['ClaimsBy'] === 'DOP') {
       nonPaymentUrl = this.NON_PAYMENT_DOP;
       parameters[1].reportType = 'subject';
-      nonPaymentURL = this.APP_URL + nonPaymentUrl + parameters[0] + '?requestType=TOP_DENIAL_REASONS';
+      nonPaymentURL = this.APP_URL + nonPaymentUrl + parameters[0] + '?request-type=TOP_DENIAL_REASONS';
       return combineLatest(
         this.http.post(nonPaymentURL, parameters[1]).pipe(
-          map(res => JSON.parse(JSON.stringify(res))),
+          map((res: any) => res.Data),
           catchError(err => of(JSON.parse(JSON.stringify(err))))
         )
       );
     } else {
-      nonPaymentURL = this.APP_URL + nonPaymentUrl + parameters[0] + '?requestType=NONPAYMENT_TOPCATEGORIES';
+      nonPaymentURL = this.APP_URL + nonPaymentUrl + parameters[0] + '?request-type=NONPAYMENT_TOPCATEGORIES';
       return combineLatest(
         this.http.post(nonPaymentURL, parameters[1]).pipe(
-          map(res => JSON.parse(JSON.stringify(res[0]))),
+          map((res: any) => {
+            if (res.Data == null) {
+              return null;
+            } else {
+              return res.Data[0];
+            }
+          }),
           catchError(err => of(JSON.parse(JSON.stringify(err))))
         )
       );
@@ -59,11 +71,18 @@ export class NonPaymentService {
   public getNonPaymentSubCategories(parameters) {
     let nonPaymentURL;
     if (parameters[0][1]['ClaimsBy'] === 'DOP') {
-      nonPaymentURL = this.APP_URL + this.NON_PAYMENT_DOP + parameters[0][0] + '?requestType=TOP_SUB_DENIAL_REASONS';
-      const apiCall = parameters.map(param => this.http.post(nonPaymentURL, param[1]));
+      nonPaymentURL = this.APP_URL + this.NON_PAYMENT_DOP + parameters[0][0] + '?request-type=TOP_SUB_DENIAL_REASONS';
+      const apiCall = parameters.map(param =>
+        this.http.post(nonPaymentURL, param[1]).pipe(
+          map((res: any) => res.Data),
+          catchError(err => of(JSON.parse(JSON.stringify(err))))
+        )
+      );
+      console.log('nandu');
+      console.log(apiCall);
       return combineLatest(apiCall);
     } else {
-      nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?requestType=NONPAYMENT_TOPSUBCATEGORIES';
+      nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?request-type=NONPAYMENT_TOPSUBCATEGORIES';
       const apiCall = parameters.map(param => this.http.post(nonPaymentURL, param[1]));
       return combineLatest(apiCall);
     }
@@ -96,15 +115,21 @@ export class NonPaymentService {
       const nonPaymentURL = this.APP_URL + this.NON_PAYMENT_TREND_DOP + parameters[0][0];
       return combineLatest(
         this.http.post(nonPaymentURL, parameters[0][1]).pipe(
-          map(res => res),
+          map((res: any) => res.Data),
           catchError(err => of(JSON.parse(JSON.stringify(err))))
         )
       );
     } else {
-      const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?requestType=NONPAYMENT_BYMONTH';
+      const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?request-type=NONPAYMENT_BYMONTH';
       return combineLatest(
         this.http.post(nonPaymentURL, parameters[0][1]).pipe(
-          map(res => JSON.parse(JSON.stringify(res[0]))),
+          map((res: any) => {
+            if (res.Data == null) {
+              return null;
+            } else {
+              return res.Data[0];
+            }
+          }),
           catchError(err => of(JSON.parse(JSON.stringify(err))))
         )
       );

@@ -6,6 +6,7 @@ import { map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { IPaymentBySubResponse } from '../../modals/i-payment-by-submission';
 import { get as _get } from 'lodash';
+import { OverviewAdvocate } from 'src/app/modals/title-config';
 
 @Injectable({
   providedIn: 'root'
@@ -60,11 +61,12 @@ export class OverviewAdvocateService {
     }
 
     let params = new HttpParams();
+
     if (parameters[1].TimeFilter === 'CalendarYear') {
-      params = params.append('time-filter', parameters[1].TimeFilter);
+      params = params.append(OverviewAdvocate.timeFilter, parameters[1].TimeFilter);
       params = params.append('time-filter-text', parameters[1].TimeFilterText);
     } else {
-      params = params.append('time-filter', parameters[1].TimeFilter);
+      params = params.append(OverviewAdvocate.timeFilter, parameters[1].TimeFilter);
     }
 
     const callsURL = this.APP_URL + this.CALLS_TREND_SERVICE_PATH + parameters[0];
@@ -92,10 +94,10 @@ export class OverviewAdvocateService {
 
     let params = new HttpParams();
     if (parameters[1].TimeFilter === 'CalendarYear') {
-      params = params.append('time-filter', parameters[1].TimeFilter);
+      params = params.append(OverviewAdvocate.timeFilter, parameters[1].TimeFilter);
       params = params.append('time-filter-text', parameters[1].TimeFilterText);
     } else {
-      params = params.append('time-filter', parameters[1].TimeFilter);
+      params = params.append(OverviewAdvocate.timeFilter, parameters[1].TimeFilter);
     }
 
     const callsURL = this.APP_URL + this.CALLS_TREND_LINE_SERVICE_PATH + parameters[0];
@@ -130,7 +132,7 @@ export class OverviewAdvocateService {
   }*/
     const claimsBY = _get(parameters[1], ['ClaimsBy']);
     let nonPaymentURL =
-      this.APP_URL + this.PAYMENTS_BY_SUBMISSION_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+      this.APP_URL + this.PAYMENTS_BY_SUBMISSION_SERVICE_PATH + parameters[0] + '?request-type=PAYMENT_METRICS';
 
     // Create URL for DOP Submission
     if (claimsBY === 'DOP') {
@@ -139,12 +141,16 @@ export class OverviewAdvocateService {
     }
 
     return this.http.post<IPaymentBySubResponse>(nonPaymentURL, parameters[1]).pipe(
-      map(res => {
+      map((res: any) => {
         // Handle response for DOP submissions
         if (claimsBY === 'DOP') {
           return _get(res, ['Data', '0'], {});
         }
-        return res;
+        if (res.Data == null) {
+          return null;
+        } else {
+          return res.Data;
+        }
       }),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
