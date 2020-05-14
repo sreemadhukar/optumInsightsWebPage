@@ -70,7 +70,7 @@ export class OverviewComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private filtermatch: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     public sessionService: SessionService
   ) {
     this.selfServiceLink = 'Self Service Details';

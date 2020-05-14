@@ -51,18 +51,13 @@ export class ContactusComponent implements OnInit {
       answer: `UHC Insights has a Filter menu on many pages that can help you narrow down data by Time Period,
          Line of Business, Tax ID (TIN) and several other options.`
     }
-    // {
-    //   question: 'What if I have an idea for UHC Insights?',
-    //   answer:
-    //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-    // }
   ];
   content = {
     title: 'Contact Us',
     text:
       "We're here to help! Please reach out to your UnitedHealthcare contact with any questions or locate your state's contact information."
   };
-  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+  constructor(private iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
       'carrot',
       this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')

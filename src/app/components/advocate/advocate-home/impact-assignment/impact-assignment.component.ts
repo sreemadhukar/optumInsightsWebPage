@@ -28,8 +28,8 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
   constructor(
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
-    private homeService: HomeService,
-    private session: SessionService
+    private readonly homeService: HomeService,
+    private readonly session: SessionService
   ) {
     iconRegistry.addSvgIcon(
       'star',

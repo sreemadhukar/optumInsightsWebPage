@@ -39,24 +39,14 @@ export class PriorAuthComponent implements OnInit {
     private priorAuthShared: PriorAuthSharedService,
     private iconRegistry: MatIconRegistry,
     private session: SessionService,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private common: CommonUtilsService,
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>
   ) {
-    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pagesubTitle = 'Prior Authorizations';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
-      // changing the session will trigger ngoninit
-      // this.session.store({
-      //   timeFrame: this.timePeriod,
-      //   lob: this.session.filterObjValue.lob,
-      //   tax: ['All'],
-      //   serviceSetting: this.session.filterObjValue.serviceSetting,
-      //   scType: this.session.filterObjValue.scType
-      // });
-      // this.ngOnInit();
       this.createPayloadService.resetTinNumber('priorAuthPage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
       this.common.urlResuseStrategy();
@@ -69,9 +59,6 @@ export class PriorAuthComponent implements OnInit {
       'close',
       this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    /*  this.createPayloadService.getEvent().subscribe(value => {
-      this.ngOnInit();
-    }); */
   }
 
   ngOnInit() {
@@ -83,40 +70,6 @@ export class PriorAuthComponent implements OnInit {
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'priorAuthPage' });
 
-    // this.filterParameters = this.session.filterObjValue;
-    // this.timePeriod = this.session.filterObjValue.timeFrame;
-    // if (this.session.filterObjValue.lob !== 'All') {
-    //   this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
-    // } else {
-    //   this.lob = '';
-    // }
-    // if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
-    //   this.taxID = this.session.filterObjValue.tax;
-    //   if (this.taxID.length > 3) {
-    //     this.taxID = [this.taxID.length + ' Selected'];
-    //   }
-    // } else {
-    //   this.taxID = [];
-    // }
-    // if (this.session.filterObjValue.serviceSetting) {
-    //   this.serviceSetting = this.session.filterObjValue.serviceSetting;
-    // } else {
-    //   this.serviceSetting = 'All';
-    //   this.filterParameters.serviceSetting = 'All';
-    // }
-    // if (this.session.filterObjValue.priorAuthType) {
-    //   this.priorAuthType = this.session.filterObjValue.priorAuthType;
-    // } else {
-    //   this.priorAuthType = 'All';
-    //   this.filterParameters.priorAuthType = 'All';
-    // }
-    // if (this.session.filterObjValue.scType) {
-    //   this.filterParameters.scType = this.session.filterObjValue.scType;
-    //   this.scType = this.filterParameters.scType;
-    // } else {
-    //   this.filterParameters.scType = 'All';
-    //   this.scType = this.filterParameters.scType;
-    // }
     this.loading = true;
     this.hideAllObjects = true;
     this.reasonItems = [{}];
@@ -134,92 +87,4 @@ export class PriorAuthComponent implements OnInit {
       }
     );
   }
-  // openFilter() {
-  //   this.filterExpandService.setURL(this.router.url);
-  // }
-  // removeFilter(type, value) {
-  //   if (type === 'lob') {
-  //     this.lob = '';
-  //     this.session.store({
-  //       timeFrame: this.timePeriod,
-  //       lob: 'All',
-  //       tax: this.session.filterObjValue.tax,
-  //       serviceSetting: this.session.filterObjValue.serviceSetting,
-  //       priorAuthType: this.session.filterObjValue.priorAuthType,
-  //       scType: this.session.filterObjValue.scType
-  //     });
-  //   } else if (type === 'tax' && !value.includes('Selected')) {
-  //     this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
-  //     if (this.taxID.length > 0) {
-  //       this.session.store({
-  //         timeFrame: this.timePeriod,
-  //         lob: this.session.filterObjValue.lob,
-  //         tax: this.taxID,
-  //         serviceSetting: this.session.filterObjValue.serviceSetting,
-  //         priorAuthType: this.session.filterObjValue.priorAuthType,
-  //         scType: this.session.filterObjValue.scType
-  //       });
-  //     } else {
-  //       this.session.store({
-  //         timeFrame: this.timePeriod,
-  //         lob: this.session.filterObjValue.lob,
-  //         tax: ['All'],
-  //         serviceSetting: this.session.filterObjValue.serviceSetting,
-  //         priorAuthType: this.session.filterObjValue.priorAuthType,
-  //         scType: this.session.filterObjValue.scType
-  //       });
-  //       this.taxID = [];
-  //     }
-  //   } else if (type === 'tax' && value.includes('Selected')) {
-  //     this.session.store({
-  //       timeFrame: this.timePeriod,
-  //       lob: this.session.filterObjValue.lob,
-  //       tax: ['All'],
-  //       serviceSetting: this.session.filterObjValue.serviceSetting,
-  //       priorAuthType: this.session.filterObjValue.priorAuthType,
-  //       scType: this.session.filterObjValue.scType
-  //     });
-  //     this.taxID = [];
-  //   } else if (type === 'serviceSetting') {
-  //     this.serviceSetting = 'All';
-  //     this.session.store({
-  //       timeFrame: this.timePeriod,
-  //       lob: this.session.filterObjValue.lob,
-  //       tax: this.session.filterObjValue.tax,
-  //       serviceSetting: 'All',
-  //       priorAuthType: this.session.filterObjValue.priorAuthType,
-  //       scType: this.session.filterObjValue.scType
-  //     });
-  //   } else if (type === 'priorAuthType') {
-  //     this.priorAuthType = 'All';
-  //     this.session.store({
-  //       timeFrame: this.timePeriod,
-  //       lob: this.session.filterObjValue.lob,
-  //       tax: this.session.filterObjValue.tax,
-  //       serviceSetting: this.session.filterObjValue.serviceSetting,
-  //       priorAuthType: 'All',
-  //       scType: this.session.filterObjValue.scType
-  //     });
-  //   } else if (type === 'paserviceCategoty') {
-  //     // add var
-  //     this.session.store({
-  //       timeFrame: this.timePeriod,
-  //       lob: this.session.filterObjValue.lob,
-  //       tax: this.session.filterObjValue.tax,
-  //       serviceSetting: this.session.filterObjValue.serviceSetting,
-  //       priorAuthType: this.session.filterObjValue.priorAuthType,
-  //       scType: 'All'
-  //     });
-  //   } else if (type === 'scType') {
-  //     this.scType = 'All';
-  //     this.session.store({
-  //       timeFrame: this.timePeriod,
-  //       lob: this.session.filterObjValue.lob,
-  //       tax: this.session.filterObjValue.tax,
-  //       serviceSetting: this.session.filterObjValue.serviceSetting,
-  //       priorAuthType: this.session.filterObjValue.priorAuthType,
-  //       scType: 'All'
-  //     });
-  //   }
-  // }
 }

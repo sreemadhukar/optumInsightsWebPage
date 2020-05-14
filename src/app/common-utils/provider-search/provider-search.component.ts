@@ -48,7 +48,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     private storage: StorageService,
     private dialogRef: MatDialogRef<ProviderSearchComponent>,
     private router: Router,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.iconRegistry.addSvgIcon(

@@ -12,7 +12,7 @@ export class PcorSharedService {
     private pcorService: PcorService,
     private session: SessionService,
     private common: CommonUtilsService
-  ) { }
+  ) {}
 
   /** The following service method is fetching data for
    * 1. Medicare Average Star Rating
@@ -126,7 +126,7 @@ export class PcorSharedService {
                 const barCountArray = [];
                 const completeData = JSON.parse(JSON.stringify(PCORData));
 
-                const escapeSpecialChars = function (string) {
+                const escapeSpecialChars = function(string) {
                   return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
                 };
                 const asteriskCharacter = escapeSpecialChars('**');

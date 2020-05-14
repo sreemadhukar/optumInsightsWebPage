@@ -16,7 +16,7 @@ export class MockDataWarningMessageComponent implements OnInit {
   note: any;
   message: any;
 
-  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+  constructor(private iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     this.iconRegistry.addSvgIcon(
       'warning',

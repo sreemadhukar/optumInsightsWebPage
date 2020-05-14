@@ -20,7 +20,7 @@ export class NonPaymentSharedService {
     private MetricidService: GlossaryMetricidService,
     private nonPaymentService: NonPaymentService,
     private common: CommonUtilsService,
-    private session: SessionService
+    private readonly session: SessionService
   ) {}
 
   // The getNonPayment() function fetches data for Claims Not Paid and Claims Non-Payment Rate
@@ -511,8 +511,8 @@ export class NonPaymentSharedService {
             }
             topReasons[i]['top5'] = topReasons[i]['top5'].filter(
               x =>
-                x.Claimdenialcategorylevel1shortname !== 'UNKNOWN' &&
-                x.Claimdenialcategorylevel1shortname !== 'Paid' &&
+                x.ClaimDenialCategoryLevel1ShortName !== 'UNKNOWN' &&
+                x.ClaimDenialCategoryLevel1ShortName !== 'Paid' &&
                 x.DenialAmount > 0
             );
             topReasons[i]['top5'].sort(function(a, b) {
@@ -529,10 +529,10 @@ export class NonPaymentSharedService {
 
             for (let j = 0; j < dataWithSubCategory.length; j++) {
               if (
-                dataWithSubCategory[j]['Claimdenialcategorylevel1shortname'] !== undefined &&
-                dataWithSubCategory[j]['Claimdenialcategorylevel1shortname'] !== null
+                dataWithSubCategory[j]['ClaimDenialCategoryLevel1ShortName'] !== undefined &&
+                dataWithSubCategory[j]['ClaimDenialCategoryLevel1ShortName'] !== null
               ) {
-                dataWithSubCategory[j].text = dataWithSubCategory[j]['Claimdenialcategorylevel1shortname'];
+                dataWithSubCategory[j].text = dataWithSubCategory[j]['ClaimDenialCategoryLevel1ShortName'];
                 const removeSpaces = dataWithSubCategory[j].text.replace(/[^a-zA-Z0-9]/g, '');
                 dataWithSubCategory[j].id = removeSpaces;
               } else {
@@ -543,7 +543,7 @@ export class NonPaymentSharedService {
               dataWithSubCategory[j].valueNumeric = dataWithSubCategory[j]['DenialAmount'];
               dataWithSubCategory[j].value = '$' + this.common.nFormatter(dataWithSubCategory[j]['DenialAmount']);
               dataWithSubCategory[j].barSum = subBarSum;
-              delete dataWithSubCategory[j].Claimdenialcategorylevel1shortname;
+              delete dataWithSubCategory[j].ClaimDenialCategoryLevel1ShortName;
               delete dataWithSubCategory[j].DenialAmount;
             }
           }
@@ -569,8 +569,8 @@ export class NonPaymentSharedService {
               tempArray = JSON.parse(JSON.stringify(topCategories[0].DenialCategory)); // deep copy
               tempArray = tempArray.filter(
                 x =>
-                  x.Claimdenialcategorylevel1shortname !== 'UNKNOWN' &&
-                  x.Claimdenialcategorylevel1shortname !== 'Paid' &&
+                  x.ClaimDenialCategoryLevel1ShortName !== 'UNKNOWN' &&
+                  x.ClaimDenialCategoryLevel1ShortName !== 'Paid' &&
                   x.DenialAmount > 0
               ); // shallow copy
               tempArray.sort(function(a, b) {
@@ -586,11 +586,11 @@ export class NonPaymentSharedService {
               const maxTopBar = Math.max(...topBarSum);
               for (let i = 0; i < tempArray.length; i++) {
                 topReasons.push({
-                  title: tempArray[i].Claimdenialcategorylevel1shortname,
+                  title: tempArray[i].ClaimDenialCategoryLevel1ShortName,
                   value: '$' + this.common.nFormatter(tempArray[i].DenialAmount),
                   numeric: tempArray[i].DenialAmount,
                   maxValue: maxTopBar,
-                  id: tempArray[i].Claimdenialcategorylevel1shortname.replace(/[^a-zA-Z0-9]/g, '') + 'topReasons',
+                  id: tempArray[i].ClaimDenialCategoryLevel1ShortName.replace(/[^a-zA-Z0-9]/g, '') + 'topReasons',
                   timePeriod:
                     this.common.dateFormat(topCategories[0].StartDate) +
                     '&ndash;' +
@@ -616,8 +616,8 @@ export class NonPaymentSharedService {
               tempArray = JSON.parse(JSON.stringify(topCategories.All.DenialCategory)); // deep copy
               tempArray = tempArray.filter(
                 x =>
-                  x.Claimdenialcategorylevel1shortname !== 'UNKNOWN' &&
-                  x.Claimdenialcategorylevel1shortname !== 'Paid' &&
+                  x.ClaimDenialCategoryLevel1ShortName !== 'UNKNOWN' &&
+                  x.ClaimDenialCategoryLevel1ShortName !== 'Paid' &&
                   x.DenialAmount > 0
               ); // shallow copy
               tempArray.sort(function(a, b) {
@@ -633,11 +633,11 @@ export class NonPaymentSharedService {
               const maxTopBar = Math.max(...topBarSum);
               for (let i = 0; i < tempArray.length; i++) {
                 topReasons.push({
-                  title: tempArray[i].Claimdenialcategorylevel1shortname,
+                  title: tempArray[i].ClaimDenialCategoryLevel1ShortName,
                   value: '$' + this.common.nFormatter(tempArray[i].DenialAmount),
                   numeric: tempArray[i].DenialAmount,
                   maxValue: maxTopBar,
-                  id: tempArray[i].Claimdenialcategorylevel1shortname.replace(/[^a-zA-Z0-9]/g, '') + 'topReasons',
+                  id: tempArray[i].ClaimDenialCategoryLevel1ShortName.replace(/[^a-zA-Z0-9]/g, '') + 'topReasons',
                   timePeriod:
                     this.common.dateFormat(topCategories.Startdate) +
                     '&ndash;' +

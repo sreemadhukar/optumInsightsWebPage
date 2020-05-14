@@ -38,8 +38,7 @@ import { NgRedux } from '@angular-redux/store';
 import { GroupPremiumDesignationService } from '../../rest/group-premium-designation/group-premium-designation.service';
 import { PCORData } from './../../modals/title-config';
 import { routingLinks } from './../../modals/route-config';
-// import { UserReviewService } from 'src/app/shared/user-review.service';
-// declare const externalRatingIntercept: any;
+import { GlossarySharedService } from 'src/app/shared/glossary.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -171,11 +170,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private authService: AuthenticationService,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private themeService: ThemeService,
     private dialog: MatDialog,
     private checkStorage: StorageService,
     private glossaryExpandService: GlossaryExpandService,
+    private glossarySharedService: GlossarySharedService,
     private filterExpandService: FilterExpandService,
     private filterCloseService: FilterCloseService,
     private pcorService: PcorService,
@@ -185,7 +185,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private viewPortScroller: ViewportScroller,
     private checkRlpService: CheckHcoRlpService,
     private ngRedux: NgRedux<any>,
-    // private userreviewservice: UserReviewService,
+
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -270,14 +270,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
         // Role based access for Advocates Overview page
-        if (this.checkAdv.value) {
+        if (this.checkAdv.value && sessionStorage.advocateView !== 'true') {
           this.navCategories[1].path = routingLinks.OverviewAdvocatepath;
 
           if (window.location.pathname === '/OverviewPage' && !event.url.includes('print-')) {
             window.location.href = routingLinks.OverviewAdvocatepath;
           }
         }
-        // this.checkPcorData();
+
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
@@ -448,9 +448,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.glossaryFlag = true;
         this.glossaryTitle = data.value;
         this.glossaryMetricID = data.MetricID;
-        // setTimeout(() => {
-        // this.viewPortScroller.scrollToPosition([0, 0]);
-        // }, 500);
+
         this.stopBodyScroll(true);
       },
       err => {
@@ -498,11 +496,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
       }
     }
+    this.glossarySharedService.init();
   }
-
-  // changeOfRoutes() {
-  //   this.userreviewservice.removeCreatedCookies();
-  // }
 
   advocateRole() {
     this.sessionService.checkAdvocateRole();
@@ -591,9 +586,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
           try {
             this.removePCORnav();
             sessionStorage.removeItem('pcor');
-            // this.navCategories[4].children = this.navCategories[4].children.filter(
-            //   i => i.name !== 'Patient Care Opportunity'
-            // );
+
             if (this.router.url.includes('CareDelivery/PatientCareOpportunity')) {
               // Role based access for Advocates Overview page
               if (this.checkAdv.value) {
@@ -658,7 +651,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
-    // alert(this.sideNavFlag);
   }
 
   toggleDarkTheme(isDarkTheme: boolean) {
@@ -750,7 +742,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   taxSummaryLink() {
     if (this.sessionService.checkRole('UHCI_Advocate')) {
-      this.router.navigateByUrl('/OverviewPageAdvocate/HealthSystemDetails');
+      if (sessionStorage.advocateView === 'true') {
+        this.router.navigateByUrl('/TinList');
+      } else {
+        this.router.navigateByUrl('/OverviewPageAdvocate/HealthSystemDetails');
+      }
     } else {
       this.router.navigateByUrl('/TinList');
     }

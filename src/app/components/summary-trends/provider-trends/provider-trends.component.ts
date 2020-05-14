@@ -44,7 +44,7 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
     private summaryTrends: SummaryTrendsSharedService,
     private session: SessionService,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private filterExpandService: FilterExpandService,
     private common: CommonUtilsService,
     private cdRef: ChangeDetectorRef,
@@ -97,7 +97,7 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked() {
     this.totalPages = this.paginator.getNumberOfPages();
-    // this.totalRecords = this.paginator.length;
+
     this.cdRef.detectChanges();
   }
   getSummaryData() {
@@ -108,11 +108,9 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
       if (result) {
         this.data = result.dataSource;
         this.displayedColumns = result.displayedColumns;
-        // this.totalRecords = result.totalRecordsCount;
+
         this.dataSource = new MatTableDataSource(this.data);
         this.dataSource.sort = this.sort;
-        // this.dataSource.paginator = this.paginator;
-        // this.paginator.length = result.totalRecordsCount;
       }
       this.loading = false;
     });
@@ -123,7 +121,6 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
   }
 
   openFilter() {
-    // this.filterExpandService.setURL(this.router.url);
     this.filterExpandService.setURL(this.filterUrl);
   }
 
@@ -148,7 +145,7 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
       if (result) {
         this.data = result.dataSource;
         this.displayedColumns = result.displayedColumns;
-        // this.totalRecords = result.totalRecordsCount;
+
         this.dataSource = new MatTableDataSource(this.data);
         this.dataSource.sort = this.sort;
       }
@@ -193,9 +190,8 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
         if (result) {
           this.data = result.dataSource;
           this.displayedColumns = result.displayedColumns;
-          // this.totalRecords = result.totalRecordsCount;
+
           this.dataSource = new MatTableDataSource(this.data);
-          // this.dataSource.sort = this.sort;
         }
         this.dataloading = false;
       });

@@ -15,7 +15,7 @@ export class PrintComponent implements OnInit {
   selectedPage;
   overviewBool: boolean;
   printDisable: boolean;
-  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer, private router: Router) {
+  constructor(private iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
     this.iconRegistry.addSvgIcon(
