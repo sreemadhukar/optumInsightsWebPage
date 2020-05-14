@@ -10,6 +10,13 @@ export class RlpSearchPipe implements PipeTransform {
     if (typeof tinArgs === undefined && typeof groupNameArgs === undefined) {
       return value;
     }
+    /*console.log('aaaaa---->', args, value);
+    const regexTinSearch = new RegExp(`${tinArgs}`, 'ig');
+    const regexGroupName = new RegExp(`${groupNameArgs}`, 'ig');
+    return value.filter(
+      el => regexTinSearch.test(el.tin) || regexGroupName.test(el.groupName)
+    );*/
+
     return value.filter(el => {
       if (el.tin.indexOf(tinArgs) !== -1 && typeof groupNameArgs === undefined) {
         return true;
