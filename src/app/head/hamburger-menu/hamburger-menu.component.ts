@@ -38,6 +38,7 @@ import { NgRedux } from '@angular-redux/store';
 import { GroupPremiumDesignationService } from '../../rest/group-premium-designation/group-premium-designation.service';
 import { PCORData } from './../../modals/title-config';
 import { routingLinks } from './../../modals/route-config';
+import { GlossarySharedService } from 'src/app/shared/glossary.service';
 // import { UserReviewService } from 'src/app/shared/user-review.service';
 // declare const externalRatingIntercept: any;
 
@@ -176,6 +177,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private dialog: MatDialog,
     private checkStorage: StorageService,
     private glossaryExpandService: GlossaryExpandService,
+    private glossarySharedService: GlossarySharedService,
     private filterExpandService: FilterExpandService,
     private filterCloseService: FilterCloseService,
     private pcorService: PcorService,
@@ -498,6 +500,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
       }
     }
+    this.glossarySharedService.init();
   }
 
   // changeOfRoutes() {
