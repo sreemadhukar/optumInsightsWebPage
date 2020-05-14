@@ -20,12 +20,17 @@
   min-width: 1032px;
   margin: 0 auto;
 }
+.example-toolbar.background {
+  z-index: 1 !important;
+}
 
 .example-is-mobile .example-toolbar {
   /* Make sure the toolbar will stay on top of the content as it scrolls past. */
   z-index: 2;
   padding: padding(0);
   position: relative;
+  background: white;
+  height: 72px;
 }
 
 .mat-toolbar-single-row {
@@ -73,9 +78,9 @@ app-header {
   z-index: 9;
 }
 
-.mat-drawer-container.mat-drawer-opened {
-  z-index: 2;
-}
+// .mat-drawer-container.mat-drawer-opened {
+// z-index: 2;
+// }
 
 .mat-drawer-backdrop.mat-drawer-shown {
   // background-color: rgba(45, 45, 57, 0.5);
@@ -86,12 +91,13 @@ app-header {
 /************ CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
 
 .side-navigation {
+  top: 72px !important;
   width: 286px; // previously 256px -- width before PI Sub menu undo when toggled off
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   //  background-color: $white;
   .mat-drawer-inner-container {
     // total height
-    max-height: 100vh;
+    max-height: calc(100vh - 72px);
   }
 }
 
@@ -569,6 +575,9 @@ app-header {
 
 .top-40 {
   top: 40px !important;
+}
+.top-112 {
+  top: 112px !important;
 }
 
 .top-0 {

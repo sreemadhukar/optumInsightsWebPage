@@ -1,110 +1,89 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 
-.content-wrapper {
-  background-color: $alice-blue;
-  overflow: hidden;
+.line {
+  height: 0;
+  width: 100%;
+  background-color: #fff;
   display: flex;
-  flex-direction: column;
-  @include padding(16px, 0, 64px, 0);
-  .main-content {
-    position: relative;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-flow: row wrap;
-    justify-content: left;
-    width: 1000px;
-    margin: auto;
-    flex-wrap: wrap;
-    .line {
-      height: 0;
-      width: 1200px;
-      background-color: #fff;
-      display: flex;
-      border: 1px solid $gainsboro;
-      z-index: 999;
-      margin: 8px 0;
-    }
-    .cust-width-title {
-      width: 961px;
+  border: 1px solid $gainsboro;
+  z-index: 999;
+  margin: 8px 0;
+}
+.cust-width-title {
+  width: 100%;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  color: $black-rock;
+  .page-title {
+    flex-basis: 100%;
+    font-size: 36px;
+    @include padding(26px, 0, 10px, 0);
+    color: $black-rock;
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+  }
+  .healthcare-org-name {
+    $font-family-UHC: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif !default;
+    padding-bottom: 10px;
+    font-size: 22px;
+    color: $black-rock;
+    display: inline-flex;
+
+    .Group-premium-designation {
+      width: 44px;
+      height: 18px;
+      border-radius: 10px;
+      font-size: 14px;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-      color: $black-rock;
+      letter-spacing: 0.2px;
+      line-height: 18px;
+      color: white;
+      background-color: #00a8f7;
+      text-align: center;
+      margin-top: 0px;
+      padding-top: 0px;
       margin-left: 10px;
-      margin-bottom: -12px;
-
-      ol {
-        @include margin(0, 0, 16px, 0);
-      }
-      .page-title {
-        flex-basis: 100%;
-        font-size: 36px;
-        @include padding(26px, 0, 10px, 0);
-        color: $black-rock;
-        font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
-      }
-      .healthcare-org-name {
-        $font-family-UHC: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif !default;
-        padding-bottom: 10px;
-        font-size: 22px;
-        color: $black-rock;
-        display: inline-flex;
-
-        .Group-premium-designation {
-          width: 44px;
-          height: 18px;
-          border-radius: 10px;
-          font-size: 14px;
-          font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-          letter-spacing: 0.2px;
-          line-height: 18px;
-          color: white;
-          background-color: #00a8f7;
-          text-align: center;
-          margin-top: 0px;
-          padding-top: 0px;
-          margin-left: 10px;
-        }
-      }
-    }
-
-    .health-system {
-      &-details-block {
-        display: inline-flex;
-      }
-      &-details {
-        margin: 16px 30px 16px 10px;
-        max-width: 150px;
-      }
-      &-tins,
-      &-regions,
-      &-markets,
-      &-bic,
-      &-tin-types {
-        color: $strom-grey;
-        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-        line-height: 18px;
-        margin-bottom: 8px;
-      }
-      &-tins-value,
-      &-regions-value,
-      &-markets-value,
-      &-bic-value,
-      &-tin-types-value {
-        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-        line-height: 18px;
-      }
-    }
-    .viewIBttn {
-      position: absolute;
-      right: 0px;
-      padding-top: 20px;
-      // padding-left: 200px;
-    }
-    .tax-summary-block {
-      width: 100%;
     }
   }
+}
+
+.health-system {
+  &-details-block {
+    display: inline-flex;
+    position: relative;
+    width: 100%;
+  }
+  &-details {
+    margin: 16px 30px 16px 10px;
+    max-width: 150px;
+  }
+  &-tins,
+  &-regions,
+  &-markets,
+  &-bic,
+  &-tin-types {
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    line-height: 18px;
+    margin-bottom: 8px;
+  }
+  &-tins-value,
+  &-regions-value,
+  &-markets-value,
+  &-bic-value,
+  &-tin-types-value {
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    line-height: 18px;
+  }
+  &-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 50%;
+  }
+}
+
+.tax-summary-block {
+  width: 100%;
 }
