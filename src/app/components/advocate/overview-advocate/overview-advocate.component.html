@@ -1,14 +1,16 @@
-<div class="overview-advocate-body">
-  <div class="overview-advocate-content">
-    <div class="cards cust-width-title ">
-      <div class="page-title">{{ pageTitle }}</div>
-      <div class="page-subtitle">{{ pagesubTitle }}</div>
-      <app-filters-applied></app-filters-applied>
-    </div>
-    <div class="height1Separator"></div>
+<app-layoutcontainer id="print-overview" class="overviewadvocate">
+  <div class="cust-width-title ">
+    <div class="page-title">{{ pageTitle }}</div>
+    <div class="page-subtitle">{{ pagesubTitle }}</div>
+    <app-filters-applied></app-filters-applied>
+  </div>
+  <div class="height1Separator"></div>
+  <div class="container-flex">
     <div *ngFor="let data of topRowMockCards; let i = index">
       <app-small-card class="cards" [skeleton]="paymentLoading" *ngIf="paymentLoading"> </app-small-card>
     </div>
+  </div>
+  <div class="container-flex">
     <div *ngFor="let item of paymentCards">
       <app-small-card
         *ngIf="item.metricInProgres != true && !paymentLoading && item != null && item.data != null && item.toggle"
@@ -22,15 +24,13 @@
         [data]="item"
       ></app-error-card>
     </div>
+  </div>
 
-    <!-- Claims Non - Payment Trend  Starts Here -->
-    <app-error-card
-      *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
-      class="cards"
-      [data]="monthlyLineGraph"
-    ></app-error-card>
-    <app-large-card [skeletonLarge]="nonpaymentLoading" *ngIf="nonpaymentLoading"></app-large-card>
-    <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
+  <!-- Claims Non - Payment Trend  Starts Here -->
+
+  <app-large-card [skeletonLarge]="nonpaymentLoading" *ngIf="nonpaymentLoading"></app-large-card>
+  <div class="card-block">
+    <ng-container *ngIf="trendMonthDisplay">
       <app-common-header
         [title]="trendTitle"
         class="full-display bottom-margin-block"
@@ -38,21 +38,25 @@
       ></app-common-header>
       <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
       <!--div class="timeperiod-block">
-          <p class="timeperiod-text">{{ timePeriod }}</p>
-        </div-->
+            <p class="timeperiod-text">{{ timePeriod }}</p>
+          </div-->
       <app-common-footer
         [timePeriod]="timePeriodNonPayment"
         [linkName]="'Non-Payment Details'"
         class="width-100 time-period-trend"
       ></app-common-footer>
-    </div>
-    <!-- Claims Non - Payment Trend Ends Here -->
+    </ng-container>
+    <ng-container *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null">
+      <app-error-card class="cards" [data]="monthlyLineGraph"></app-error-card>
+    </ng-container>
+  </div>
+  <!-- Claims Non - Payment Trend Ends Here -->
 
-    <!-- Claims appeals Trend  Starts Here -->
+  <!-- Claims appeals Trend  Starts Here -->
 
-    <app-error-card *ngIf="totalAppeals == null" class="cards" [data]="errorAppealsData"> </app-error-card>
-    <app-large-card [skeletonLarge]="appealsloading" *ngIf="appealsloading"></app-large-card>
-    <div class="appeals-trend-block" *ngIf="totalAppeals !== null">
+  <app-large-card [skeletonLarge]="appealsloading" *ngIf="appealsloading"></app-large-card>
+  <div class="card-block">
+    <ng-container *ngIf="totalAppeals !== null">
       <app-common-header
         [title]="trendTitleForClaims"
         class="full-display bottom-margin-block"
@@ -125,12 +129,16 @@
         class="width-100 time-period-trend"
         [handleCaseForOverviewTile]="true"
       ></app-common-footer>
-    </div>
-    <!-- Claims appeals Trend Ends Here -->
-    <!--Calls Trend Starts Here-->
-    <app-error-card *ngIf="callsData == null" class="cards" [data]="callsLineGraphData"></app-error-card>
-    <app-large-card [skeletonLarge]="callsLoading" *ngIf="callsLoading"></app-large-card>
-    <div class="calls-trend-block" *ngIf="!callsLoading && callsData !== null">
+    </ng-container>
+    <ng-container *ngIf="totalAppeals == null">
+      <app-error-card class="cards" [data]="errorAppealsData"> </app-error-card>
+    </ng-container>
+  </div>
+  <!-- Claims appeals Trend Ends Here -->
+  <!--Calls Trend Starts Here-->
+  <app-large-card [skeletonLarge]="callsLoading" *ngIf="callsLoading"></app-large-card>
+  <div class="card-block">
+    <ng-container *ngIf="!callsLoading && callsData !== null">
       <app-common-header
         [title]="trendTitleForCalls"
         [addIcon]="!callsLoading && callsData !== null"
@@ -173,35 +181,38 @@
         [linkName]="'Calls Overview'"
         class="width-100 time-period-trend"
       ></app-common-footer>
-    </div>
-    <div class="warning-container" *ngIf="!callsLoading && callsData !== null">
-      <mat-icon class="warning-icon-class" svgIcon="warning-icon"></mat-icon>
-      <span class="warning-text">Calls data supports Time Period filters only at this time</span>
-    </div>
-    <div class="height1Separator"></div>
-    <!-- Calls Trend Ends Here -->
+    </ng-container>
+    <ng-container *ngIf="callsData == null">
+      <app-error-card class="cards" [data]="callsLineGraphData"></app-error-card>
+    </ng-container>
+  </div>
+  <div class="warning-container" *ngIf="!callsLoading && callsData !== null">
+    <mat-icon class="warning-icon-class" svgIcon="warning-icon"></mat-icon>
+    <span class="warning-text">Calls data supports Time Period filters only at this time</span>
+  </div>
+  <div class="height1Separator"></div>
+  <!-- Calls Trend Ends Here -->
 
-    <div class="height1Separator"></div>
-    <app-card class="cards" [skeleton]="pbsLoading" *ngIf="pbsLoading"> </app-card>
-    <div>
-      <app-card *ngIf="pbsCard.data != null && !pbsLoading" class="cards" [chartData]="pbsCard"> </app-card>
-      <app-error-card
-        *ngIf="pbsCard.data == null && pbsCard.status != null"
-        class="cards"
-        [data]="pbsCard"
-      ></app-error-card>
-    </div>
+  <div class="height1Separator"></div>
+  <app-card class="cards" [skeleton]="pbsLoading" *ngIf="pbsLoading"> </app-card>
+  <div>
+    <app-card *ngIf="pbsCard.data != null && !pbsLoading" class="cards" [chartData]="pbsCard"> </app-card>
+    <app-error-card
+      *ngIf="pbsCard.data == null && pbsCard.status != null"
+      class="cards"
+      [data]="pbsCard"
+    ></app-error-card>
+  </div>
 
-    <!--<div *ngFor="let data of yieldRowMockCards; let i = index">
+  <!--<div *ngFor="let data of yieldRowMockCards; let i = index">
       <app-card class="cards" [skeleton]="claimsYieldLoading" *ngIf="claimsYieldLoading"> </app-card>
     </div>-->
-    <div *ngFor="let item of claimsYieldCard">
-      <app-card *ngIf="item.data != null && item.toggle" class="cards" [chartData]="item"> </app-card>
-      <app-error-card *ngIf="item.toggle && item.status != null && item.data == null" class="cards" [data]="item">
-      </app-error-card>
-    </div>
-
-    <!--<app-clarify-claims-message></app-clarify-claims-message>-->
-    <!-- Claims Yield card ends here-->
+  <div *ngFor="let item of claimsYieldCard">
+    <app-card *ngIf="item.data != null && item.toggle" class="cards" [chartData]="item"> </app-card>
+    <app-error-card *ngIf="item.toggle && item.status != null && item.data == null" class="cards" [data]="item">
+    </app-error-card>
   </div>
-</div>
+
+  <!--<app-clarify-claims-message></app-clarify-claims-message>-->
+  <!-- Claims Yield card ends here-->
+</app-layoutcontainer>
