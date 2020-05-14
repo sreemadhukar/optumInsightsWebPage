@@ -22,14 +22,12 @@
     >
       <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
     </div>
-
-    <app-large-card [skeletonLarge]="loading" *ngIf="loading && !printStyle"></app-large-card>
-    <app-large-card [data]="reasonItems" *ngIf="!loading && reasonItems[0].data != null"></app-large-card>
-
-    <app-error-card
-      *ngIf="reasonItems[0].data == null && reasonItems[0].status != null"
-      class="cards"
-      [data]="reasonItems[0]"
-    ></app-error-card>
   </div>
+  <app-large-card [skeletonLarge]="loading" *ngIf="loading && !printStyle"></app-large-card>
+  <app-large-card [data]="reasonItems" *ngIf="!loading && reasonItems[0].data != null"></app-large-card>
+  <app-error-card
+    *ngIf="reasonItems[0].data == null && reasonItems[0].status != null"
+    class="cards"
+    [data]="reasonItems[0]"
+  ></app-error-card>
 </app-layoutcontainer>
