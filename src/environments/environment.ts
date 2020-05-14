@@ -61,7 +61,7 @@ export const environment: any = {
     NonPaymentTopClaims: 'non-payment-claims/',
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
-    PCORQualityMeasure: 'pcor-metrics/',
+    PCORQualityMeasure: 'patient-care-metrics/',
     NPSSummary: 'kop-metrics/',
     NPSQuarterlySummary: 'kop-quarterly-metrics',
     KOPPriorAuthSummary: 'kop-priorauth-metrics/',

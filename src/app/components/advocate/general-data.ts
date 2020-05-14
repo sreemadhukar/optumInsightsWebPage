@@ -1,10 +1,11 @@
+const parentDiv = 'appeals-trend-block';
 export const GeneralData: any = {
   'E&I': {
     width: 500,
     backgroundColor: 'null',
     barGraphNumberSize: 18,
     barColor: '#0034AE',
-    parentDiv: 'appeals-trend-block',
+    parentDiv: parentDiv,
     tooltipBoolean: true,
     hideYAxis: false
   },
@@ -13,7 +14,7 @@ export const GeneralData: any = {
     backgroundColor: 'null',
     barGraphNumberSize: 18,
     barColor: '#66AEFF',
-    parentDiv: 'appeals-trend-block',
+    parentDiv: parentDiv,
     tooltipBoolean: true,
     hideYAxis: false
   },
@@ -22,7 +23,7 @@ export const GeneralData: any = {
     backgroundColor: 'null',
     barGraphNumberSize: 18,
     barColor: '#3381FF',
-    parentDiv: 'appeals-trend-block',
+    parentDiv: parentDiv,
     tooltipBoolean: true,
     hideYAxis: false
   },
@@ -31,7 +32,7 @@ export const GeneralData: any = {
     backgroundColor: 'null',
     barGraphNumberSize: 18,
     barColor: '#00B8CC',
-    parentDiv: 'appeals-trend-block',
+    parentDiv: parentDiv,
     tooltipBoolean: true,
     hideYAxis: false
   }
