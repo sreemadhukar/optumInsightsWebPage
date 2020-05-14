@@ -72,7 +72,12 @@ export class NonPaymentService {
     let nonPaymentURL;
     if (parameters[0][1]['ClaimsBy'] === 'DOP') {
       nonPaymentURL = this.APP_URL + this.NON_PAYMENT_DOP + parameters[0][0] + '?request-type=TOP_SUB_DENIAL_REASONS';
-      const apiCall = parameters.map(param => this.http.post(nonPaymentURL, param[1]));
+      const apiCall = parameters.map(param =>
+        this.http.post(nonPaymentURL, param[1]).pipe(
+          map((res: any) => res.Data),
+          catchError(err => of(JSON.parse(JSON.stringify(err))))
+        )
+      );
       console.log('nandu');
       console.log(apiCall);
       return combineLatest(apiCall);
@@ -110,11 +115,7 @@ export class NonPaymentService {
       const nonPaymentURL = this.APP_URL + this.NON_PAYMENT_TREND_DOP + parameters[0][0];
       return combineLatest(
         this.http.post(nonPaymentURL, parameters[0][1]).pipe(
-          map((res: any) => {
-            console.log('aku');
-            console.log(res);
-            return res.Data;
-          }),
+          map((res: any) => res.Data),
           catchError(err => of(JSON.parse(JSON.stringify(err))))
         )
       );
