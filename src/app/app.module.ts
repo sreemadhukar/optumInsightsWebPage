@@ -24,6 +24,7 @@ import { RavenErrorHandler } from './components/error-handler/error-handler';
 import { saveState } from './store/filter/localStorage';
 import { combineReducers, createStore, Store, applyMiddleware } from 'redux';
 import { KopFilterReducer } from './store/kopFilter/reducer';
+import userZoomInit from '../assets/js/user-zoom';
 
 @NgModule({
   declarations: [AppComponent],
@@ -70,5 +71,8 @@ export class AppModule {
 
     // Provide store
     ngRedux.provideStore(store);
+
+    // Init zoom User
+    userZoomInit();
   }
 }
