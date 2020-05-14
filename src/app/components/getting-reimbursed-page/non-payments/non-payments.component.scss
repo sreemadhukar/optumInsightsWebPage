@@ -46,6 +46,7 @@
   // height: 120px;
   height: 270px;
   width: 100px;
+  clear: both;
 }
 
 .card-block {
@@ -418,4 +419,13 @@
 }
 .time-period-trend {
   float: left;
+}
+.non-payments-top-reasons-print,
+.non-payments-trend-print {
+  border: 1px solid $gainsboro;
+  box-shadow: none;
+  width: auto;
+}
+.non-payments-trend-print {
+  width: 958px;
 }

@@ -154,7 +154,6 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
 
   /**
    * enterQuery() is the function for setting up totalPages dynamically on the basis of search
-   * for both Tin and Group name
    */
   enterQuery(val: string) {
     this.isInputEmpty = val.length ? false : true;

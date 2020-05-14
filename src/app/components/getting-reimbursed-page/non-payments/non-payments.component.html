@@ -27,7 +27,7 @@
   <!-- Claims Non - Payment Trend  Starts Here -->
   <div *ngIf="printStyle" class="height-separator1-print"></div>
 
-  <div class="card-block">
+  <div class="card-block" [ngClass]="{ 'non-payments-top-reasons-print': printStyle === true }">
     <app-large-card [skeletonLarge]="loadingTopReasons" *ngIf="loadingTopReasons"></app-large-card>
     <app-error-card
       *ngIf="
