@@ -26,7 +26,7 @@ export class TaxSummaryComponent implements OnInit {
   filterObj = {};
   tinOwnershipSelected = 'Owned';
   allChecked: Boolean = false;
-  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+  constructor(private readonly iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
       'arrow',
       this.sanitizer.bypassSecurityTrustResourceUrl(

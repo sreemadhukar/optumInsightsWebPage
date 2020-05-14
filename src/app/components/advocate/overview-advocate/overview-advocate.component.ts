@@ -86,7 +86,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   constructor(
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private session: SessionService,
     private common: CommonUtilsService,
     private topRowService: TopRowAdvOverviewSharedService,

@@ -30,13 +30,13 @@ export class HealthSystemDetailsComponent implements OnInit {
 
   constructor(
     private healthSystemService: HealthSystemDetailsSharedService,
-    private groupPremiumDesignationService: GroupPremiumDesignationService,
+    private readonly groupPremiumDesignationService: GroupPremiumDesignationService,
     private checkStorage: StorageService,
-    private router: Router,
-    private common: CommonUtilsService,
-    private createPayloadService: CreatePayloadService,
-    private ngRedux: NgRedux<IAppState>,
-    private session: SessionService
+    private readonly router: Router,
+    private readonly common: CommonUtilsService,
+    private readonly createPayloadService: CreatePayloadService,
+    private readonly ngRedux: NgRedux<IAppState>,
+    private readonly session: SessionService
   ) {
     // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());

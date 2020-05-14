@@ -24,7 +24,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   public isAscending: boolean; // used to check sorting of the table
   public showTableBody: boolean;
   public showTableHeader: boolean;
-  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+  constructor(private iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
       'arrow',
       this.sanitizer.bypassSecurityTrustResourceUrl(

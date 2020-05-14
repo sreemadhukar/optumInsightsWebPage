@@ -6,8 +6,7 @@ import { map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { IPaymentBySubResponse } from '../../modals/i-payment-by-submission';
 import { get as _get } from 'lodash';
-import { OverviewAdvocate } from 'src/app/modals/title-config';
-
+import { OverviewAdvocate } from './../../modals/title-config';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,8 +18,8 @@ export class OverviewAdvocateService {
   private CALLS_TREND_LINE_SERVICE_PATH: string = environment.apiUrls.CallsTrendLine;
   private CALLS_TREND_SERVICE_PATH: string = environment.apiUrls.CallsTrend;
   private PAYMENTS_BY_SUBMISSION_SERVICE_PATH: string = environment.apiUrls.PaymentsBySubmission;
-  private PAYMENTS_BY_SUBMISSION_DOP_SERVICE_PATH: string = environment.apiUrls.PaymentsBySubmissionDOP;
-  private APPEALS_SERVICE: string = environment.apiUrls.AppealsFHIR; // new
+  private readonly PAYMENTS_BY_SUBMISSION_DOP_SERVICE_PATH: string = environment.apiUrls.PaymentsBySubmissionDOP;
+  private readonly APPEALS_SERVICE: string = environment.apiUrls.AppealsFHIR; // new
 
   constructor(private http: HttpClient) {}
 
@@ -77,13 +76,6 @@ export class OverviewAdvocateService {
         throw err;
       })
     );
-
-    // return combineLatest(
-    //   this.http.get(callsURL, { params }).pipe(
-    //     map(res => JSON.parse(JSON.stringify(res))),
-    //     catchError(err => of(JSON.parse(JSON.stringify(err))))
-    //   )
-    // );
   }
 
   public callsTrendLineData(...parameters) {
@@ -111,25 +103,6 @@ export class OverviewAdvocateService {
   }
 
   public paymentsBySubmission(...parameters): Observable<IPaymentBySubResponse> {
-    /* const pbsParams = parameters[1];
-    if (!pbsParams.Tin) {
-      pbsParams.AllProviderTins = true;
-    }
-
-    let params = new HttpParams();
-    if (parameters[1].TimeFilter === 'CalendarYear') {
-      params = params.append('TimeFilter', parameters[1].TimeFilter);
-      params = params.append('TimeFilterText', parameters[1].TimeFilterText);
-    } else {
-      params = params.append('TimeFilter', parameters[1].TimeFilter);
-    }
-
-    const pbsURL = this.APP_URL + this.PAYMENTS_BY_SUBMISSION_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
-    return this.http.post(pbsURL, params).pipe(
-      map(res => JSON.parse(JSON.stringify(res))),
-      catchError(err => of(JSON.parse(JSON.stringify(err))))
-    );
-  }*/
     const claimsBY = _get(parameters[1], ['ClaimsBy']);
     let nonPaymentURL =
       this.APP_URL + this.PAYMENTS_BY_SUBMISSION_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';

@@ -60,7 +60,7 @@ export class SelectProviderComponent implements OnInit {
     private storage: StorageService,
     private router: Router,
     private sessionService: SessionService,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private authService: AuthenticationService,
     @Inject(DOCUMENT) private document: any
   ) {
@@ -115,17 +115,7 @@ export class SelectProviderComponent implements OnInit {
 
     if (!this.isInternal) {
       this.extstates = this.providerData[0].Providers;
-      // this.extstates = [{
-      //   "ProviderKey": 35999,
-      //   "All": null,
-      //   "ProviderSystem": "Aaa Anesthesia Associates"
-      // },
-      // {
-      //   "ProviderKey": 3999,
-      //   "All": null,
-      //   "ProviderSystem": "Byram Associates"
-      // }
-      // ];
+
       this.extstates = this.extstates.map(function(elm) {
         return { Providersyskey: elm['ProviderKey'], Healthcareorganizationname: elm['ProviderSystem'] };
       });
@@ -155,21 +145,8 @@ export class SelectProviderComponent implements OnInit {
       if (document.querySelector('.mat-autocomplete-panel')) {
         (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = 'auto';
       }
-      // for (let i = 0; i < this.states.length; i++) {
-      //   if (!this.states[i].HealthCareOrganizationName.toLowerCase().startsWith(this.stateCtrl.value.toLowerCase())) {
-      //     this.nomatchFlag = false;
-      //     (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#B10C00';
-      //   } else {
-      //     (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
-      //     this.nomatchFlag = true;
-      //     break;
-      //   }
-      // }
     }
-    // if (this.stateCtrl.value === '') {
-    //   this.nomatchFlag = true;
-    //   (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
-    // }
+
     if (this.states.length === 0) {
       this.nomatchFlag = false;
       this.noProviders = true;
@@ -185,7 +162,6 @@ export class SelectProviderComponent implements OnInit {
   }
   // madhukar
   providerSelect(event: MatAutocompleteSelectedEvent) {
-    // this.providerSelectedFlag = false;
     const provider = this.providerData[0];
     const data = this.states.find(prov => prov.HealthCareOrganizationName === event.option.value);
     if (this.providerData[0].hasOwnProperty('Providersyskey')) {
@@ -197,7 +173,6 @@ export class SelectProviderComponent implements OnInit {
     }
     // Role based access for Advocates Overview page
     if (this.checkAdv.value) {
-      // window.location.href = '/OverviewPageAdvocate';
       window.location.href = '/OverviewPageAdvocate/HealthSystemDetails';
     } else if (this.checkPro.value || this.checkExecutive.value) {
       window.location.href = '/OverviewPage';
@@ -206,17 +181,7 @@ export class SelectProviderComponent implements OnInit {
     }
   }
 
-  // private _filterStates(value: string): Providers[] {
-  //   const filterValue = value.toLowerCase();
-  //   const filteredSet = this.states.filter(
-  //     state => state.HealthCareOrganizationName.toLowerCase().indexOf(filterValue) === 0
-  //   );
-  //   filteredSet.sort((a, b) => a.HealthCareOrganizationName.localeCompare(b.HealthCareOrganizationName));
-  //   return filteredSet;
-  // }
-
   ExtproviderSelect(event: MatAutocompleteSelectedEvent) {
-    // this.providerSelectedFlag = false;
     const provider = this.providerData[0];
     const data = this.extstates.find(prov => prov.Healthcareorganizationname === event.option.value);
     if (this.providerData[0].hasOwnProperty('Providersyskey')) {
@@ -228,7 +193,6 @@ export class SelectProviderComponent implements OnInit {
     }
     // Role based access for Advocates Overview page
     if (this.checkAdv.value) {
-      // window.location.href = '/OverviewPageAdvocate';
       window.location.href = '/OverviewPageAdvocate/HealthSystemDetails';
     } else if (this.checkPro.value || this.checkExecutive.value) {
       window.location.href = '/OverviewPage';
@@ -284,20 +248,10 @@ export class SelectProviderComponent implements OnInit {
 
   advViewClicked(value: string) {
     if (value === 'myView') {
-      // this.sessionService.checkedClicked.myView = true;
-      // this.checkedClicked.myView = this.sessionService.checkedClicked.myView;
-
-      // this.sessionService.checkedClicked.provider = false;
-      // this.checkedClicked.provider = this.sessionService.checkedClicked.provider;
       this.myView = true;
       this.userView = false;
       this.router.navigate(['/OverviewPageAdvocate']);
     } else if (value === 'userView') {
-      // this.sessionService.checkedClicked.myView = false;
-      // this.checkedClicked.myView = this.sessionService.checkedClicked.myView;
-
-      // this.sessionService.checkedClicked.provider = true;
-      // this.checkedClicked.provider = this.sessionService.checkedClicked.provider;
       this.userView = true;
       this.myView = false;
       this.router.navigate(['/OverviewPage']);

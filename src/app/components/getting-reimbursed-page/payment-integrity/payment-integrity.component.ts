@@ -59,7 +59,7 @@ export class PaymentIntegrityComponent implements OnInit {
     public MetricidService: GlossaryMetricidService,
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private filterExpandService: FilterExpandService,
     private session: SessionService,
@@ -103,7 +103,6 @@ export class PaymentIntegrityComponent implements OnInit {
   ngOnInit() {
     this.printDetails();
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentIntegrityPage' });
-    // this.smartEdit();
   }
   hppData() {
     this.GroupPremiumDesignation = false;

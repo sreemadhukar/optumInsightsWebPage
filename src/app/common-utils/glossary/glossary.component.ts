@@ -33,7 +33,7 @@ export class GlossaryComponent implements OnInit, DoCheck {
   public internal = environment.internalAccess;
   @Input() title: string;
   @Input() MetricID: string;
-  constructor(private glossarySharedService: GlossarySharedService, private router: Router) {}
+  constructor(private readonly glossarySharedService: GlossarySharedService, private readonly router: Router) {}
 
   checkIfKOP() {
     return this.router.url.includes('NationalExecutive') ? true : false;

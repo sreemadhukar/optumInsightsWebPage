@@ -22,9 +22,9 @@ import { retry, catchError } from 'rxjs/operators';
 export class HttpInterceptorService implements HttpInterceptor {
   protected emitter = new EventEmitter<boolean>();
   refreshtoken = false;
-  private APPEAL_CLAIM = environment.apiUrls.AppealsFHIR;
-  private APPEAL_OVERTURN = environment.apiUrls.AppealsOverturn;
-  private PaymentsBySubmissionDOP = environment.apiUrls.PaymentsBySubmissionDOP;
+  private readonly APPEAL_CLAIM = environment.apiUrls.AppealsFHIR;
+  private readonly APPEAL_OVERTURN = environment.apiUrls.AppealsOverturn;
+  private readonly PaymentsBySubmissionDOP = environment.apiUrls.PaymentsBySubmissionDOP;
 
   constructor(
     public http: HttpClient,

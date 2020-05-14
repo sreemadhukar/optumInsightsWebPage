@@ -9,7 +9,7 @@ export class GlossarySharedService {
     kop: [],
     uhci: []
   };
-  constructor(private glossaryService: GlossaryService) {}
+  constructor(private readonly glossaryService: GlossaryService) {}
   public async getData(params: any): Promise<any[]> {
     const { kop = false } = params;
     const key = kop ? 'kop' : 'uhci';

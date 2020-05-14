@@ -31,7 +31,7 @@ export class CallsComponent implements OnInit {
     private checkStorage: StorageService,
     private callsServiceSrc: CallsSharedService,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private session: SessionService,
     private common: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,

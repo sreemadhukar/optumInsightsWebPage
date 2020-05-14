@@ -38,8 +38,6 @@ import { NgRedux } from '@angular-redux/store';
 import { GroupPremiumDesignationService } from '../../rest/group-premium-designation/group-premium-designation.service';
 import { PCORData } from './../../modals/title-config';
 import { routingLinks } from './../../modals/route-config';
-// import { UserReviewService } from 'src/app/shared/user-review.service';
-// declare const externalRatingIntercept: any;
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -171,7 +169,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private authService: AuthenticationService,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private themeService: ThemeService,
     private dialog: MatDialog,
     private checkStorage: StorageService,
@@ -185,7 +183,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private viewPortScroller: ViewportScroller,
     private checkRlpService: CheckHcoRlpService,
     private ngRedux: NgRedux<any>,
-    // private userreviewservice: UserReviewService,
+
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -277,7 +275,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             window.location.href = routingLinks.OverviewAdvocatepath;
           }
         }
-        // this.checkPcorData();
+
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
@@ -448,9 +446,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.glossaryFlag = true;
         this.glossaryTitle = data.value;
         this.glossaryMetricID = data.MetricID;
-        // setTimeout(() => {
-        // this.viewPortScroller.scrollToPosition([0, 0]);
-        // }, 500);
+
         this.stopBodyScroll(true);
       },
       err => {
@@ -499,10 +495,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       }
     }
   }
-
-  // changeOfRoutes() {
-  //   this.userreviewservice.removeCreatedCookies();
-  // }
 
   advocateRole() {
     this.sessionService.checkAdvocateRole();
@@ -591,9 +583,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
           try {
             this.removePCORnav();
             sessionStorage.removeItem('pcor');
-            // this.navCategories[4].children = this.navCategories[4].children.filter(
-            //   i => i.name !== 'Patient Care Opportunity'
-            // );
+
             if (this.router.url.includes('CareDelivery/PatientCareOpportunity')) {
               // Role based access for Advocates Overview page
               if (this.checkAdv.value) {
@@ -658,7 +648,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
-    // alert(this.sideNavFlag);
   }
 
   toggleDarkTheme(isDarkTheme: boolean) {

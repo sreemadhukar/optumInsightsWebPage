@@ -46,7 +46,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="Tin">
-          <th mat-header-cell *matHeaderCellDef>
+          <th mat-header-cell *matHeaderCellDef id="taxidNumber">
             <span mat-sort-header>Tax ID Number</span>
             <div>
               <input
@@ -63,7 +63,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="TinName">
-          <th mat-header-cell *matHeaderCellDef>
+          <th mat-header-cell *matHeaderCellDef id="taxIdName">
             <span mat-sort-header>Tax ID Name</span>
             <div>
               <input
@@ -80,7 +80,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="TaxIdType">
-          <th mat-header-cell *matHeaderCellDef>
+          <th mat-header-cell *matHeaderCellDef id="taxIdType">
             <span mat-sort-header>Tax ID Type</span>
             <div>
               <select class="tax-summary-input" (change)="searchTaxId($event.target.value, 'TaxIdType')">
@@ -95,7 +95,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="TaxIdOwnership">
-          <th mat-header-cell *matHeaderCellDef>
+          <th mat-header-cell *matHeaderCellDef id="taxIdOwnership">
             Tax ID Ownership
             <div>
               <select class="tax-summary-input" (change)="searchTaxId($event.target.value, 'TaxIdOwnership')">

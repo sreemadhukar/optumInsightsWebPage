@@ -20,7 +20,7 @@ export class NonPaymentSharedService {
     private MetricidService: GlossaryMetricidService,
     private nonPaymentService: NonPaymentService,
     private common: CommonUtilsService,
-    private session: SessionService
+    private readonly session: SessionService
   ) {}
 
   // The getNonPayment() function fetches data for Claims Not Paid and Claims Non-Payment Rate

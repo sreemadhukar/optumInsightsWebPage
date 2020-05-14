@@ -15,7 +15,7 @@ export class NewPaymentIntegrityService {
     public paymentIntegrityTabInfoService: PaymentIntegrityTabInfoService,
     public newPaymentIntegrityService: NewPaymentIntegrityServiceRest,
     public MetricidService: GlossaryMetricidService,
-    private session: SessionService
+    private readonly session: SessionService
   ) {}
 
   // new payment intrgrity tab info data start
@@ -75,11 +75,6 @@ export class NewPaymentIntegrityService {
     const mRRASTarget = 90; // change target here if needed
     let codingReviewResultsTargetValue: any;
     let mRRASTargetValue: any;
-
-    // value.CodingReviewResultRate = codingReviewResultsTarget / 100; // remove the code once testing is done
-    // value.MedicalRecordsReceivedRate = mRRASTarget / 100; // remove the code once testing is done
-    // value.RequestRateTrend = 0; // remove the code once testing is done
-    // value.AccountReceivableOpportunityTrend = 0; // remove the code once testing is done
 
     if (Math.round(value.CodingReviewResultRate * 100) < codingReviewResultsTarget) {
       codingReviewResultsTargetValue =
