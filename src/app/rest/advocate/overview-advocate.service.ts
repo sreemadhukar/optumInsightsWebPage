@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
-import { Observable, combineLatest, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { IPaymentBySubResponse } from '../../modals/i-payment-by-submission';
 import { get as _get } from 'lodash';
 
@@ -61,19 +61,27 @@ export class OverviewAdvocateService {
 
     let params = new HttpParams();
     if (parameters[1].TimeFilter === 'CalendarYear') {
-      params = params.append('TimeFilter', parameters[1].TimeFilter);
-      params = params.append('TimeFilterText', parameters[1].TimeFilterText);
+      params = params.append('time-filter', parameters[1].TimeFilter);
+      params = params.append('time-filter-text', parameters[1].TimeFilterText);
     } else {
-      params = params.append('TimeFilter', parameters[1].TimeFilter);
+      params = params.append('time-filter', parameters[1].TimeFilter);
     }
 
     const callsURL = this.APP_URL + this.CALLS_TREND_SERVICE_PATH + parameters[0];
-    return combineLatest(
-      this.http.get(callsURL, { params }).pipe(
-        map(res => JSON.parse(JSON.stringify(res))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      )
+
+    return this.http.get(callsURL, { params }).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
+      catchError(err => {
+        throw err;
+      })
     );
+
+    // return combineLatest(
+    //   this.http.get(callsURL, { params }).pipe(
+    //     map(res => JSON.parse(JSON.stringify(res))),
+    //     catchError(err => of(JSON.parse(JSON.stringify(err))))
+    //   )
+    // );
   }
 
   public callsTrendLineData(...parameters) {
@@ -84,18 +92,19 @@ export class OverviewAdvocateService {
 
     let params = new HttpParams();
     if (parameters[1].TimeFilter === 'CalendarYear') {
-      params = params.append('TimeFilter', parameters[1].TimeFilter);
-      params = params.append('TimeFilterText', parameters[1].TimeFilterText);
+      params = params.append('time-filter', parameters[1].TimeFilter);
+      params = params.append('time-filter-text', parameters[1].TimeFilterText);
     } else {
-      params = params.append('TimeFilter', parameters[1].TimeFilter);
+      params = params.append('time-filter', parameters[1].TimeFilter);
     }
 
     const callsURL = this.APP_URL + this.CALLS_TREND_LINE_SERVICE_PATH + parameters[0];
-    return combineLatest(
-      this.http.get(callsURL, { params }).pipe(
-        map(res => JSON.parse(JSON.stringify(res))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      )
+
+    return this.http.get(callsURL, { params }).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
+      catchError(err => {
+        throw err;
+      })
     );
   }
 
@@ -119,9 +128,7 @@ export class OverviewAdvocateService {
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }*/
-    console.log('parameters', parameters);
     const claimsBY = _get(parameters[1], ['ClaimsBy']);
-    console.log('claimsBY', claimsBY);
     let nonPaymentURL =
       this.APP_URL + this.PAYMENTS_BY_SUBMISSION_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
 
@@ -133,10 +140,8 @@ export class OverviewAdvocateService {
 
     return this.http.post<IPaymentBySubResponse>(nonPaymentURL, parameters[1]).pipe(
       map(res => {
-        console.log('Rest file res', res);
         // Handle response for DOP submissions
         if (claimsBY === 'DOP') {
-          console.log('_get', _get(res, ['Data', '0'], {}));
           return _get(res, ['Data', '0'], {});
         }
         return res;

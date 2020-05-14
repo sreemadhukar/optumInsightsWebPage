@@ -13,16 +13,6 @@ export class NonPaymentTopClaimsService {
   constructor(private http: HttpClient) {}
 
   public getViewTopClaimsData(parameters, requestBody) {
-    // Sample template
-    const requestBodyTemplate = {
-      tins: null,
-      periodStart: null,
-      periodEnd: null,
-      reason: true,
-      subReason: true,
-      taxIdOwnership: null,
-      requestType: null
-    };
     const params = new HttpParams();
     const topClaimsUrl = this.APP_URL + this.SERVICE_PATH + parameters[0];
 

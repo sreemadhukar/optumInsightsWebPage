@@ -16,17 +16,17 @@ export class PriorAuthService {
 
   getPriorAuthDataNew(parameters, requestBody) {
     // Sample template
-    const requestBodyTemplate = {
-      tin: null,
-      lob: 'allLob',
-      allNotApprovedSettings: true,
-      decisionType: false,
-      decisionValue: null,
-      serviceCategory: false,
-      serviceCategoryValue: null,
-      timeFilter: 'last6Months',
-      timeFilterText: null
-    };
+    // const requestBodyTemplate = {
+    //   tin: null,
+    //   lob: 'allLob',
+    //   allNotApprovedSettings: true,
+    //   decisionType: false,
+    //   decisionValue: null,
+    //   serviceCategory: false,
+    //   serviceCategoryValue: null,
+    //   timeFilter: 'last6Months',
+    //   timeFilterText: null
+    // };
 
     const url = this.APP_URL + this.SERVICE_PATH + parameters[0];
     let params = new HttpParams();

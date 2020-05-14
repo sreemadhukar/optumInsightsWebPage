@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, HostListener, AfterViewInit, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
-import { CommonUtilsService } from '../../../shared/common-utils.service';
 
 @Component({
   selector: 'app-claims-paid-bar-graph',
@@ -15,7 +14,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
   initialized: any;
   public testID = 'claimsPaidBreakDown';
 
-  constructor(private common: CommonUtilsService) {}
+  constructor() {}
 
   @HostListener('window:resize', ['$event'])
   onResize(_event) {
@@ -435,8 +434,8 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     const maxTickNum = preArray[preArray.length - 1].replace(/[^0-9]/g, '');
     // console.log(multiplier, Number(maxTickNum));
     */
-    const xScaleTicksNice = d3
-      .scaleLinear()
+    // const xScaleTicksNice = d3
+    d3.scaleLinear()
       .domain([0, highestValue])
       .range([400, 900])
       .nice();
