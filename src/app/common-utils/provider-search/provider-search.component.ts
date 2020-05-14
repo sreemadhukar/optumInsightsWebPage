@@ -41,7 +41,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   noProviders = false;
   noExtProviders = false;
   isInternal: boolean = environment.internalAccess;
-
+  matFormOutlineClassName = '.mat-form-field-outline-thick';
   constructor(
     private providerSharedService: ProviderSharedService,
     private iconRegistry: MatIconRegistry,
@@ -174,7 +174,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       //     (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#B10C00';
       //   } else {
       //     (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#196ECF';
-      //     (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
+      //     (<HTMLElement>document.querySelector(matFormOutlineClassName )).style.color = '#196ECF';
       //     this.nomatchFlag = true;
       //     break;
       //   }
@@ -186,15 +186,15 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       }
       if (!(<HTMLElement>document.querySelector('.mat-focused'))) {
         (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#757588';
-        (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = 'black';
+        (<HTMLElement>document.querySelector(this.matFormOutlineClassName)).style.color = 'black';
       } else {
-        (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
+        (<HTMLElement>document.querySelector(this.matFormOutlineClassName)).style.color = '#196ECF';
         (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#196ECF';
       }
     }
     if (this.stateCtrl.value === '') {
       this.nomatchFlag = true;
-      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
+      (<HTMLElement>document.querySelector(this.matFormOutlineClassName)).style.color = '#196ECF';
     }
 
     // madhukar
@@ -203,12 +203,12 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     if (this.states.length === 0) {
       this.nomatchFlag = false;
       this.noProviders = true;
-      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#B10C00';
-      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.opacity = '1';
+      (<HTMLElement>document.querySelector(this.matFormOutlineClassName)).style.color = '#B10C00';
+      (<HTMLElement>document.querySelector(this.matFormOutlineClassName)).style.opacity = '1';
     } else {
       this.nomatchFlag = true;
       this.noProviders = false;
-      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
+      (<HTMLElement>document.querySelector(this.matFormOutlineClassName)).style.color = '#196ECF';
     }
   }
   provider() {
@@ -228,7 +228,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   check(val) {
     this.nomatchFlag = true;
     this.noProviders = false;
-    (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
+    (<HTMLElement>document.querySelector(this.matFormOutlineClassName)).style.color = '#196ECF';
     if (val.length >= 3) {
       this.emitter.emit(val);
     } else {
@@ -255,11 +255,11 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     if (this.extstates.length === 0) {
       this.noextmatchFlag = false;
       this.noExtProviders = true;
-      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#B10C00';
+      (<HTMLElement>document.querySelector(this.matFormOutlineClassName)).style.color = '#B10C00';
     } else {
       this.noextmatchFlag = true;
       this.noExtProviders = false;
-      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
+      (<HTMLElement>document.querySelector(this.matFormOutlineClassName)).style.color = '#196ECF';
     }
   }
 }

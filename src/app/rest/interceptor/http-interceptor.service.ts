@@ -22,10 +22,10 @@ import { retry, catchError } from 'rxjs/operators';
 export class HttpInterceptorService implements HttpInterceptor {
   protected emitter = new EventEmitter<boolean>();
   refreshtoken = false;
-  private APPEAL_CLAIM = environment.apiUrls.AppealsFHIR;
+  /*   private APPEAL_CLAIM = environment.apiUrls.AppealsFHIR;
   private APPEAL_OVERTURN = environment.apiUrls.AppealsOverturn;
   private PaymentsBySubmissionDOP = environment.apiUrls.PaymentsBySubmissionDOP;
-
+ */
   constructor(
     public http: HttpClient,
     private refreshtokenservice: RefreshTokenService,
@@ -68,6 +68,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     const loggedUser = JSON.parse(sessionStorage.getItem('loggedUser'));
     let loggedUserMsId = '';
+    const getTrendUrl = 'api/getTrendAccess';
     if (loggedUser) {
       loggedUserMsId = '/' + loggedUser.MsId;
     }
@@ -77,7 +78,7 @@ export class HttpInterceptorService implements HttpInterceptor {
           ? currentUser[0].AccessToken
           : currentUser[0].PedAccessToken;
       if (token) {
-        if (request.url.indexOf('api/getTrendAccess' + loggedUserMsId) === -1) {
+        if (request.url.indexOf(getTrendUrl + loggedUserMsId) === -1) {
           request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
         }
         if (!environment.internalAccess && environment.production) {
@@ -86,7 +87,7 @@ export class HttpInterceptorService implements HttpInterceptor {
           });
         }
       }
-      if (
+      /* if (
         environment.internalAccess &&
         (request.url.indexOf(this.APPEAL_CLAIM) !== -1 ||
           request.url.indexOf(this.APPEAL_OVERTURN) !== -1 ||
@@ -96,7 +97,7 @@ export class HttpInterceptorService implements HttpInterceptor {
           headers: request.headers.set('Application-Type', 'Internal')
         });
       }
-      if (environment.internalAccess && request.url.indexOf('api/getTrendAccess' + loggedUserMsId) === -1) {
+      if (environment.internalAccess && request.url.indexOf(getTrendUrl + loggedUserMsId) === -1) {
         if (
           request.url.indexOf(this.APPEAL_CLAIM) === -1 &&
           request.url.indexOf(this.APPEAL_OVERTURN) === -1 &&
@@ -109,14 +110,11 @@ export class HttpInterceptorService implements HttpInterceptor {
             headers: request.headers.set('Application-Type', 'Internal')
           });
         }
-      }
+      } */
     }
     if (request.url.indexOf('myinsightOptumIdHandshake') !== -1 || request.url.indexOf('ldapauth') !== -1) {
       request = request.clone({ headers: request.headers.set('Content-Type', 'application/x-www-form-urlencoded') });
-    } else if (
-      request.url.indexOf('api/getJwt') === -1 &&
-      request.url.indexOf('api/getTrendAccess' + loggedUserMsId) === -1
-    ) {
+    } else if (request.url.indexOf('api/getJwt') === -1 && request.url.indexOf(getTrendUrl + loggedUserMsId) === -1) {
       request = request.clone({ headers: request.headers.set('Content-Type', 'application/json') });
     }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });

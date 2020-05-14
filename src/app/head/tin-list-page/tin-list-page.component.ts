@@ -133,6 +133,7 @@ export class TinListPageComponent implements OnInit {
   capitalize(s) {
     return s[0].toUpperCase() + s.slice(1);
   }
+
   paginator1() {
     d3.select('.mat-paginator-container')
       .insert('div')
@@ -157,6 +158,7 @@ export class TinListPageComponent implements OnInit {
       .attr('id', 'testid');
   }
   tooltip() {
+    const toolTipDiv = 'tooltip-info-div';
     d3.select('#tooltip-info')
       .style('position', 'absolute')
       .style('width', '230px')
@@ -165,15 +167,16 @@ export class TinListPageComponent implements OnInit {
       .style('border-radius', '2px')
       .style('display', 'none');
 
-    d3.select('#tooltip-info-div').on('mouseenter', function() {
-      d3.select('#tooltip-info-div').on('mouseover', function() {
+    d3.select('#' + toolTipDiv).on('mouseenter', function() {
+      console.log('171', '#' + toolTipDiv);
+      d3.select('#' + toolTipDiv).on('mouseover', function() {
         d3.select('#tooltip-info')
           .style('display', 'inline')
           .style('left', d3.event.layerX + 13 + 'px')
           .style('top', d3.event.layerY - 35 + 'px');
       });
     });
-    d3.select('#tooltip-info-div').on('mouseleave', function() {
+    d3.select('#' + toolTipDiv).on('mouseleave', function() {
       d3.select('#tooltip-info')
         .style('display', 'none')
         .style('left', d3.event.layerX + 13 + 'px')

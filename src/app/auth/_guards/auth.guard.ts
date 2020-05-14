@@ -5,7 +5,7 @@ import { Router, CanActivate } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   canActivate() {
     if (sessionStorage.getItem('currentUser')) {

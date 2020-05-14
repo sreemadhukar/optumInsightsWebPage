@@ -154,8 +154,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           appealsLeftData['Data'][0][0].LineOfBusiness &&
           appealsLeftData['Data'][0][0].LineOfBusiness != null
         ) {
-          let AppealsLeftData: any;
-          AppealsLeftData = appealsLeftData['Data'][0];
+          // const AppealsLeftData: any;
+          const AppealsLeftData = appealsLeftData['Data'][0];
           this.totalAppeals = this.common.nFormatter(
             AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals
           );
@@ -275,8 +275,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           };
         } else {
           // this.callsLineGraphLoading = false;
-          let callsTrendData;
-          callsTrendData = { ...totalCallsTrendData };
+          // let callsTrendData;
+          const callsTrendData = { ...totalCallsTrendData };
           this.callsTrendLineGraph = new CallsTrendData(callsTrendData, CallsGeneralData, 'calls-trend-block');
           this.callsData = [];
           for (const key in totalCallsTrendData) {

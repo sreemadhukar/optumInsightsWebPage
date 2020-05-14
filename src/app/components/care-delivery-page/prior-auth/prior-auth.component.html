@@ -8,25 +8,23 @@
     </div>
     <app-filters-applied></app-filters-applied>
   </div>
-
-  <div
-    *ngFor="let item of summaryItems; let i = index; let odd = odd; let even = even"
-    [ngClass]="{ odd: odd, even: even }"
-  >
-    <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
-    <app-error-card *ngIf="item.data == null && item.status != null" class="cards" [data]="item"></app-error-card>
+  <div class="container-flex">
+    <div
+      *ngFor="let item of summaryItems; let i = index; let odd = odd; let even = even"
+      [ngClass]="{ odd: odd, even: even }"
+    >
+      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
+      <app-error-card *ngIf="item.data == null && item.status != null" class="cards" [data]="item"></app-error-card>
+    </div>
+    <div
+      *ngFor="let data of mockCards; let i = index; let odd = odd; let even = even"
+      [ngClass]="{ odd: odd, even: even }"
+    >
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
+    </div>
   </div>
-
-  <div
-    *ngFor="let data of mockCards; let i = index; let odd = odd; let even = even"
-    [ngClass]="{ odd: odd, even: even }"
-  >
-    <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
-  </div>
-
   <app-large-card [skeletonLarge]="loading" *ngIf="loading && !printStyle"></app-large-card>
   <app-large-card [data]="reasonItems" *ngIf="!loading && reasonItems[0].data != null"></app-large-card>
-
   <app-error-card
     *ngIf="reasonItems[0].data == null && reasonItems[0].status != null"
     class="cards"
