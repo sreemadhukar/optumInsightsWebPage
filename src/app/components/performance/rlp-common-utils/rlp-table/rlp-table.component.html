@@ -10,11 +10,12 @@
   <!--Table header starts-->
   <div class="table-header-labels" *ngIf="showTableHeader">
     <div class="rlp-table-tin">
-      <div class="table-head-text" (click)="sortTinData()">{{ tableHeader[0] }}</div>
+      <div class="table-head-text" (click)="sortTin()">{{ tableHeader[0] }}</div>
       <div class="search-box">
         <input
           type="text"
-          class="table-input-query tin-input-width"
+          id="hyphenid"
+          class="table-input-query tin-input-width hyphen"
           placeholder=""
           [(ngModel)]="qTinSearch"
           (keyup)="enterQuery()"
@@ -32,7 +33,7 @@
       </div>
     </div>
     <div class="rlp-table-group">
-      <div class="table-head-text" (click)="sortGroupNameData()">{{ tableHeader[1] }}</div>
+      <div class="table-head-text" (click)="sortGroupName()">{{ tableHeader[1] }}</div>
       <div class="search-box-g">
         <input
           type="text"

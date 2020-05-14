@@ -150,49 +150,26 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     this.tableData = [...this.sortTableData(this.isAscending)];
   }
 
-  sortGroupNameData() {
-    // return asc
-    //  ? this.tableData.sort((a, b) => a.groupName > b.groupName)
-    //   : this.tableData.sort((b, a) => a.groupName < b.groupName);
-    this.tableData = [
-      ...this.tableData.sort((a, b) => {
-        return a.groupName < b.groupName ? 1 : a.groupName > b.groupName ? -1 : 0;
-      })
-    ];
+  sortGroupNameData(asc: boolean = true) {
+    return asc
+      ? this.tableData.sort((a, b) => (a.groupName < b.groupName ? 1 : a.groupName > b.groupName ? -1 : 0))
+      : this.tableData.sort((b, a) => (a.groupName < b.groupName ? 1 : a.groupName > b.groupName ? -1 : 0));
   }
 
   sortGroupName() {
-    console.log(this.isAscending1);
-    console.log(this.tableData);
-    this.isAscending1 = !this.isAscending1;
-    //   this.tableData = [...this.sortGroupNameData(this.isAscending1)];
+    this.isAscending = !this.isAscending;
+    this.tableData = [...this.sortGroupNameData(this.isAscending)];
   }
 
-  sortTinData() {
-    //  return asc
-    //   ? this.tableData.sort((a, b) => a.tin - b.tin)
-    //   : this.tableData.sort((b, a) => a.tin - b.tin);
-    this.tableData = [
-      ...this.tableData.sort((a, b) => {
-        return a.tin < b.tin ? 1 : a.tin > b.tin ? -1 : 0;
-      })
-    ];
+  sortTinData(asc: boolean = true) {
+    return asc
+      ? this.tableData.sort((a, b) => (a.tin < b.tin ? 1 : a.tin > b.tin ? -1 : 0))
+      : this.tableData.sort((b, a) => (a.tin < b.tin ? 1 : a.tin > b.tin ? -1 : 0));
   }
 
   sortTin() {
-    console.log(this.isAscending2);
-    console.log(this.tableData);
-    this.isAscending2 = !this.isAscending2;
-    //   this.tableData = [...this.sortTinData(this.isAscending2)];
-
-    // this.tableData =  this.tableData.sort((a, b) => {
-    //  const isAsc = sort.direction === 'asc';
-    //      return this.compare(a.tin, b.tin, isAsc);
-    // });
-  }
-
-  compare(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+    this.isAscending = !this.isAscending;
+    this.tableData = [...this.sortTinData(this.isAscending)];
   }
   /**
    * enterQuery() is the function for setting up totalPages dynamically on the basis of search
@@ -203,8 +180,20 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     if (this.qGroupNameSearch === undefined && this.qTinSearch === undefined) {
       console.log('Inputs are empty');
     }
-    this.afterQuery = this.tableData.filter(el => {
-      if (el.tin.indexOf([this.qTinSearch]) !== -1 && this.qGroupNameSearch === undefined) {
+    if (this.qTinSearch) {
+      this.qTinSearch = this.qTinSearch.trim().replace(/[^0-9]/g, '');
+      if (this.qTinSearch.length > 2) {
+        this.qTinSearch = this.qTinSearch.slice(0, 2) + '-' + this.qTinSearch.slice(2);
+      }
+    }
+
+    const regexTinSearch = new RegExp(`${this.qTinSearch}`, 'ig');
+    const regexGroupName = new RegExp(`${this.qGroupNameSearch}`, 'ig');
+    this.afterQuery = this.tableData.filter(el => regexTinSearch.test(el.tin) || regexGroupName.test(el.groupName));
+
+    /* this.afterQuery = this.tableData.filter(el => {
+      if (el.tin.indexOf([this.qTinSearch]) !== -1 &&
+        this.qGroupNameSearch === undefined) {
         return true;
       } else if (
         this.qTinSearch === undefined &&
@@ -217,7 +206,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
       ) {
         return true;
       }
-    });
+    });*/
 
     this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
     this.setPagination(this.totalPages !== 0 ? 1 : 0, 0, +this.selectPageSize);
@@ -247,10 +236,6 @@ export class RlpTableComponent implements OnInit, OnDestroy {
       this.qGroupNameSearch = '';
     }
     this.enterQuery();
-  }
-
-  focusMethod() {
-    document.getElementById('groupName').focus();
   }
 
   ngOnDestroy() {}
