@@ -270,7 +270,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
         // Role based access for Advocates Overview page
-        if (this.checkAdv.value) {
+        if (this.checkAdv.value && sessionStorage.advocateView !== 'true') {
           this.navCategories[1].path = routingLinks.OverviewAdvocatepath;
 
           if (window.location.pathname === '/OverviewPage' && !event.url.includes('print-')) {
@@ -750,7 +750,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   taxSummaryLink() {
     if (this.sessionService.checkRole('UHCI_Advocate')) {
-      this.router.navigateByUrl('/OverviewPageAdvocate/HealthSystemDetails');
+      if (sessionStorage.advocateView === 'true') {
+        this.router.navigateByUrl('/TinList');
+      } else {
+        this.router.navigateByUrl('/OverviewPageAdvocate/HealthSystemDetails');
+      }
     } else {
       this.router.navigateByUrl('/TinList');
     }
