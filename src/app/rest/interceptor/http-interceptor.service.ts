@@ -87,7 +87,7 @@ export class HttpInterceptorService implements HttpInterceptor {
           });
         }
       }
-      if (
+      /* if (
         environment.internalAccess &&
         (request.url.indexOf(this.APPEAL_CLAIM) !== -1 ||
           request.url.indexOf(this.APPEAL_OVERTURN) !== -1 ||
@@ -110,7 +110,7 @@ export class HttpInterceptorService implements HttpInterceptor {
             headers: request.headers.set('Application-Type', 'Internal')
           });
         }
-      }
+      } */
     }
     if (request.url.indexOf('myinsightOptumIdHandshake') !== -1 || request.url.indexOf('ldapauth') !== -1) {
       request = request.clone({ headers: request.headers.set('Content-Type', 'application/x-www-form-urlencoded') });

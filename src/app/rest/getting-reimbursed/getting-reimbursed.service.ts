@@ -119,9 +119,9 @@ export class GettingReimbursedService {
 
     let claimsURL;
     if (par['ClaimsBy'] === 'DOP') {
-      claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=CLAIMS';
+      claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?request-type=CLAIMS';
       return this.http.post(claimsURL, par).pipe(
-        map(res => JSON.parse(JSON.stringify(res))),
+        map((res: any) => res.Data),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
     } else {
@@ -166,10 +166,10 @@ export class GettingReimbursedService {
 
   public getPaymentData(...parameters) {
     if (parameters[1]['ClaimsBy'] === 'DOP') {
-      const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=PROVIDER';
+      const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?request-type=PROVIDER';
       return combineLatest(
         this.http.post(claimsURL, parameters[1]).pipe(
-          map(res => JSON.parse(JSON.stringify(res))),
+          map((res: any) => res.Data),
           catchError(err => of(JSON.parse(JSON.stringify(err))))
         ),
         // this.claimsAppealsData(...parameters)
@@ -203,9 +203,9 @@ export class GettingReimbursedService {
   }
 
   public getTatDataforDOP(parameters) {
-    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=TAT';
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?request-type=TAT';
     return this.http.post(claimsURL, parameters[1]).pipe(
-      map(res => JSON.parse(JSON.stringify(res))),
+      map((res: any) => res.Data),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }

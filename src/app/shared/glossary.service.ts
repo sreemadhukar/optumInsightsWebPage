@@ -10,6 +10,13 @@ export class GlossarySharedService {
     uhci: []
   };
   constructor(private readonly glossaryService: GlossaryService) {}
+
+  public init() {
+    // Cache KOP Glossary and UHCI Glossa
+    this.getData({ kop: true });
+    this.getData({ kop: false });
+  }
+
   public async getData(params: any): Promise<any[]> {
     const { kop = false } = params;
     const key = kop ? 'kop' : 'uhci';
