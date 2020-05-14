@@ -139,12 +139,13 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       /** Following 2 variable are for Prior Auth Bar Grpah */
       xScaleBarWidthConstant = width / 1.79; // 522    when width is 554 , it will touch the border of the the card
       xScaleBarStartingPointConstant = width / 2.43; // 384
+      const paddingVertical = (height + margin.top + margin.bottom - barHeight) / 2;
       this.chartPA = svg
         .append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
         .append('g')
-        .attr('transform', 'translate(' + (margin.left + 6) + ',' + (margin.top + 5) + ')');
+        .attr('transform', 'translate(' + (margin.left + 6) + ',' + paddingVertical + ')');
     }
     const xScale = d3
       .scaleLinear()
