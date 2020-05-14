@@ -271,6 +271,9 @@ export class OverviewAdvocateSharedService {
         getData => {
           if (
             getData === null ||
+            !getData ||
+            !getData.EDISubmissions ||
+            !getData.PaperSubmissions ||
             (getData['error'] && getData['status'] != null) ||
             (_.get(getData, ['EDISubmissions', 'All']) === null && _.get(getData, ['PaperSubmissions', 'All']) == null)
           ) {
@@ -336,13 +339,25 @@ export class OverviewAdvocateSharedService {
   setGraphValues(resObj, claimsBy): Object {
     if (claimsBy === 'DOP') {
       return {
-        electronic: resObj.EDISubmissions.ALL ? resObj.EDISubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount : 0,
-        paper: resObj.PaperSubmissions.ALL ? resObj.PaperSubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount : 0
+        electronic:
+          resObj.EDISubmissions && resObj.EDISubmissions.ALL
+            ? resObj.EDISubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount
+            : 0,
+        paper:
+          resObj.PaperSubmissions && resObj.PaperSubmissions.ALL
+            ? resObj.PaperSubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount
+            : 0
       };
     }
     return {
-      electronic: resObj.EDISubmissions.All ? resObj.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid : 0,
-      paper: resObj.PaperSubmissions.All ? resObj.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid : 0
+      electronic:
+        resObj.EDISubmissions && resObj.EDISubmissions.ALL
+          ? resObj.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid
+          : 0,
+      paper:
+        resObj.PaperSubmissions && resObj.PaperSubmissions.ALL
+          ? resObj.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid
+          : 0
     };
   }
 
