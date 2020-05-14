@@ -6,6 +6,7 @@ import { map, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { IPaymentBySubResponse } from '../../modals/i-payment-by-submission';
 import { get as _get } from 'lodash';
+import { OverviewAdvocate } from 'src/app/modals/title-config';
 
 @Injectable({
   providedIn: 'root'
@@ -60,11 +61,12 @@ export class OverviewAdvocateService {
     }
 
     let params = new HttpParams();
+
     if (parameters[1].TimeFilter === 'CalendarYear') {
-      params = params.append('time-filter', parameters[1].TimeFilter);
+      params = params.append(OverviewAdvocate.timeFilter, parameters[1].TimeFilter);
       params = params.append('time-filter-text', parameters[1].TimeFilterText);
     } else {
-      params = params.append('time-filter', parameters[1].TimeFilter);
+      params = params.append(OverviewAdvocate.timeFilter, parameters[1].TimeFilter);
     }
 
     const callsURL = this.APP_URL + this.CALLS_TREND_SERVICE_PATH + parameters[0];
@@ -92,10 +94,10 @@ export class OverviewAdvocateService {
 
     let params = new HttpParams();
     if (parameters[1].TimeFilter === 'CalendarYear') {
-      params = params.append('time-filter', parameters[1].TimeFilter);
+      params = params.append(OverviewAdvocate.timeFilter, parameters[1].TimeFilter);
       params = params.append('time-filter-text', parameters[1].TimeFilterText);
     } else {
-      params = params.append('time-filter', parameters[1].TimeFilter);
+      params = params.append(OverviewAdvocate.timeFilter, parameters[1].TimeFilter);
     }
 
     const callsURL = this.APP_URL + this.CALLS_TREND_LINE_SERVICE_PATH + parameters[0];
