@@ -53,6 +53,7 @@
     font-size: 16px;
     line-height: 22px;
     padding-right: 8px;
+    cursor: pointer;
   }
 }
 .search-icon {
@@ -324,6 +325,26 @@
     height: 16px;
     width: 16px;
   }
+}
+.icon mat-icon {
+  visibility: hidden;
+}
+
+.icon:hover mat-icon {
+  visibility: visible;
+}
+
+.active mat-icon {
+  visibility: visible;
+}
+
+.icon:active mat-icon {
+  visibility: visible;
+}
+
+.arrow-aligns {
+  margin-left: 5px;
+  margin-top: -10px;
 }
 
 :host ::ng-deep .mat-select-arrow-wrapper {

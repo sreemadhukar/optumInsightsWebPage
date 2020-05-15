@@ -195,7 +195,7 @@
 
   <div class="height1Separator"></div>
   <app-card class="cards" [skeleton]="pbsLoading" *ngIf="pbsLoading"> </app-card>
-  <div>
+  <div class="container-box">
     <app-card *ngIf="pbsCard.data != null && !pbsLoading" class="cards" [chartData]="pbsCard"> </app-card>
     <app-error-card
       *ngIf="pbsCard.data == null && pbsCard.status != null"
