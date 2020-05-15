@@ -19,8 +19,7 @@
                   class="checkall"
                   name="featureAll"
                   value="taxSummaryData.length"
-                  [checked]="allChecked"
-                  ([ngModel])="(allChecked)"
+                  [checked]="checkAllSelected()"
                   onKeyDown="checkAllChecked()"
                   (click)="checkAllChecked()"
                 />
