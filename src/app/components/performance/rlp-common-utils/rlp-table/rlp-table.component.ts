@@ -27,6 +27,9 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   public isAscending2: boolean; // used to check sorting of the table
   public showTableBody: boolean;
   public showTableHeader: boolean;
+  public mytin: boolean;
+  public mytinname: boolean;
+  public mybar: boolean;
   constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
       'arrow',
@@ -70,6 +73,22 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     this.tableHeader = this.data.thead;
     this.showTableBody = true;
     this.showTableHeader = true;
+    this.mytin = false;
+    this.mytinname = false;
+    this.mybar = true;
+
+    console.log(this.mytin, this.mytinname);
+
+    const btns = document.getElementsByClassName('icon');
+    console.log('btns.length--->', btns.length);
+    for (let i = 0; i < btns.length; i++) {
+      console.log('btns.length--->', btns.length);
+      btns[i].addEventListener('click', function() {
+        const current = document.getElementsByClassName('active');
+        current[0].className = current[0].className.replace('active', '');
+        this.className += ' active';
+      });
+    }
   }
   /**
    * setPagination function handle the current state of pagination
@@ -146,6 +165,9 @@ export class RlpTableComponent implements OnInit, OnDestroy {
    * sortIconClicked() is the function to which is called onClick of sort icon clicked of total
    */
   sortIconRate() {
+    this.mybar = true;
+    this.mytinname = false;
+    this.mytin = false;
     this.isAscending = !this.isAscending;
     this.tableData = [...this.sortTableData(this.isAscending)];
   }
@@ -157,6 +179,9 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   }
 
   sortGroupName() {
+    this.mytinname = true;
+    this.mytin = false;
+    this.mybar = false;
     this.isAscending1 = !this.isAscending1;
     this.tableData = [...this.sortGroupNameData(this.isAscending1)];
   }
@@ -168,6 +193,9 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   }
 
   sortTin() {
+    this.mytin = true;
+    this.mytinname = false;
+    this.mybar = false;
     this.isAscending2 = !this.isAscending2;
     this.tableData = [...this.sortTinData(this.isAscending2)];
   }

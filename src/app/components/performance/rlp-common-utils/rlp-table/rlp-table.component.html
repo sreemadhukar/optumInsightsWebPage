@@ -10,7 +10,7 @@
   <!--Table header starts-->
   <div class="table-header-labels" *ngIf="showTableHeader">
     <div class="rlp-table-tin">
-      <div class="table-head-text icon" (click)="sortTin()">
+      <div class="table-head-text icon" (click)="sortTin()" [ngClass]="{ active: mytin === true }">
         {{ tableHeader[0] }}
         <mat-icon
           class="nav-menu-icons nav-menu-icons-down-arrow arrow-aligns"
@@ -45,7 +45,7 @@
       </div>
     </div>
     <div class="rlp-table-group">
-      <div class="table-head-text icon" (click)="sortGroupName()">
+      <div class="table-head-text icon" (click)="sortGroupName()" [ngClass]="{ active: mytinname === true }">
         {{ tableHeader[1] }}
         <mat-icon
           class="nav-menu-icons nav-menu-icons-down-arrow arrow-aligns"
@@ -77,7 +77,7 @@
         ></mat-icon>
       </div>
     </div>
-    <div class="rlp-table-bar" (click)="sortIconRate()">
+    <div class="rlp-table-bar icon" (click)="sortIconRate()" [ngClass]="{ active: mybar === true }">
       <div class="table-head-text padding-left-90">
         {{ tableHeader[2] }}
       </div>
