@@ -76,19 +76,6 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     this.mytin = false;
     this.mytinname = false;
     this.mybar = true;
-
-    console.log(this.mytin, this.mytinname);
-
-    const btns = document.getElementsByClassName('icon');
-    console.log('btns.length--->', btns.length);
-    for (let i = 0; i < btns.length; i++) {
-      console.log('btns.length--->', btns.length);
-      btns[i].addEventListener('click', function() {
-        const current = document.getElementsByClassName('active');
-        current[0].className = current[0].className.replace('active', '');
-        this.className += ' active';
-      });
-    }
   }
   /**
    * setPagination function handle the current state of pagination
