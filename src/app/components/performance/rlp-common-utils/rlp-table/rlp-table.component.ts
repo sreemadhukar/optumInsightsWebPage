@@ -157,8 +157,8 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   }
 
   sortGroupName() {
-    this.isAscending = !this.isAscending;
-    this.tableData = [...this.sortGroupNameData(this.isAscending)];
+    this.isAscending1 = !this.isAscending1;
+    this.tableData = [...this.sortGroupNameData(this.isAscending1)];
   }
 
   sortTinData(asc: boolean = true) {
@@ -168,8 +168,8 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   }
 
   sortTin() {
-    this.isAscending = !this.isAscending;
-    this.tableData = [...this.sortTinData(this.isAscending)];
+    this.isAscending2 = !this.isAscending2;
+    this.tableData = [...this.sortTinData(this.isAscending2)];
   }
   /**
    * enterQuery() is the function for setting up totalPages dynamically on the basis of search
