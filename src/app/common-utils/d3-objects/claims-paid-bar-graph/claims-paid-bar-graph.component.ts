@@ -58,114 +58,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     const maxCeilingValue = Math.ceil(num / ceilingMultiplier) * ceilingMultiplier;
     return maxCeilingValue;
   }
-
-  /*
-  formatDynamicAbbreviation(tickNumber: number, tickValue: number, prefix: string) {
-    // zero is false and one is true
-    const q = tickValue;
-    const w = tickNumber - 1;
-    const step = q / w;
-    let zeroOrOne;
-    let abbreviation;
-
-    const maxTickValueStringLength = q.toString().length;
-    const stepStringLength = step.toString().length;
-
-    if (maxTickValueStringLength === stepStringLength) {
-      zeroOrOne = 0;
-    } else if ([3, 6, 5, 9, 12].indexOf(maxTickValueStringLength) > -1) {
-      zeroOrOne = 0;
-    } else {
-      zeroOrOne = 1;
-    }
-
-    // 6 = T, 5 = B, 4 = M, 3 = K, 2 = mid-K, 1=hundreds
-
-    if (q >= 1000000000) {
-      abbreviation = 9;
-    } else if (q >= 1000000) {
-      abbreviation = 6;
-    } else if (q >= 1000) {
-      abbreviation = 3;
-    } else {
-      abbreviation = 0;
-    }
-
-    const newFormatNumber = d3.format(',.0f'),
-      formatBillion = function(x) {
-        if (x === 0) {
-          return prefix + '0';
-        } else {
-          return prefix + newFormatNumber(x / 1e9) + 'B';
-        }
-      },
-      formatMillion = function(x) {
-        if (x === 0) {
-          return prefix + '0';
-        } else {
-          return prefix + newFormatNumber(x / 1e6) + 'M';
-        }
-      },
-      formatThousand = function(x) {
-        if (x === 0) {
-          return prefix + '0';
-        } else {
-          return prefix + newFormatNumber(x / 1e3) + 'K';
-        }
-      },
-      formatZero = function(x) {
-        return prefix + newFormatNumber(x);
-      };
-
-    const newFormatNumberOne = d3.format('.1f'),
-      formatBillionOne = function(x) {
-        if (x === 0) {
-          return prefix + '0';
-        } else {
-          return prefix + newFormatNumberOne(x / 1e9) + 'B';
-        }
-      },
-      formatMillionOne = function(x) {
-        if (x === 0) {
-          return prefix + '0';
-        } else {
-          return prefix + newFormatNumberOne(x / 1e6) + 'M';
-        }
-      },
-      formatThousandOne = function(x) {
-        if (x === 0) {
-          return prefix + '0';
-        } else {
-          return prefix + newFormatNumberOne(x / 1e3) + 'K';
-        }
-      },
-      formatZeroOne = function(x) {
-        return prefix + newFormatNumberOne(x);
-      };
-
-    const flag = abbreviation + zeroOrOne;
-    switch (flag) {
-      case 10:
-        return formatBillionOne;
-      case 9:
-        return formatBillion;
-      case 7:
-        return formatMillionOne;
-      case 6:
-        return formatMillion;
-      case 4:
-        return formatThousandOne;
-      case 3:
-        return formatThousand;
-      case 1:
-        return formatZeroOne;
-      case 0:
-        return formatZero;
-      default:
-        break;
-    }
-  }
-  */
   findGreatest(inputOne, inputTwo, inputThree, inputFour) {
     let valOne = 0;
     let valTwo = 0;
@@ -293,16 +185,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('width', 70)
       .attr('height', 70);
 
-    /* chart
-      .append('text')
-      .attr('x', 376)
-      .attr('y', 224)
-      .attr('fill', '#2D2D39')
-      .attr('font-size', '20')
-      .style('text-anchor', 'end')
-      .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$' + this.nFormatter(this.chartOptions.chartData[2]));
- */
     chart
       .append('text')
       .attr('x', 32)
@@ -356,84 +238,10 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
 
     firstAxis.call(axisHidden);
 
-    /*
-     const preArray = d3
-     .select('#forCalculations')
-     .selectAll('.tick>text')
-     .nodes()
-     .map(function(t) {
-     const tagString = new XMLSerializer().serializeToString(t);
-     const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
-     return mySubString;
-     });
-
-     d3.select('#forCalculations').remove();
-
-     for (let i = 0; i < preArray.length; i++) {
-     preArray[i] = preArray[i].replace(/,/g, '');
-     }
-     */
-    // const preArrayOfNumbers = preArray.map(Number);
-    // const numberOfTicks = preArrayOfNumbers.length;
-    // const highestTickValue = highestValue;
     const axisPrefix = '$';
 
     const highestTickValue = this.maxTickValue(highestValue);
 
-    /*
-    const xScaleTicks = d3
-      .scalePoint()
-      .domain([0, highestValue / 4, highestValue / 2, (3 * highestValue) / 4, highestValue])
-      .range([400, 900]);
-
-    const xScaleTicksNice = d3
-      .scaleLinear()
-      .domain([0, highestValue])
-      .range([400, 900])
-      .nice();
-
-    // console.log(xScaleTicksNice())
-
-    console.log([0, highestValue / 4, highestValue / 2, (3 * highestValue) / 4, highestValue]);
-
-    const officialxAxis = d3
-      .axisBottom(xScaleTicks)
-      .tickSize(295)
-      .tickFormat(d => this.formatAbbreviationGtoB(d));
-
-    chart
-      .append('g')
-      .attr('transform', 'translate(' + 0 + ',' + 55 + ')')
-      .attr('id', 'forCalculationBottom')
-      .call(officialxAxis)
-      .call(g => g.select('.domain').remove());
-
-    const preArray = d3
-      .select('#forCalculationBottom')
-      .selectAll('.tick>text')
-      .nodes()
-      .map(function(t) {
-        const tagString = new XMLSerializer().serializeToString(t);
-        const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
-        return mySubString;
-      });
-
-    const stringLength = preArray[preArray.length - 1].length;
-    const abbreviation = preArray[preArray.length - 1].charAt(stringLength - 1);
-    let multiplier;
-    if (abbreviation === 'k') {
-      multiplier = 1000;
-    } else if (abbreviation === 'M') {
-      multiplier = 1000000;
-    } else if (abbreviation === 'B') {
-      multiplier = 1000000000;
-    } else {
-      multiplier = 1;
-    }
-
-    const maxTickNum = preArray[preArray.length - 1].replace(/[^0-9]/g, '');
-    // console.log(multiplier, Number(maxTickNum));
-    */
     // const xScaleTicksNice = d3
     d3.scaleLinear()
       .domain([0, highestValue])
@@ -536,20 +344,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .domain([0, highestTickValue])
       .range([0, 500]);
 
-    /*
-    d3.selectAll('.tick')
-      .selectAll('line')
-      .attr('stroke', '#B3BABC')
-      .attr('stroke-width', 1)
-      .attr('stroke-opacity', 0.7);
-
-    d3.selectAll('.tick')
-      .selectAll('text')
-      .attr('y', '305')
-      .attr('fill', '#2D2D39')
-      .attr('font-size', '14')
-      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'");
-*/
     d3.selectAll('.tick')
       .selectAll('line')
       .filter(function(d) {
@@ -612,7 +406,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
         .append('rect')
         .attr('x', 400)
         .attr('y', 194)
-        // .attr('width', xScaleBar(this.chartOptions.chartData[2]))
         .attr('width', 170)
         .attr('height', 48)
         .attr('fill', '#E0E0E0');
@@ -622,7 +415,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
         .attr('y', 224)
         .attr('font-size', '14')
         .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-        // .attr('fill', '#FC6431');
+
         .text('Metric in development');
 
       chart
