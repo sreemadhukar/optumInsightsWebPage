@@ -694,7 +694,6 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           boxWidth = '113px';
           textWidth = 84;
         }
-        // const hoverTextLength = getTextWidth(d.data.label, 14, 'Arial');
 
         divHover.style('height', boxHeight).style('width', boxWidth);
 

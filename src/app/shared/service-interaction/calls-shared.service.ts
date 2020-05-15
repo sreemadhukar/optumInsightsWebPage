@@ -5,7 +5,7 @@ import { CommonUtilsService } from '../common-utils.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 import { ICallsShared } from '../../modals/i-calls-shared';
-import { ICallsResponse } from 'src/app/modals/i-calls';
+import { ICallsResponse } from '../../modals/i-calls';
 
 @Injectable({ providedIn: 'root' })
 export class CallsSharedService {

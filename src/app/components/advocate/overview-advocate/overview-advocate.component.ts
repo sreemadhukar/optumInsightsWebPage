@@ -17,7 +17,7 @@ import { CreatePayloadService } from '../../../shared/uhci-filters/create-payloa
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
-import { ICallsResponse } from 'src/app/modals/i-calls';
+import { ICallsResponse } from '../modals/i-calls';
 
 @Component({
   selector: 'app-overview-advocate',
