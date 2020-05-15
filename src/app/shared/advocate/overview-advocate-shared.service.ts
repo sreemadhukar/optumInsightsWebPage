@@ -5,6 +5,7 @@ import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { OverviewAdvocateService } from '../../rest/advocate/overview-advocate.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 import * as _ from 'lodash';
+import { OverviewAdvocate } from 'src/app/modals/title-config';
 
 @Injectable({
   providedIn: 'root'
@@ -203,10 +204,9 @@ export class OverviewAdvocateSharedService {
     return new Promise((resolve, reject) => {
       const parameters = this.getParameterCategories(param);
 
-      this.overviewAdvocateService.callsData(...parameters).subscribe(
-        callsTotalData => resolve(callsTotalData),
-        err => reject(err)
-      );
+      this.overviewAdvocateService
+        .callsData(...parameters)
+        .subscribe(callsTotalData => resolve(callsTotalData), err => reject(err));
     });
   }
 
@@ -216,117 +216,44 @@ export class OverviewAdvocateSharedService {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.callsTrendLineData(...parameters).subscribe(
         response => {
-          const beData = [];
-          const claimsData = [];
-          const paData = [];
-          const other = [];
-
-          if (response.Data) {
-            const callsTrendData = response.Data;
-            callsTrendData.forEach(element => {
-              if (element.CallVolByQuesType.BenefitsEligibility) {
-                this.collectiveBeData = element.CallVolByQuesType.BenefitsEligibility;
-              }
-              if (element.CallVolByQuesType.Claims) {
-                this.collectiveClaimsData = element.CallVolByQuesType.Claims;
-              }
-              if (element.CallVolByQuesType.PriorAuth) {
-                this.collectivePaData = element.CallVolByQuesType.PriorAuth;
-              }
-              if (element.CallVolByQuesType.Others) {
-                this.collectiveOtherData = element.CallVolByQuesType.Others;
-              }
-
-              const trendTimePeriod = element.Calldate;
-
-              if (trendTimePeriod) {
-                if (param.timePeriod === 'Last3Months' || param.timePeriod === 'Last30Days') {
-                  this.monthName = this.common
-                    .dateFormat(trendTimePeriod)
-                    .substr(0, 6)
-                    .replace('T', '');
-                } else {
-                  this.monthName = this.common.dateFormat(trendTimePeriod).substr(0, 3);
-                }
-              }
-              beData.push({
-                name: this.monthName,
-                value: this.collectiveBeData,
-                month: trendTimePeriod
-              });
-              claimsData.push({
-                name: this.monthName,
-                value: this.collectiveClaimsData,
-                month: trendTimePeriod
-              });
-              paData.push({
-                name: this.monthName,
-                value: this.collectivePaData,
-                month: trendTimePeriod
-              });
-              other.push({
-                name: this.monthName,
-                value: this.collectiveOtherData,
-                month: trendTimePeriod
-              });
-            });
-
-            beData.sort(function(a, b) {
-              let dateA: any;
-              dateA = new Date(a.month);
-              let dateB: any;
-              dateB = new Date(b.month);
-              return dateA - dateB; // sort by date ascending
-            });
-
-            claimsData.sort(function(a, b) {
-              let dateA: any;
-              dateA = new Date(a.month);
-              let dateB: any;
-              dateB = new Date(b.month);
-              return dateA - dateB; // sort by date ascending
-            });
-
-            paData.sort(function(a, b) {
-              let dateA: any;
-              dateA = new Date(a.month);
-              let dateB: any;
-              dateB = new Date(b.month);
-              return dateA - dateB; // sort by date ascending
-            });
-
-            other.sort(function(a, b) {
-              let dateA: any;
-              dateA = new Date(a.month);
-              let dateB: any;
-              dateB = new Date(b.month);
-              return dateA - dateB; // sort by date ascending
-            });
-            const callsTrendFormattedData = {};
-            if (beData) {
-              callsTrendFormattedData['B&E'] = beData;
-            } else {
-              callsTrendFormattedData['B&E'] = null;
-            }
-            if (claimsData) {
-              callsTrendFormattedData['CLAIMS'] = claimsData;
-            } else {
-              callsTrendFormattedData['CLAIMS'] = null;
-            }
-            if (paData) {
-              callsTrendFormattedData['P&A'] = paData;
-            } else {
-              callsTrendFormattedData['P&A'] = null;
-            }
-            if (other) {
-              callsTrendFormattedData['Other'] = other;
-            } else {
-              callsTrendFormattedData['Other'] = null;
-            }
-            resolve(callsTrendFormattedData);
-          } else {
+          if (_.get(response, 'Data') === null) {
             resolve(null);
           }
+          const sendData = {};
+          const sortedData = _.clone(response.Data);
+          sortedData.sort(function(a, b) {
+            return a.Calldate.split('T')[0].replace(/-/g, '') - b.Calldate.split('T')[0].replace(/-/g, ''); // sort by date ascending
+          });
+          const monthData = sortedData.map(item => {
+            const trendTimePeriod = _.get(item, 'Calldate', '');
+            if (param.timePeriod === 'Last3Months' || param.timePeriod === 'Last30Days') {
+              return this.common
+                .dateFormat(trendTimePeriod)
+                .substr(0, 6)
+                .replace('T', '');
+            }
+            return this.common.dateFormat(trendTimePeriod).substr(0, 3);
+          });
+          const formatData = (index, value) => {
+            return {
+              name: monthData[index],
+              value: value
+            };
+          };
+
+          sendData['B&E'] = sortedData.map((item, index) =>
+            formatData(index, _.get(item, 'CallVolByQuesType.BenefitsEligibility', ''))
+          );
+          sendData['CLAIMS'] = sortedData.map((item, index) =>
+            formatData(index, _.get(item, 'CallVolByQuesType.Claims', ''))
+          );
+          sendData['P&A'] = sortedData.map((item, index) =>
+            formatData(index, _.get(item, 'CallVolByQuesType.PriorAuth', ''))
+          );
+          sendData['Other'] = sortedData.map((item, index) =>
+            formatData(index, _.get(item, 'CallVolByQuesType.Others', ''))
+          );
+          resolve(sendData);
         },
         err => {
           console.log('Advocate Page , Error for calls card', err);
@@ -344,6 +271,9 @@ export class OverviewAdvocateSharedService {
         getData => {
           if (
             getData === null ||
+            !getData ||
+            !getData.EDISubmissions ||
+            !getData.PaperSubmissions ||
             (getData['error'] && getData['status'] != null) ||
             (_.get(getData, ['EDISubmissions', 'All']) === null && _.get(getData, ['PaperSubmissions', 'All']) == null)
           ) {
@@ -351,17 +281,18 @@ export class OverviewAdvocateSharedService {
               category: 'app-card',
               type: 'donutWithLabel',
               status: 404,
-              title: 'Payments by Submission',
+              title: OverviewAdvocate.paymentBySubissionTitle,
               data: null,
               timeperiod: null
             };
+
             return resolve(this.sendData);
           } else {
             this.sendData = {
               id: 'paymentSubmission',
               category: 'app-card',
               type: 'stackBarChart',
-              title: 'Payments by Submission',
+              title: OverviewAdvocate.paymentBySubissionTitle,
               MetricID: this.MetricidService.MetricIDs.PaymentsBySubmission,
               data: {
                 graphValues: [
@@ -384,10 +315,11 @@ export class OverviewAdvocateSharedService {
               category: 'app-card',
               type: 'donutWithLabel',
               status: 404,
-              title: 'Payments by Submission',
+              title: OverviewAdvocate.paymentBySubissionTitle,
               data: null,
               timeperiod: null
             };
+
             resolve(this.sendData);
           }
           resolve(this.sendData);
@@ -407,13 +339,25 @@ export class OverviewAdvocateSharedService {
   setGraphValues(resObj, claimsBy): Object {
     if (claimsBy === 'DOP') {
       return {
-        electronic: resObj.EDISubmissions.ALL ? resObj.EDISubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount : 0,
-        paper: resObj.PaperSubmissions.ALL ? resObj.PaperSubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount : 0
+        electronic:
+          resObj.EDISubmissions && resObj.EDISubmissions.ALL
+            ? resObj.EDISubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount
+            : 0,
+        paper:
+          resObj.PaperSubmissions && resObj.PaperSubmissions.ALL
+            ? resObj.PaperSubmissions.ALL.ClaimFinancialMetrics.ApprovedAmount
+            : 0
       };
     }
     return {
-      electronic: resObj.EDISubmissions.All ? resObj.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid : 0,
-      paper: resObj.PaperSubmissions.All ? resObj.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid : 0
+      electronic:
+        resObj.EDISubmissions && resObj.EDISubmissions.ALL
+          ? resObj.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid
+          : 0,
+      paper:
+        resObj.PaperSubmissions && resObj.PaperSubmissions.ALL
+          ? resObj.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid
+          : 0
     };
   }
 

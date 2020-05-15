@@ -37,9 +37,9 @@ export class TopRowAdvOverviewService {
     /*SEE ABOVE*/
     let claimsURL;
     if (parameters[1]['ClaimsBy'] === 'DOP') {
-      claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=CLAIMS';
+      claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?request-type=CLAIMS';
       return this.http.post(claimsURL, par).pipe(
-        map(res => JSON.parse(JSON.stringify(res))),
+        map((res: any) => res.Data),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
     } else {

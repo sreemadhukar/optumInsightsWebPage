@@ -21,10 +21,7 @@ export class KopService {
   }
   public getSummary({ params }) {
     const url = this.APP_URL + this.SERVICE_PATH_KOP;
-    return this.http.post(url, params).pipe(
-      map(res => res),
-      catchError(err => of(err))
-    );
+    return this.http.post(url, params).toPromise();
   }
 
   public getPriorAuthTATSummary({ params }) {

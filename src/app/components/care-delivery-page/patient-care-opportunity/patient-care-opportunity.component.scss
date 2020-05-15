@@ -8,12 +8,6 @@
 ::ng-deep .pcor .right .app-card-structure {
   margin: 15px 0 15px 15px !important;
 }
-::ng-deep .pcor .qulity-measure-star-block {
-  .card-inner-large {
-    margin: 15px 0 !important;
-    width: 100% !important;
-  }
-}
 
 .cust-width-title {
   width: 100%;
@@ -117,11 +111,12 @@
   box-sizing: border-box;
   height: 79px;
   width: 100%;
+  display: inline-block;
   border: 1px solid #757588;
   border-radius: 2px;
   background-color: $alice-blue;
   margin: 15px 0;
-  padding: 12px 16px 12px 16px;
+  padding: 12px 16px;
 
   .report-Title {
     color: $black-rock;

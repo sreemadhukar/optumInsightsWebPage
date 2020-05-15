@@ -10,6 +10,10 @@
   }
 }
 
+.container-flex {
+  display: flex;
+}
+
 ::ng-deep .getting-reimbursed-cards .app-card-structure {
   display: inline-flex;
   margin: 15px 16px 15px 0px !important;
