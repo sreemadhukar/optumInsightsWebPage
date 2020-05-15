@@ -329,6 +329,7 @@ export class TopRowAdvOverviewSharedService {
     const lobData = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
     let claimsYield: Object;
     if (
+      yieldData &&
       yieldData.hasOwnProperty(lobData) &&
       yieldData[lobData] != null &&
       yieldData[lobData].hasOwnProperty('ClaimsLobSummary') &&
@@ -816,7 +817,7 @@ export class TopRowAdvOverviewSharedService {
             }
           } else {
             lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
-            if (!claimsData.hasOwnProperty(lobData)) {
+            if (!claimsData || !claimsData.hasOwnProperty(lobData)) {
               claimsPaid = {
                 category: 'small-card',
                 type: 'donutWithLabel',
