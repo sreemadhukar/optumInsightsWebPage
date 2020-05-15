@@ -351,11 +351,11 @@ export class OverviewAdvocateSharedService {
     }
     return {
       electronic:
-        resObj.EDISubmissions && resObj.EDISubmissions.ALL
+        resObj.EDISubmissions && resObj.EDISubmissions.All
           ? resObj.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid
           : 0,
       paper:
-        resObj.PaperSubmissions && resObj.PaperSubmissions.ALL
+        resObj.PaperSubmissions && resObj.PaperSubmissions.All
           ? resObj.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid
           : 0
     };
