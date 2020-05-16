@@ -206,23 +206,6 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     const regexGroupName = new RegExp(`${this.qGroupNameSearch}`, 'ig');
     this.afterQuery = this.tableData.filter(el => regexTinSearch.test(el.tin) || regexGroupName.test(el.groupName));
 
-    /* this.afterQuery = this.tableData.filter(el => {
-      if (el.tin.indexOf([this.qTinSearch]) !== -1 &&
-        this.qGroupNameSearch === undefined) {
-        return true;
-      } else if (
-        this.qTinSearch === undefined &&
-        el.groupName.toLowerCase().indexOf([this.qGroupNameSearch.toLowerCase()]) !== -1
-      ) {
-        return true;
-      } else if (
-        el.tin.indexOf([this.qTinSearch]) !== -1 &&
-        el.groupName.toLowerCase().indexOf([this.qGroupNameSearch.toLowerCase()]) !== -1
-      ) {
-        return true;
-      }
-    });*/
-
     this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
     this.setPagination(this.totalPages !== 0 ? 1 : 0, 0, +this.selectPageSize);
   }

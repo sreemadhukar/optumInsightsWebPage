@@ -37,53 +37,18 @@ export class OverviewSharedService {
       if (this.timeFrame === 'Last 12 Months') {
         parameters = [this.providerKey, true];
       } else {
-        // this.session.timeFrame = this.timeFrame = 'Last 12 Months';
         this.timeFrame = 'Last 12 Months';
         parameters = [this.providerKey, true];
       }
 
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, {}, EDI, PAPER]) => {
-        /* code changed by Ranjith kumar Ankam - 04-Jul-2019*/
-        /*this.createPriorAuthObject(providerSystems)
-         .then(cPriorAuth => {
-         // tempArray[1] = cPriorAuth;
-         tempArray[0] = cPriorAuth;
-         return this.createSelfServiceObject(providerSystems);
-         })*/
         this.createSelfServiceObject(providerSystems)
           .then(cSelfService => {
-            // tempArray[2] = cSelfService;
             tempArray[0] = cSelfService;
             return this.createPCORObject(providerSystems);
           })
           .then(cPcor => {
-            // tempArray[4] = cPcor;
             tempArray[1] = cPcor;
-            /* return this.createTotalCallsObject(providerSystems);
-             })
-             .then(cIR => {
-             // tempArray[5] = cIR;
-             tempArray[3] = cIR;
-             return this.createClaimsPaidObject(claims);
-             })
-             .then(claimsPaid => {
-             tempArray[0] = claimsPaid;
-             return this.createClaimsYieldObject(claims);
-             })
-             .then(claimsYield => {
-             tempArray[3] = claimsYield;
-             return this.getClaimsTrends(this.baseTimePeriod, this.previousTimePeriod);
-             })
-             .then(trendData => {
-             let trends: any;
-             trends = trendData;
-             tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
-             tempArray[3]['sdata'] = trends.claimsYieldTrendObject;
-             return this.createTotalCallsTrend();
-             })
-             .then(trendIssueResolution => {
-             // tempArray[5]['sdata'] = trendIssueResolution;
-             tempArray[3]['sdata'] = trendIssueResolution;*/
             return this.reduceCallsandOperatingCostsMiniTile(providerSystems, oppurtunities);
           })
           .then(reduceoppurtunities => {
@@ -105,7 +70,6 @@ export class OverviewSharedService {
       }); // end subscribing to REST call
     }); // ends Promise
   } // end getOverviewData function
-
   /* function to create Selef Service Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createSelfServiceObject(providerSystems) {
     return new Promise(resolve => {
@@ -209,7 +173,6 @@ export class OverviewSharedService {
       resolve(cSelfService);
     });
   }
-
   /* function to create PCOR Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createPCORObject(providerSystems) {
     let cPcor: Object;
@@ -257,23 +220,6 @@ export class OverviewSharedService {
         };
       }
       resolve(cPcor);
-    });
-  }
-
-  createTotalCallsTrend() {
-    // let trendIR: Object;
-    // const trendIR = null;
-    return new Promise(resolve => {
-      // this.callsTrendService
-      //   .getCallsTrendData()
-      //   .then(data => {
-      //     trendIR = data[0];
-      //     resolve(trendIR);
-      //   })
-      //   .catch(reason => {
-      //     console.log('Calls Service Error ', reason);
-      //   });
-      resolve(null);
     });
   }
   /* function to create Total Calls Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
@@ -329,7 +275,6 @@ export class OverviewSharedService {
       resolve(cIR);
     });
   }
-
   /* function to create Calls and Operating Costs OPPORTUNITIES Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   reduceCallsandOperatingCostsMiniTile(providerSystems, oppurtunities) {
     return new Promise(resolve => {
@@ -395,7 +340,6 @@ export class OverviewSharedService {
       resolve(oppurtunities);
     });
   }
-
   /* function to create Save Your Staff's Time OPPORTUNITIES Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   saveYourStaffsTimeMiniTile(providerSystems, oppurtunities) {
     return new Promise(resolve => {
@@ -459,63 +403,6 @@ export class OverviewSharedService {
     });
   }
 
-  /* function to create Reduce Claims Processing Time OPPORTUNITIES Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
-  /* reduceClaimsProcessingTimeMiniTile(providerSystems, oppurtunities) {
-    return new Promise((resolve) => {
-      if (
-        providerSystems.hasOwnProperty('SelfServiceInquiries') &&
-        providerSystems.SelfServiceInquiries != null &&
-        providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
-        providerSystems.SelfServiceInquiries.ALL != null &&
-        providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
-        providerSystems.SelfServiceInquiries.ALL.SelfService != null &&
-        providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AveragePaperClaimProcessingTime') &&
-        providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime != null &&
-        providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime') &&
-        providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime != null
-      ) {
-        const selfService = providerSystems.SelfServiceInquiries.ALL.SelfService;
-        const checkProcessingTime =
-          selfService.AveragePaperClaimProcessingTime.toFixed(0) - selfService.AverageClaimProcessingTime.toFixed(0);
-        oppurtunities.push({
-          category: 'mini-tile',
-          title: 'Reduce Claim Processing Time by:',
-          MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
-          toggle:
-            this.common.checkZeroNegative(checkProcessingTime) &&
-            this.toggle.setToggles('Reduce Claim Processing Time by:', 'Self Service', 'Service Interaction', false) &&
-            this.common.checkZeroNegative(checkProcessingTime),
-          data: {
-            centerNumber:
-              (checkProcessingTime < 1 ? '< 1' : this.common.nondecimalFormatter(checkProcessingTime)) +
-              (checkProcessingTime < 1 ? ' Day' : ' Days'),
-            gdata: []
-          },
-          fdata: {
-            type: 'bar chart',
-            graphValues: [selfService.AverageClaimProcessingTime, selfService.AveragePaperClaimProcessingTime],
-            concatString: 'Days',
-            color: ['#3381FF', '#FFFFFF', '#80B0FF'],
-            graphValuesTitle: 'Avg. Processing Times',
-            graphData1: 'for Self Service',
-            graphData2: 'for Mail',
-            gdata: ['card-structure', 'reduceClaimProcessingTime']
-          }
-        });
-      } else {
-        oppurtunities.push({
-          category: 'mini-tile',
-          title: 'Reduce Claim Processing Time by:',
-          MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
-          status: null,
-          data: null,
-          fdata: null
-        });
-      }
-      resolve(oppurtunities);
-    });
-  } */
-
   reduceClaimsProcessingTimeMiniTile(EDI, PAPER, oppurtunities) {
     return new Promise(resolve => {
       if (
@@ -576,7 +463,6 @@ export class OverviewSharedService {
       resolve(oppurtunities);
     });
   }
-
   /* function to create Reduce Reconsideration Process OPPORTUNITIES Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   reduceReconsiderationProcessMiniTile(providerSystems, oppurtunities) {
     return new Promise(resolve => {
@@ -640,7 +526,6 @@ export class OverviewSharedService {
       resolve(oppurtunities);
     });
   }
-
   /* function to create Claims Paid in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createClaimsPaidObject(claims) {
     let claimsPaid: Object;
@@ -652,9 +537,6 @@ export class OverviewSharedService {
         claims.All.hasOwnProperty('ClaimsLobSummary')
       ) {
         if (claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
-          // const mrPercentage = claims.Mr.ClaimsLobSummary[0].AmountPaid;
-          // const eiPercentage = claims.Ei.ClaimsLobSummary[0].AmountPaid;
-          // const csPercentage = claims.Cs.ClaimsLobSummary[0].AmountPaid;
           const paidData = [];
           if (claims.hasOwnProperty('Mr') && claims.Mr != null) {
             if (
@@ -711,7 +593,6 @@ export class OverviewSharedService {
               labels: [lobName.mAndRMedicare, lobName.cAndSMedicaid, lobName.eAndICommerCial, lobName.unCategorized],
               hover: true
             },
-            // sdata: claimsTrendObject,
             timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
           };
           // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
@@ -733,7 +614,6 @@ export class OverviewSharedService {
                 color: ['#D7DCE1', '#D7DCE1'],
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
-              // sdata: claimsTrendObject,
               timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
             };
           }
@@ -760,7 +640,6 @@ export class OverviewSharedService {
       resolve(claimsPaid);
     });
   }
-
   /* function to create Claims Yield Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createClaimsYieldObject(claims) {
     let claimsYield: Object;
@@ -789,7 +668,6 @@ export class OverviewSharedService {
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'claimsYieldCardD3Donut']
             },
-            // sdata: claimsYieldTrendObject,
             timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
           };
         } else {
@@ -861,146 +739,6 @@ export class OverviewSharedService {
       resolve(claimsTAT);
     });
   }
-  /* Function to create claims TAT tile ends here */
-  /* function to calculate Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 04-Jul-2019*/
-  // getClaimsTrends(baseTimePeriod, previousTimePeriod) {
-  //   return new Promise((resolve) => {
-  //     /************************TRENDS********* */
-  //     let parameters = {
-  //       providerkey: this.providerKey,
-  //       // TimeFilter: 'Last30Days'
-  //       TimeFilter: baseTimePeriod
-  //     };
-  //     let latestClaimsPaid;
-  //     let latestClaimsYieldRate;
-  //     let previousClaimsPaid;
-  //     let previousClaimsYieldRate;
-  //     let claimsTrendValue;
-  //     const claimsPaidTrendObject: any = {};
-  //     let claimsYieldTrendValue;
-  //     const claimsYieldTrendObject: any = {};
-
-  //     this.getCurrentClaimsTrend(parameters)
-  //       .then(r => {
-  //         const latestClaimsTrendData: any = r;
-  //         latestClaimsPaid = latestClaimsTrendData.latestClaimsPaid;
-  //         latestClaimsYieldRate = latestClaimsTrendData.latestClaimsYieldRate;
-  //         parameters = {
-  //           providerkey: this.providerKey,
-  //           // TimeFilter: 'PreviousLast30Days'
-  //           TimeFilter: previousTimePeriod
-  //         };
-  //         return this.getPreviousClaimsTrend(parameters);
-  //       })
-  //       .then(r => {
-  //         const previousClaimsTrendData: any = r;
-  //         previousClaimsPaid = previousClaimsTrendData.previousClaimsPaid;
-  //         previousClaimsYieldRate = previousClaimsTrendData.previousClaimsYieldRate;
-  //         // console.log(latestClaimsPaid, previousClaimsPaid, latestClaimsYieldRate, previousClaimsYieldRate);
-  //         if (latestClaimsPaid !== 0 && latestClaimsPaid !== '0' && latestClaimsPaid != undefined) {
-  //           if (latestClaimsPaid === previousClaimsPaid) {
-  //             claimsPaidTrendObject.sign = '';
-  //             claimsPaidTrendObject.data = '';
-  //           } else if (previousClaimsPaid != undefined) {
-  //             claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
-  //             if (claimsTrendValue >= 0) {
-  //               claimsPaidTrendObject.sign = 'up';
-  //               claimsPaidTrendObject.data = '+' + claimsTrendValue.toFixed(1) + '%';
-  //             } else {
-  //               claimsPaidTrendObject.sign = 'down';
-  //               claimsPaidTrendObject.data = claimsTrendValue.toFixed(1) + '%';
-  //             }
-  //           } else {
-  //             claimsPaidTrendObject.sign = 'up';
-  //             claimsPaidTrendObject.data = '+' + latestClaimsPaid + '%';
-  //           }
-  //         } else if (previousClaimsPaid !== 0 || previousClaimsPaid !== '0' || previousClaimsPaid != undefined) {
-  //           if (latestClaimsPaid != undefined) {
-  //             claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
-  //             if (claimsTrendValue >= 0) {
-  //               claimsPaidTrendObject.sign = 'up';
-  //               claimsPaidTrendObject.data = '+' + claimsTrendValue.toFixed(1) + '%';
-  //             } else {
-  //               claimsPaidTrendObject.sign = 'down';
-  //               claimsPaidTrendObject.data = claimsTrendValue.toFixed(1) + '%';
-  //             }
-  //           }
-  //         } else {
-  //           claimsPaidTrendObject.sign = '';
-  //           claimsPaidTrendObject.data = '';
-  //         }
-
-  //         if (latestClaimsYieldRate !== 0 && latestClaimsYieldRate !== '0' && latestClaimsYieldRate != undefined) {
-  //           if (latestClaimsYieldRate === previousClaimsYieldRate) {
-  //             claimsYieldTrendObject.sign = '';
-  //             claimsYieldTrendObject.data = '';
-  //           } else if (previousClaimsYieldRate != undefined) {
-  //             claimsYieldTrendValue =
-  //               ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
-  //             if (claimsYieldTrendValue >= 0) {
-  //               claimsYieldTrendObject.sign = 'up';
-  //               claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
-  //             } else {
-  //               claimsYieldTrendObject.sign = 'down';
-  //               claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
-  //             }
-  //           } else {
-  //             claimsYieldTrendObject.sign = 'up';
-  //             claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
-  //           }
-  //         } else if (
-  //           previousClaimsYieldRate !== 0 ||
-  //           previousClaimsYieldRate !== '0' ||
-  //           previousClaimsYieldRate != undefined
-  //         ) {
-  //           if (latestClaimsYieldRate != undefined) {
-  //             claimsYieldTrendValue =
-  //               ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
-  //             if (claimsYieldTrendValue >= 0) {
-  //               claimsYieldTrendObject.sign = 'up';
-  //               claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
-  //             } else {
-  //               claimsYieldTrendObject.sign = 'down';
-  //               claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
-  //             }
-  //           }
-  //         } else {
-  //           claimsYieldTrendObject.sign = '';
-  //           claimsYieldTrendObject.data = '';
-  //         }
-
-  //         /*
-  //          if (
-  //          latestClaimsYieldRate !== 0 &&
-  //          previousClaimsYieldRate !== 0 &&
-  //          latestClaimsYieldRate !== '0' &&
-  //          previousClaimsYieldRate !== '0' &&
-  //          latestClaimsYieldRate != undefined &&
-  //          previousClaimsYieldRate != undefined
-  //          ) {
-  //          claimsYieldTrendValue = ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
-  //          if (claimsYieldTrendValue >= 0) {
-  //          claimsYieldTrendObject.sign = 'up';
-  //          claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
-  //          } else {
-  //          claimsYieldTrendObject.sign = 'down';
-  //          claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
-  //          }
-  //          } else if (
-  //          previousClaimsYieldRate === 0 ||
-  //          previousClaimsYieldRate === '0' ||
-  //          previousClaimsYieldRate == undefined ||
-  //          previousClaimsYieldRate == undefined
-  //          ) {
-  //          claimsYieldTrendObject.sign = 'up';
-  //          claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
-  //          }
-  //          */
-  //         resolve({ claimsPaidTrendObject: claimsPaidTrendObject, claimsYieldTrendObject: claimsYieldTrendObject });
-  //       });
-  //   });
-  // }
-
   /* function to calculate Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 21-Oct-2019*/
   getClaimsTrends(claimsPaidObj, claimsYieldObj) {
     return new Promise(resolve => {
@@ -1017,27 +755,6 @@ export class OverviewSharedService {
           claims.All != null &&
           claims.All.hasOwnProperty('ClaimsLobSummary')
         ) {
-          // if (claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
-          //   let newClaimsPaid = 0;
-          //   if (claimsPaidObj.data) {
-          //     if (claimsPaidObj.data.centerNumberOriginal) {
-          //       newClaimsPaid = claimsPaidObj.data.centerNumberOriginal;
-          //       const oldClaimsPaid = claims.All.ClaimsLobSummary[0].AmountPaid;
-          //       claimsPaidObj.sdata = this.common.trendNegativeMeansBad(newClaimsPaid, oldClaimsPaid);
-          //     }
-          //   }
-          // }
-          /** Commenting the following lines of code to remove trends from Clims Yield **/
-          /* if (claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
-            let newClaimsPaid = 0;
-            if (claimsYieldObj.data) {
-              if (claimsYieldObj.data.centerNumberOriginal) {
-                newClaimsPaid = claimsYieldObj.data.centerNumberOriginal;
-                const oldClaimsPaid = claims.All.ClaimsLobSummary[0].ClaimsYieldRate;
-                claimsYieldObj.sdata = this.common.trendNegativeMeansBad(newClaimsPaid, oldClaimsPaid);
-              }
-            }
-          }*/
         }
         tempArray[0] = claimsPaidObj;
         tempArray[1] = claimsYieldObj;
@@ -1045,7 +762,6 @@ export class OverviewSharedService {
       });
     });
   }
-
   /* function to get current Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 04-Jul-2019*/
   getCurrentClaimsTrend(parameters) {
     let latestClaimsPaid;
@@ -1059,20 +775,16 @@ export class OverviewSharedService {
           claimsTrendLatestData.All.hasOwnProperty('ClaimsLobSummary')
         ) {
           if (claimsTrendLatestData.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
-            // latestClaimsPaid = this.common.nFormatter(claimsTrendLatestData.All.ClaimsLobSummary[0].AmountPaid);
             latestClaimsPaid = claimsTrendLatestData.All.ClaimsLobSummary[0].AmountPaid;
           }
           if (claimsTrendLatestData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
-            // latestClaimsYieldRate = this.common.nFormatter(claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsYieldRate);
             latestClaimsYieldRate = claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsYieldRate;
           }
         }
-
         resolve({ latestClaimsPaid: latestClaimsPaid, latestClaimsYieldRate: latestClaimsYieldRate });
       });
     });
   }
-
   /* function to get previous Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 04-Jul-2019*/
   getPreviousClaimsTrend(parameters) {
     let previousClaimsPaid;
@@ -1086,20 +798,16 @@ export class OverviewSharedService {
           claimsTrendPreviousData.All.hasOwnProperty('ClaimsLobSummary')
         ) {
           if (claimsTrendPreviousData.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
-            // previousClaimsPaid = this.common.nFormatter(claimsTrendPreviousData.All.ClaimsLobSummary[0].AmountPaid);
             previousClaimsPaid = claimsTrendPreviousData.All.ClaimsLobSummary[0].AmountPaid;
           }
           if (claimsTrendPreviousData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
-            // previousClaimsYieldRate = this.common.nFormatter(claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsYieldRate);
             previousClaimsYieldRate = claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsYieldRate;
           }
         }
-
         resolve({ previousClaimsPaid: previousClaimsPaid, previousClaimsYieldRate: previousClaimsYieldRate });
       });
     });
   }
-
   /*Function to get claims cards seperately - RANJITH KUMAR ANKAM - 16-July-2019 */
   getClaimsCards() {
     this.timeFrame = this.session.timeFrame;
@@ -1111,7 +819,6 @@ export class OverviewSharedService {
         providerkey: this.providerKey,
         TimeFilter: this.baseTimePeriod
       };
-
       this.overviewService.getOverviewClaimsTrend(parameters).subscribe(claims => {
         this.createClaimsPaidObject(claims)
           .then(claimsPaid => {
@@ -1120,33 +827,18 @@ export class OverviewSharedService {
           })
           .then(claimsYield => {
             tempArray[1] = claimsYield;
-
-            // return this.getClaimsTrends(this.baseTimePeriod, this.previousTimePeriod);
             return this.getClaimsTrends(tempArray[0], tempArray[1]);
           })
           .then(() => {
-            // let trends: any;
-            // trends = trendData;
             return this.createClaimsTAT(claims);
           })
           .then(claimsTAT => {
             tempArray[2] = claimsTAT;
-            // tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
-            // tempArray[1]['sdata'] = trends.claimsYieldTrendObject;
-            /*tempArray[0]['sdata'] = {
-             sign: "down",
-             data: "-46%"
-             };
-             tempArray[1]['sdata'] = {
-             sign: "down",
-             data: "-46%"
-             };*/
             resolve(tempArray);
           });
       }); // end subscribing to REST call
     }); // ends Promise
   }
-
   /* function to get PRIOR AUTH CARD seperately i overview page - RANJITH KUMAR ANKAM - 17th JULY 2019 */
   getPriorAuthCardData() {
     return new Promise(resolve => {
@@ -1154,32 +846,7 @@ export class OverviewSharedService {
         providerKey: this.providerKey,
         allProviderTins: true
       };
-
       this.overviewService.getOverviewPriorAuth(parameters).subscribe(priorAuth => {
-        /*
-         let PAOverviewTrends: object;
-         if (
-         trends &&
-         trends.hasOwnProperty('TendingMtrics') &&
-         trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
-         ) {
-         const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
-         if (trends.TendingMtrics.PaApprovedCount < 0) {
-         PAOverviewTrends = {
-         sign: 'down',
-         data: dataPoint
-         };
-         } else {
-         PAOverviewTrends = {
-         sign: 'up',
-         data: dataPoint
-         };
-         }
-         } else {
-         PAOverviewTrends = null;
-         }
-         */
-
         let cPriorAuth: any;
         if (
           priorAuth &&
@@ -1219,35 +886,6 @@ export class OverviewSharedService {
               '&ndash;' +
               this.common.dateFormatPriorAuth(priorAuth.PriorAuthorizations.ReportingEndDate)
           };
-          // if (
-          //   trends != undefined &&
-          //   trends != null &&
-          //   trends.hasOwnProperty('TendingMtrics') &&
-          //   trends.TendingMtrics != null &&
-          //   trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
-          //   trends.TendingMtrics.PaApprovalRate != null
-          // ) {
-          //   const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
-          //   const temp = trends.TendingMtrics.PaApprovalRate.toFixed(1);
-          //   if (temp < 0) {
-          //     cPriorAuth.sdata = {
-          //       sign: 'down',
-          //       data: dataPoint
-          //     };
-          //   } else if (temp > 0) {
-          //     cPriorAuth.sdata = {
-          //       sign: 'up',
-          //       data: dataPoint
-          //     };
-          //   } else if (temp == 0) {
-          //     cPriorAuth.sdata = {
-          //       sign: 'neutral',
-          //       data: 'No Change'
-          //     };
-          //   }
-          // } else {
-          //   cPriorAuth.sdata = null;
-          // }
         } else {
           cPriorAuth = {
             category: 'small-card',
@@ -1262,7 +900,6 @@ export class OverviewSharedService {
       });
     });
   }
-
   /* function to get TOTAL CALLS CARD seperately i overview page - RANJITH KUMAR ANKAM - 17th JULY 2019 */
   getTotalCallsCardData(trends) {
     return new Promise(resolve => {
@@ -1312,7 +949,6 @@ export class OverviewSharedService {
               },
               timeperiod: timePeriodCalls
             };
-
             if (
               trends != undefined &&
               trends != null &&
@@ -1344,8 +980,6 @@ export class OverviewSharedService {
             } else {
               cIR.sdata = null;
             }
-            // Hiding Calls trends
-            // cIR.sdata = null;
           } else {
             cIR = {
               category: 'small-card',
@@ -1357,19 +991,6 @@ export class OverviewSharedService {
             };
           }
           resolve(cIR);
-
-          /*this.createTotalCallsTrend().then(trendIssueResolution => {
-         const nullTrend = {
-         sign: '',
-         data: ''
-         };
-         if (trendIssueResolution === null) {
-         cIR.sdata = nullTrend;
-         } else {
-         cIR.sdata = trendIssueResolution;
-         }
-         resolve(cIR);
-         });*/
         },
         err => {
           console.log(err);
@@ -1391,7 +1012,6 @@ export class OverviewSharedService {
     this.providerKey = this.session.providerKeyData();
     return new Promise(resolve => {
       this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(trends => {
-        // resolve(PAOverviewTrends);
         resolve(trends);
       });
     });

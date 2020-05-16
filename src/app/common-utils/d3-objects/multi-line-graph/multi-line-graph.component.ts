@@ -225,7 +225,6 @@ export class MultiLineGraphComponent implements OnInit {
 
     const margin = { top: 85 - topMarginSubtract, right: 62, bottom: 85, left: 48 };
     const width = preWidth - margin.left - margin.right;
-    // const height = 520 - margin.top - margin.bottom + 8;
 
     const chart = d3
       .select(this.renderChart)

@@ -242,7 +242,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
 
     const highestTickValue = this.maxTickValue(highestValue);
 
-    // const xScaleTicksNice = d3
     d3.scaleLinear()
       .domain([0, highestValue])
       .range([400, 900])
