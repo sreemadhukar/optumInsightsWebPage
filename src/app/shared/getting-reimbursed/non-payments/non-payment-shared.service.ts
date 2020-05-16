@@ -25,22 +25,11 @@ export class NonPaymentSharedService {
 
   // The getNonPayment() function fetches data for Claims Not Paid and Claims Non-Payment Rate
   public getNonPayment(param) {
-    /*
-    let lobValueParam;
-    if (param.lineOfBusiness) {
-      lobValueParam = _.startCase(param.lineOfBusiness.toLowerCase());
-    } else {
-      lobValueParam = 'All';
-    }
-    delete param['lineOfBusiness'];
-    */
     this.providerKey = this.session.providerKeyData();
     if (param.viewClaimsByFilter === 'DOP') {
       return new Promise(resolve => {
         this.nonPaymentService.getNonPaymentData(...this.getParameterCategories(param)).subscribe(
           nonPaymentData1 => {
-            // let claimsNotPaid;
-            // let claimsNotPaidRate;
             let lobValue = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'ALL';
             if (
               (nonPaymentData1 || {}).LineOfBusiness &&
@@ -165,18 +154,6 @@ export class NonPaymentSharedService {
               //     '&ndash;' +
               //     this.common.dateFormat(nonPaymentData1.EndDate)
               // };
-            } else {
-              // claimsNotPaid = {
-              //   category: 'app-card',
-              //   type: 'donutWithLabel',
-              //   status: 404,
-              //   title: 'Claims Not Paid',
-              //   MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
-              //   data: null,
-              //   besideData: null,
-              //   bottomData: null,
-              //   timeperiod: null
-              // };
             }
             if (
               (nonPaymentData1 || {}).LineOfBusiness &&
@@ -209,17 +186,6 @@ export class NonPaymentSharedService {
               //     '&ndash;' +
               //     this.common.dateFormat(nonPaymentData1.LineOfBusiness.EndDate)
               // };
-            } else {
-              // claimsNotPaidRate = {
-              //   category: 'app-card',
-              //   type: 'donut',
-              //   status: 404,
-              //   title: 'Claims Non-Payment Rate',
-              //   MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
-              //   data: null,
-              //   toggle: true,
-              //   timeperiod: null
-              // };
             }
             /* Remove this  temporaryClaimsNotPaid card once data is available */
             const temporaryClaimsNotPaid = {
@@ -233,8 +199,7 @@ export class NonPaymentSharedService {
               timeperiod: ''
             };
             this.summaryData = [];
-            // Remove 249th line and uncomment 248 once the data is available
-            //  this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
+
             this.summaryData.push(temporaryClaimsNotPaid);
             resolve(this.summaryData);
           },
