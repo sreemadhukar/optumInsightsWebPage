@@ -592,17 +592,6 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
           } else if (appealsData.length > 0 && appealsData[0] != null) {
-            // let appealsSubmittedCenterNum = 0;
-            // if (appealTypeForTitle === 'Received Date') {
-            //   appealsSubmittedCenterNum = this.common.nFormatter(
-            //     appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-            //       appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
-            //   );
-            // } else if (appealTypeForTitle === 'Closed Date') {
-            //   appealsSubmittedCenterNum = this.common.nFormatter(
-            //     appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount
-            //   );
-            // }
             if (
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
               appealsData[0].LineOfBusiness !== null &&
@@ -1268,10 +1257,6 @@ export class GettingReimbursedSharedService {
             claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('ApprovedCount') &&
             claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('DeniedCount')
           ) {
-            // const startDate = (claimsData || {}).StartDate;
-
-            // const endDate = (claimsData || {}).EndDate;
-            // const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
             if (claimsData.hasOwnProperty('StartDate') && claimsData.hasOwnProperty('EndDate')) {
               timePeriodData =
                 this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate);

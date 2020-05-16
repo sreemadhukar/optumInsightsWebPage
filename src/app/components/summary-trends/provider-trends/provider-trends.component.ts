@@ -50,7 +50,6 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
     private cdRef: ChangeDetectorRef,
     private ngRedux: NgRedux<IAppState>
   ) {
-    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.iconRegistry.addSvgIcon(
       'filter',

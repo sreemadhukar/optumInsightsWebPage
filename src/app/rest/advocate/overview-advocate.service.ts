@@ -25,9 +25,7 @@ export class OverviewAdvocateService {
 
   public appealsData(...parameters) {
     const appealsParams = parameters[1];
-    // if (appealsParams.FundingTypeCodes) {
-    //   delete appealsParams.FundingTypeCodes;
-    // }
+
     let appealsReqType = '';
     if (parameters[1].appealsProcessing === 'Received Date') {
       appealsReqType = '?request-type=APPEALS_MEASURE_DOR_HCO';
