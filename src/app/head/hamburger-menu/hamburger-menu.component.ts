@@ -38,7 +38,7 @@ import { NgRedux } from '@angular-redux/store';
 import { GroupPremiumDesignationService } from '../../rest/group-premium-designation/group-premium-designation.service';
 import { PCORData } from './../../modals/title-config';
 import { routingLinks } from './../../modals/route-config';
-import { GlossarySharedService } from 'src/app/shared/glossary.service';
+import { GlossarySharedService } from '../../shared/glossary.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -582,7 +582,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     const parametersExecutive = [this.sessionService.providerKeyData(), true];
     this.pcorService.getPCORMedicareData(...parametersExecutive).subscribe(
       data => {
-        if (!data || !data.ReportingPeriod) {
+        const PcorData = data.Data;
+        if (!PcorData || !PcorData.ReportingPeriod) {
           try {
             this.removePCORnav();
             sessionStorage.removeItem('pcor');

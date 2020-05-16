@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
-import { GlossarySharedService } from 'src/app/shared/glossary.service';
+import { GlossarySharedService } from './../../shared/glossary.service';
 
 @Component({
   selector: 'app-glossary',

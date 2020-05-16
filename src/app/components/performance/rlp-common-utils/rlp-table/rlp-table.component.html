@@ -10,7 +10,19 @@
   <!--Table header starts-->
   <div class="table-header-labels" *ngIf="showTableHeader">
     <div class="rlp-table-tin">
-      <div class="table-head-text" (click)="sortTin()">{{ tableHeader[0] }}</div>
+      <div class="table-head-text icon" (click)="sortTin()" [ngClass]="{ active: mytin === true }">
+        {{ tableHeader[0] }}
+        <mat-icon
+          class="nav-menu-icons nav-menu-icons-down-arrow arrow-aligns"
+          *ngIf="!isAscending2"
+          svgIcon="downarrow"
+        ></mat-icon>
+        <mat-icon
+          class="nav-menu-icons nav-menu-icons-down-arrow-reverse arrow-aligns"
+          *ngIf="isAscending2"
+          svgIcon="downarrow"
+        ></mat-icon>
+      </div>
       <div class="search-box">
         <input
           type="text"
@@ -33,7 +45,19 @@
       </div>
     </div>
     <div class="rlp-table-group">
-      <div class="table-head-text" (click)="sortGroupName()">{{ tableHeader[1] }}</div>
+      <div class="table-head-text icon" (click)="sortGroupName()" [ngClass]="{ active: mytinname === true }">
+        {{ tableHeader[1] }}
+        <mat-icon
+          class="nav-menu-icons nav-menu-icons-down-arrow arrow-aligns"
+          *ngIf="!isAscending1"
+          svgIcon="downarrow"
+        ></mat-icon>
+        <mat-icon
+          class="nav-menu-icons nav-menu-icons-down-arrow-reverse arrow-aligns"
+          *ngIf="isAscending1"
+          svgIcon="downarrow"
+        ></mat-icon>
+      </div>
       <div class="search-box-g">
         <input
           type="text"
@@ -53,7 +77,7 @@
         ></mat-icon>
       </div>
     </div>
-    <div class="rlp-table-bar" (click)="sortIconRate()">
+    <div class="rlp-table-bar icon" (click)="sortIconRate()" [ngClass]="{ active: mybar === true }">
       <div class="table-head-text padding-left-90">
         {{ tableHeader[2] }}
       </div>

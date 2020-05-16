@@ -7,7 +7,7 @@ import { AuthorizationService } from '../../auth/_service/authorization.service'
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { lobName } from '../../modals/lob-name';
-import { ICallsResponse } from 'src/app/modals/i-calls';
+import { ICallsResponse } from '../../modals/i-calls';
 
 @Injectable({
   providedIn: 'root'

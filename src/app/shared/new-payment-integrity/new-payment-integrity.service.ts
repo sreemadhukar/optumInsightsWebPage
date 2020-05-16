@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { PaymentIntegrityTabInfoService } from '../../rest/new-payment-integrity/payment-integrity-tab-info.service';
 import { NewPaymentIntegrityServiceRest } from '../../rest/new-payment-integrity/new-payment-integrity-rest.service';
 import { GlossaryMetricidService } from '../../shared/glossary-metricid.service';
-import { SessionService } from 'src/app/shared/session.service';
-import { cardType } from 'src/app/modals/cardType-config';
-import { PaymentIntrigityData } from 'src/app/modals/title-config';
+import { SessionService } from '../../shared/session.service';
+import { cardType } from '../../modals/cardType-config';
+import { PaymentIntrigityData } from '../../modals/title-config';
 
 @Injectable({
   providedIn: 'root'

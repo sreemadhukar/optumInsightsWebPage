@@ -275,7 +275,6 @@ export class LineGraphComponent implements OnInit {
           .append('div')
           .attr('class', 'details-label')
           .attr('id', 'claimsNotPaidLabelThree');
-        // .text('$' + formatDy(d.y));
       }
     } else {
       tooltipVar = d3
@@ -487,7 +486,7 @@ export class LineGraphComponent implements OnInit {
             .tickFormat(formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
         );
     }
-    // const RectBarOne = chart
+
     chart
       .selectAll('.rect-bar')
       .data(data)
@@ -574,11 +573,6 @@ export class LineGraphComponent implements OnInit {
       });
 
     if (this.printStyle) {
-      // const tooltipVar1 = d3
-      //   .select(this.renderChart)
-      //   .append('div')
-      //   .classed('tooltipClassPrint', true)
-      //   .classed('hidden', true);
       chart
         .selectAll('.dot')
         .data(data)
@@ -589,12 +583,6 @@ export class LineGraphComponent implements OnInit {
           return xScale(i);
         })
         .attr('cy', function(d) {
-          // const topMar = yScale(d.y) + 49 + 'px';
-          // tooltipVar1
-          //   .html(tooltipTextOnPrint(d, this.yearComparison, axisPrefix))
-          //   .classed('hidden', false)
-          //   .style('left', d.xCoordinate + 46 + 'px')
-          //   .style('top', topMar);
           return yScale(d.y);
         })
         .attr('r', 5);
@@ -618,7 +606,6 @@ export class LineGraphComponent implements OnInit {
         .attr('transform', 'translate(-12, -15)');
     }
 
-    // const DotOne = chart
     chart
       .selectAll('.dot')
       .data(data)

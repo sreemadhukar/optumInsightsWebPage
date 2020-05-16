@@ -6,9 +6,6 @@
       <mat-icon class="nav-menu-icons menu-icon" svgIcon="{{ menuIcon }}"></mat-icon>
     </div>
     <div class="header-logo-div">
-      <!-- <div class="date-and-time" *ngIf="printStyle">
-        {{ todaysDataTime }}
-      </div> -->
       <a (click)="onLogoClick()">
         <img class="Uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
       </a>
@@ -17,20 +14,17 @@
       <p>Internal Insights</p>
     </div>
     <div class="margin-left-auto" (clickElsewhere)="closeDropdown()" *ngIf="!printStyle">
-      <!-- <mat-slide-toggle [checked]="isDarkTheme | async" labelPosition="before" (change)="toggleDarkTheme($event.checked)"></mat-slide-toggle> -->
       <div class="user-div" (click)="advocateUserClicked()">
         <div class="user-icon">
           <mat-icon class="nav-menu-icons no-margin-icons" svgIcon="person"></mat-icon>
         </div>
         <div class="user-name">{{ username }}</div>
         <div class="user-expand-more">
-          <!-- *ngIf="isAdvocate"-->
           <mat-icon class="nav-menu-icons no-margin-icons" svgIcon="expand-more"></mat-icon>
         </div>
       </div>
       <div>
         <div *ngIf="advDropdownBool && openDropdownBool" class="vertical-menu">
-          <!--<a class="act per-item toggle-view-height">Toggle Your View</a>-->
           <div class="profile-details-block profile-block-border-bottom">
             <p class="profile-name">{{ fullname }}</p>
             <p class="profile-mail">{{ EmailId }}</p>
@@ -71,8 +65,8 @@
           </div>
           <div class="sign-out-block">
             <div (click)="signOut()" class="signout-icon-text">
-              <mat-icon class="nav-menu-icons no-margin-icons" svgIcon="sign-out"></mat-icon
-              ><span class="signout-text">Sign Out</span>
+              <mat-icon class="nav-menu-icons no-margin-icons" svgIcon="sign-out"></mat-icon>
+              <span class="signout-text">Sign Out</span>
             </div>
           </div>
         </div>
