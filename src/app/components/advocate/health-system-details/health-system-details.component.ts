@@ -38,8 +38,6 @@ export class HealthSystemDetailsComponent implements OnInit {
     private readonly ngRedux: NgRedux<IAppState>,
     private readonly session: SessionService
   ) {
-    // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
-    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.taxId.subscribe(taxId => (this.selectedTaxId = taxId));
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {

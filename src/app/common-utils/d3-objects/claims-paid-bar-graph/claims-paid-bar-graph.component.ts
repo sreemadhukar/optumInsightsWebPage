@@ -392,8 +392,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .range([400, 900])
       .nice();
 
-    // console.log(xScaleTicksNice())
-
     console.log([0, highestValue / 4, highestValue / 2, (3 * highestValue) / 4, highestValue]);
 
     const officialxAxis = d3

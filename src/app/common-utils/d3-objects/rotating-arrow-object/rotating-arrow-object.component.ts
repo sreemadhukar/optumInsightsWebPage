@@ -34,7 +34,6 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       .remove();
 
     let width = 230;
-    // let height = 220;
 
     if (customWidth > 0) {
       width = customWidth;
@@ -63,9 +62,6 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
         .attr('height', '220px')
         .attr('xlink:href', tatCircleLink);
 
-      // let circleColor;
-      // let textColor;
-      // let arrowLink;
       if (chartOptions.sdata) {
         //   if (chartOptions.sdata.sign === 'up') {
         //     circleColor = '#E1FADF';
@@ -185,10 +181,6 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
         'translate(198.992281, 145.554508) scale(-1, 1) rotate(157.000000) translate(-198.992281, -145.554508) '
       )
       .attr('fill', '#3381FF');*/
-
-      // let circleColor;
-      // let textColor;
-      // let arrowLink;
 
       if (chartOptions.sdata) {
         // if (chartOptions.sdata.sign === 'up') {

@@ -46,9 +46,7 @@ export class GlossaryComponent implements OnInit, DoCheck {
     this.options = [];
   }
 
-  ngDoCheck() {
-    // this.networkLeverUlTag();
-  }
+  ngDoCheck() {}
 
   public networkLeverUlTag() {
     setTimeout(function() {

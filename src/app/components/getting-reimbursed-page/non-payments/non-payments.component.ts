@@ -82,7 +82,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private common: CommonUtilsService,
     private reasonsEmitter: TopReasonsEmitterService
   ) {
-    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('nonPaymentsPage');

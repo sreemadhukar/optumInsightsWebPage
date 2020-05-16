@@ -68,7 +68,7 @@ export class PaymentIntegrityComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
-    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+
     this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     this.iconRegistry.addSvgIcon(
       'down-green-trend-icon',
