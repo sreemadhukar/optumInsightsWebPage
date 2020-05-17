@@ -117,76 +117,8 @@ export class NonPaymentSharedService {
                 }
                 nonPaidData.push(amountPaid - amountPaidLOB);
               }
-              // claimsNotPaid = {
-              //   category: 'app-card',
-              //   type: 'donutWithLabel',
-              //   title: 'Claims Not Paid',
-              //   MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
-              //   data: {
-              //     graphValues: nonPaidData,
-              //     centerNumber:
-              //       this.common.nFormatter(
-              //         nonPaymentData1.LineOfBusiness[lobValue].ClaimFinancialMetrics.DeniedAmount
-              //       ) < 1 &&
-              //       this.common.nFormatter(
-              //         nonPaymentData1.LineOfBusiness[lobValue].ClaimFinancialMetrics.DeniedAmount
-              //       ) > 0
-              //         ? '< $1'
-              //         : '$' +
-              //           this.common.nFormatter(
-              //             nonPaymentData1.LineOfBusiness[lobValue].ClaimFinancialMetrics.DeniedAmount
-              //           ),
-              //     color: this.common.returnLobColor(nonPaymentData1.LineOfBusiness, lobValue),
-              //     gdata: ['card-inner', 'claimsNotPaid'],
-              //     sdata: {
-              //       sign: '',
-              //       data: ''
-              //     },
-              //     labels: this.common.returnHoverLabels(nonPaymentData1.LineOfBusiness, lobValue),
-              //     hover: true
-              //   },
-              //   besideData: {
-              //     labels: this.common.lobNameForSideLabels(lobValue, nonPaymentData1.LineOfBusiness),
-              //     color: this.common.lobColorForLabels(lobValue, nonPaymentData1.LineOfBusiness)
-              //   },
-              //   timeperiod:
-              //     this.common.dateFormat(nonPaymentData1.StartDate) +
-              //     '&ndash;' +
-              //     this.common.dateFormat(nonPaymentData1.EndDate)
-              // };
             }
-            if (
-              (nonPaymentData1 || {}).LineOfBusiness &&
-              nonPaymentData1.LineOfBusiness.ALL.hasOwnProperty('ClaimFinancialMetrics') &&
-              nonPaymentData1.LineOfBusiness.ALL.ClaimFinancialMetrics.hasOwnProperty('ClaimsYieldRate') &&
-              nonPaymentData1.LineOfBusiness.ALL.ClaimFinancialMetrics.hasOwnProperty('ClaimsNonPaymentRate')
-            ) {
-              // claimsNotPaidRate = {
-              //   category: 'app-card',
-              //   type: 'donut',
-              //   title: 'Claims Non-Payment Rate',
-              //   MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
-              //   toggle: true,
-              //   data: {
-              //     graphValues: [
-              //       nonPaymentData1.LineOfBusiness.ALL.ClaimFinancialMetrics.ClaimsNonPaymentRate,
-              //       nonPaymentData1.LineOfBusiness.ALL.ClaimFinancialMetrics.ClaimsYieldRate
-              //     ],
-              //     centerNumber:
-              //       nonPaymentData1.LineOfBusiness.ALL.ClaimFinancialMetrics.ClaimsNonPaymentRate < 1 &&
-              //       nonPaymentData1.LineOfBusiness.ALL.ClaimFinancialMetrics.ClaimsNonPaymentRate > 0
-              //         ? '< 1%'
-              //         : nonPaymentData1.LineOfBusiness.ALL.ClaimFinancialMetrics.ClaimsNonPaymentRate + '%',
-              //     color: ['#3381FF', '#D7DCE1'],
-              //     gdata: ['card-inner', 'claimsNonPaymentRate'],
-              //     sdata: null
-              //   },
-              //   timeperiod:
-              //     this.common.dateFormat(nonPaymentData1.LineOfBusiness.StartDate) +
-              //     '&ndash;' +
-              //     this.common.dateFormat(nonPaymentData1.LineOfBusiness.EndDate)
-              // };
-            }
+
             /* Remove this  temporaryClaimsNotPaid card once data is available */
             const temporaryClaimsNotPaid = {
               category: 'app-card',
@@ -268,102 +200,9 @@ export class NonPaymentSharedService {
                 const amountPaidLOB = nonPaymentData1[lobValue].ClaimsLobSummary[0].AmountDenied;
                 nonPaidData.push(amountPaid - amountPaidLOB);
               }
-              // claimsNotPaid = {
-              //   category: 'app-card',
-              //   type: 'donutWithLabel',
-              //   title: 'Claims Not Paid',
-              //   MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
-              //   data: {
-              //     graphValues: nonPaidData,
-              //     centerNumber:
-              //       this.common.nFormatter(nonPaymentData1[lobValue].ClaimsLobSummary[0].AmountDenied) < 1 &&
-              //       this.common.nFormatter(nonPaymentData1[lobValue].ClaimsLobSummary[0].AmountDenied) > 0
-              //         ? '< $1'
-              //         : '$' + this.common.nFormatter(nonPaymentData1[lobValue].ClaimsLobSummary[0].AmountDenied),
-              //     color: this.common.returnLobColor(nonPaymentData1, lobValue),
-              //     gdata: ['card-inner', 'claimsNotPaid'],
-              //     sdata: {
-              //       sign: '',
-              //       data: ''
-              //     },
-              //     labels: this.common.returnHoverLabels(nonPaymentData1, lobValue),
-              //     hover: true
-              //   },
-              //   besideData: {
-              //     labels: this.common.lobNameForSideLabels(lobValue, nonPaymentData1),
-              //     color: this.common.lobColorForLabels(lobValue, nonPaymentData1)
-              //   },
-              //   timeperiod:
-              //     this.common.dateFormat(nonPaymentData1.Startdate) +
-              //     '&ndash;' +
-              //     this.common.dateFormat(nonPaymentData1.Enddate)
-              // };
-            } else {
-              // claimsNotPaid = {
-              //   category: 'app-card',
-              //   type: 'donutWithLabel',
-              //   status: 404,
-              //   title: 'Claims Not Paid',
-              //   MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
-              //   data: null,
-              //   besideData: null,
-              //   bottomData: null,
-              //   timeperiod: null
-              // };
             }
-            if (
-              (nonPaymentData1 || {}).All &&
-              nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
-              nonPaymentData1.All.ClaimsLobSummary.length &&
-              nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
-              nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
-            ) {
-              // claimsNotPaidRate = {
-              //   category: 'app-card',
-              //   type: 'donut',
-              //   title: 'Claims Non-Payment Rate',
-              //   MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
-              //   toggle: true,
-              //   data: {
-              //     graphValues: [
-              //       nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate,
-              //       nonPaymentData1.All.ClaimsLobSummary[0].ClaimsYieldRate
-              //     ],
-              //     centerNumber:
-              //       nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate < 1 &&
-              //       nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
-              //         ? '< 1%'
-              //         : nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
-              //     color: ['#3381FF', '#D7DCE1'],
-              //     gdata: ['card-inner', 'claimsNonPaymentRate'],
-              //     sdata: null
-              //   },
-              //   timeperiod:
-              //     this.common.dateFormat(nonPaymentData1.Startdate) +
-              //     '&ndash;' +
-              //     this.common.dateFormat(nonPaymentData1.Enddate)
-              // };
-            } else {
-              // claimsNotPaidRate = {
-              //   category: 'app-card',
-              //   type: 'donut',
-              //   status: 404,
-              //   title: 'Claims Non-Payment Rate',
-              //   MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
-              //   data: null,
-              //   toggle: true,
-              //   timeperiod: null
-              // };
-            } // end if else
+
             this.summaryData = [];
-            /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-            // claimsNotPaidRate = {
-            //   category: 'app-card',
-            //   type: 'donut',
-            //   title: null,
-            //   data: null,
-            //   timeperiod: null
-            // };
 
             /* Remove this  temporaryClaimsNotPaid card once data is available */
             const temporaryClaimsNotPaid = {
@@ -445,18 +284,12 @@ export class NonPaymentSharedService {
   } // end getNonPaymentCategories function
 
   public sharedTopSubCategories(paramtersSubCategory, topReasons) {
-    // this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise(resolve => {
       this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
         (data: any) => {
           // array
           let mappedData;
           if (paramtersSubCategory[0][1].ClaimsBy === 'DOP') {
-            // if (data.Data == null) {
-            //   mappedData = null;
-            // } else {
-            //   mappedData = data.Data[0];  // to be used when the api has changed as data.Data[0]
-            // }
             mappedData = data;
           } else {
             mappedData = data.map((item: any) => {
@@ -522,7 +355,6 @@ export class NonPaymentSharedService {
     });
   }
   public sharedTopCategories(parameters) {
-    // this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise(resolve => {
       /** Get Top 5 Categories Data */
       if (parameters[1].ClaimsBy === 'DOP') {

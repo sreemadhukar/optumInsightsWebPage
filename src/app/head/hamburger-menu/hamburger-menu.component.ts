@@ -175,7 +175,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private dialog: MatDialog,
     private checkStorage: StorageService,
     private glossaryExpandService: GlossaryExpandService,
-    private glossarySharedService: GlossarySharedService,
+    private readonly glossarySharedService: GlossarySharedService,
     private filterExpandService: FilterExpandService,
     private filterCloseService: FilterCloseService,
     private pcorService: PcorService,
@@ -218,9 +218,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     }
     let currentUser: any;
     currentUser = { ProviderKey: false };
-    if (!(sessionStorage.getItem('currentUser') === null)) {
+    if (sessionStorage.getItem('currentUser') !== null) {
       currentUser = JSON.parse(sessionStorage.getItem('currentUser'))[0];
     }
+
     // Group Premium Designation
     if (this.groupPremiumDesignationService && this.internalUser && currentUser.ProviderKey) {
       this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {

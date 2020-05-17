@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
+import { GlossaryExpandService } from '../../../../shared/glossary-expand.service';
 import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
 import { NewPaymentIntegrityService } from '../../../../shared/new-payment-integrity/new-payment-integrity.service';
 import { PaymentIntrigityData } from './../../../../modals/title-config';
