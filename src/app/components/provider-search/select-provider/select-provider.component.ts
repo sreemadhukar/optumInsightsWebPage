@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -11,7 +11,6 @@ import { StorageService } from './../../../shared/storage-service.service';
 import { SessionService } from '../../../shared/session.service';
 import { DOCUMENT } from '@angular/common';
 
-import { EventEmitter } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from 'src/app/auth/_service/authentication.service';
 

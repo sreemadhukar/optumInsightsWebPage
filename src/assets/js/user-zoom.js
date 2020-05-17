@@ -6,7 +6,7 @@ export default function userZoomInit() {
     uz.charset = 'utf-8';
 
     uz.src =
-      ('https:' == document.location.protocol ? 'https://' : 'http://') +
+      ('https:' === document.location.protocol ? 'https://' : 'http://') +
       'cdn5.userzoom.com/files/js/QzE2MVQ5.js?t=uz_til&cuid=C4D7AAAD43F6DF1188490022196C4538';
 
     var s = document.getElementsByTagName('script')[0];
