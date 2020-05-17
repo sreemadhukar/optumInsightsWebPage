@@ -106,7 +106,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     private checkStorage: StorageService,
     private readonly session: SessionService,
     private reasonReceived: TopReasonsEmitterService,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private topClaimsSharedService: TopClaimsSharedService,
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>,

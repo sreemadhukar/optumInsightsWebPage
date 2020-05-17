@@ -57,9 +57,6 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
         .attr('height', '220px')
         .attr('xlink:href', tatCircleLink);
 
-      if (chartOptions.sdata) {
-      }
-
       chart
         .append('text')
         .attr('text-anchor', 'middle')

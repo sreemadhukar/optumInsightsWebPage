@@ -47,7 +47,7 @@ export class GettingReimbursedComponent implements OnInit {
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private router: Router,
     private session: SessionService,
     private common: CommonUtilsService,
