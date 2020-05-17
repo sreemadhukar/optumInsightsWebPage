@@ -5,6 +5,7 @@
       <li
         *ngFor="let item of tabOptions; let i = index"
         (click)="matOptionClicked(i)"
+        (keypress)="matOptionClicked(i)"
         [ngClass]="{ active: previousSelectedTab === i }"
         attr.id="{{ item.title }}"
       >
