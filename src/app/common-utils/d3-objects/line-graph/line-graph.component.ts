@@ -61,21 +61,11 @@ export class LineGraphComponent implements OnInit {
   }
 
   onResize(_event) {
-    this.doLineGraph(
-      this.chartOptions.chartData,
-      this.chartOptions.chartData2,
-      this.chartOptions.titleData,
-      this.chartOptions.generalData
-    );
+    this.ngAfterViewInit();
   }
 
   onSystemChange() {
-    this.doLineGraph(
-      this.chartOptions.chartData,
-      this.chartOptions.chartData2,
-      this.chartOptions.titleData,
-      this.chartOptions.generalData
-    );
+    this.ngAfterViewInit();
   }
 
   doLineGraph(chartData: any, chartData2: any, titleData: any, generalData: any) {
