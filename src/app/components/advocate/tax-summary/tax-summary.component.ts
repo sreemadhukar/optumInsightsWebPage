@@ -80,12 +80,13 @@ export class TaxSummaryComponent implements OnInit {
   }
 
   checkAllSelected() {
+    let result = false;
     for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
       if (this.taxSummaryData.filteredData[i]['checked']) {
-        return true;
+        result = true;
+        break;
       }
     }
-    return false;
   }
 
   // event.target.value is fetching the actual id of the response

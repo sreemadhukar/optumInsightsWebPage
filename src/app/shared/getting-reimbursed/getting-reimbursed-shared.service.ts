@@ -539,7 +539,6 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate') &&
               claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
             ) {
-              // used toggle: true as toggle functionality is not built properly : srikar bobbiganipalli
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
@@ -817,24 +816,6 @@ export class GettingReimbursedSharedService {
             };
           }
 
-          /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-          /*claimsPaidRate = {
-            category: 'app-card',
-            type: 'donut',
-            title: null,
-            data: null,
-            timeperiod: null
-          };*/
-
-          /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-          // claimsNotPaidRate = {
-          //   category: 'app-card',
-          //   type: 'donut',
-          //   title: null,
-          //   data: null,
-          //   timeperiod: null
-          // };
-
           submissions = {
             id: 1,
             title: 'Claims Processed',
@@ -913,13 +894,7 @@ export class GettingReimbursedSharedService {
       parameters = [this.providerKey, new GettingReimbursedPayload(param)];
 
       /** We used promise so that we get the data in synchronous manner  */
-      // if (
-      //   this.timeFrame === 'Last 12 Months' ||
-      //   this.timeFrame === 'Last 6 Months' ||
-      //   this.timeFrame === 'Last 3 Months' ||
-      //   this.timeFrame === 'Last 30 Days' ||
-      //   this.timeFrame === 'Year to Date'
-      // ) {
+
       this.sharedNonPaymentData(param)
         .then(nonPayment => {
           this.nonPaymentData = nonPayment;
@@ -961,30 +936,9 @@ export class GettingReimbursedSharedService {
           summaryData[1] = payments;
           summaryData[2] = nonpayments;
           summaryData[3] = appeals;
-          //   return this.calculateSummaryTrends(parameters, gettingReimbursedData);
-          // })
-          // .then(data => {
+
           resolve(summaryData);
         });
-      //   } else {
-      //     this.sharedNonPaymentData(param)
-      //       .then(nonPayment => {
-      //         this.nonPaymentData = nonPayment;
-      //         return this.sharedGettingReimbursedYearWiseData(parameters);
-      //       })
-      //       /*.then(data => {
-      //         gettingReimbursedData = data;
-      //         resolve(gettingReimbursedData);
-      //       });
-      // */
-      //       .then(data => {
-      //         gettingReimbursedData = data;
-      //         return this.calculateSummaryTrends(parameters, gettingReimbursedData);
-      //       })
-      //       .then(data => {
-      //         resolve(data);
-      //       });
-      //   }
     });
   }
 
@@ -1095,7 +1049,7 @@ export class GettingReimbursedSharedService {
                 type: 'rotateWithLabel',
                 title: 'Average Claim Processing Days',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-                // toggle: true,
+
                 data: {
                   centerNumber: claimsdata.LineOfBusiness[lobFullData].TatMetrics.ClaimsAvgTat + ' days',
                   color: ['#3381FF', '#3381FF'],
@@ -1353,7 +1307,6 @@ export class GettingReimbursedSharedService {
       }
       parameters[1].TimeFilter = baseTimePeriod;
       this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData]) => {
-        // const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
         const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
         if (claimsData != null && !claimsData.hasOwnProperty('status')) {
           if (

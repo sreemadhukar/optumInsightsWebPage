@@ -322,7 +322,7 @@ export class OverviewAdvocateSharedService {
 
             resolve(this.sendData);
           }
-          resolve(this.sendData);
+          return resolve(this.sendData);
         },
         err => {
           console.log('Advocate Page , Error for calls card', err);

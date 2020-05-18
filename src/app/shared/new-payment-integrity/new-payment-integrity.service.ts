@@ -51,7 +51,6 @@ export class NewPaymentIntegrityService {
           } else {
             resolve(this.piDataError(response));
           }
-          // resolve(response);
         },
         err => {
           console.log('Check All RLP HCO Data Error', err);
