@@ -17,7 +17,7 @@ export class OverviewSharedService {
   private timeFrame: string;
   private providerKey: number;
   private baseTimePeriod = 'Last6Months';
-  private previousTimePeriod = 'PreviousLast6Months';
+  // private previousTimePeriod = 'PreviousLast6Months';
   constructor(
     private MetricidService: GlossaryMetricidService,
     private overviewService: OverviewService,
@@ -743,7 +743,7 @@ export class OverviewSharedService {
   getClaimsTrends(claimsPaidObj, claimsYieldObj) {
     return new Promise(resolve => {
       const tempArray: Array<object> = [];
-      const parameters = {
+      /* const parameters = {
         providerkey: this.providerKey,
         TimeFilter: this.previousTimePeriod
       };
@@ -755,11 +755,11 @@ export class OverviewSharedService {
           claims.All != null &&
           claims.All.hasOwnProperty('ClaimsLobSummary')
         ) {
-        }
-        tempArray[0] = claimsPaidObj;
-        tempArray[1] = claimsYieldObj;
-        resolve(tempArray);
-      });
+        }*/
+      tempArray[0] = claimsPaidObj;
+      tempArray[1] = claimsYieldObj;
+      resolve(tempArray);
+      // });
     });
   }
   /* function to get current Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 04-Jul-2019*/
