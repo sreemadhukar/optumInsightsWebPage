@@ -38,16 +38,9 @@ export class KOPSharedService {
 
           timePeriod.timeFrame.years = npsData.quarters.map((quarter: any) => quarter.year);
 
-          // const npsDetailInstancePM = new NPSDetail({ records: response, small: true, id: 'npsPM' });
-          // const npsDataPM = npsDetailInstancePM.getData();
-
-          // const npsDetailInstanceMD = new NPSDetail({ records: response, small: true, id: 'npsMd' });
-          // const npsDataMD = npsDetailInstanceMD.getData();
-
           return resolve({
             npsData,
-            // npsDataMD,
-            // npsDataPM,
+
             timePeriod
           });
         },
@@ -161,11 +154,11 @@ export class KOPSharedService {
               if (response.StatusCode === 200) {
                 return resolve(response.Data);
               } else {
-                reject();
+                return reject();
               }
             })
             .catch(() => {
-              resolve();
+              return resolve();
             });
           break;
         case 'priorauthtat':

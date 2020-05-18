@@ -144,9 +144,6 @@ export class NonPaymentSharedService {
       return new Promise(resolve => {
         this.nonPaymentService.getNonPaymentData(...this.getParameterCategories(param)).subscribe(
           ([nonPaymentData1]) => {
-            // let claimsNotPaid;
-            // let claimsNotPaidRate;
-            // const lobValue = lobValueParam;
             const lobValue = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
             if (
               (nonPaymentData1 || {}).All &&
@@ -217,7 +214,7 @@ export class NonPaymentSharedService {
             };
             // Remove 427th line and uncomment 428 once the data is available
             this.summaryData.push(temporaryClaimsNotPaid);
-            //  this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
+
             resolve(this.summaryData);
           },
           err => {
