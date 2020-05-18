@@ -121,8 +121,8 @@ export class PaymentIntegrityComponent implements OnInit {
     }
     this.groupPremiumDesignationService.gppObservable.subscribe(value => {
       this.loading = false;
-      let data = <any>{};
-      data = value;
+
+      const data = JSON.parse(JSON.stringify(value));
       this.GroupPremiumDesignation = data.HppIndicator;
       if (!this.GroupPremiumDesignation) {
         this.oldPaymentIntergrity();
