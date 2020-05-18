@@ -20,7 +20,7 @@
                   name="featureAll"
                   value="taxSummaryData.length"
                   [checked]="checkAllSelected()"
-                  onKeyDown="checkAllChecked()"
+                  (keypress)="checkAllChecked()"
                   (click)="checkAllChecked()"
                 />
                 <span class="checkbox-custom rectangular"></span>
@@ -38,7 +38,7 @@
                   value="{{ element.id }}"
                   [checked]="element.checked"
                   ([ngModel])="(element.checked)"
-                  onKeyDown="checkBoxChecked(element)"
+                  (keypress)="checkBoxChecked(element)"
                   (click)="checkBoxChecked(element)"
                 />
                 <span class="checkbox-custom rectangular"></span>
