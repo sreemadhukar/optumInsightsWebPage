@@ -169,13 +169,14 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
    * enterPageNumber() is to handle and setup pagination after user enters custom number to go
    * If the entered value is valid it will setup the pagination accordingly otherwise it will
    */
-  enterPageNumber() {
+  enterPageNumber(): boolean {
     if (this.currentPageNumber <= this.totalPages) {
       this.setPagination(
         this.currentPageNumber,
         (this.currentPageNumber - 1) * +this.selectPageSize,
         this.currentPageNumber * +this.selectPageSize
       );
+      return true;
     } else {
       return false;
     }
