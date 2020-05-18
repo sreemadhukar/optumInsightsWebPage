@@ -85,12 +85,10 @@
             <p class="page-subtitle-heading print-page-subtitle-heading">{{ x.title }}</p>
           </div>
           <div class="height1Separator"></div>
-          <div class="getting-reimbursed-cards" *ngFor="let item of x.data; let j = index">
+          <div class="getting-reimbursed-cards" *ngFor="let item of x.data">
             <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
-            <div *ngIf="j == 0">
-              <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
-              <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
-            </div>
+            <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
+            <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
           </div>
         </div>
       </div>
