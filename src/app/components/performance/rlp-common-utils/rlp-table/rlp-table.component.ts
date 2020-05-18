@@ -136,7 +136,6 @@ export class RlpTableComponent implements OnInit, OnDestroy {
       );
     }
   }
-
   /**
    * sortTableData function handle the sorting of the table
    * @param asc  boolean value by default ascending = true
