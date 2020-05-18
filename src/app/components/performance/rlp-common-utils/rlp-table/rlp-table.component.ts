@@ -30,7 +30,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   public mytin: boolean;
   public mytinname: boolean;
   public mybar: boolean;
-  constructor(private iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer) {
+  constructor(private readonly iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
       'arrow',
       this.sanitizer.bypassSecurityTrustResourceUrl(

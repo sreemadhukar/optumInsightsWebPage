@@ -16,7 +16,7 @@ import { MatExpansionPanel, MatDialog, MatSidenav, MatDialogConfig } from '@angu
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
-import { ViewportScroller } from '@angular/common';
+import { ViewportScroller, DOCUMENT } from '@angular/common';
 import { AuthenticationService } from '../../auth/_service/authentication.service';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
@@ -25,7 +25,6 @@ import { StorageService } from '../../shared/storage-service.service';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
 import { FilterExpandService } from '../../shared/filter-expand.service';
-import { DOCUMENT } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
@@ -175,7 +174,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private dialog: MatDialog,
     private checkStorage: StorageService,
     private glossaryExpandService: GlossaryExpandService,
-    private glossarySharedService: GlossarySharedService,
+    private readonly glossarySharedService: GlossarySharedService,
     private filterExpandService: FilterExpandService,
     private filterCloseService: FilterCloseService,
     private pcorService: PcorService,
@@ -218,9 +217,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     }
     let currentUser: any;
     currentUser = { ProviderKey: false };
-    if (!(sessionStorage.getItem('currentUser') === null)) {
+    if (sessionStorage.getItem('currentUser') !== null) {
       currentUser = JSON.parse(sessionStorage.getItem('currentUser'))[0];
     }
+
     // Group Premium Designation
     if (this.groupPremiumDesignationService && this.internalUser && currentUser.ProviderKey) {
       this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {

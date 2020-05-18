@@ -85,6 +85,7 @@ export class TaxSummaryComponent implements OnInit {
         return true;
       }
     }
+    return false;
   }
 
   // event.target.value is fetching the actual id of the response

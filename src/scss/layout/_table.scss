@@ -54,6 +54,9 @@
     line-height: 22px;
     padding-right: 8px;
     cursor: pointer;
+    &:focus {
+      outline: 0;
+    }
   }
 }
 .search-icon {
@@ -121,6 +124,9 @@
     display: inline-flex;
     cursor: pointer;
     cursor: hand;
+    &:focus {
+      outline: 0;
+    }
   }
 }
 

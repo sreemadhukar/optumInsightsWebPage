@@ -1373,7 +1373,6 @@ export class GettingReimbursedSharedService {
   /* function to get Payment Integrity Card Data - Ranjith kumar Ankam */
   public getPaymentIntegrityData() {
     return new Promise(resolve => {
-      // this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
       this.timeFrame = 'Last 6 Months';
 
       this.providerKey = this.session.providerKeyData();
@@ -1382,12 +1381,6 @@ export class GettingReimbursedSharedService {
         providerkey: this.providerKey,
         timeperiod: ''
       };
-
-      /*if (this.timeFrame === 'Last 12 Months') {
-        parameters.timeperiod = 'Last12Months';
-      } else if (this.timeFrame === 'Last 6 Months') {
-        parameters.timeperiod = 'last6months';
-      }*/
 
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(
         r => {
@@ -1518,10 +1511,6 @@ export class GettingReimbursedSharedService {
     const month = dt.substr(dt.indexOf('-') + 1);
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     return months[Number(month) - 1];
-    //     const d = new Date(dt);
-    // const d = new Date(dt + ', UTC-06:00'); // use for timezone differences
-    // const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    // return months[d.getMonth()];
   }
 
   public getFullyear(dt) {
