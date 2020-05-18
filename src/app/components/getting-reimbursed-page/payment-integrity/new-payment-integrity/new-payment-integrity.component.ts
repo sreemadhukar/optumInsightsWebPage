@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
+import { GlossaryExpandService } from '../../../../shared/glossary-expand.service';
 import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
 import { NewPaymentIntegrityService } from '../../../../shared/new-payment-integrity/new-payment-integrity.service';
-import { PaymentIntrigityData } from 'src/app/modals/title-config';
-import { cardType } from 'src/app/modals/cardType-config';
+import { PaymentIntrigityData } from './../../../../modals/title-config';
+import { cardType } from './../../../../modals/cardType-config';
 
 @Component({
   selector: 'app-new-payment-integrity',
@@ -24,7 +24,7 @@ export class NewPaymentIntegrityComponent implements OnInit {
   loading: boolean;
   constructor(
     public newPaymentIntegrityService: NewPaymentIntegrityService,
-    private glossaryExpandService: GlossaryExpandService,
+    private readonly glossaryExpandService: GlossaryExpandService,
     public MetricidService: GlossaryMetricidService
   ) {}
 

@@ -284,12 +284,6 @@ table {
   line-height: 22px;
 }
 
-::ng-deep .mat-select-panel {
-  min-width: 69 !important;
-  box-shadow: none;
-  border-radius: 0px !important;
-}
-
 :host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline {
   height: 0 !important;
 }

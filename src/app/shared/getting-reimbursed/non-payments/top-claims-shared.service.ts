@@ -12,7 +12,10 @@ export class TopClaimsSharedService {
   public providerKey: number;
   public specificTin: any;
 
-  constructor(private nonPaymentTopClaimsService: NonPaymentTopClaimsService, private session: SessionService) {}
+  constructor(
+    private readonly nonPaymentTopClaimsService: NonPaymentTopClaimsService,
+    private readonly session: SessionService
+  ) {}
   public getClaimsData(filterParameters, reasonSelected, subReason) {
     this.providerKey = this.session.providerKeyData();
 

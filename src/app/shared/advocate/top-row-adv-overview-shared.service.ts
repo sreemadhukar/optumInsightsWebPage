@@ -24,7 +24,7 @@ export class TopRowAdvOverviewSharedService {
     private MetricidService: GlossaryMetricidService,
     private common: CommonUtilsService,
     private session: SessionService,
-    private toggle: AuthorizationService
+    private readonly toggle: AuthorizationService
   ) {}
   /** Function to show hovers labels as per Lob**/
 
@@ -58,8 +58,7 @@ export class TopRowAdvOverviewSharedService {
               paymentDataResolve.push(
                 this.a,
                 this.b,
-                // this.totalClaimsSubmittedMethod(param, paymentData),
-                // this.claimsPaidMethod(param, paymentData),
+
                 this.claimsNotPaidMethod(param, paymentData)
               );
               resolve(paymentDataResolve);
@@ -482,10 +481,6 @@ export class TopRowAdvOverviewSharedService {
             claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('ApprovedCount') &&
             claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('DeniedCount')
           ) {
-            // const startDate = (claimsData || {}).StartDate;
-
-            // const endDate = (claimsData || {}).EndDate;
-            // const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
             claimsSubmitted = {
               category: 'small-card',
               type: 'donutWithLabel',
@@ -559,7 +554,6 @@ export class TopRowAdvOverviewSharedService {
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
     let tempPaymentData: any;
     return new Promise(resolve => {
-      // const toggleData = { isSummary: true, page: 'Claims Payments', menu: 'Getting Reimbursed' };
       this.toggle.setToggles('Claims Paid', 'TopRow', 'OverviewAdvocate', false),
         this.getPaymentsData(param)
           .then(payment => {
@@ -613,18 +607,6 @@ export class TopRowAdvOverviewSharedService {
                 claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics != null &&
                 claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount')
               ) {
-                // let colorcodes;
-                // if (lobData === 'ALL') {
-                //   colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
-                // } else if (lobData === 'MedicareAndRetirement') {
-                //   colorcodes = ['#3381FF'];
-                // } else if (lobData === 'CommunityAndState') {
-                //   colorcodes = ['#80B0FF'];
-                // } else if (lobData === 'EmployerAndIndividual') {
-                //   colorcodes = ['#003DA1'];
-                // } else {
-                //   colorcodes = ['#00B8CC'];
-                // }
                 const paidData = [];
                 if (
                   claimsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
@@ -837,18 +819,6 @@ export class TopRowAdvOverviewSharedService {
                 claimsData[lobData].ClaimsLobSummary.length &&
                 claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
               ) {
-                // let colorcodes;
-                // if (lobData === 'All') {
-                //   colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
-                // } else if (lobData === 'Mr') {
-                //   colorcodes = ['#3381FF'];
-                // } else if (lobData === 'Cs') {
-                //   colorcodes = ['#80B0FF'];
-                // } else if (lobData === 'Ei') {
-                //   colorcodes = ['#003DA1'];
-                // } else {
-                //   colorcodes = ['#00B8CC'];
-                // }
                 const paidData = [];
                 if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
                   if (

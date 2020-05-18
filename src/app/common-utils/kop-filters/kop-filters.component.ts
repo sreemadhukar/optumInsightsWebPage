@@ -25,7 +25,7 @@ export class KopFiltersComponent implements OnInit {
   @Input() customFilter;
   @Input() filterData: FilterData[] = [];
 
-  constructor(private session: SessionService) {}
+  constructor(private readonly session: SessionService) {}
 
   ngOnInit() {
     this.selectedFilter = this.filterData.filter(element => element.selected)[0].title;

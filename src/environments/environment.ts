@@ -4,7 +4,7 @@
  */
 export const config = {
   originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
-  intApi: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
+  intApi: 'https://pedintapi-pedtst.ocp-ctc-core-nonprod.optum.com/',
   devOneApi: 'https://pedapi1-peddev.ocp-ctc-core-nonprod.optum.com/',
   devTwoApi: 'https://pedapi2-peddev.ocp-ctc-core-nonprod.optum.com/',
   devThreeApi: 'https://gateway-stage-core.optum.com/api/devthree/pdr/uhci/v1/',

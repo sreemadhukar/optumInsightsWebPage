@@ -1,0 +1,5 @@
+export const ImagePaths ={
+      trendUpImage = 'src/assets/images/trend-up.svg';
+       positiveDownImage = 'src/assets/images/down-positive-no-circle.svg';
+       trendDownImage = 'src/assets/images/trend-down.svg';
+}

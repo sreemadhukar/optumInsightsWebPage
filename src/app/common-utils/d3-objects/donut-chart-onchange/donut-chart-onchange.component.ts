@@ -287,7 +287,6 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
         });
 
       text.text(chartOptions.centerNumber);
-      // text.text();
     }
 
     // chartOptions.hover
@@ -304,8 +303,6 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
       const boxHeight = '63px';
 
       g.on('mouseenter', function(d) {
-        // const hoverTextLength = topFunctions.getTextWidth(d.data.label, 14, 'Arial');
-
         divHover.style('height', boxHeight).style('width', boxWidth);
 
         svg2.attr('height', boxHeight).attr('width', boxWidth);

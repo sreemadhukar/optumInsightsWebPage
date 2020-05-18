@@ -66,40 +66,14 @@ export class MultiLineGraphComponent implements OnInit {
   }
 
   onResize(_event) {
-    this.doLineGraph(
-      this.chartOptions.lineOne.chartData,
-      this.chartOptions.lineTwo.chartData,
-      this.chartOptions.lineThree.chartData,
-      this.chartOptions.lineFour.chartData,
-      this.chartOptions.titleData,
-      this.chartOptions.lineOne.generalData
-    );
+    this.ngAfterViewInit();
   }
 
   onSystemChange() {
-    this.doLineGraph(
-      this.chartOptions.lineOne.chartData,
-      this.chartOptions.lineTwo.chartData,
-      this.chartOptions.lineThree.chartData,
-      this.chartOptions.lineFour.chartData,
-      this.chartOptions.titleData,
-      this.chartOptions.lineOne.generalData
-    );
+    this.ngAfterViewInit();
   }
 
   doLineGraph(chartData: any, chartData1: any, chartData2: any, chartData3: any, titleData: any, generalData: any) {
-    /* function formatDy(dy: number): string {
-      if (dy === 0) {
-        return '0';
-      } else if (dy < 999) {
-        return dy.toFixed(0);
-      } else if (dy < 999999) {
-        return (dy / 1000).toFixed(1) + 'K';
-      } else if (dy) {
-        return (dy / 1000000).toFixed(1) + 'M';
-      }
-    } */
-
     function formatDynamicAbbreviation(tickNumber, tickValue, prefix) {
       const q = tickValue;
       const w = tickNumber - 1;
@@ -237,7 +211,6 @@ export class MultiLineGraphComponent implements OnInit {
 
     const margin = { top: 85 - topMarginSubtract, right: 62, bottom: 85, left: 48 };
     const width = preWidth - margin.left - margin.right;
-    // const height = 520 - margin.top - margin.bottom + 8;
 
     const chart = d3
       .select(this.renderChart)
@@ -331,12 +304,6 @@ export class MultiLineGraphComponent implements OnInit {
       .range([180, 0])
       .nice(3); // output
 
-    // const ydata = [];
-    //
-    // for (let a = 0; a < lengthOfData; a++) {
-    //   ydata.push({ y: chartData[a].value });
-    // }
-
     chart
       .append('g')
       .attr('class', 'tick_hidden')
@@ -359,15 +326,6 @@ export class MultiLineGraphComponent implements OnInit {
 
     chart.select('#forlolCalculations');
     // tslint:disable-next-line:no-var-keyword
-    // var textWidth1 = text_element1.node().getComputedTextLength();
-
-    // chart.select('#forlolCalculations').remove();
-    // if (chartData.length === 4) {
-    //   textWidth1 = textWidth1 / 2;
-    // } else if (chartData.length === 3) {
-    //   textWidth1 = textWidth1 * 1.25;
-    // }
-
     const data = [];
     for (let l = 0; l < lengthOfData; l++) {
       data.push({ y: chartData[l].value, xCoordinate: xScale(l), x: chartData[l].name });

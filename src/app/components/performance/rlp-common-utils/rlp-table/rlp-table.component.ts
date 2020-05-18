@@ -30,7 +30,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   public mytin: boolean;
   public mytinname: boolean;
   public mybar: boolean;
-  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+  constructor(private readonly iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
       'arrow',
       this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -136,7 +136,6 @@ export class RlpTableComponent implements OnInit, OnDestroy {
       );
     }
   }
-
   /**
    * sortTableData function handle the sorting of the table
    * @param asc  boolean value by default ascending = true

@@ -11,7 +11,7 @@ export class DropdownComponent implements OnInit {
   @Output() valueChange = new EventEmitter();
   selected: string;
   itemsList: any;
-  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+  constructor(private readonly iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
       'arrow',
       this.sanitizer.bypassSecurityTrustResourceUrl(
