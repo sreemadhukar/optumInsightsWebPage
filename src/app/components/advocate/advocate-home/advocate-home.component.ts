@@ -33,12 +33,12 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
   getData$: Subscription;
   /** Ends Search Servie variables */
   constructor(
-    private fb: FormBuilder,
-    private session: SessionService,
-    private searchService: HomeService,
-    private iconRegistry: MatIconRegistry,
-    private storage: StorageService,
-    private sanitizer: DomSanitizer
+    private readonly fb: FormBuilder,
+    private readonly session: SessionService,
+    private readonly searchService: HomeService,
+    private readonly iconRegistry: MatIconRegistry,
+    private readonly storage: StorageService,
+    private readonly sanitizer: DomSanitizer
   ) {
     this.iconRegistry.addSvgIcon(
       'round-search',
@@ -84,7 +84,7 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
         tap(() => (this.isLoading = true)),
         switchMap(value => {
           const str = value.trim().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-          // const str = value.trim().replace(/[^a-zA-Z0-9]/g, '');
+
           if (this.selectedDropdown === 'tin' && value && value.length >= 3) {
             value = value.slice(0, 2) + '-' + value.slice(2);
           }
@@ -123,7 +123,6 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
   onSearchInput(value: string) {
     this.blankInput = false;
     const str = value.trim().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-    // const str = value.trim().replace(/[^a-zA-Z0-9]/g, '');
     if (this.selectedDropdown === 'tin' && value.length >= 3) {
       value = value.slice(0, 2) + '-' + value.slice(2);
     }

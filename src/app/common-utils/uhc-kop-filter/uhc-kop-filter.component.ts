@@ -34,7 +34,7 @@ export class UhcKopFilterComponent implements OnInit {
   public selectedFilter: any;
   filteredOptions: Observable<any[]>;
 
-  constructor(private ngRedux: NgRedux<any>) {}
+  constructor(private readonly ngRedux: NgRedux<any>) {}
 
   ngOnInit() {
     const currentFilterState = this.ngRedux.getState();

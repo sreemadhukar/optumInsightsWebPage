@@ -59,7 +59,7 @@ export class PaymentIntegrityComponent implements OnInit {
     public MetricidService: GlossaryMetricidService,
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private filterExpandService: FilterExpandService,
     private session: SessionService,
@@ -68,7 +68,7 @@ export class PaymentIntegrityComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
-    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+
     this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     this.iconRegistry.addSvgIcon(
       'down-green-trend-icon',
@@ -103,27 +103,25 @@ export class PaymentIntegrityComponent implements OnInit {
   ngOnInit() {
     this.printDetails();
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentIntegrityPage' });
-    // this.smartEdit();
   }
   hppData() {
     this.GroupPremiumDesignation = false;
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (
       this.groupPremiumDesignationService.data !== null &&
-      typeof this.groupPremiumDesignationService.data !== 'undefined'
+      typeof this.groupPremiumDesignationService.data !== 'undefined' &&
+      currentUser[0].ProviderKey === this.groupPremiumDesignationService.data.ProviderKey
     ) {
-      if (currentUser[0].ProviderKey === this.groupPremiumDesignationService.data.ProviderKey) {
-        this.loading = false;
-        this.GroupPremiumDesignation = this.groupPremiumDesignationService.data.HppIndicator;
-        if (!this.GroupPremiumDesignation) {
-          this.oldPaymentIntergrity();
-        }
+      this.loading = false;
+      this.GroupPremiumDesignation = this.groupPremiumDesignationService.data.HppIndicator;
+      if (!this.GroupPremiumDesignation) {
+        this.oldPaymentIntergrity();
       }
     }
     this.groupPremiumDesignationService.gppObservable.subscribe(value => {
       this.loading = false;
-      let data = <any>{};
-      data = value;
+
+      const data = JSON.parse(JSON.stringify(value));
       this.GroupPremiumDesignation = data.HppIndicator;
       if (!this.GroupPremiumDesignation) {
         this.oldPaymentIntergrity();

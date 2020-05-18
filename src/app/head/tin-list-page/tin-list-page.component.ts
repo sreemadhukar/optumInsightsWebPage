@@ -44,7 +44,7 @@ export class TinListPageComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private session: SessionService,
-    private sanitizer: DomSanitizer
+    private readonly sanitizer: DomSanitizer
   ) {
     this.session.getTins().then(data => {
       this.tinsData = data;
@@ -168,7 +168,6 @@ export class TinListPageComponent implements OnInit {
       .style('display', 'none');
 
     d3.select('#' + toolTipDiv).on('mouseenter', function() {
-      console.log('171', '#' + toolTipDiv);
       d3.select('#' + toolTipDiv).on('mouseover', function() {
         d3.select('#tooltip-info')
           .style('display', 'inline')

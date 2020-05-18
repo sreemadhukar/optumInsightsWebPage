@@ -33,7 +33,7 @@ export class SmallCardComponent implements OnInit {
 */
   constructor(
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private glossaryExpandService: GlossaryExpandService,
     private router: Router
   ) {

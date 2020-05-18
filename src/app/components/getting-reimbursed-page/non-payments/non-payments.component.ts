@@ -71,7 +71,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private iconRegistry: MatIconRegistry,
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private glossaryExpandService: GlossaryExpandService,
     private session: SessionService,
@@ -82,7 +82,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private common: CommonUtilsService,
     private reasonsEmitter: TopReasonsEmitterService
   ) {
-    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('nonPaymentsPage');
@@ -123,9 +122,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.pageTitle = 'Claims Non-Payments';
     this.printpageSubTitle = 'Getting Reimbursed - Claims Non-Payments';
     this.pageSubTitle = 'Note: Claims non-payment metrics are calculated based on billed charges.';
-    /* this.createPayloadService.getEvent().subscribe(value => {
-      this.ngOnInit();
-    }); */
   }
 
   ngOnInit() {

@@ -17,7 +17,7 @@ import { CreatePayloadService } from '../../../shared/uhci-filters/create-payloa
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
-import { ICallsResponse } from 'src/app/modals/i-calls';
+import { ICallsResponse } from '../../../modals/i-calls';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -86,7 +86,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   constructor(
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private session: SessionService,
     private common: CommonUtilsService,
     private topRowService: TopRowAdvOverviewSharedService,
@@ -97,7 +97,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>
   ) {
-    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.common.urlResuseStrategy();
@@ -120,9 +119,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       'metric-development',
       this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-insert_chart-24px.svg')
     );
-    /* this.createPayloadService.getEvent().subscribe(value => {
-      this.ngOnInit();
-    }); */
   }
 
   paymentData() {
@@ -282,38 +278,11 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           for (const key in totalCallsTrendData) {
             if (totalCallsTrendData.hasOwnProperty(key)) {
               this.callsData.push({ key: key, value: this.sumArray(totalCallsTrendData[key]) });
-              /* if (
-                this.callsData[0].length +
-                  this.callsData[1].length +
-                  this.callsData[2].length +
-                  this.callsData[3].length ===
-                0
-              ) {
-                this.callsLineGraphData = {
-                  category: 'large-card',
-                  type: 'donut',
-                  status: 404,
-                  title: this.trendTitleForCalls,
-                  MetricID: this.MetricidService.MetricIDs,
-                  data: null,
-                  timeperiod: null
-                };
-                this.callsData = null;
-              }*/
-              /*for (let i = 0; i < this.callsData.length; i++) {
-              if (this.callsData[i].value === NaN) {
-                this.callsData[i].value = 0;
-              } else {
-               console.log('this.callsData[i].value', this.callsData[0].value);
-              }
-             }*/
             }
           }
         }
       })
-      .catch(() => {
-        //   this.callsLineGraphLoading = false;
-      });
+      .catch(() => {});
   }
 
   sumArray(arr) {
@@ -359,14 +328,14 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.checkStorage.emitEvent('overviewAdvocatePage');
     this.paymentData();
     this.appealsLeftData();
-    // this.appealsTrendByMonthData();
+
     this.claimsYieldData();
     this.totalCallsData();
     this.totalCallsTrendLineData();
     this.paymentsBySubmissionData();
     this.appealsLineGraphloading = true;
     this.callsLineGraphLoading = true;
-    // this.stackedBarChartLoading = true;
+
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
 
@@ -406,7 +375,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           timeperiod: null
         };
       } else {
-        // this.timePeriodLineGraph = trendData.timePeriod;
         this.nonpaymentLoading = false;
         this.monthlyLineGraph.chartData = trendData.data;
         this.timePeriodNonPayment = trendData.timePeriod;

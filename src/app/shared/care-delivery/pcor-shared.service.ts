@@ -11,7 +11,7 @@ export class PcorSharedService {
     private MetricidService: GlossaryMetricidService,
     private pcorService: PcorService,
     private session: SessionService,
-    private common: CommonUtilsService
+    private readonly common: CommonUtilsService
   ) {}
 
   /** The following service method is fetching data for
