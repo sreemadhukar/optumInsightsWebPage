@@ -1,4 +1,4 @@
-<app-layoutcontainer id="print-overview">
+<app-layoutcontainer id="print-overview" [print]="printStyle">
   <div class="cust-width-title">
     <app-breadcrumbs></app-breadcrumbs>
     <div class="cards cust-width-blank">
@@ -85,9 +85,9 @@
             <p class="page-subtitle-heading print-page-subtitle-heading">{{ x.title }}</p>
           </div>
           <div class="height1Separator"></div>
-          <div class="getting-reimbursed-cards" *ngFor="let item of x.data">
+          <div class="getting-reimbursed-cards" *ngFor="let item of x.data; let j = index">
             <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
-            <div>
+            <div *ngIf="j == 0">
               <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
               <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
             </div>
