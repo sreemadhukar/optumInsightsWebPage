@@ -1352,92 +1352,13 @@ export class GettingReimbursedSharedService {
         baseTimePeriod = 'PreviousYTD';
       }
       parameters[1].TimeFilter = baseTimePeriod;
-      this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData]) => {
-        // const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
-        const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
-        if (claimsData != null && !claimsData.hasOwnProperty('status')) {
-          if (
-            claimsData.hasOwnProperty(lobData) &&
-            claimsData[lobData] != null &&
-            claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
-            claimsData[lobData].ClaimsLobSummary.length
-          ) {
-            /*** Commenting following lines of code to remove Claims Submitted Trends from
-                 GR Submissions tab  ***/
-            /*  if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')) {
-              let newClaimsSubmitted = 0;
-              if (gettingReimbursedData[0].data[0].data) {
-                if (gettingReimbursedData[0].data[0].data.centerNumberOriginal) {
-                  newClaimsSubmitted = gettingReimbursedData[0].data[0].data.centerNumberOriginal;
-                  const oldClaimsSubmitted = claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted;
-                  gettingReimbursedData[0].data[0].data.sdata = this.common.trendNegativeMeansBad(
-                    newClaimsSubmitted,
-                    oldClaimsSubmitted
-                  );
-                }
-              }
-           }*/
-            /*** Commenting following lines of code to remove Claims Paid Trend from
-                 GR Payments tab  ***/
-            /* if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
-              let newClaimsPaid = 0;
-              if (gettingReimbursedData[1].data[0].data) {
-                if (gettingReimbursedData[1].data[0].data.centerNumberOriginal) {
-                  newClaimsPaid = gettingReimbursedData[1].data[0].data.centerNumberOriginal;
-                  const oldClaimsPaid = claimsData[lobData].ClaimsLobSummary[0].AmountPaid;
-                  gettingReimbursedData[1].data[0].data.sdata = this.common.trendNegativeMeansBad(
-                    newClaimsPaid,
-                    oldClaimsPaid
-                  );
-                }
-              }
-            }*/
-            /*** Commenting following lines of code to remove Claims Not Paid Trend from
-                 GR Non-Payments tab  ***/
-            /* if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountDenied')) {
-              let newClaimsNotPaid = 0;
-              if (gettingReimbursedData[2].data[0].data) {
-                if (gettingReimbursedData[2].data[0].data.centerNumberOriginal) {
-                  newClaimsNotPaid = gettingReimbursedData[2].data[0].data.centerNumberOriginal;
-                  const oldClaimsNotPaid = claimsData[lobData].ClaimsLobSummary[0].AmountDenied;
-                  gettingReimbursedData[2].data[0].data.sdata = this.common.trendNegativeMeansGood(
-                    newClaimsNotPaid,
-                    oldClaimsNotPaid
-                  );
-                }
-              }
-            }*/
-          }
-        }
-        /*** Commenting following lines of code to removeT Claims Appeals submitted Trend from
-                 GR Appeals tab  ***/
-        /* if (appealsData != null && !appealsData.hasOwnProperty('status') && appealsData[0] != null) {
-          if (
-            appealsData[0].hasOwnProperty('LineOfBusiness') &&
-            appealsData[0].LineOfBusiness !== null &&
-            appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
-            appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-            appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
-          ) {
-            let newClaimsAppealsSubmitted = 0;
-            if (gettingReimbursedData[3].data[0].data) {
-              if (gettingReimbursedData[3].data[0].data.centerNumberOriginal) {
-                newClaimsAppealsSubmitted = gettingReimbursedData[3].data[0].data.centerNumberOriginal;
-                const oldClaimsAppealsSubmitted =
-                  appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-                  appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
-                gettingReimbursedData[3].data[0].data.sdata = this.common.trendNegativeMeansGood(
-                  newClaimsAppealsSubmitted,
-                  oldClaimsAppealsSubmitted
-                );
-              }
-            }
-          }
-        }*/
-        resolve(gettingReimbursedData);
-      });
-      // resolve(gettingReimbursedData);
+      // this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData]) => {
+      // const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
+      //  const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
+      resolve(gettingReimbursedData);
     });
+    // resolve(gettingReimbursedData);
+    //  });
   }
   public getTins() {
     return new Promise(resolve => {
