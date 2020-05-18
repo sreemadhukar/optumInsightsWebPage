@@ -74,10 +74,10 @@ export class HealthSystemDetailsComponent implements OnInit {
   viewInsights() {
     const serializedState = JSON.parse(sessionStorage.getItem('state'));
     if (serializedState) {
-      serializedState.taxId = this.selectedTin;
+      serializedState.taxId = this.selectedTin.length > 0 ? this.selectedTin : [{ Tin: 'All', Tinname: 'All' }];
     }
     const initialState = _.clone(INITIAL_STATE, true);
-    initialState.taxId = this.selectedTin;
+    initialState.taxId = this.selectedTin.length > 0 ? this.selectedTin : [{ Tin: 'All', Tinname: 'All' }];
     this.ngRedux.dispatch({
       type: APPLY_FILTER,
       filterData: serializedState ? serializedState : initialState

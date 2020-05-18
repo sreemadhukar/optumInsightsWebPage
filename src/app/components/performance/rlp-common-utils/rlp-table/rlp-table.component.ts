@@ -27,6 +27,9 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   public isAscending2: boolean; // used to check sorting of the table
   public showTableBody: boolean;
   public showTableHeader: boolean;
+  public mytin: boolean;
+  public mytinname: boolean;
+  public mybar: boolean;
   constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
       'arrow',
@@ -70,6 +73,9 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     this.tableHeader = this.data.thead;
     this.showTableBody = true;
     this.showTableHeader = true;
+    this.mytin = false;
+    this.mytinname = false;
+    this.mybar = true;
   }
   /**
    * setPagination function handle the current state of pagination
@@ -146,6 +152,9 @@ export class RlpTableComponent implements OnInit, OnDestroy {
    * sortIconClicked() is the function to which is called onClick of sort icon clicked of total
    */
   sortIconRate() {
+    this.mybar = true;
+    this.mytinname = false;
+    this.mytin = false;
     this.isAscending = !this.isAscending;
     this.tableData = [...this.sortTableData(this.isAscending)];
   }
@@ -157,8 +166,11 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   }
 
   sortGroupName() {
-    this.isAscending = !this.isAscending;
-    this.tableData = [...this.sortGroupNameData(this.isAscending)];
+    this.mytinname = true;
+    this.mytin = false;
+    this.mybar = false;
+    this.isAscending1 = !this.isAscending1;
+    this.tableData = [...this.sortGroupNameData(this.isAscending1)];
   }
 
   sortTinData(asc: boolean = true) {
@@ -168,8 +180,11 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   }
 
   sortTin() {
-    this.isAscending = !this.isAscending;
-    this.tableData = [...this.sortTinData(this.isAscending)];
+    this.mytin = true;
+    this.mytinname = false;
+    this.mybar = false;
+    this.isAscending2 = !this.isAscending2;
+    this.tableData = [...this.sortTinData(this.isAscending2)];
   }
   /**
    * enterQuery() is the function for setting up totalPages dynamically on the basis of search
@@ -187,13 +202,8 @@ export class RlpTableComponent implements OnInit, OnDestroy {
       }
     }
 
-    const regexTinSearch = new RegExp(`${this.qTinSearch}`, 'ig');
-    const regexGroupName = new RegExp(`${this.qGroupNameSearch}`, 'ig');
-    this.afterQuery = this.tableData.filter(el => regexTinSearch.test(el.tin) || regexGroupName.test(el.groupName));
-
-    /* this.afterQuery = this.tableData.filter(el => {
-      if (el.tin.indexOf([this.qTinSearch]) !== -1 &&
-        this.qGroupNameSearch === undefined) {
+    this.afterQuery = this.tableData.filter(el => {
+      if (el.tin.indexOf([this.qTinSearch]) !== -1 && this.qGroupNameSearch === undefined) {
         return true;
       } else if (
         this.qTinSearch === undefined &&
@@ -206,7 +216,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
       ) {
         return true;
       }
-    });*/
+    });
 
     this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
     this.setPagination(this.totalPages !== 0 ? 1 : 0, 0, +this.selectPageSize);

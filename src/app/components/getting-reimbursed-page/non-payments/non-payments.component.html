@@ -132,7 +132,7 @@
 
   <div *ngIf="printStyle" class="height-separator2-print"></div>
 
-  <div class="card-block">
+  <div class="card-block" [ngClass]="{ 'non-payments-trend-print': printStyle === true }">
     <ng-container *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null">
       <app-error-card class="cards" [data]="monthlyLineGraph"></app-error-card>
     </ng-container>
