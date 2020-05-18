@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-layoutcontainer',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./layoutcontainer.component.scss']
 })
 export class LayoutContainerComponent {
+  @Input() print;
   constructor() {}
 }
