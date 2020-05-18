@@ -66,25 +66,11 @@ export class MultiLineGraphComponent implements OnInit {
   }
 
   onResize(_event) {
-    this.doLineGraph(
-      this.chartOptions.lineOne.chartData,
-      this.chartOptions.lineTwo.chartData,
-      this.chartOptions.lineThree.chartData,
-      this.chartOptions.lineFour.chartData,
-      this.chartOptions.titleData,
-      this.chartOptions.lineOne.generalData
-    );
+    this.ngAfterViewInit();
   }
 
   onSystemChange() {
-    this.doLineGraph(
-      this.chartOptions.lineOne.chartData,
-      this.chartOptions.lineTwo.chartData,
-      this.chartOptions.lineThree.chartData,
-      this.chartOptions.lineFour.chartData,
-      this.chartOptions.titleData,
-      this.chartOptions.lineOne.generalData
-    );
+    this.ngAfterViewInit();
   }
 
   doLineGraph(chartData: any, chartData1: any, chartData2: any, chartData3: any, titleData: any, generalData: any) {

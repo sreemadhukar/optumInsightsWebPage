@@ -137,29 +137,6 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     }
   }
   /**
-   * enterQuery() is the function for setting up totalPages dynamically on the basis of search
-   * for both Tin and Group name
-   */
-  enterQuery() {
-    this.setPagination(1, 0, +this.selectPageSize);
-    if (this.qGroupNameSearch === undefined && this.qTinSearch === undefined) {
-      console.log('Inputs are empty');
-    }
-    if (this.qTinSearch) {
-      this.qTinSearch = this.qTinSearch.trim().replace(/[^0-9]/g, '');
-      if (this.qTinSearch.length > 2) {
-        this.qTinSearch = this.qTinSearch.slice(0, 2) + '-' + this.qTinSearch.slice(2);
-      }
-    }
-
-    const regexTinSearch = new RegExp(`${this.qTinSearch}`, 'ig');
-    const regexGroupName = new RegExp(`${this.qGroupNameSearch}`, 'ig');
-    this.afterQuery = this.tableData.filter(el => regexTinSearch.test(el.tin) || regexGroupName.test(el.groupName));
-
-    this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
-    this.setPagination(this.totalPages !== 0 ? 1 : 0, 0, +this.selectPageSize);
-  }
-  /**
    * sortTableData function handle the sorting of the table
    * @param asc  boolean value by default ascending = true
    * @param param  param value defined by which table needs to be sorted
@@ -207,6 +184,41 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     this.mybar = false;
     this.isAscending2 = !this.isAscending2;
     this.tableData = [...this.sortTinData(this.isAscending2)];
+  }
+  /**
+   * enterQuery() is the function for setting up totalPages dynamically on the basis of search
+   * for both Tin and Group name
+   */
+  enterQuery() {
+    this.setPagination(1, 0, +this.selectPageSize);
+    if (this.qGroupNameSearch === undefined && this.qTinSearch === undefined) {
+      console.log('Inputs are empty');
+    }
+    if (this.qTinSearch) {
+      this.qTinSearch = this.qTinSearch.trim().replace(/[^0-9]/g, '');
+      if (this.qTinSearch.length > 2) {
+        this.qTinSearch = this.qTinSearch.slice(0, 2) + '-' + this.qTinSearch.slice(2);
+      }
+    }
+
+    this.afterQuery = this.tableData.filter(el => {
+      if (el.tin.indexOf([this.qTinSearch]) !== -1 && this.qGroupNameSearch === undefined) {
+        return true;
+      } else if (
+        this.qTinSearch === undefined &&
+        el.groupName.toLowerCase().indexOf([this.qGroupNameSearch.toLowerCase()]) !== -1
+      ) {
+        return true;
+      } else if (
+        el.tin.indexOf([this.qTinSearch]) !== -1 &&
+        el.groupName.toLowerCase().indexOf([this.qGroupNameSearch.toLowerCase()]) !== -1
+      ) {
+        return true;
+      }
+    });
+
+    this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
+    this.setPagination(this.totalPages !== 0 ? 1 : 0, 0, +this.selectPageSize);
   }
 
   /**

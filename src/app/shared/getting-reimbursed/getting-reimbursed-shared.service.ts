@@ -1306,21 +1306,13 @@ export class GettingReimbursedSharedService {
         baseTimePeriod = 'PreviousYTD';
       }
       parameters[1].TimeFilter = baseTimePeriod;
-      this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData]) => {
-        const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
-        if (claimsData != null && !claimsData.hasOwnProperty('status')) {
-          if (
-            claimsData.hasOwnProperty(lobData) &&
-            claimsData[lobData] != null &&
-            claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
-            claimsData[lobData].ClaimsLobSummary.length
-          ) {
-          }
-        }
-
-        resolve(gettingReimbursedData);
-      });
+      // this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData]) => {
+      // const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
+      //  const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
+      resolve(gettingReimbursedData);
     });
+    // resolve(gettingReimbursedData);
+    //  });
   }
   public getTins() {
     return new Promise(resolve => {

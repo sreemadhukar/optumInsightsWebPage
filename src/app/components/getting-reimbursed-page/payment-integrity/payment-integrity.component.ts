@@ -109,14 +109,13 @@ export class PaymentIntegrityComponent implements OnInit {
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (
       this.groupPremiumDesignationService.data !== null &&
-      typeof this.groupPremiumDesignationService.data !== 'undefined'
+      typeof this.groupPremiumDesignationService.data !== 'undefined' &&
+      currentUser[0].ProviderKey === this.groupPremiumDesignationService.data.ProviderKey
     ) {
-      if (currentUser[0].ProviderKey === this.groupPremiumDesignationService.data.ProviderKey) {
-        this.loading = false;
-        this.GroupPremiumDesignation = this.groupPremiumDesignationService.data.HppIndicator;
-        if (!this.GroupPremiumDesignation) {
-          this.oldPaymentIntergrity();
-        }
+      this.loading = false;
+      this.GroupPremiumDesignation = this.groupPremiumDesignationService.data.HppIndicator;
+      if (!this.GroupPremiumDesignation) {
+        this.oldPaymentIntergrity();
       }
     }
     this.groupPremiumDesignationService.gppObservable.subscribe(value => {

@@ -87,12 +87,11 @@ export class HealthSystemDetailsComponent implements OnInit {
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (
       this.groupPremiumDesignationService.data !== null &&
-      typeof this.groupPremiumDesignationService.data !== 'undefined'
+      typeof this.groupPremiumDesignationService.data !== 'undefined' &&
+      currentUser[0].ProviderKey === this.groupPremiumDesignationService.data.ProviderKey
     ) {
-      if (currentUser[0].ProviderKey === this.groupPremiumDesignationService.data.ProviderKey) {
-        this.GroupPremiumDesignation = this.groupPremiumDesignationService.data.HppIndicator;
-        console.log(' this.GroupPremiumDesignation', this.GroupPremiumDesignation);
-      }
+      this.GroupPremiumDesignation = this.groupPremiumDesignationService.data.HppIndicator;
+      console.log(' this.GroupPremiumDesignation', this.GroupPremiumDesignation);
     }
     this.groupPremiumDesignationService.gppObservable.subscribe(value => {
       const data = JSON.parse(JSON.stringify(value));
