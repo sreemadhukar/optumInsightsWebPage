@@ -48,11 +48,11 @@ export class TinListPageComponent implements OnInit {
   ) {
     this.session.getTins().then(data => {
       this.tinsData = data;
-      for (let i = 0; i < this.tinsData.length; i++) {
+      /*for (let i = 0; i < this.tinsData.length; i++) {
         if (this.tinsData[i].Tinname === 'TIN Name Not Found' || this.tinsData[i].Tinname === null) {
           this.tinsData[i].Tinname = 'Tax ID Name Not Available';
         }
-      }
+      }*/
       this.numberOfTins = this.tinsData.length;
       this.numberofTinsShowing = this.tinsData.length;
       this.paginator._intl.itemsPerPageLabel = 'Display';
