@@ -106,7 +106,7 @@ export class NewPaymentIntegrityService {
     } else if (value.AccountReceivableOpportunityTrend.toFixed(1) > 0) {
       AccountReceivableOpportunityTrendValue = '+' + value.AccountReceivableOpportunityTrend.toFixed(1) + '%';
     } else {
-      AccountReceivableOpportunityTrendValue = AccountReceivableOpportunityTrendValue = '0%*';
+      AccountReceivableOpportunityTrendValue = '0%*';
     }
     const summaryItems = [
       {
