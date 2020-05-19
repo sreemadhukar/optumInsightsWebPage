@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { SessionService } from 'src/app/shared/session.service';
+import { SessionService } from './../../shared/session.service';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class RoleGuard implements CanActivate {
   checkPro: any;
   checkExecutive: any;
   isInternal = environment.internalAccess;
-  constructor(private router: Router, private sessionService: SessionService) {}
+  constructor(private readonly router: Router, private readonly sessionService: SessionService) {}
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (this.isInternal) {
       if (sessionStorage.getItem('currentUser')) {

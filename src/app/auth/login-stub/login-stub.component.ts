@@ -53,7 +53,7 @@ export class LoginStubComponent implements OnInit {
     private cookieService: CookieService,
     private route: ActivatedRoute,
     private sessionService: SessionService,
-    private encryptMsidService: EncryptMsidService,
+    private readonly encryptMsidService: EncryptMsidService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.checkAdv = this.sessionService.checkAdvocateRole();
@@ -105,32 +105,11 @@ export class LoginStubComponent implements OnInit {
       this.blankScreen = false;
       sessionStorage.clear();
       sessionStorage.setItem('cache', JSON.stringify(false));
-      // this.sessionService.emitChangeEvent();
+
       this.authService.getJwt().subscribe(data => {
         sessionStorage.setItem('token', JSON.stringify(data['token']));
         this.internalService.getPublicKey();
       });
-
-      /*if (this.authService.isLoggedIn()) {
-        if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
-          if (this.checkAdv.value) {
-            // window.location.href = '/OverviewPageAdvocate';
-            window.location.href = '/OverviewPageAdvocate/Home';
-          } else if (this.checkPro.value || this.checkExecutive.value) {
-            window.location.href = '/NationalExecutive';
-          }
-          // else if (this.checkPro.value) {
-          //   window.location.href = '/OverviewPage';
-          // }
-        } else {
-          this.router.navigate([this.returnUrl]);
-        }
-      } else {
-        this.internalService.getPublicKey();
-        this.authService.getJwt().subscribe(data => {
-          sessionStorage.setItem('token', JSON.stringify(data['token']));
-        });
-      }*/
     } else {
       if (this.route.queryParams) {
         this.route.queryParams.subscribe(params => {
@@ -156,7 +135,6 @@ export class LoginStubComponent implements OnInit {
                 }
               })
               .catch(() => {
-                // this.openErrorDialog();
                 this.router.navigate(['/AccessDenied']);
               });
           } else if (this.authService.isLoggedIn()) {
@@ -194,6 +172,7 @@ export class LoginStubComponent implements OnInit {
           this.loading = false;
           const msidValue = this.f.username.value.toLowerCase();
           sessionStorage.setItem('MsId', this.encryptMsidService.encryptMsId(msidValue));
+          console.log('175', this.encryptMsidService.encryptMsId(msidValue));
           this.authorise.getToggles('authorise').subscribe(value => {
             console.log(value);
           });

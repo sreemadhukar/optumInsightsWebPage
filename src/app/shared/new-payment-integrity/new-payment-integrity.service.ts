@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { PaymentIntegrityTabInfoService } from '../../rest/new-payment-integrity/payment-integrity-tab-info.service';
 import { NewPaymentIntegrityServiceRest } from '../../rest/new-payment-integrity/new-payment-integrity-rest.service';
 import { GlossaryMetricidService } from '../../shared/glossary-metricid.service';
-import { SessionService } from 'src/app/shared/session.service';
+import { SessionService } from '../../shared/session.service';
+import { cardType } from '../../modals/cardType-config';
+import { PaymentIntrigityData } from '../../modals/title-config';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,7 @@ export class NewPaymentIntegrityService {
     public paymentIntegrityTabInfoService: PaymentIntegrityTabInfoService,
     public newPaymentIntegrityService: NewPaymentIntegrityServiceRest,
     public MetricidService: GlossaryMetricidService,
-    private session: SessionService
+    private readonly session: SessionService
   ) {}
 
   // new payment intrgrity tab info data start
@@ -49,7 +51,6 @@ export class NewPaymentIntegrityService {
           } else {
             resolve(this.piDataError(response));
           }
-          // resolve(response);
         },
         err => {
           console.log('Check All RLP HCO Data Error', err);
@@ -73,11 +74,6 @@ export class NewPaymentIntegrityService {
     const mRRASTarget = 90; // change target here if needed
     let codingReviewResultsTargetValue: any;
     let mRRASTargetValue: any;
-
-    // value.CodingReviewResultRate = codingReviewResultsTarget / 100; // remove the code once testing is done
-    // value.MedicalRecordsReceivedRate = mRRASTarget / 100; // remove the code once testing is done
-    // value.RequestRateTrend = 0; // remove the code once testing is done
-    // value.AccountReceivableOpportunityTrend = 0; // remove the code once testing is done
 
     if (Math.round(value.CodingReviewResultRate * 100) < codingReviewResultsTarget) {
       codingReviewResultsTargetValue =
@@ -110,13 +106,13 @@ export class NewPaymentIntegrityService {
     } else if (value.AccountReceivableOpportunityTrend.toFixed(1) > 0) {
       AccountReceivableOpportunityTrendValue = '+' + value.AccountReceivableOpportunityTrend.toFixed(1) + '%';
     } else {
-      AccountReceivableOpportunityTrendValue = AccountReceivableOpportunityTrendValue = '0%*';
+      AccountReceivableOpportunityTrendValue = '0%*';
     }
     const summaryItems = [
       {
-        category: 'app-card',
+        category: cardType.appCard,
         type: 'donutWithSideBottomLabel',
-        title: 'Medical Records Requested by UHC',
+        title: PaymentIntrigityData.MRTitle,
         MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
         data: {
           graphValues: [value.MedicalRecordsRequested, value.ClaimSubmitted],
@@ -145,7 +141,7 @@ export class NewPaymentIntegrityService {
         status: 200
       },
       {
-        title: 'Coding Review Results',
+        title: PaymentIntrigityData.CRTitle,
         MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
         data: {
           type: 'bar chart',
@@ -166,7 +162,7 @@ export class NewPaymentIntegrityService {
         status: 200
       },
       {
-        title: 'Medical Records Received vs. Awaiting Submission',
+        title: PaymentIntrigityData.MRRTitle,
         MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
         data: {
           type: 'large bar chart',
@@ -207,20 +203,20 @@ export class NewPaymentIntegrityService {
     if (!value) {
       const summaryItems = [
         {
-          category: 'app-card',
-          title: 'Medical Records Requested by UHC',
+          category: cardType.appCard,
+          title: PaymentIntrigityData.MRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
           status: 500
         },
         {
-          category: 'app-card',
-          title: 'Coding Review Results',
+          category: cardType.appCard,
+          title: PaymentIntrigityData.CRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
           status: 500
         },
         {
-          category: 'large-card',
-          title: 'Medical Records Received vs. Awaiting Submission',
+          category: cardType.LargeCard,
+          title: PaymentIntrigityData.MRRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
           status: 500
         }
@@ -229,20 +225,20 @@ export class NewPaymentIntegrityService {
     } else if (value.error) {
       const summaryItems = [
         {
-          category: 'app-card',
-          title: 'Medical Records Requested by UHC',
+          category: cardType.appCard,
+          title: PaymentIntrigityData.MRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
           status: value.status
         },
         {
-          category: 'app-card',
-          title: 'Coding Review Results',
+          category: cardType.appCard,
+          title: PaymentIntrigityData.CRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
           status: value.status
         },
         {
-          category: 'large-card',
-          title: 'Medical Records Received vs. Awaiting Submission',
+          category: cardType.LargeCard,
+          title: PaymentIntrigityData.MRRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
           status: value.status
         }
@@ -251,20 +247,20 @@ export class NewPaymentIntegrityService {
     } else {
       const summaryItems = [
         {
-          category: 'app-card',
-          title: 'Medical Records Requested by UHC',
+          category: cardType.appCard,
+          title: PaymentIntrigityData.MRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
           status: 500
         },
         {
-          category: 'app-card',
-          title: 'Coding Review Results',
+          category: cardType.appCard,
+          title: PaymentIntrigityData.CRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
           status: 500
         },
         {
-          category: 'large-card',
-          title: 'Medical Records Received vs. Awaiting Submission',
+          category: cardType.LargeCard,
+          title: PaymentIntrigityData.MRRTitle,
           MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsReceivedvsAwaiting,
           status: 500
         }

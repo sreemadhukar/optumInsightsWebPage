@@ -24,10 +24,16 @@ export class GettingReimbursedService {
 
   constructor(private http: HttpClient) {}
   public getGettingReimbursedYearWiseData(...parameters) {
-    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?request-type=PAYMENT_METRICS';
     return combineLatest(
       this.http.post(claimsURL, parameters[1]).pipe(
-        map(res => JSON.parse(JSON.stringify(res[0]))),
+        map((res: any) => {
+          if (res.Data == null) {
+            return null;
+          } else {
+            return res.Data[0];
+          }
+        }),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
       this.claimsAppealsData(...parameters)
@@ -36,7 +42,6 @@ export class GettingReimbursedService {
 
   /** function for Appeals PDP api */
   public claimsAppealsData(...parameters) {
-    // const appealsParam = parameters[1];
     const appealsParam: any = JSON.parse(JSON.stringify(parameters[1]));
     /*REMOVING LOB BECAUSE TO SHOW GREY IN DONUT CHARTS*/
     if (appealsParam.Lob) {
@@ -87,10 +92,16 @@ export class GettingReimbursedService {
   /** ----------------------------- */
 
   public getGettingReimbursedData(...parameters) {
-    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?request-type=PAYMENT_METRICS';
     return combineLatest(
       this.http.post(claimsURL, parameters[1]).pipe(
-        map(res => JSON.parse(JSON.stringify(res[0]))),
+        map((res: any) => {
+          if (res.Data == null) {
+            return null;
+          } else {
+            return res.Data[0];
+          }
+        }),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
       this.claimsAppealsData(...parameters)
@@ -107,15 +118,21 @@ export class GettingReimbursedService {
 
     let claimsURL;
     if (par['ClaimsBy'] === 'DOP') {
-      claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=CLAIMS';
+      claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?request-type=CLAIMS';
       return this.http.post(claimsURL, par).pipe(
-        map(res => JSON.parse(JSON.stringify(res))),
+        map((res: any) => res.Data),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
     } else {
-      claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+      claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?request-type=PAYMENT_METRICS';
       return this.http.post(claimsURL, par).pipe(
-        map(res => JSON.parse(JSON.stringify(res[0]))),
+        map((res: any) => {
+          if (res.Data == null) {
+            return null;
+          } else {
+            return res.Data[0];
+          }
+        }),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
     }
@@ -148,19 +165,25 @@ export class GettingReimbursedService {
 
   public getPaymentData(...parameters) {
     if (parameters[1]['ClaimsBy'] === 'DOP') {
-      const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=PROVIDER';
+      const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?request-type=PROVIDER';
       return combineLatest(
         this.http.post(claimsURL, parameters[1]).pipe(
-          map(res => JSON.parse(JSON.stringify(res))),
+          map((res: any) => res.Data),
           catchError(err => of(JSON.parse(JSON.stringify(err))))
         ),
         // this.claimsAppealsData(...parameters)
         this.getPaymentsData(parameters)
       );
     } else {
-      const nonPaymentURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+      const nonPaymentURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?request-type=PAYMENT_METRICS';
       return this.http.post(nonPaymentURL, parameters[1]).pipe(
-        map(res => JSON.parse(JSON.stringify(res[0]))),
+        map((res: any) => {
+          if (res.Data == null) {
+            return null;
+          } else {
+            return res.Data[0];
+          }
+        }),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
     }
@@ -179,9 +202,9 @@ export class GettingReimbursedService {
   }
 
   public getTatDataforDOP(parameters) {
-    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=TAT';
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?request-type=TAT';
     return this.http.post(claimsURL, parameters[1]).pipe(
-      map(res => JSON.parse(JSON.stringify(res))),
+      map((res: any) => res.Data),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }

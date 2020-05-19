@@ -444,7 +444,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .style('opacity', 0);
         });
     }
-
+    const graphTextData = 'Accounts Receivable Opportunity';
     if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
       if (chartOptions.type === 'large bar chart') {
         chart
@@ -481,20 +481,13 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .attr('font-size', '20px')
             .attr('text-anchor', 'start')
             .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
-            .text('Accounts Receivable Opportunity')
+            .text(graphTextData)
             .append('div')
             .style('text-align', 'right')
             .text(chartOptions.AccountsReceivableOpportunity)
-            .style('line-height', '22px')
-            .style('font-size', '20px')
-            .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+            .attr('class', 'trend-text')
             .append('svg')
-            .style('margin-top', '8px')
-            .style('margin-bottom', '-5px')
-            .style('padding-left', '3px')
-            .style('transform', 'scaleY(-1)')
-            .attr('width', '24px')
-            .attr('height', '24px')
+            .attr('class', 'trend-SVG-style')
             .append('g')
             .insert('svg:image')
             .attr('width', '24px')
@@ -511,12 +504,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             })
             .append('span')
             .text(chartOptions.trendValue)
-            .style('font-size', '14px')
-            .style('line-height', '18px')
-            .style('letter-spacing', '0.2px')
-            .style('color', '#B10C00')
-            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
-            .style('padding-left', '5px');
+            .attr('class', ' trend-value');
         } else if (chartOptions.trendValue.includes('-')) {
           d3.select(this.renderChart)
             .append('div')
@@ -527,7 +515,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .attr('font-size', '20px')
             .attr('text-anchor', 'start')
             .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
-            .text('Accounts Receivable Opportunity')
+            .text(graphTextData)
             .append('div')
             .style('text-align', 'right')
             .text(chartOptions.AccountsReceivableOpportunity)
@@ -573,7 +561,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .attr('font-size', '20px')
             .attr('text-anchor', 'start')
             .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
-            .text('Accounts Receivable Opportunity')
+            .text(graphTextData)
             .append('div')
             .style('text-align', 'right')
             .text(chartOptions.AccountsReceivableOpportunity)

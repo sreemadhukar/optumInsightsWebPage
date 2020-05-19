@@ -20,12 +20,17 @@
   min-width: 1032px;
   margin: 0 auto;
 }
+.example-toolbar.background {
+  z-index: 1 !important;
+}
 
 .example-is-mobile .example-toolbar {
   /* Make sure the toolbar will stay on top of the content as it scrolls past. */
   z-index: 2;
   padding: padding(0);
   position: relative;
+  background: white;
+  height: 72px;
 }
 
 .mat-toolbar-single-row {
@@ -42,6 +47,9 @@ h1.example-app-name {
   // margin-top: 65px;
   flex: 1;
   min-height: 760px;
+}
+.example-sidenav-container.top-40 {
+  margin-bottom: 40px;
 }
 
 .example-is-mobile .example-sidenav-container {
@@ -73,23 +81,26 @@ app-header {
   z-index: 9;
 }
 
-.mat-drawer-container.mat-drawer-opened {
-  z-index: 2;
-}
+// .mat-drawer-container.mat-drawer-opened {
+// z-index: 2;
+// }
+
 .mat-drawer-backdrop.mat-drawer-shown {
-  background-color: rgba(45, 45, 57, 0.5);
+  // background-color: rgba(45, 45, 57, 0.5);
+  background-color: $overlay-background-color;
   position: fixed;
 }
 
 /************ CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
 
 .side-navigation {
+  top: 72px !important;
   width: 286px; // previously 256px -- width before PI Sub menu undo when toggled off
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   //  background-color: $white;
   .mat-drawer-inner-container {
     // total height
-    max-height: 100vh;
+    max-height: calc(100vh - 72px);
   }
 }
 
@@ -235,9 +246,10 @@ app-header {
 /*left menu on click bg changing issue*/
 
 // .lastNavCategory {
-/*padding-left: 32px !important;*/
-// }
 
+/*padding-left: 32px !important;*/
+
+// }
 .mat-expansion-panel-body {
   padding: 0px !important;
 }
@@ -446,6 +458,7 @@ app-header {
   margin-top: 20px;
   margin-left: 10px;
 }
+
 .mat-filter-details {
   margin-top: 20px;
 }
@@ -520,7 +533,6 @@ app-header {
 //     height: 100vh !important;
 //   }
 // }
-
 .simulate-external-view {
   padding: 38px 26px 28px;
   border-bottom: 1px solid #e0e0e0;
@@ -566,6 +578,9 @@ app-header {
 
 .top-40 {
   top: 40px !important;
+}
+.top-112 {
+  top: 112px !important;
 }
 
 .top-0 {

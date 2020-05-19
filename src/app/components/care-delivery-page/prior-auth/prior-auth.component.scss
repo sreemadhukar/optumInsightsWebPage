@@ -1,127 +1,114 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 
-.content-wrapper {
-  background-color: $alice-blue;
-  overflow: hidden;
+// Patch for cards
+::ng-deep .priorauth .even .app-card-structure {
+  margin: 15px 15px 15px 0px !important;
+}
+::ng-deep .priorauth .odd .app-card-structure {
+  margin: 15px 0 15px 15px !important;
+}
+::ng-deep .priorauth .card-structure {
+  width: 100%;
+  .card-inner-large {
+    margin: 15px 0 !important;
+    width: 100% !important;
+  }
+}
+.container-flex {
   display: flex;
-  flex-direction: column;
-  @include padding(16px, 0, 64px, 0);
-  .main-content {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
+}
+
+.cards {
+  text-align: left;
+  @include margin(0, 0, 0, 0);
+}
+.cust-width-title {
+  width: 100%;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  color: $black-rock;
+
+  ol {
+    @include margin(0, 0, 16px, 0);
+  }
+  .page-title {
+    flex-basis: 100%;
+    font-size: 36px;
+    @include padding(16px, 0, 20px, 0);
+    color: $black-rock;
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+  }
+  .page-title-subtitle {
+    padding-bottom: 0px;
+  }
+  .page-subtitle {
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+    flex-basis: 100%;
+    font-size: 28px;
+    line-height: 22px;
+    @include padding(0, 0, 20px, 0);
+    color: $black-rock;
+  }
+  .print-page-title {
+    padding-top: 30px;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    line-height: 30px;
+  }
+
+  .print-page-subtitle {
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+    line-height: 40px;
+    flex-basis: 100%;
+    font-size: 28px;
     display: flex;
-    -webkit-flex-flow: row wrap;
-    justify-content: left;
-    width: 1000px;
-    margin: auto;
-    flex-wrap: wrap;
-    .height1Separator {
-      height: 0;
-      width: 1200px;
-    }
-    .cust-width-blank {
-      width: 502px;
-    }
-    & > .cards {
-      text-align: left;
-      @include margin(0, 0, 0, 0);
-    }
-    .cust-width-title {
-      width: 961px;
-      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-      color: $black-rock;
-      margin-left: 10px;
-      margin-bottom: -12px;
+    flex-direction: row;
+    position: relative;
+    justify-content: space-between;
+    width: 98.5%;
+  }
 
-      ol {
-        @include margin(0, 0, 16px, 0);
+  .page-question {
+    flex-basis: 100%;
+    font-size: 22px;
+    line-height: 50px;
+  }
+  .time--period {
+    .filterchips {
+      width: 845px;
+      float: left;
+      .horizontal-align {
+        display: inline-block;
+        margin: 5px 17px 5px 0;
+        .btn-rounded {
+          height: 34px;
+          padding: 0.355rem 0.78125rem;
+        }
       }
-      .page-title {
-        flex-basis: 100%;
-        font-size: 36px;
-        @include padding(16px, 0, 20px, 0);
-        color: $black-rock;
-        font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+      button {
+        span:first-child {
+          font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+        }
+        span.text-semibold {
+          font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        }
       }
-      .page-title-subtitle {
-        padding-bottom: 0px;
-      }
-      .page-subtitle {
-        font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
-        flex-basis: 100%;
-        font-size: 28px;
-        line-height: 22px;
-        @include padding(0, 0, 20px, 0);
-        color: $black-rock;
-      }
-      .print-page-title {
-        padding-top: 30px;
-        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-        line-height: 30px;
-      }
-
-      .print-page-subtitle {
-        font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
-        line-height: 40px;
-        flex-basis: 100%;
-        font-size: 28px;
-        display: flex;
-        flex-direction: row;
+      .close-btn {
+        display: inherit;
         position: relative;
-        justify-content: space-between;
-        width: 98.5%;
-      }
-
-      .page-question {
-        flex-basis: 100%;
-        font-size: 22px;
-        line-height: 50px;
-      }
-      .time--period {
-        .filterchips {
-          width: 845px;
-          float: left;
-          .horizontal-align {
-            display: inline-block;
-            margin: 5px 17px 5px 0;
-            .btn-rounded {
-              height: 34px;
-              padding: 0.355rem 0.78125rem;
-            }
-          }
-          button {
-            span:first-child {
-              font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-            }
-            span.text-semibold {
-              font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-            }
-          }
-          .close-btn {
-            display: inherit;
-            position: relative;
-            cursor: pointer;
-            height: 24px;
-            display: inline-block;
-            vertical-align: middle;
-            padding: 0 0 0 8px;
-            margin-top: -1px;
-            .icon-display {
-              color: #757588;
-            }
-          }
+        cursor: pointer;
+        height: 24px;
+        display: inline-block;
+        vertical-align: middle;
+        padding: 0 0 0 8px;
+        margin-top: -1px;
+        .icon-display {
+          color: #757588;
         }
       }
     }
-    .filter-div {
-      overflow: auto;
-      line-height: 0;
-    }
   }
-  @media only screen and (max-width: 1024px) {
-    @include padding(16px, 20px, 16px, 20px);
-  }
+}
+.filter-div {
+  overflow: auto;
+  line-height: 0;
 }
