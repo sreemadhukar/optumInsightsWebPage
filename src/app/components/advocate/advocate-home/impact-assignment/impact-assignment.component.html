@@ -21,15 +21,14 @@
       matSuffix
       svgIcon="close"
       (click)="clearValue()"
+      (keypress)="clearValue()"
       *ngIf="!isInputEmpty"
     ></mat-icon>
   </div>
 
   <div class="table-show-count" *ngIf="completeData.length > 0">
     <span class="table-show-text">
-      Showing
-      {{ currentPageNumber == totalPages ? afterQuery.length - startIndex : selectPageSize }}
-      of
+      Showing {{ currentPageNumber == totalPages ? afterQuery.length - startIndex : selectPageSize }} of
       {{ afterQuery.length }}
     </span>
   </div>
@@ -75,12 +74,12 @@
           </form>
         </div>
         <div class="pagination-btn-widget">
-          <div (click)="prevClick()" class="previous-button mr-8">
+          <div (click)="prevClick()" (keypress)="prevClick()" class="previous-button mr-8">
             <button [ngClass]="currentPageNumber > 1 ? 'button-style-blue' : 'button-style'">
               <mat-icon svgIcon="leftarrow"></mat-icon>
             </button>
           </div>
-          <div (click)="nextClick()" class="next-button">
+          <div (click)="nextClick()" (keypress)="nextClick()" class="next-button">
             <button [ngClass]="currentPageNumber < totalPages ? 'button-style-blue' : 'button-style'">
               <mat-icon svgIcon="rightarrow"></mat-icon>
             </button>

@@ -124,7 +124,7 @@ export class FilterComponent implements OnInit {
   ];
   constructor(
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private session: SessionService,
     private location: Location
   ) {

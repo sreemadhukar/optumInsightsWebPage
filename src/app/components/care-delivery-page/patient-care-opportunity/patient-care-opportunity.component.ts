@@ -152,9 +152,6 @@ export class PatientCareOpportunityComponent implements OnInit {
   }
 
   ngOnInit() {
-    /*if (!this.isInternal) {
-      externalRatingIntercept();
-    }*/
     this.route.queryParams.subscribe((queryParams: any) => {
       if (queryParams && queryParams.selectedItemId) {
         this.selectedItemId = queryParams.selectedItemId;

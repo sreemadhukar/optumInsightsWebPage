@@ -5,9 +5,8 @@ import { Router } from '@angular/router';
 import { GroupPremiumDesignationService } from './../../../rest/group-premium-designation/group-premium-designation.service';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 import { NgRedux, select } from '@angular-redux/store';
-import { REMOVE_FILTER } from '../../../store/filter/actions';
+import { REMOVE_FILTER, APPLY_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
-import { APPLY_FILTER } from '../../../store/filter/actions';
 import { INITIAL_STATE } from '../../../store/filter/reducer';
 import * as _ from 'lodash';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
@@ -30,16 +29,14 @@ export class HealthSystemDetailsComponent implements OnInit {
 
   constructor(
     private healthSystemService: HealthSystemDetailsSharedService,
-    private groupPremiumDesignationService: GroupPremiumDesignationService,
+    private readonly groupPremiumDesignationService: GroupPremiumDesignationService,
     private checkStorage: StorageService,
-    private router: Router,
-    private common: CommonUtilsService,
-    private createPayloadService: CreatePayloadService,
-    private ngRedux: NgRedux<IAppState>,
-    private session: SessionService
+    private readonly router: Router,
+    private readonly common: CommonUtilsService,
+    private readonly createPayloadService: CreatePayloadService,
+    private readonly ngRedux: NgRedux<IAppState>,
+    private readonly session: SessionService
   ) {
-    // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
-    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.taxId.subscribe(taxId => (this.selectedTaxId = taxId));
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
@@ -90,17 +87,15 @@ export class HealthSystemDetailsComponent implements OnInit {
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (
       this.groupPremiumDesignationService.data !== null &&
-      typeof this.groupPremiumDesignationService.data !== 'undefined'
+      typeof this.groupPremiumDesignationService.data !== 'undefined' &&
+      currentUser[0].ProviderKey === this.groupPremiumDesignationService.data.ProviderKey
     ) {
-      if (currentUser[0].ProviderKey === this.groupPremiumDesignationService.data.ProviderKey) {
-        this.GroupPremiumDesignation = this.groupPremiumDesignationService.data.HppIndicator;
-        console.log(' this.GroupPremiumDesignation', this.GroupPremiumDesignation);
-      }
+      this.GroupPremiumDesignation = this.groupPremiumDesignationService.data.HppIndicator;
+      console.log(' this.GroupPremiumDesignation', this.GroupPremiumDesignation);
     }
     this.groupPremiumDesignationService.gppObservable.subscribe(value => {
-      let data = <any>{};
-      data = value;
-      this.GroupPremiumDesignation = data.HppIndicator;
+      const data = JSON.parse(JSON.stringify(value));
+      this.GroupPremiumDesignation = data['HppIndicator'];
       console.log(' this.GroupPremiumDesignation', this.GroupPremiumDesignation);
     });
   }

@@ -9,7 +9,7 @@ export class GlossarySharedService {
     kop: [],
     uhci: []
   };
-  constructor(private glossaryService: GlossaryService) {}
+  constructor(private readonly glossaryService: GlossaryService) {}
 
   public init() {
     // Cache KOP Glossary and UHCI Glossa

@@ -79,7 +79,10 @@
     @include padding(16px, 0, 20px, 0);
   }
   &-opportunities {
-    margin-top: 41%;
     max-width: 800px;
   }
+}
+
+.height-separator-print {
+  height: 830px;
 }

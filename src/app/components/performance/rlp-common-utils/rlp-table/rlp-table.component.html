@@ -10,7 +10,13 @@
   <!--Table header starts-->
   <div class="table-header-labels" *ngIf="showTableHeader">
     <div class="rlp-table-tin">
-      <div class="table-head-text icon" (click)="sortTin()">
+      <div
+        class="table-head-text icon"
+        (click)="sortTin()"
+        (keypress)="sortTin()"
+        tabindex="0"
+        [ngClass]="{ active: mytin === true }"
+      >
         {{ tableHeader[0] }}
         <mat-icon
           class="nav-menu-icons nav-menu-icons-down-arrow arrow-aligns"
@@ -40,12 +46,19 @@
           matSuffix
           svgIcon="close"
           (click)="clearValue('qTinSearch')"
+          (keypress)="clearValue('qTinSearch')"
           *ngIf="qTinSearch"
         ></mat-icon>
       </div>
     </div>
     <div class="rlp-table-group">
-      <div class="table-head-text icon" (click)="sortGroupName()">
+      <div
+        class="table-head-text icon"
+        (click)="sortGroupName()"
+        tabindex="1"
+        (keypress)="sortGroupName()"
+        [ngClass]="{ active: mytinname === true }"
+      >
         {{ tableHeader[1] }}
         <mat-icon
           class="nav-menu-icons nav-menu-icons-down-arrow arrow-aligns"
@@ -72,12 +85,20 @@
           class="search-icon-group close-curser"
           matSuffix
           svgIcon="close"
+          tabindex="2"
+          (keypress)="clearValue('qGroupNameSearch')"
           (click)="clearValue('qGroupNameSearch')"
           *ngIf="qGroupNameSearch"
         ></mat-icon>
       </div>
     </div>
-    <div class="rlp-table-bar" (click)="sortIconRate()">
+    <div
+      class="rlp-table-bar icon"
+      (click)="sortIconRate()"
+      tabindex="3"
+      (keypress)="sortIconRate()"
+      [ngClass]="{ active: mybar === true }"
+    >
       <div class="table-head-text padding-left-90">
         {{ tableHeader[2] }}
       </div>

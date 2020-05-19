@@ -10,15 +10,12 @@ import { of } from 'rxjs';
 export class NewPaymentIntegrityServiceRest {
   public APP_URL: string = environment.apiProxyUrl;
   public currentUser: any;
-  private SERVICE_PATH: string = environment.apiUrls.NewPaymentIntegrity;
-  constructor(private http: HttpClient) {}
+  private readonly SERVICE_PATH: string = environment.apiUrls.NewPaymentIntegrity;
+  constructor(private readonly http: HttpClient) {}
   public getNewPaymentIntegrityData(date: any) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     const providerKey = this.currentUser[0].ProviderKey;
     const params = new HttpParams();
-    // console.log(date);
-    // date.StartDate = "2020-07"; // for testing
-    // date.EndDate = "2020-09";
     const urlDates = '?periodStart=' + date.StartDate + '&' + 'periodEnd=' + date.EndDate;
     const url = this.APP_URL + this.SERVICE_PATH + providerKey + urlDates;
     return this.http.get(url, { params }).pipe(

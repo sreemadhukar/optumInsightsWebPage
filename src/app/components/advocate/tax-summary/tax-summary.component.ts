@@ -25,7 +25,7 @@ export class TaxSummaryComponent implements OnInit {
   filterObj = {};
   tinOwnershipSelected = 'Owned';
   allChecked: Boolean = false;
-  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+  constructor(private readonly iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
       'arrow',
       this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -80,11 +80,14 @@ export class TaxSummaryComponent implements OnInit {
   }
 
   checkAllSelected() {
+    let flag = false;
     for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
       if (this.taxSummaryData.filteredData[i]['checked']) {
-        return true;
+        flag = true;
+        break;
       }
     }
+    return flag;
   }
 
   // event.target.value is fetching the actual id of the response

@@ -5,7 +5,7 @@ import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { OverviewAdvocateService } from '../../rest/advocate/overview-advocate.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 import * as _ from 'lodash';
-import { OverviewAdvocate } from 'src/app/modals/title-config';
+import { OverviewAdvocate } from '../../modals/title-config';
 
 @Injectable({
   providedIn: 'root'
@@ -322,7 +322,7 @@ export class OverviewAdvocateSharedService {
 
             resolve(this.sendData);
           }
-          resolve(this.sendData);
+          return resolve(this.sendData);
         },
         err => {
           console.log('Advocate Page , Error for calls card', err);
@@ -351,11 +351,11 @@ export class OverviewAdvocateSharedService {
     }
     return {
       electronic:
-        resObj.EDISubmissions && resObj.EDISubmissions.ALL
+        resObj.EDISubmissions && resObj.EDISubmissions.All
           ? resObj.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid
           : 0,
       paper:
-        resObj.PaperSubmissions && resObj.PaperSubmissions.ALL
+        resObj.PaperSubmissions && resObj.PaperSubmissions.All
           ? resObj.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid
           : 0
     };

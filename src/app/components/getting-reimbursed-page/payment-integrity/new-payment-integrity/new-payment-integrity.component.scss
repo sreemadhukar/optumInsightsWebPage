@@ -121,7 +121,7 @@
 
 .pi-bar-chart-trend-comparison {
   color: #757588;
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
   font-size: 14px;
   letter-spacing: 0.2px;
   line-height: 18px;
@@ -138,11 +138,6 @@
   margin-top: 12px;
   margin-left: 12px;
   margin-bottom: 12px;
-}
-
-.full-display {
-  float: left;
-  width: 100%;
 }
 
 .printDateStyle {
