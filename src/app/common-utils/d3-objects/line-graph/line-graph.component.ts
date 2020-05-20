@@ -488,11 +488,24 @@ export class LineGraphComponent implements OnInit {
         );
     }
     // const RectBarOne = chart
+    const rectangleFunction = d => {
+      /* Creating rectangle shape with path for IE issue*/
+      const str = [
+        'M ',
+        d.xCoordinate - 22,
+        ' 0 H ',
+        d.xCoordinate - 22 + 48,
+        ' V ' + (height - 70) + ' H ',
+        d.xCoordinate - 22 + ' Z'
+      ].join('');
+      return str;
+    };
     chart
       .selectAll('.rect-bar')
       .data(data)
       .enter()
-      .append('rect')
+      .append('path')
+      .attr('d', rectangleFunction)
       .style('fill', '#E3F0FD')
       .style('height', height - 70 + 'px')
       .style('opacity', 0)
