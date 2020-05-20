@@ -13,13 +13,14 @@ import * as _ from 'lodash';
   styleUrls: ['./tax-summary.component.scss']
 })
 export class TaxSummaryComponent implements OnInit {
-  @Input() data;
+  @Input() inputData;
   @Output() tinValues = new EventEmitter();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @Input() selectedTaxId;
   taxSummaryData: any;
-  numberOfTins: any;
+  data: any;
+  numberOfTins: number;
   taxSummaryColumns: string[] = ['TinCheckBox', 'Tin', 'TinName', 'TaxIdType', 'TaxIdOwnership'];
   pageSize = 25;
   filterObj = {};
@@ -35,7 +36,9 @@ export class TaxSummaryComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.data !== null) {
+    this.data = { ...this.inputData };
+    if (this.data !== null && this.data.All && this.data.All.length) {
+      this.numberOfTins = this.data.All.length;
       this.getTaxSummaryData();
       if (this.numberOfTins > 24) {
         this.customPaginator();
@@ -43,7 +46,7 @@ export class TaxSummaryComponent implements OnInit {
         this.taxSummaryData.paginator = null;
       }
     }
-    if (this.selectedTaxId && this.selectedTaxId.length > 0) {
+    if (this.selectedTaxId && this.selectedTaxId.length) {
       this.selectedTaxId.forEach(val => {
         const selectedValue = _.find(this.taxSummaryData.data, { Tin: val.Tin });
         selectedValue.checked = true;
@@ -79,19 +82,17 @@ export class TaxSummaryComponent implements OnInit {
     }
   }
 
+  checkedCount() {
+    return _.filter(this.taxSummaryData.filteredData, 'checked').length;
+  }
   checkAllSelected() {
-    let flag = false;
-    for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
-      if (this.taxSummaryData.filteredData[i]['checked']) {
-        flag = true;
-        break;
-      }
-    }
-    return flag;
+    return _.some(this.taxSummaryData.filteredData, function(e) {
+      return e.checked;
+    });
   }
 
   // event.target.value is fetching the actual id of the response
-  checkBoxChecked(row) {
+  checkBoxChecked(row, index) {
     row.checked = !row.checked;
     if (this.selectedTaxId.length > 0 && this.selectedTaxId[0].Tin === 'All') {
       this.selectedTaxId = [];
@@ -108,6 +109,17 @@ export class TaxSummaryComponent implements OnInit {
         ? [{ Tin: 'All', Tinname: 'All' }]
         : this.selectedTaxId
     );
+    console.log('count', this.checkedCount());
+    console.log('x,y, ', row.id, this.checkedCount(), index);
+    if (row.checked && index !== this.checkedCount() - 1) {
+      console.log('after cn', this.taxSummaryData);
+      this.taxSummaryData.filteredData.unshift(this.taxSummaryData.filteredData.splice(index, 1)[0]);
+      this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
+    } else if (!row.checked) {
+      console.log('after cn', this.taxSummaryData);
+      this.taxSummaryData.filteredData.push(this.taxSummaryData.filteredData.splice(index, 1)[0]);
+      this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
+    }
   }
 
   getPageSize(event) {
@@ -115,26 +127,24 @@ export class TaxSummaryComponent implements OnInit {
   }
 
   getTaxSummaryData() {
-    if (this.data.All && this.data.All.length > 0) {
-      for (let i = 0; i < this.data.All.length; i++) {
-        this.data.All[i]['id'] = i + 1;
-        this.data.All[i]['checked'] = false;
+    this.taxSummaryData = new MatTableDataSource(this.data.All);
+    this.taxSummaryData.sort = this.sort;
+    const sortState: Sort = { active: 'Tin', direction: 'asc' };
+    this.sort.active = sortState.active;
+    this.sort.direction = sortState.direction;
+    this.sort.sortChange.emit(sortState);
+    console.log('table data', this.taxSummaryData.filteredData);
+    this.searchTaxId('Owned', 'TaxIdOwnership');
+    this.taxSummaryData.filterPredicate = data => {
+      if (data[this.filterObj['key']] && this.filterObj['key']) {
+        return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
       }
-      this.numberOfTins = this.data.All.length;
-      this.taxSummaryData = new MatTableDataSource(this.data.All);
-      this.taxSummaryData.sort = this.sort;
-
-      const sortState: Sort = { active: 'Tin', direction: 'asc' };
-      this.sort.active = sortState.active;
-      this.sort.direction = sortState.direction;
-      this.sort.sortChange.emit(sortState);
-      this.searchTaxId('Owned', 'TaxIdOwnership');
-      this.taxSummaryData.filterPredicate = data => {
-        if (data[this.filterObj['key']] && this.filterObj['key']) {
-          return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
-        }
-        return false;
-      };
+      return false;
+    };
+    this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.data);
+    for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
+      this.taxSummaryData.filteredData[i]['id'] = i + 1;
+      this.taxSummaryData.filteredData[i]['checked'] = false;
     }
   }
 
