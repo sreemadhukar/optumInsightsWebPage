@@ -18,7 +18,7 @@ export class LargeCardComponent implements OnInit {
   printStyle: boolean;
   constructor(
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private glossaryExpandService: GlossaryExpandService,
     private router: Router
   ) {

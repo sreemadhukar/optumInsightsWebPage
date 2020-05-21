@@ -44,15 +44,15 @@ export class TinListPageComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private session: SessionService,
-    private sanitizer: DomSanitizer
+    private readonly sanitizer: DomSanitizer
   ) {
     this.session.getTins().then(data => {
       this.tinsData = data;
-      for (let i = 0; i < this.tinsData.length; i++) {
+      /*for (let i = 0; i < this.tinsData.length; i++) {
         if (this.tinsData[i].Tinname === 'TIN Name Not Found' || this.tinsData[i].Tinname === null) {
           this.tinsData[i].Tinname = 'Tax ID Name Not Available';
         }
-      }
+      }*/
       this.numberOfTins = this.tinsData.length;
       this.numberofTinsShowing = this.tinsData.length;
       this.paginator._intl.itemsPerPageLabel = 'Display';
@@ -168,7 +168,6 @@ export class TinListPageComponent implements OnInit {
       .style('display', 'none');
 
     d3.select('#' + toolTipDiv).on('mouseenter', function() {
-      console.log('171', '#' + toolTipDiv);
       d3.select('#' + toolTipDiv).on('mouseover', function() {
         d3.select('#tooltip-info')
           .style('display', 'inline')

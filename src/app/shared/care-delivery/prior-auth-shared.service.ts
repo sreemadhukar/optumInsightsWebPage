@@ -27,10 +27,8 @@ export class PriorAuthSharedService {
     const TIN = filterParameters.taxId[0];
     const LOB = filterParameters.lineOfBusiness;
     const serviceSetting = filterParameters.serviceSetting === '' ? 'All' : filterParameters.serviceSetting;
-    // const paDecisionType = filterParameters.priorAuthType; // We don't need decision type for now
-    const paServiceCategory = filterParameters.serviceCategory === '' ? 'All' : filterParameters.serviceCategory;
 
-    // const paServiceCategory =  filterParameters.serviceCategory;
+    const paServiceCategory = filterParameters.serviceCategory === '' ? 'All' : filterParameters.serviceCategory;
 
     // Time Range
     let timeRange;

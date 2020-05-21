@@ -5,7 +5,7 @@ declare const externalRatingIntercept: any;
   providedIn: 'root'
 })
 export class UserReviewService {
-  constructor(private cookieService: CookieService) {}
+  constructor(private readonly cookieService: CookieService) {}
 
   removeCreatedCookies() {
     this.cookieService.delete('UZ_TI_dc_value');

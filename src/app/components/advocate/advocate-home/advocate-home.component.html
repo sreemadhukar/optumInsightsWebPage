@@ -22,7 +22,6 @@
               (keyup)="onSearchInput($event.target.value)"
               (click)="onSearchClick($event.target.value)"
             />
-            <!-- <span>{{ usersForm.get('userInput').value | json }}</span> -->
 
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnWrapper()" [panelWidth]="386">
               <mat-option *ngIf="isLoading || blankInput || noSearchFound" class="is-loading" #option>
@@ -92,6 +91,7 @@
                 class="close-icon"
                 svgIcon="closeGlossary"
                 (click)="resetForm(); usersForm.reset()"
+                (keypress)="resetForm(); usersForm.reset()"
               ></mat-icon>
             </ng-container>
           </mat-form-field>

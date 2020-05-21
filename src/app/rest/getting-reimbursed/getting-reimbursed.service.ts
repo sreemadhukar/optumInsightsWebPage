@@ -42,7 +42,6 @@ export class GettingReimbursedService {
 
   /** function for Appeals PDP api */
   public claimsAppealsData(...parameters) {
-    // const appealsParam = parameters[1];
     const appealsParam: any = JSON.parse(JSON.stringify(parameters[1]));
     /*REMOVING LOB BECAUSE TO SHOW GREY IN DONUT CHARTS*/
     if (appealsParam.Lob) {
