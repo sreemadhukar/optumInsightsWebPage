@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HealthSystemDetailsSharedService } from '../../../shared/advocate/health-system-details-shared.service';
 import { StorageService } from '../../../shared/storage-service.service';
-import { Router } from '@angular/router';
 import { GroupPremiumDesignationService } from './../../../rest/group-premium-designation/group-premium-designation.service';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 import { NgRedux, select } from '@angular-redux/store';
@@ -31,7 +30,6 @@ export class HealthSystemDetailsComponent implements OnInit {
     private healthSystemService: HealthSystemDetailsSharedService,
     private readonly groupPremiumDesignationService: GroupPremiumDesignationService,
     private checkStorage: StorageService,
-    private readonly router: Router,
     private readonly common: CommonUtilsService,
     private readonly createPayloadService: CreatePayloadService,
     private readonly ngRedux: NgRedux<IAppState>,
