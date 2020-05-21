@@ -1,5 +1,7 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+
 ::ng-deep .smart-edits .even .app-card-structure {
   margin: 15px 15px 15px 0px !important;
 }
@@ -21,6 +23,7 @@
 
 .container-flex {
   display: flex;
+  margin-left: -15px;
 }
 
 .cust-width-title {
@@ -63,7 +66,8 @@
 
 .smart-edits-bar-chart-block {
   float: left;
-  padding: 81px 40px 117px 40px;
+  // padding: 81px 40px 117px 40px;
+  padding: 14px 0px 48px 32px;
 }
 .less-than-five-days-block {
   float: left;
@@ -140,6 +144,17 @@
   float: left;
   position: relative;
 }
+
+.repaired-block {
+  margin: 12px;
+  height: 356px;
+  width: 468px;
+  border-radius: 2px;
+  background-color: $white;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  float: left;
+  position: relative;
+}
 .reason-time {
   width: 468px;
   // margin-top: 372px;
@@ -187,10 +202,4 @@
   font-size: 16px;
   letter-spacing: 0.2px;
   color: $black-rock;
-}
-::ng-deep .calls .even .app-card-structure {
-  margin: 15px 15px 15px 0px !important;
-}
-::ng-deep .calls .odd .app-card-structure {
-  margin: 15px 0 15px 15px !important;
 }
