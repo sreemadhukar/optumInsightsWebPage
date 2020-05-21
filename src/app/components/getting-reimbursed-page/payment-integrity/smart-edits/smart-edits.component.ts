@@ -35,7 +35,7 @@ export class SmartEditsComponent implements OnInit {
     private checkStorage: StorageService,
     private filtermatch: CommonUtilsService
   ) {
-    this.pageTitle = 'Smart Edits*';
+    this.pageTitle = 'Smart Edits';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
 
