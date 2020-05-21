@@ -59,7 +59,7 @@ export class SmartEditsComponent implements OnInit {
       category: 'app-card',
       data: {
         centerNumber: '2.1K',
-        color: ['#3381FF', '#80B0FF', '#00B8CC'],
+        color: ['#3381FF', '#80B0FF', '#003DA1'],
         gdata: ['card-inner', 'smartEditsClaimsReturned'],
         graphValues: [1000, 500, 600],
         hover: true,
@@ -71,7 +71,7 @@ export class SmartEditsComponent implements OnInit {
       type: 'donutWithLabel',
       besideData: {
         labels: ['Repaired & Resubmitted', 'Resubmitted Without Changes', 'No Action Taken'],
-        color: ['#3381FF', '#80B0FF', '#00B8CC']
+        color: ['#3381FF', '#80B0FF', '#003DA1']
       }
     };
 
