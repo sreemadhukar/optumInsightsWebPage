@@ -1529,10 +1529,13 @@ export class GettingReimbursedSharedService {
               this.getMonthname(result.VarianceStartDate) + ' ' + this.getFullyear(result.VarianceStartDate);
             output.VarianceEndDate =
               this.getMonthname(result.VarianceEndDate) + ' ' + this.getFullyear(result.VarianceEndDate);
+            const endDate = new Date(paymentIntegrityData.EndDate);
             output.timeperiod =
               this.common.dateFormat(paymentIntegrityData.StartDate + '-01') +
               '&ndash;' +
-              this.common.dateFormat(paymentIntegrityData.EndDate + '-31');
+              this.common.dateFormat(
+                paymentIntegrityData.EndDate + '-' + this.daysInMonth(endDate.getMonth() + 1, endDate.getFullYear())
+              );
             let sData: any = {};
             if (result.RecordsRequestedVariance > 0) {
               sData = { sign: 'down', data: output.RecordsRequestedVariance + ' †' };
@@ -1602,6 +1605,9 @@ export class GettingReimbursedSharedService {
     return parameters;
   }
 
+  daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate();
+  }
   public sentenceCase(str) {
     return str.replace(/\w\S*/g, function(txt) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
