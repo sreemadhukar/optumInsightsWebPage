@@ -109,14 +109,10 @@ export class TaxSummaryComponent implements OnInit {
         ? [{ Tin: 'All', Tinname: 'All' }]
         : this.selectedTaxId
     );
-    console.log('count', this.checkedCount());
-    console.log('x,y, ', row.id, this.checkedCount(), index);
     if (row.checked && index !== this.checkedCount() - 1) {
-      console.log('after cn', this.taxSummaryData);
       this.taxSummaryData.filteredData.unshift(this.taxSummaryData.filteredData.splice(index, 1)[0]);
       this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
     } else if (!row.checked) {
-      console.log('after cn', this.taxSummaryData);
       this.taxSummaryData.filteredData.push(this.taxSummaryData.filteredData.splice(index, 1)[0]);
       this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
     }
@@ -133,7 +129,6 @@ export class TaxSummaryComponent implements OnInit {
     this.sort.active = sortState.active;
     this.sort.direction = sortState.direction;
     this.sort.sortChange.emit(sortState);
-    console.log('table data', this.taxSummaryData.filteredData);
     this.searchTaxId('Owned', 'TaxIdOwnership');
     this.taxSummaryData.filterPredicate = data => {
       if (data[this.filterObj['key']] && this.filterObj['key']) {
