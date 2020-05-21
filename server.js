@@ -36,7 +36,7 @@ var corsOptions = {
 app.all('/uhci/stage/*', function(req, res) {
   const urlBreakDown = req.url.split('/uhci/stage/');
   const proxyUrl = apiForwardingUrlStage + urlBreakDown[urlBreakDown.length - 1];
-  apiProxy.web(req, res, { target: proxyUrl, changeOrigin: true, secure: false }, function(e) {
+  apiProxy.web(req, res, { target: proxyUrl, ignorePath: true, changeOrigin: true, secure: false }, function(e) {
     handleExceptions(e, res);
   });
 });
