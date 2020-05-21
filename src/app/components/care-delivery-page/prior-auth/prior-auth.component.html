@@ -1,34 +1,33 @@
-<div class="content-wrapper">
-  <div class="main-content">
-    <div class="cards cust-width-title">
-      <app-breadcrumbs></app-breadcrumbs>
-      <app-print> </app-print>
-      <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">{{ pageTitle }}</div>
-      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
-        {{ pagesubTitle }}
-      </div>
-      <app-filters-applied></app-filters-applied>
+<app-layoutcontainer id="print-overview" class="priorauth">
+  <div class="cards cust-width-title">
+    <app-breadcrumbs></app-breadcrumbs>
+    <app-print> </app-print>
+    <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">{{ pageTitle }}</div>
+    <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
+      {{ pagesubTitle }}
     </div>
-
-    <div class="cards cust-width-blank"></div>
-    <div class="height1Separator"></div>
-
-    <div *ngFor="let item of summaryItems; let i = index">
+    <app-filters-applied></app-filters-applied>
+  </div>
+  <div class="container-flex">
+    <div
+      *ngFor="let item of summaryItems; let i = index; let odd = odd; let even = even"
+      [ngClass]="{ odd: odd, even: even }"
+    >
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.data == null && item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
-
-    <div *ngFor="let data of mockCards; let i = index">
+    <div
+      *ngFor="let data of mockCards; let i = index; let odd = odd; let even = even"
+      [ngClass]="{ odd: odd, even: even }"
+    >
       <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
     </div>
-
-    <app-large-card [skeletonLarge]="loading" *ngIf="loading && !printStyle"></app-large-card>
-    <app-large-card [data]="reasonItems" *ngIf="!loading && reasonItems[0].data != null"></app-large-card>
-
-    <app-error-card
-      *ngIf="reasonItems[0].data == null && reasonItems[0].status != null"
-      class="cards"
-      [data]="reasonItems[0]"
-    ></app-error-card>
   </div>
-</div>
+  <app-large-card [skeletonLarge]="loading" *ngIf="loading && !printStyle"></app-large-card>
+  <app-large-card [data]="reasonItems" *ngIf="!loading && reasonItems[0].data != null"></app-large-card>
+  <app-error-card
+    *ngIf="reasonItems[0].data == null && reasonItems[0].status != null"
+    class="cards"
+    [data]="reasonItems[0]"
+  ></app-error-card>
+</app-layoutcontainer>

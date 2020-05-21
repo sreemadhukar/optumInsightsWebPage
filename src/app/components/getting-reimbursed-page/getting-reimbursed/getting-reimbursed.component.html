@@ -1,4 +1,4 @@
-<app-layoutcontainer id="print-overview">
+<app-layoutcontainer id="print-overview" [print]="printStyle">
   <div class="cust-width-title">
     <app-breadcrumbs></app-breadcrumbs>
     <div class="cards cust-width-blank">
@@ -58,7 +58,7 @@
         >
       </div>
       <div class="height1Separator"></div>
-      <div *ngIf="!printStyle">
+      <div *ngIf="!printStyle" class="container-flex">
         <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary; let i = index">
           <div>
             <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
@@ -72,7 +72,7 @@
             ></app-error-card>
           </div>
         </div>
-        <div *ngFor="let data of mockCards; let i = index">
+        <div class="getting-reimbursed-cards" *ngFor="let data of mockCards; let i = index">
           <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
         </div>
       </div>
@@ -87,10 +87,8 @@
           <div class="height1Separator"></div>
           <div class="getting-reimbursed-cards" *ngFor="let item of x.data">
             <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
-            <div>
-              <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
-              <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
-            </div>
+            <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
+            <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
           </div>
         </div>
       </div>

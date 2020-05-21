@@ -35,7 +35,6 @@ export class PaymentsComponent implements OnInit {
   mockCards: any;
   paymentArray: Array<object>;
   cData = [];
-  // chartData: Array<object>;
   timePeriodClaimsBreakdown: string;
   viewClaimsByFilter: string;
   lob: string;
@@ -45,13 +44,12 @@ export class PaymentsComponent implements OnInit {
     private paymentsSharedService: PaymentsSharedService,
     private glossaryExpandService: GlossaryExpandService,
     private session: SessionService,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private iconRegistry: MatIconRegistry,
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService,
     private common: CommonUtilsService
   ) {
-    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Claims Payments';
     this.pagesubTitle = 'Getting Reimbursed - Claims Payments';
@@ -68,9 +66,6 @@ export class PaymentsComponent implements OnInit {
       'close',
       this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    /* this.createPayloadService.getEvent().subscribe(value => {
-      this.ngOnInit();
-    }); */
   }
 
   ngOnInit() {
@@ -102,7 +97,6 @@ export class PaymentsComponent implements OnInit {
       }
     ];
 
-    // this.claimsPaidBreakBool = false;
     if (this.viewClaimsByFilter === 'DOP') {
       this.paymentsSharedService.getclaimsPaidData(this.createPayloadService.payload).then(
         (data: any) => {

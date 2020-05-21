@@ -27,10 +27,8 @@ export class PriorAuthSharedService {
     const TIN = filterParameters.taxId[0];
     const LOB = filterParameters.lineOfBusiness;
     const serviceSetting = filterParameters.serviceSetting === '' ? 'All' : filterParameters.serviceSetting;
-    // const paDecisionType = filterParameters.priorAuthType; // We don't need decision type for now
-    const paServiceCategory = filterParameters.serviceCategory === '' ? 'All' : filterParameters.serviceCategory;
 
-    // const paServiceCategory =  filterParameters.serviceCategory;
+    const paServiceCategory = filterParameters.serviceCategory === '' ? 'All' : filterParameters.serviceCategory;
 
     // Time Range
     let timeRange;
@@ -199,8 +197,6 @@ export class PriorAuthSharedService {
 
             let PAApprovedCount;
             let PANotApprovedCount;
-            let PAPendingCount;
-            let PACancelledCount;
 
             // LOB all
 
@@ -259,8 +255,8 @@ export class PriorAuthSharedService {
 
             PAApprovedCount = data.PriorAuthApprovedCount;
             PANotApprovedCount = data.PriorAuthNotApprovedCount;
-            PAPendingCount = data.PriorAuthPendingCount;
-            PACancelledCount = data.PriorAuthCancelledCount;
+            const PAPendingCount = data.PriorAuthPendingCount;
+            const PACancelledCount = data.PriorAuthCancelledCount;
             const PARequestedCount = PAApprovedCount + PANotApprovedCount + PACancelledCount;
             const TotalApprovedNotapproved = PARequestedCount - PACancelledCount; // sum of approved and not approved
             let PAApprovalRate;

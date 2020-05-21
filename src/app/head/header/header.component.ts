@@ -91,7 +91,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     public el: ElementRef,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private themeService: ThemeService,
     private router: Router,
     private checkStorage: StorageService,
@@ -106,7 +106,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
-    // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
+
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
@@ -118,7 +118,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.EmailId = userInfo.EmailId;
         }
         this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
-        // alert(this.mobileQuery);
+
         if (!this.mobileQuery) {
           this.sideNavFlag = true;
           this.menuIcon = 'cross';
@@ -177,21 +177,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   advViewClicked(value: string) {
     if (value === 'myView') {
-      // this.sessionService.checkedClicked.myView = true;
-      // this.checkedClicked.myView = this.sessionService.checkedClicked.myView;
-
-      // this.sessionService.checkedClicked.provider = false;
-      // this.checkedClicked.provider = this.sessionService.checkedClicked.provider;
       this.myView = true;
       this.userView = false;
       sessionStorage.setItem('advocateView', 'false');
       this.router.navigate(['/OverviewPageAdvocate']);
     } else if (value === 'userView') {
-      // this.sessionService.checkedClicked.myView = false;
-      // this.checkedClicked.myView = this.sessionService.checkedClicked.myView;
-
-      // this.sessionService.checkedClicked.provider = true;
-      // this.checkedClicked.provider = this.sessionService.checkedClicked.provider;
       this.userView = true;
       this.myView = false;
       sessionStorage.setItem('advocateView', 'true');
@@ -201,45 +191,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('document:click', ['$event.target'])
-  advocateUserClick() {
-    /*const HeaderElement = document.querySelector('.header-div');
-    const ButtonElement = document.querySelector('.user-div');
-    const dropdownElement1 = document.querySelector('.vertical-menu');
-    const clickedHeader = HeaderElement.contains(targetElement);
-    const clickedButton = ButtonElement.contains(targetElement);
-    const clickedInside = dropdownElement1.contains(targetElement);
-    if (!clickedHeader && !clickedButton && !clickedInside) {
-      this.advDropdownBool = false;
-      this.clickOutside.emit(null);
-    } else if (clickedHeader && !clickedButton && !clickedInside) {
-      this.advDropdownBool = false;
-      this.clickOutside.emit(null);
-    }*/
-    /*const dropdownElement = document.querySelector('.vertical-menu');
-    const btns = dropdownElement.getElementsByClassName('act');
-    for (let i = 0; i < btns.length; i++) {
-      btns[i].addEventListener('click', function() {
-         const current = document.getElementsByClassName('active');
-        // if (current.length > 0) {
-        //  current[0].className = current[0].className.replace('active', '');
-       // }
-        // current[0].className = current[0].className.replace('cur', 'active');
-        if (this.myView = true) {
-          current[1].className = current[1].className.replace('active', '');
-        } if (this.userView = true) {
-          current[0].className = current[0].className.replace('active', '');
-        }
-        this.className = 'active';
-      });
-    }*/
-  }
+  advocateUserClick() {}
 
   ngOnInit() {
-    // this.sessionService.checkedClicked.myView = true;
-    // this.checkedClicked.myView = this.sessionService.checkedClicked.myView;
-
-    // this.sessionService.checkedClicked.provider = false;
-    // this.checkedClicked.provider = this.sessionService.checkedClicked.provider;
     this.myView = true;
     this.userView = false;
 
@@ -303,7 +257,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   sidenav() {
     this.sideNavFlag = !this.sideNavFlag;
     this.hamburgerDisplay.emit(this.sideNavFlag);
-    // alert(this.sideNavFlag);
+
     if (this.sideNavFlag) {
       this.menuIcon = 'cross';
     } else {
@@ -314,7 +268,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
-    // alert(this.mobileQuery);
+
     if (!this.mobileQuery) {
       this.sideNavFlag = true;
       this.hamburgerDisplay.emit(this.sideNavFlag);

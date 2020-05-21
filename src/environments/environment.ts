@@ -4,7 +4,7 @@
  */
 export const config = {
   originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
-  intApi: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
+  intApi: 'https://pedintapi-pedtst.ocp-ctc-core-nonprod.optum.com/',
   devOneApi: 'https://pedapi1-peddev.ocp-ctc-core-nonprod.optum.com/',
   devTwoApi: 'https://pedapi2-peddev.ocp-ctc-core-nonprod.optum.com/',
   devThreeApi: 'https://gateway-stage-core.optum.com/api/devthree/pdr/uhci/v1/',
@@ -24,7 +24,7 @@ export const environment: any = {
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   // apiProxyUrl: 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/',
   // stage
-  apiProxyUrl: config.stageApi,
+  apiProxyUrl: config.intApi,
   originUrl: config.originUrl,
 
   apiUrls: {
@@ -57,11 +57,11 @@ export const environment: any = {
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
     NonPaymentDop: 'dop-claim-metrics/',
-    NonPaymentDopTrend: 'dop-denial-trend/',
+    NonPaymentDopTrend: 'dop-denial-trends/',
     NonPaymentTopClaims: 'non-payment-claims/',
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
-    PCORQualityMeasure: 'pcor-metrics/',
+    PCORQualityMeasure: 'patient-care-metrics/',
     NPSSummary: 'kop-metrics/',
     NPSQuarterlySummary: 'kop-quarterly-metrics',
     KOPPriorAuthSummary: 'kop-priorauth-metrics/',
@@ -77,7 +77,7 @@ export const environment: any = {
     KOPBusinessGlossary: 'business-glossaries-kop/',
     CallsTrendLine: 'calls-trends/',
     PaymentsBySubmissionDOP: 'dop-claim-submissions/',
-    PaymentsBySubmission: 'claim-submissions/v2.0/',
+    PaymentsBySubmission: 'claim-submissions/',
     GroupPremiumDesignation: 'group-premium-designation/',
     NetworkLever: 'network-lever/',
     PaymentIntegrityTabsInfo: 'pi-tab-info/',

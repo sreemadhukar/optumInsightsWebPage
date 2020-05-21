@@ -105,7 +105,7 @@
             <ng-container matColumnDef="Tinname">
               <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
               <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
-                {{ element.Tinname | lowercase }}
+                {{ element.Tinname ? (element.Tinname | titlecase) : 'Tax ID Name not available' }}
               </mat-cell>
             </ng-container>
             <mat-row *matRowDef="let row; columns: tinsDisplayedColumns"></mat-row>

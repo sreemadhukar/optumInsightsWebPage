@@ -28,7 +28,7 @@ export function FilterReducer(state = loadState(), action) {
       return {
         ...state,
         currentPage: action.currentPage,
-        timePeriod: switchTimePeriodValues(state.timePeriod, action.currentPage)
+        timePeriod: switchTimePeriodValues(state.timePeriod)
       };
     case APPLY_FILTER:
       return {
@@ -82,20 +82,10 @@ export function FilterReducer(state = loadState(), action) {
   }
 }
 
-function switchTimePeriodValues(timePeriod, currentPageAction) {
-  if (
-    currentPageAction === 'paymentsPage' ||
-    currentPageAction === 'nonPaymentsPage' ||
-    currentPageAction === 'gettingReimbursedSummary'
-  ) {
-    if (timePeriod === '2018') {
-      timePeriod = 'Last6Months';
-    }
-  } else {
-    const serializedState = JSON.parse(sessionStorage.getItem('state'));
-    if (serializedState && serializedState.timePeriod) {
-      timePeriod = serializedState.timePeriod;
-    }
+function switchTimePeriodValues(timePeriod) {
+  const serializedState = JSON.parse(sessionStorage.getItem('state'));
+  if (serializedState && serializedState.timePeriod) {
+    timePeriod = serializedState.timePeriod;
   }
   return timePeriod;
 }

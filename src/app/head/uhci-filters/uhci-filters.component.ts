@@ -79,7 +79,7 @@ export class UhciFiltersComponent implements OnInit {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private session: SessionService,
     private createPayloadService: CreatePayloadService,
     private gettingReimbursedservice: GettingReimbursedSharedService,
@@ -92,7 +92,6 @@ export class UhciFiltersComponent implements OnInit {
       )
     );
     this.collapseToggle = filterToggles;
-    // this.selectedService=this.serviceCategories[0].name;
   }
 
   ngOnInit() {
@@ -135,7 +134,6 @@ export class UhciFiltersComponent implements OnInit {
 
     this.priorAuthType.subscribe(priorAuthType => {
       this.selectedPriorAuthType = this.priorAuthTypes.find(val => val.name === priorAuthType);
-      // this.priorAuthInitialState = this.priorAuthTypes.find(val => val.name === priorAuthType);
     });
     this.trendMetric.subscribe(
       trendMetric => (this.selectedTrendMetric = this.trendMetricData.find(val => val.name === trendMetric))
@@ -156,21 +154,10 @@ export class UhciFiltersComponent implements OnInit {
   }
 
   disableTimePeriod(timeFrame) {
-    if (
-      this.selectedPage === 'gettingReimbursedSummary' ||
-      this.selectedPage === 'paymentsPage' ||
-      this.selectedPage === 'nonPaymentsPage'
-    ) {
-      timeFrame.forEach(value => {
-        if (value.name === '2018') {
-          value.disable = true;
-        }
-      });
-    } else {
-      timeFrame.forEach(value => {
-        value.disable = false;
-      });
-    }
+    timeFrame.forEach(value => {
+      value.disable = false;
+    });
+
     this.timeFrames = timeFrame;
     return timeFrame;
   }
@@ -210,7 +197,7 @@ export class UhciFiltersComponent implements OnInit {
   resetFilters() {
     this.ngRedux.dispatch({ type: RESET_FILTER });
     this.selectedService = '';
-    //   this.createPayloadService.resetToInitialState();
+
     this.createPayloadService.emitFilterEvent(this.selectedPage);
     this.common.urlResuseStrategy();
     this.filterFlag.emit(false);

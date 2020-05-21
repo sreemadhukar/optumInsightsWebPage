@@ -142,18 +142,6 @@ export class PaymentsSharedService {
                 claimsData.LineOfBusiness[lobData].hasOwnProperty('ClaimFinancialMetrics') &&
                 claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount')
               ) {
-                // let colorcodes;
-                // if (lobData === 'ALL') {
-                //   colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
-                // } else if (lobData === 'MedicareAndRetirement') {
-                //   colorcodes = ['#3381FF'];
-                // } else if (lobData === 'CommunityAndState') {
-                //   colorcodes = ['#80B0FF'];
-                // } else if (lobData === 'EmployerAndIndividual') {
-                //   colorcodes = ['#003DA1'];
-                // } else {
-                //   colorcodes = ['#00B8CC'];
-                // }
                 const paidData = [];
                 if (
                   claimsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
@@ -395,7 +383,7 @@ export class PaymentsSharedService {
             }
           } else {
             lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
-            if (!claimsData.hasOwnProperty(lobData)) {
+            if (!claimsData || !claimsData.hasOwnProperty(lobData)) {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -423,18 +411,6 @@ export class PaymentsSharedService {
                 claimsData[lobData].ClaimsLobSummary.length &&
                 claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
               ) {
-                // let colorcodes;
-                // if (lobData === 'All') {
-                //   colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
-                // } else if (lobData === 'Mr') {
-                //   colorcodes = ['#3381FF'];
-                // } else if (lobData === 'Cs') {
-                //   colorcodes = ['#80B0FF'];
-                // } else if (lobData === 'Ei') {
-                //   colorcodes = ['#003DA1'];
-                // } else {
-                //   colorcodes = ['#00B8CC'];
-                // }
                 const paidData = [];
                 if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
                   if (

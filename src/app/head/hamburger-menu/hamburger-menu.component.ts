@@ -16,7 +16,7 @@ import { MatExpansionPanel, MatDialog, MatSidenav, MatDialogConfig } from '@angu
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
-import { ViewportScroller } from '@angular/common';
+import { ViewportScroller, DOCUMENT } from '@angular/common';
 import { AuthenticationService } from '../../auth/_service/authentication.service';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
@@ -25,7 +25,6 @@ import { StorageService } from '../../shared/storage-service.service';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
 import { FilterExpandService } from '../../shared/filter-expand.service';
-import { DOCUMENT } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
@@ -36,6 +35,9 @@ import { CheckHcoRlpService } from '../../shared/performance/check-hco-rlp.servi
 import { RESET_KOP_FILTER } from 'src/app/store/kopFilter/actions';
 import { NgRedux } from '@angular-redux/store';
 import { GroupPremiumDesignationService } from '../../rest/group-premium-designation/group-premium-designation.service';
+import { PCORData } from './../../modals/title-config';
+import { routingLinks } from './../../modals/route-config';
+import { GlossarySharedService } from '../../shared/glossary.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -121,7 +123,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     { icon: 'prior-auth', name: 'Prior Authorizations', path: '/CareDelivery/priorAuth', disabled: false },
     {
       icon: 'pcor',
-      name: 'Patient Care Opportunity',
+      name: PCORData.PCORTitle,
       path: '/CareDelivery/PatientCareOpportunity',
       disabled: true
     },
@@ -167,11 +169,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private authService: AuthenticationService,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private themeService: ThemeService,
     private dialog: MatDialog,
     private checkStorage: StorageService,
     private glossaryExpandService: GlossaryExpandService,
+    private readonly glossarySharedService: GlossarySharedService,
     private filterExpandService: FilterExpandService,
     private filterCloseService: FilterCloseService,
     private pcorService: PcorService,
@@ -181,6 +184,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private viewPortScroller: ViewportScroller,
     private checkRlpService: CheckHcoRlpService,
     private ngRedux: NgRedux<any>,
+
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -213,9 +217,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     }
     let currentUser: any;
     currentUser = { ProviderKey: false };
-    if (!(sessionStorage.getItem('currentUser') === null)) {
+    if (sessionStorage.getItem('currentUser') !== null) {
       currentUser = JSON.parse(sessionStorage.getItem('currentUser'))[0];
     }
+
     // Group Premium Designation
     if (this.groupPremiumDesignationService && this.internalUser && currentUser.ProviderKey) {
       this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
@@ -265,13 +270,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
         // Role based access for Advocates Overview page
-        if (this.checkAdv.value) {
-          this.navCategories[1].path = '/OverviewPageAdvocate';
+        if (this.checkAdv.value && sessionStorage['advocateView'] !== 'true') {
+          this.navCategories[1].path = routingLinks.OverviewAdvocatepath;
+
           if (window.location.pathname === '/OverviewPage' && !event.url.includes('print-')) {
-            window.location.href = '/OverviewPageAdvocate';
+            window.location.href = routingLinks.OverviewAdvocatepath;
           }
         }
-        // this.checkPcorData();
+
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
@@ -316,7 +322,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         if (
           sessionStorage.getItem('advocateView') === 'true' &&
           !this.makeAbsolute &&
-          event.url !== '/OverviewPageAdvocate' &&
+          event.url !== routingLinks.OverviewAdvocatepath &&
           event.url !== '/OverviewPageAdvocate/Home' &&
           this.checkAdv.value
         ) {
@@ -438,12 +444,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
     this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
       data => {
+        this.moveBackHeader(true);
         this.glossaryFlag = true;
         this.glossaryTitle = data.value;
         this.glossaryMetricID = data.MetricID;
-        setTimeout(() => {
-          this.viewPortScroller.scrollToPosition([0, 0]);
-        }, 500);
+
         this.stopBodyScroll(true);
       },
       err => {
@@ -453,6 +458,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
     this.clickFilterIcon = this.filterExpandService.url.subscribe(
       data => {
+        this.moveBackHeader(true);
         this.filterFlag = true;
         this.customFilter = false;
         this.filterurl = data;
@@ -469,6 +475,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       data => {
         this.filterFlag = true;
         if (data) {
+          this.moveBackHeader(true);
           const { filterData = [], customFilter, url } = data;
           this.filterData = filterData;
           this.customFilter = customFilter;
@@ -489,22 +496,23 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
       }
     }
+    this.glossarySharedService.init();
   }
 
   advocateRole() {
     this.sessionService.checkAdvocateRole();
-    this.navCategories[1].path = '/OverviewPageAdvocate';
+    this.navCategories[1].path = routingLinks.OverviewAdvocatepath;
   }
 
   /* To check whether we have data for the PCOR or not, if we don't have data for PCOR then in the navigation
    bar PCOR will be hidden
    */
   insertPCORnav() {
-    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Patient Care Opportunity');
+    const getIndex: number = this.navCategories.findIndex(item => item.name === PCORData.PCORTitle);
     this.navCategories[getIndex].disabled = false;
   }
   removePCORnav() {
-    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Patient Care Opportunity');
+    const getIndex: number = this.navCategories.findIndex(item => item.name === PCORData.PCORTitle);
     this.navCategories[getIndex].disabled = true;
   }
   checkToggle(bool: boolean) {
@@ -574,17 +582,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     const parametersExecutive = [this.sessionService.providerKeyData(), true];
     this.pcorService.getPCORMedicareData(...parametersExecutive).subscribe(
       data => {
-        if (!data || !data.ReportingPeriod) {
+        const PcorData = data.Data;
+        if (!PcorData || !PcorData.ReportingPeriod) {
           try {
             this.removePCORnav();
             sessionStorage.removeItem('pcor');
-            // this.navCategories[4].children = this.navCategories[4].children.filter(
-            //   i => i.name !== 'Patient Care Opportunity'
-            // );
+
             if (this.router.url.includes('CareDelivery/PatientCareOpportunity')) {
               // Role based access for Advocates Overview page
               if (this.checkAdv.value) {
-                this.router.navigate(['/OverviewPageAdvocate']);
+                this.router.navigate([routingLinks.OverviewAdvocatepath]);
               } else if (this.checkPro.value) {
                 this.router.navigate(['/OverviewPage']);
               }
@@ -645,7 +652,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
-    // alert(this.sideNavFlag);
   }
 
   toggleDarkTheme(isDarkTheme: boolean) {
@@ -668,17 +674,28 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   closeGlossary() {
     this.glossaryFlag = false;
     this.glossaryTitle = null;
+    this.moveBackHeader(false);
     this.stopBodyScroll(false);
   }
   filterFlagChange(flag) {
     this.filterFlag = flag;
     this.filterurl = null;
+    this.moveBackHeader(false);
     this.stopBodyScroll(false);
   }
   closeFilter() {
     this.filterFlag = false;
     this.filterurl = null;
+    this.moveBackHeader(false);
     this.stopBodyScroll(false);
+  }
+
+  moveBackHeader(flag: boolean) {
+    if (flag) {
+      document.getElementsByClassName('example-toolbar')[0].classList.add('background');
+    } else {
+      document.getElementsByClassName('example-toolbar')[0].classList.remove('background');
+    }
   }
 
   stopBodyScroll(flag: boolean) {
@@ -698,7 +715,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     if (this.glossaryFlag) {
       this.glossaryFlag = false;
     }
+    this.moveBackHeader(false);
     this.stopBodyScroll(false);
+    this.moveBackHeader(false);
   }
 
   /**
@@ -724,7 +743,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   taxSummaryLink() {
     if (this.sessionService.checkRole('UHCI_Advocate')) {
-      this.router.navigateByUrl('/OverviewPageAdvocate/HealthSystemDetails');
+      if (sessionStorage['advocateView'] === 'true') {
+        this.router.navigateByUrl('/TinList');
+      } else {
+        this.router.navigateByUrl('/OverviewPageAdvocate/HealthSystemDetails');
+      }
     } else {
       this.router.navigateByUrl('/TinList');
     }
@@ -735,7 +758,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       sessionStorage.removeItem('advocateView');
       this.advocateView = false;
     }, 300);
-    location.href = '/OverviewPageAdvocate';
+    location.href = routingLinks.OverviewAdvocatepath;
     sessionStorage.setItem('advocateView', 'false');
   }
 
