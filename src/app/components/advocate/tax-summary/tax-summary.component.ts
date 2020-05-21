@@ -23,6 +23,7 @@ export class TaxSummaryComponent implements OnInit {
   numberOfTins: number;
   taxSummaryColumns: string[] = ['TinCheckBox', 'Tin', 'TinName', 'TaxIdType', 'TaxIdOwnership'];
   pageSize = 25;
+  pageNumber = 0;
   filterObj = {};
   tinOwnershipSelected = 'Owned';
   allChecked: Boolean = false;
@@ -41,17 +42,21 @@ export class TaxSummaryComponent implements OnInit {
       this.numberOfTins = this.data.All.length;
       this.getTaxSummaryData();
       if (this.numberOfTins > 24) {
+        this.taxSummaryData.paginator = this.paginator;
         this.customPaginator();
       } else {
         this.taxSummaryData.paginator = null;
       }
     }
     if (this.selectedTaxId && this.selectedTaxId.length) {
-      this.selectedTaxId.forEach(val => {
-        const selectedValue = _.find(this.taxSummaryData.data, { Tin: val.Tin });
-        selectedValue.checked = true;
-        this.taxSummaryData.data.indexOf(selectedValue);
-      });
+      if (this.selectedTaxId[0].Tin !== 'All') {
+        this.selectedTaxId.forEach(val => {
+          const selectedValue = _.find(this.taxSummaryData.data, { Tin: val.Tin });
+          if (this.taxSummaryData.data.indexOf(selectedValue) > -1) {
+            selectedValue.checked = true;
+          }
+        });
+      }
     }
   }
 
@@ -90,6 +95,19 @@ export class TaxSummaryComponent implements OnInit {
       return e.checked;
     });
   }
+  swap(index_A, index_B) {
+    const temp = this.taxSummaryData.filteredData[index_A];
+    this.taxSummaryData.filteredData[index_A] = this.taxSummaryData.filteredData[index_B];
+    this.taxSummaryData.filteredData[index_B] = temp;
+  }
+  moveCheckedTin(index: number) {
+    this.taxSummaryData.filteredData.unshift(this.taxSummaryData.filteredData.splice(index, 1)[0]);
+    this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
+  }
+  moveUnCheckedTin(index: number, checkedCount: number) {
+    this.swap(index, checkedCount);
+    this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
+  }
 
   // event.target.value is fetching the actual id of the response
   checkBoxChecked(row, index) {
@@ -109,13 +127,13 @@ export class TaxSummaryComponent implements OnInit {
         ? [{ Tin: 'All', Tinname: 'All' }]
         : this.selectedTaxId
     );
-    if (row.checked && index !== this.checkedCount() - 1) {
-      this.taxSummaryData.filteredData.unshift(this.taxSummaryData.filteredData.splice(index, 1)[0]);
-      this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
+    const orignalIndex = index + this.paginator.pageIndex * this.pageSize;
+    if (row.checked && orignalIndex !== this.checkedCount() - 1) {
+      this.moveCheckedTin(orignalIndex);
     } else if (!row.checked) {
-      this.taxSummaryData.filteredData.push(this.taxSummaryData.filteredData.splice(index, 1)[0]);
-      this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
+      this.moveUnCheckedTin(orignalIndex, this.checkedCount());
     }
+    this.taxSummaryData.paginator = this.paginator;
   }
 
   getPageSize(event) {
@@ -156,12 +174,12 @@ export class TaxSummaryComponent implements OnInit {
   }
 
   customPaginator() {
-    this.taxSummaryData.paginator = this.paginator;
     this.paginator._intl.itemsPerPageLabel = 'Display';
     this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
       d3.select('#page-text').text(function() {
         return 'Page ';
       });
+      this.pageNumber = page;
       d3.select('#page-number').text(function() {
         return page + 1;
       });
