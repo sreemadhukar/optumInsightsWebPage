@@ -79,7 +79,7 @@ export class HealthSystemDetailsComponent implements OnInit {
       type: APPLY_FILTER,
       filterData: serializedState ? serializedState : initialState
     });
-    this.router.navigate(['/OverviewPageAdvocate']);
+    window.location.href = '/OverviewPageAdvocate';
   }
 
   hppIndicator() {
