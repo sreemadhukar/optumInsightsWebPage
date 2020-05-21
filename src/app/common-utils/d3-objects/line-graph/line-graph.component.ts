@@ -490,14 +490,12 @@ export class LineGraphComponent implements OnInit {
     // const RectBarOne = chart
     const rectangleFunction = d => {
       /* Creating rectangle shape with path for IE issue*/
-      const str = [
-        'M ',
-        d.xCoordinate - 22,
-        ' 0 H ',
-        d.xCoordinate - 22 + 48,
-        ' V ' + (height - 70) + ' H ',
-        d.xCoordinate - 22 + ' Z'
-      ].join('');
+      const barWidth = 48;
+      const x0 = d.xCoordinate - 22;
+      const x1 = x0 + barWidth;
+      const y0 = height - 70;
+      const y1 = x0;
+      const str = ['M', x0, '0', 'H', x1, 'V', y0, 'H', y1, 'Z'].join(' ');
       return str;
     };
     chart
