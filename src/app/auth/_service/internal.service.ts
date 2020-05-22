@@ -58,7 +58,7 @@ export class InternalService {
   }
 
   getPublicKey() {
-    const url = this.APP_URL + 'getPublicKey';
+    const url = this.APP_URL + 'v1/getPublicKey';
     const token = JSON.parse(sessionStorage.getItem('token'));
     const params = new HttpParams();
     const myHeader = new HttpHeaders({
