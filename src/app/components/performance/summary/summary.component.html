@@ -1,13 +1,13 @@
-<div class="container">
-  <div class="container-content">
-    <div class="container-header">
-      <app-breadcrumbs></app-breadcrumbs>
-      <app-rlp-header
-        [rlpTitle]="titleForSummary"
-        [rlpSubTitle]="subTitleForSummary"
-        class="full-display bottom-margin-block"
-      ></app-rlp-header>
-    </div>
+<app-layoutcontainer id="print-overview" class="performancesummary">
+  <div class="container-header">
+    <app-breadcrumbs></app-breadcrumbs>
+    <app-rlp-header
+      [rlpTitle]="titleForSummary"
+      [rlpSubTitle]="subTitleForSummary"
+      class="full-display bottom-margin-block"
+    ></app-rlp-header>
+  </div>
+  <div class="container-body">
     <div>
       <app-card class="cards" [skeleton]="referralsLoading" *ngIf="referralsLoading"> </app-card>
       <app-card
@@ -35,6 +35,4 @@
       ></app-card>
     </div>
   </div>
-  <!--container content ends-->
-</div>
-<!-- Main container ends-->
+</app-layoutcontainer>

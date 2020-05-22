@@ -8,9 +8,8 @@ describe('HamburgerMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HamburgerMenuComponent ]
-    })
-    .compileComponents();
+      declarations: [HamburgerMenuComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

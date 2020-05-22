@@ -52,20 +52,6 @@ export class D3StarBlueComponent implements OnInit, AfterViewInit {
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    // const x = 30;
-    // const y = 15;
-
-    // const multiplier = 8;
-    // const x1 = multiplier * 9.9 + x;
-    // const y1 = multiplier * 1.1 + y;
-    // const x2 = multiplier * 3.3 + x;
-    // const y2 = multiplier * 21.78 + y;
-    // const x3 = multiplier * 19.8 + x;
-    // const y3 = multiplier * 8.58 + y;
-    // const x4 = multiplier * 0 + x;
-    // const y4 = multiplier * 8.58 + y;
-    // const x5 = multiplier * 16.5 + x;
-    // const y5 = multiplier * 21.78 + y;
     svg
       .append('svg:image')
       .attr('x', 28)

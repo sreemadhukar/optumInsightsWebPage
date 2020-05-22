@@ -230,6 +230,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     ) {
       if (chartOptions.sdata.sign === 'up') {
         if (this.chartOptions.centerData) {
+          const sdataLink = 'src/assets/images/trend-up.svg';
           chart
             .append('circle')
             .attr('cx', -24)
@@ -243,7 +244,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .attr('y', 30)
             .attr('width', '20px')
             .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/trend-up.svg');
+            .attr('xlink:href', sdataLink);
           chart
             .append('text')
             .attr('x', 0)
@@ -693,7 +694,6 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           boxWidth = '113px';
           textWidth = 84;
         }
-        // const hoverTextLength = getTextWidth(d.data.label, 14, 'Arial');
 
         divHover.style('height', boxHeight).style('width', boxWidth);
 

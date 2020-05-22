@@ -10,6 +10,7 @@ export class RlpSearchPipe implements PipeTransform {
     if (typeof tinArgs === undefined && typeof groupNameArgs === undefined) {
       return value;
     }
+
     return value.filter(el => {
       if (el.tin.indexOf(tinArgs) !== -1 && typeof groupNameArgs === undefined) {
         return true;

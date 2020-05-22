@@ -28,8 +28,8 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
   constructor(
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
-    private homeService: HomeService,
-    private session: SessionService
+    private readonly homeService: HomeService,
+    private readonly session: SessionService
   ) {
     iconRegistry.addSvgIcon(
       'star',
@@ -66,8 +66,6 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // 'gpalomi1'
-    // this.session.sessionStorage('loggedUser', 'MsId')
     this.noImpactAssignMessage = `Currently, there are no Impact assignments. Please refer to Impact
     for any required updates and allow 24-48 hours for those updates to be reflected here.`;
     this.pageSizeValues = [...pageSizeConf];
@@ -154,7 +152,6 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
 
   /**
    * enterQuery() is the function for setting up totalPages dynamically on the basis of search
-   * for both Tin and Group name
    */
   enterQuery(val: string) {
     this.isInputEmpty = val.length ? false : true;
@@ -170,13 +167,14 @@ export class ImpactAssignmentComponent implements OnInit, OnDestroy {
    * enterPageNumber() is to handle and setup pagination after user enters custom number to go
    * If the entered value is valid it will setup the pagination accordingly otherwise it will
    */
-  enterPageNumber() {
+  enterPageNumber(): boolean {
     if (this.currentPageNumber <= this.totalPages) {
       this.setPagination(
         this.currentPageNumber,
         (this.currentPageNumber - 1) * +this.selectPageSize,
         this.currentPageNumber * +this.selectPageSize
       );
+      return true;
     } else {
       return false;
     }

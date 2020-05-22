@@ -19,10 +19,10 @@ export class ImpactCardComponent implements OnInit {
   @Input() skeleton;
   linkName = 'Overview';
   constructor(
-    private storage: StorageService,
-    private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
-    private ngRedux: NgRedux<IAppState>
+    private readonly storage: StorageService,
+    private readonly iconRegistry: MatIconRegistry,
+    private readonly sanitizer: DomSanitizer,
+    private readonly ngRedux: NgRedux<IAppState>
   ) {
     this.iconRegistry.addSvgIcon(
       'chevron_right',

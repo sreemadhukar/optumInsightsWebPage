@@ -24,7 +24,7 @@ export class BreadcrumbsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer
+    private readonly sanitizer: DomSanitizer
   ) {
     this.breadcrumbs = [];
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {

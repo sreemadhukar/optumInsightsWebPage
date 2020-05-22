@@ -46,7 +46,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   ProviderSysKey: any;
   viewClaimsValue: any;
   providerName: string;
-  isLoading = true;
   lengthOffilteredData: any;
   dataNotavaiable: Boolean = false;
   viewsClaimsFullData: any;
@@ -105,9 +104,9 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private checkStorage: StorageService,
-    private session: SessionService,
+    private readonly session: SessionService,
     private reasonReceived: TopReasonsEmitterService,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private topClaimsSharedService: TopClaimsSharedService,
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>,
@@ -116,7 +115,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.createPayloadService.getEvent().subscribe(() => {
       this.ngOnInit();
     });
-    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('viewTopClaimsPage');
@@ -164,12 +163,10 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       this.temp.subReason = 'UNKNOWN';
     }
 
-    this.isLoading = true;
     this.loading = true;
     this.dollarData = false;
 
     // pagination
-    this.paginator._intl.itemsPerPageLabel = 'Display';
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'viewTopClaimsPage' });
     // VieCaliamFilter
@@ -242,21 +239,20 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       this.selectedSubreason = 'UNKNOWN';
     }
     this.resetPaginationAttribute();
-    this.loadTable(this.selectedReasonItem, this.selectedSubreason);
     this.loading = true;
+    this.loadTable(this.selectedReasonItem, this.selectedSubreason);
   }
   // sub reasons selection from dropdown
   selectsubReason({ value }) {
     if (value) {
       this.dataNotavaiable = true;
-      this.isLoading = false;
       this.subReasonselected = value;
       if (this.selectedReasonItem === this.subReasonselected) {
         this.subReasonselected = 'UNKNOWN';
       }
       this.resetPaginationAttribute();
-      this.loadTable(this.selectedReasonItem, this.subReasonselected);
       this.loading = true;
+      this.loadTable(this.selectedReasonItem, this.subReasonselected);
     }
   }
   goback() {
@@ -271,11 +267,9 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
 
   // load table data
   loadTable(reasonSelected, subReason) {
-    this.isLoading = false;
     this.topClaimsSharedService
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
       .then((claimsDetailsData: any) => {
-        this.isLoading = true;
         this.loading = false;
         this.selectedclaims = [];
         this.claimsData = claimsDetailsData;
@@ -293,7 +287,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
           this.selectedclaims = new MatTableDataSource(this.claimsData);
 
           this.dollarData = true;
-          this.isLoading = false;
           this.dataNotavaiable = false;
           this.selectedclaims.sort = this.sort;
           this.selectedclaims.paginator = this.paginator;
@@ -315,7 +308,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
             data: null
           };
           this.dollarData = false;
-          this.isLoading = true;
         }
       })
       .catch(error => {
@@ -440,10 +432,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   // Convert String to number with two decimals
   convertIntoNumber(str) {
     const strvalue = str;
-    // const res = strvalue.replace(/[$,]/g, '');
-    // const val = parseFloat(res).toFixed(2);
-
-    // parseFloat(res).toFixed(2).replace(/\.?0*$/,'');;
     const val = parseFloat(strvalue).toFixed(2);
     return val;
   }
@@ -466,9 +454,11 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   }
 
   resetPaginationAttribute() {
-    this.paginator.pageIndex = 0;
-    this.paginator.pageSize = 25;
-    this.currentPageIndex = 0;
-    this.pageSize = 25;
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+      this.paginator.pageSize = 25;
+      this.currentPageIndex = 0;
+      this.pageSize = 25;
+    }
   }
 }

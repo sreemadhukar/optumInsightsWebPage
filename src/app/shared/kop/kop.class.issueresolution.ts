@@ -49,6 +49,7 @@ export class IssueResolution {
   }
 
   public createSchema() {
+    const sDataText = 'Positive Trending';
     const chartData = [
       {
         quarters: [],
@@ -62,7 +63,7 @@ export class IssueResolution {
         color: ['#3381FF', '#80B0FF'],
         sdata: {
           sign: 'up',
-          data: 'Positive Trending'
+          data: sDataText
         }
       },
       {
@@ -77,7 +78,7 @@ export class IssueResolution {
         color: ['#3381FF', '#80B0FF'],
         sdata: {
           sign: 'up',
-          data: 'Positive Trending'
+          data: sDataText
         }
       },
       {
@@ -91,7 +92,7 @@ export class IssueResolution {
         caption: 'Ability to resolve issues',
         sdata: {
           sign: 'up',
-          data: 'Positive Trending'
+          data: sDataText
         }
       },
       {
@@ -107,7 +108,7 @@ export class IssueResolution {
         color: ['#3381FF', '#E0E0E0'],
         sdata: {
           sign: 'up',
-          data: 'Positive Trending'
+          data: sDataText
         }
       }
     ];
