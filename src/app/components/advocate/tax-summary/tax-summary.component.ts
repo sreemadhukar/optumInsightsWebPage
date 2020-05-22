@@ -47,13 +47,14 @@ export class TaxSummaryComponent implements OnInit {
       } else {
         this.taxSummaryData.paginator = null;
       }
-    }
-    if (this.selectedTaxId && this.selectedTaxId.length) {
       if (this.selectedTaxId[0].Tin !== 'All') {
         this.selectedTaxId.forEach(val => {
           const selectedValue = _.find(this.taxSummaryData.data, { Tin: val.Tin });
           if (this.taxSummaryData.data.indexOf(selectedValue) > -1) {
             selectedValue.checked = true;
+            this.taxSummaryData.filteredData.unshift(
+              this.taxSummaryData.filteredData.splice(selectedValue.id - 1, 1)[0]
+            );
           }
         });
       }
@@ -96,9 +97,6 @@ export class TaxSummaryComponent implements OnInit {
       this.taxSummaryData.filteredData.unshift(this.taxSummaryData.filteredData.splice(orignalIndex, 1)[0]);
     } else if (!row.checked) {
       this.swap(orignalIndex, this.checkedCount());
-    }
-    for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
-      this.taxSummaryData.filteredData[i]['id'] = i + 1;
     }
     this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
     this.taxSummaryData.paginator = this.paginator;
