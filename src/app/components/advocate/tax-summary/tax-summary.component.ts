@@ -60,6 +60,51 @@ export class TaxSummaryComponent implements OnInit {
     }
   }
 
+  checkedCount() {
+    return _.filter(this.taxSummaryData.filteredData, 'checked').length;
+  }
+  checkAllSelected() {
+    return _.some(this.taxSummaryData.filteredData, function(e) {
+      return e.checked;
+    });
+  }
+  swap(index_A, index_B) {
+    const temp = this.taxSummaryData.filteredData[index_A];
+    this.taxSummaryData.filteredData[index_A] = this.taxSummaryData.filteredData[index_B];
+    this.taxSummaryData.filteredData[index_B] = temp;
+  }
+  // event.target.value is fetching the actual id of the response
+  checkBoxChecked(row, index) {
+    row.checked = !row.checked;
+    if (this.selectedTaxId.length > 0 && this.selectedTaxId[0].Tin === 'All') {
+      this.selectedTaxId = [];
+    }
+    row.checked
+      ? this.selectedTaxId.push({
+          Tin: row.Tin,
+          Tinname: row.TinName
+        })
+      : this.selectedTaxId.splice(this.selectedTaxId.indexOf(row.Tin), 1);
+    this.allChecked = this.selectedTaxId.length > 0 && this.selectedTaxId[0].Tin !== 'All';
+    this.tinValues.emit(
+      this.selectedTaxId.length > 0 && this.selectedTaxId.length === this.taxSummaryData.data.length
+        ? [{ Tin: 'All', Tinname: 'All' }]
+        : this.selectedTaxId
+    );
+    const orignalIndex = index + this.paginator.pageIndex * this.pageSize;
+    if (row.checked && orignalIndex !== this.checkedCount() - 1) {
+      this.taxSummaryData.filteredData.unshift(this.taxSummaryData.filteredData.splice(orignalIndex, 1)[0]);
+    } else if (!row.checked) {
+      this.swap(orignalIndex, this.checkedCount());
+    }
+    for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
+      this.taxSummaryData.filteredData[i]['id'] = i + 1;
+    }
+    this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
+    this.taxSummaryData.paginator = this.paginator;
+  }
+
+  // function for chec all checkboxes
   checkAllChecked() {
     this.allChecked = !this.allChecked;
     const checkSelected = !this.checkAllSelected();
@@ -85,55 +130,6 @@ export class TaxSummaryComponent implements OnInit {
       this.selectedTaxId = [{ Tin: 'All', Tinname: 'All' }];
       this.tinValues.emit(this.selectedTaxId);
     }
-  }
-
-  checkedCount() {
-    return _.filter(this.taxSummaryData.filteredData, 'checked').length;
-  }
-  checkAllSelected() {
-    return _.some(this.taxSummaryData.filteredData, function(e) {
-      return e.checked;
-    });
-  }
-  swap(index_A, index_B) {
-    const temp = this.taxSummaryData.filteredData[index_A];
-    this.taxSummaryData.filteredData[index_A] = this.taxSummaryData.filteredData[index_B];
-    this.taxSummaryData.filteredData[index_B] = temp;
-  }
-  moveCheckedTin(index: number) {
-    this.taxSummaryData.filteredData.unshift(this.taxSummaryData.filteredData.splice(index, 1)[0]);
-    this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
-  }
-  moveUnCheckedTin(index: number, checkedCount: number) {
-    this.swap(index, checkedCount);
-    this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
-  }
-
-  // event.target.value is fetching the actual id of the response
-  checkBoxChecked(row, index) {
-    row.checked = !row.checked;
-    if (this.selectedTaxId.length > 0 && this.selectedTaxId[0].Tin === 'All') {
-      this.selectedTaxId = [];
-    }
-    row.checked
-      ? this.selectedTaxId.push({
-          Tin: row.Tin,
-          Tinname: row.TinName
-        })
-      : this.selectedTaxId.splice(this.selectedTaxId.indexOf(row.Tin), 1);
-    this.allChecked = this.selectedTaxId.length > 0 && this.selectedTaxId[0].Tin !== 'All';
-    this.tinValues.emit(
-      this.selectedTaxId.length > 0 && this.selectedTaxId.length === this.taxSummaryData.data.length
-        ? [{ Tin: 'All', Tinname: 'All' }]
-        : this.selectedTaxId
-    );
-    const orignalIndex = index + this.paginator.pageIndex * this.pageSize;
-    if (row.checked && orignalIndex !== this.checkedCount() - 1) {
-      this.moveCheckedTin(orignalIndex);
-    } else if (!row.checked) {
-      this.moveUnCheckedTin(orignalIndex, this.checkedCount());
-    }
-    this.taxSummaryData.paginator = this.paginator;
   }
 
   getPageSize(event) {
