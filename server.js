@@ -19,6 +19,7 @@ var apiProxy = httpProxy.createProxyServer();
 // This is for prod
 var apiForwardingUrl = 'https://pedapigateway-pedprddr.ocp-ctc-dmz.optum.com';
 var apiForwardingUrlStage = 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/';
+// The sessionSecret is the JWT Secret and key is the JWTKey which needs to be mapped with the API
 var sessionSecret = '7dX03633CEuFJaf25ot5HlSPOZYQ6E9Y';
 var key = 'PvU8koWDqgbqZNin5aBj00RtRHWze7pC';
 var heac = require('./src/assets/mock-data/heac.json');
