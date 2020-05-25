@@ -30,9 +30,10 @@ export class SmartEditsSharedService {
     return new Promise((resolve, reject) => {
       const parameters = this.getParameterCategories(param);
 
-      this.smartEditsService
-        .smartEditReturned(parameters)
-        .subscribe(smartEditsData => resolve(smartEditsData), err => reject(err));
+      this.smartEditsService.smartEditReturned(parameters).subscribe(
+        smartEditsData => resolve(smartEditsData),
+        err => reject(err)
+      );
     });
   }
 }

@@ -1,0 +1,89 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+::ng-deep {
+  .custom-dialog-container > .mat-dialog-container {
+    .mat-dialog {
+      text-align: center;
+      padding: 24px 56px;
+    }
+    .modal-popup-header {
+      color: $black-rock;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-size: 28px;
+      line-height: 32px;
+    }
+    .modal-popup-text {
+      color: $black-rock;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      float: left;
+      margin-left: 2px;
+    }
+    .mat-dialog-content {
+      color: $black-rock;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+    }
+
+    .checkbox-block {
+      float: left;
+    }
+    .dont-show-checkbox {
+      height: 23px;
+      width: 23px;
+      float: left;
+      margin: 0;
+    }
+    .buttons-block {
+      margin-top: 20px;
+      float: left;
+    }
+    .no-thanks-btn {
+      box-sizing: border-box;
+      height: 40px;
+      width: 202px;
+      border: 1px solid $blue;
+      border-radius: 2px;
+      color: $blue;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+      background-color: transparent !important;
+      cursor: pointer;
+    }
+    .no-thanks-btn:hover,
+    .continue-btn:hover {
+      background-color: #003da1 !important;
+      color: #ffffff !important;
+    }
+    .continue-btn {
+      box-sizing: border-box;
+      height: 40px;
+      width: 112px;
+      color: #ffffff;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+      border-radius: 2px;
+      background-color: $blue;
+      border: 1px solid $blue;
+      margin-left: 24px;
+      cursor: pointer;
+    }
+    .margin-top-20 {
+      margin-top: 20px;
+    }
+    .below-block {
+      float: left;
+      padding: 26px;
+    }
+  }
+}

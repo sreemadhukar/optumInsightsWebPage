@@ -5,9 +5,17 @@
     <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
       {{ pagesubTitle }}
     </div>
-
+    <div class="page-subtitle">
+      <span class="page-subtitle-header">View more in-depth details for Smart Edits.</span>
+      &nbsp;
+      <span class="subtitle-reportLink" (click)="handleClick()">
+        {{ reportLink }}
+        <mat-icon class="page-subtitle-icon" svgIcon="external-link"></mat-icon>
+      </span>
+    </div>
     <app-filters-applied></app-filters-applied>
   </div>
+  <div class="height1Separator"></div>
   <!--CARDS GO HERE-->
   <div class="container-flex">
     <!-- Smart Edits Claims Returned Card Starts here -->

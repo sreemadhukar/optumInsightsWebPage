@@ -38,12 +38,25 @@
     padding-bottom: 0px;
   }
   .page-subtitle {
-    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
-    flex-basis: 100%;
-    font-size: 28px;
-    line-height: 22px;
-    @include padding(0, 0, 20px, 0);
-    color: $black-rock;
+    .page-subtitle-header {
+      color: $strom-grey;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+
+      line-height: 22px;
+    }
+    .subtitle-reportLink {
+      cursor: pointer;
+      color: $blue;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+    }
+    .page-subtitle-icon {
+      cursor: pointer;
+      color: $blue;
+    }
   }
   .print-page-title {
     padding-top: 30px;

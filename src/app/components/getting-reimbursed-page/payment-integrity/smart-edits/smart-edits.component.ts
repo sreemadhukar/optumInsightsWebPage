@@ -11,6 +11,7 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../../store/filter/actions';
 import { IAppState } from '../../../../store/store';
 import { SmartEditsSharedService } from '../../../../shared/new-payment-integrity/smart-edits-shared.service';
+import { ModalPopupService } from 'src/app/common-utils/modal-popup/modal-popup.service';
 
 @Component({
   selector: 'app-smart-edits',
@@ -18,6 +19,7 @@ import { SmartEditsSharedService } from '../../../../shared/new-payment-integrit
   styleUrls: ['./smart-edits.component.scss']
 })
 export class SmartEditsComponent implements OnInit {
+  reportLink: string;
   pageTitle: String = '';
   metricId = 'NA';
   lob: string;
@@ -43,9 +45,11 @@ export class SmartEditsComponent implements OnInit {
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>,
     private common: CommonUtilsService,
-    private smartEditsSharedService: SmartEditsSharedService
+    private smartEditsSharedService: SmartEditsSharedService,
+    private dialogService: ModalPopupService
   ) {
     this.pageTitle = 'Smart Edits';
+    this.reportLink = 'View Smart Edits Reference Guide';
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.common.urlResuseStrategy();
@@ -59,7 +63,6 @@ export class SmartEditsComponent implements OnInit {
     this.checkStorage.emitEvent('smartEditsPage');
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.checkStorage.emitEvent('smartEditsPage');
-
     this.smartEditReturnedData();
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
@@ -142,7 +145,33 @@ export class SmartEditsComponent implements OnInit {
     }
     // **** Smart Edits Top Informational Reasons starts here****//
   }
+  public handleClick() {
+    const showPopUp = sessionStorage.getItem('dontShowPCORpopup');
+    if (JSON.parse(showPopUp)) {
+      this.saveData();
+    } else {
+      const options = {
+        title: 'You are being directed to the Smart Edits Reference Guide',
+        message:
+          'A new browser window will open the Smart Edits Reference Guide, which is being hosted on uhcprovider.com.',
+        cancelText: 'No Thanks, Stay Here.',
+        dontShowText: 'Don’t show me this again this session.',
+        confirmText: 'Continue',
+        width: '550px'
+      };
 
+      this.dialogService.open(options);
+
+      this.dialogService.confirmed().subscribe(confirmed => {
+        if (confirmed) {
+          this.saveData();
+        }
+      });
+    }
+  }
+  saveData() {
+    window.open('https://www.uhcprovider.com/en/reports-quality-programs/physician-perf-based-comp.html');
+  }
   smartEditReturnedData() {
     // this.paymentLoading = true;
     // this.topRowMockCards = [{}, {}, {}];

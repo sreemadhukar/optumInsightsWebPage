@@ -1,0 +1,18 @@
+<div class="mat-dialog">
+  <div class="modal-popup-header">
+    <h3>{{ data.title }}</h3>
+  </div>
+  <div class="dialog-message ">
+    <p>{{ data.message }}</p>
+  </div>
+  <div class="below-block">
+    <div class="checkbox-block">
+      <input type="checkbox" class="dont-show-checkbox" (change)="dontShowAgain($event)" />
+      <p class="modal-popup-text">{{ data.dontShowText }}</p>
+    </div>
+    <div class="buttons-block">
+      <button class="no-thanks-btn" (click)="cancel()">{{ data.cancelText }}</button>
+      <button class="continue-btn" (click)="confirm()">{{ data.confirmText }}</button>
+    </div>
+  </div>
+</div>
