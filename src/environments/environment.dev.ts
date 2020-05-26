@@ -6,6 +6,7 @@
  */
 export const environment: any = {
   apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
+  // apiProxyUrl: '/uhci/stage/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -63,7 +64,8 @@ export const environment: any = {
     PaymentIntegrityTabsInfo: 'pi-tab-info/',
     NewPaymentIntegrity: 'payment-integrity/',
     ProviderSearch: 'provider-search',
-    AdvocateTinDetails: 'advocate-tin-details/'
+    AdvocateTinDetails: 'advocate-tin-details/',
+    getPublicKey: 'getPublicKey'
   },
   headerKeys: {
     selectedCompany: '',

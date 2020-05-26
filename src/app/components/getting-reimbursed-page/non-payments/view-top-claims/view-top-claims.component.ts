@@ -104,9 +104,9 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private checkStorage: StorageService,
-    private session: SessionService,
+    private readonly session: SessionService,
     private reasonReceived: TopReasonsEmitterService,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private topClaimsSharedService: TopClaimsSharedService,
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>,
@@ -115,7 +115,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.createPayloadService.getEvent().subscribe(() => {
       this.ngOnInit();
     });
-    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('viewTopClaimsPage');
@@ -167,7 +167,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.dollarData = false;
 
     // pagination
-    // this.paginator._intl.itemsPerPageLabel = 'Display';
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'viewTopClaimsPage' });
     // VieCaliamFilter
@@ -433,10 +432,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   // Convert String to number with two decimals
   convertIntoNumber(str) {
     const strvalue = str;
-    // const res = strvalue.replace(/[$,]/g, '');
-    // const val = parseFloat(res).toFixed(2);
-
-    // parseFloat(res).toFixed(2).replace(/\.?0*$/,'');;
     const val = parseFloat(strvalue).toFixed(2);
     return val;
   }

@@ -47,14 +47,13 @@ export class GettingReimbursedComponent implements OnInit {
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private router: Router,
     private session: SessionService,
     private common: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService
   ) {
-    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';

@@ -5,7 +5,7 @@ import { CommonUtilsService } from '../common-utils.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 import { ICallsShared } from '../../modals/i-calls-shared';
-import { ICallsResponse } from 'src/app/modals/i-calls';
+import { ICallsResponse } from '../../modals/i-calls';
 
 @Injectable({ providedIn: 'root' })
 export class CallsSharedService {
@@ -19,7 +19,7 @@ export class CallsSharedService {
     private callsService: CallsService,
     private session: SessionService,
     private common: CommonUtilsService,
-    private toggle: AuthorizationService
+    private readonly toggle: AuthorizationService
   ) {}
 
   public issueResolution(
@@ -58,25 +58,6 @@ export class CallsSharedService {
       this.sharedCallsData(params).then(data => {
         this.callsData = data;
         resolve(this.callsData);
-        /*
-          if (this.callsData.some(i => i.data === null)) {
-            resolve(this.callsData);
-          }
-          return this.sharedCallsTrend();
-          .then(data => {
-          if (data) {
-            const trendsData = data;
-            if (trendsData[0][0] === 'QuestionType') {
-              this.callsData[0].data['sdata'] = trendsData[0][1];
-            }
-            if (trendsData[1][0] === 'TalkTime') {
-              this.callsData[1].data['sdata'] = trendsData[1][1];
-            }
-          }
-          resolve(this.callsData);
-        });
-
-          */
       });
     });
   }
@@ -209,40 +190,3 @@ export class CallsSharedService {
     });
   }
 }
-
-/*
-  sharedCallsTrend() {
-    return new Promise(resolve => {
-      this.providerKey = this.session.providerKeyData();
-      this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(
-        trends => {
-          if (trends) {
-            const trendData: any = [];
-            const trendMetrics = (trends || {}).TendingMtrics;
-            if (trendMetrics) {
-              try {
-                trendData.push(['QuestionType', null]);
-                // trendData.push(['QuestionType', this.common.negativeMeansGood(trendMetrics.CallsTrendByQuesType)]);
-              } catch (err) {
-                trendData.push(['QuestionType', null]);
-              }
-              try {
-                trendData.push(['TalkTime', null]);
-                // trendData.push(['TalkTime', this.common.negativeMeansGood(trendMetrics.CcllTalkTimeByQuesType)]);
-              } catch (err) {
-                trendData.push(['TalkTime', null]);
-              }
-            }
-            resolve(trendData);
-          } else {
-            const temp = null;
-            resolve(temp);
-          }
-        },
-        error => {
-          console.log('Trend data', error);
-        }
-      );
-    });
-  }
-*/

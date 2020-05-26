@@ -33,12 +33,12 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
   getData$: Subscription;
   /** Ends Search Servie variables */
   constructor(
-    private fb: FormBuilder,
-    private session: SessionService,
-    private searchService: HomeService,
-    private iconRegistry: MatIconRegistry,
-    private storage: StorageService,
-    private sanitizer: DomSanitizer
+    private readonly fb: FormBuilder,
+    private readonly session: SessionService,
+    private readonly searchService: HomeService,
+    private readonly iconRegistry: MatIconRegistry,
+    private readonly storage: StorageService,
+    private readonly sanitizer: DomSanitizer
   ) {
     this.iconRegistry.addSvgIcon(
       'round-search',
@@ -55,7 +55,10 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
     this.selectedDropdown = this.dropDownArray[0]['value'];
     this.searchBox(this.selectedDropdown);
   }
-  displayFn(user: IUserResponse) {
+  assignSearchString(val: string = '') {
+    this.searchedString = val;
+  }
+  displayFn(user: IUserResponse): string {
     if (user) {
       this.providerSelect(user);
       if (this.selectedDropdown === 'TinName') {
@@ -65,6 +68,8 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
       } else {
         return user.ProviderSystem;
       }
+    } else {
+      return null;
     }
   }
   displayFnWrapper() {
@@ -84,8 +89,7 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
         tap(() => (this.isLoading = true)),
         switchMap(value => {
           const str = value.trim().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-          // const str = value.trim().replace(/[^a-zA-Z0-9]/g, '');
-          if (this.selectedDropdown === 'tin' && value && value.length >= 3) {
+          if (this.selectedDropdown === 'tin' && value && value.length >= 3 && value.search('-') === -1) {
             value = value.slice(0, 2) + '-' + value.slice(2);
           }
           return value &&
@@ -116,15 +120,14 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
     /** Search code ends here */
   }
   valueDropdown(val: string) {
-    this.searchedString = '';
+    this.assignSearchString();
     this.selectedDropdown = val;
     this.searchBox(this.selectedDropdown);
   }
   onSearchInput(value: string) {
     this.blankInput = false;
     const str = value.trim().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-    // const str = value.trim().replace(/[^a-zA-Z0-9]/g, '');
-    if (this.selectedDropdown === 'tin' && value.length >= 3) {
+    if (this.selectedDropdown === 'tin' && value.length >= 3 && value.search('-') === -1) {
       value = value.slice(0, 2) + '-' + value.slice(2);
     }
     if (!value || value.length < this.minCharacterType) {
@@ -137,18 +140,18 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
     value.length >= this.minCharacterType &&
     str.length >= this.minCharacterType &&
     value.length - str.length < 2
-      ? (this.searchedString = value)
-      : (this.searchedString = '');
+      ? this.assignSearchString(value)
+      : this.assignSearchString();
   }
   onSearchClick(value: string) {
     if (value.length === 0) {
-      this.searchedString = '';
+      this.assignSearchString();
       this.blankInput = true;
       this.noResponseMessage = `Please type at least ${this.minCharacterType} characters to start your search...`;
     }
   }
   resetForm() {
-    this.searchedString = '';
+    this.assignSearchString();
     this.usersForm.reset();
     this.isLoading = true;
   }
