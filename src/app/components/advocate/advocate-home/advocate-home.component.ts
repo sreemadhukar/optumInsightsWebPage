@@ -89,8 +89,7 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
         tap(() => (this.isLoading = true)),
         switchMap(value => {
           const str = value.trim().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-
-          if (this.selectedDropdown === 'tin' && value && value.length >= 3) {
+          if (this.selectedDropdown === 'tin' && value && value.length >= 3 && value.search('-') === -1) {
             value = value.slice(0, 2) + '-' + value.slice(2);
           }
           return value &&
@@ -128,7 +127,7 @@ export class AdvocateHomeComponent implements OnInit, OnDestroy {
   onSearchInput(value: string) {
     this.blankInput = false;
     const str = value.trim().replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-    if (this.selectedDropdown === 'tin' && value.length >= 3) {
+    if (this.selectedDropdown === 'tin' && value.length >= 3 && value.search('-') === -1) {
       value = value.slice(0, 2) + '-' + value.slice(2);
     }
     if (!value || value.length < this.minCharacterType) {

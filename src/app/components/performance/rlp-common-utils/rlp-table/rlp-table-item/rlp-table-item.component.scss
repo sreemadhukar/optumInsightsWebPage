@@ -1,5 +1,4 @@
 @import '~src/scss/variables.scss';
-
 .rlp-table {
   &-container {
     display: inline-flex;
@@ -15,7 +14,7 @@
     align-self: flex-start;
   }
   &-tin {
-    flex: 0.65;
+    flex: 0.55;
     padding-right: 16px;
   }
   //2nd column width
@@ -24,6 +23,6 @@
   }
   //3rd column width
   &-bar {
-    flex: 1.6;
+    flex: 1.7;
   }
 }
