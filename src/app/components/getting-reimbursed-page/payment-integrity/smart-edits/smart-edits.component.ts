@@ -32,6 +32,7 @@ export class SmartEditsComponent implements OnInit {
   subscription: any;
   showSmartEdits = false;
   smartEditsData: any;
+  seReturnedLoading: boolean;
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     public MetricidService: GlossaryMetricidService,
@@ -76,7 +77,7 @@ export class SmartEditsComponent implements OnInit {
       this.taxID = [];
     }
 
-    this.smartEditClaimsReturned = {
+    /*this.smartEditClaimsReturned = {
       category: 'app-card',
       data: {
         centerNumber: '2.1K',
@@ -94,7 +95,7 @@ export class SmartEditsComponent implements OnInit {
         labels: ['Repaired & Resubmitted', 'Resubmitted Without Changes', 'No Action Taken'],
         color: ['#3381FF', '#80B0FF', '#003DA1']
       }
-    };
+    };*/
 
     // **** Smart Edits Claims Top Reasons Starts here**** //
     const reasonsVal1 = [22, 19, 16, 12, 5];
@@ -144,17 +145,16 @@ export class SmartEditsComponent implements OnInit {
   }
 
   smartEditReturnedData() {
-    // this.paymentLoading = true;
-    // this.topRowMockCards = [{}, {}, {}];
+    this.seReturnedLoading = true;
     this.smartEditsSharedService
       .getSmartEditsReturnedShared(this.createPayloadService.payload)
       .then((smartEditsData: any) => {
-        this.smartEditsData = smartEditsData;
-        console.log('this.smartEditsData', this.smartEditsData);
-        //  this.paymentLoading = false;
+        this.smartEditClaimsReturned = smartEditsData;
+        console.log('this.smartEditsData', this.smartEditClaimsReturned);
+        this.seReturnedLoading = false;
       })
       .catch(reason => {
-        //   this.paymentLoading = false;
+        this.seReturnedLoading = false;
         console.log('Error in Smart Edits', reason);
       });
   }
