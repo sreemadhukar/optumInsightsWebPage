@@ -12,7 +12,7 @@
   <div class="container-flex">
     <!-- Smart Edits Claims Returned Card Starts here -->
     <div>
-      <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"></app-card>
+      <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
       <app-error-card
         *ngIf="smartEditClaimsReturned.data == null && smartEditClaimsReturned.status != null"
         class="cards"
@@ -79,7 +79,7 @@
   <!-- Smart Edits Repaired & Resubmitted Response Time Card Ends here -->
 
   <!-- Smart Edits Claims Top Reasons STARTS HERE -->
-  <!-- <div>
+  <div>
     <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
     <div class="overturn-reason-block">
       <app-common-header
@@ -108,6 +108,6 @@
         <div class="reason-time">{{ timePeriod }}</div>
       </div>
     </div>
-  </div> -->
+  </div>
   <!-- Smart Edits Claims Top Reasons ENDS HERE -->
 </app-layoutcontainer>
