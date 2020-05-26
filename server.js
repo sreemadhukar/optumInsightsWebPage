@@ -16,9 +16,12 @@ app.use(helmet());
 app.use(express.static(path.join(__dirname, '.')));
 
 var apiProxy = httpProxy.createProxyServer();
+// This is for prod
 var apiForwardingUrl = 'https://pedapigateway-pedprddr.ocp-ctc-dmz.optum.com';
-var sessionSecret = 'STwHkLYUwN1L5rc3yqdkuthRvczrBupc';
-var key = 'Q9gRpXWjVm5GXethNxG60utGMGW7NpsO';
+var apiForwardingUrlStage = 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/';
+// The sessionSecret is the JWT Secret and key is the JWTKey which needs to be mapped with the API
+var sessionSecret = '7dX03633CEuFJaf25ot5HlSPOZYQ6E9Y';
+var key = 'PvU8koWDqgbqZNin5aBj00RtRHWze7pC';
 var heac = require('./src/assets/mock-data/heac.json');
 var trendAccess = require('./src/assets/mock-data/trendAccess.json');
 var whitelist = ['http://localhost:4200', 'https://localhost:4200'];
@@ -31,6 +34,12 @@ var corsOptions = {
     }
   }
 };
+app.all('/uhci/stage/*', function(req, res) {
+  apiProxy.web(req, res, { target: apiForwardingUrlStage, changeOrigin: true, secure: false }, function(e) {
+    handleExceptions(e, res);
+  });
+});
+
 app.all('/uhci/prd/*', function(req, res) {
   apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false }, function(e) {
     handleExceptions(e, res);
