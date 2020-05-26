@@ -13,18 +13,28 @@
     <!-- Smart Edits Claims Returned Card Starts here -->
     <div>
       <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"></app-card>
-      <app-card class="cards" [chartData]="smartEditClaimsReturned"></app-card>
       <app-error-card
         *ngIf="smartEditClaimsReturned.data == null && smartEditClaimsReturned.status != null"
         class="cards"
         [data]="smartEditClaimsReturned"
       ></app-error-card>
+      <app-card
+        *ngIf="smartEditClaimsReturned.data != null"
+        class="cards"
+        [chartData]="smartEditClaimsReturned"
+      ></app-card>
     </div>
 
     <!-- Smart Edits Claims Returned Card Ends here -->
     <!-- Smart Edits Repaired & Resubmitted Response Time Card Starts here -->
     <div>
-      <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
+      <!-- <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
+      -->
+      <app-error-card
+        *ngIf="smartEditClaimsRepairedResubmitted.data == null && smartEditClaimsRepairedResubmitted.status != null"
+        class="cards"
+        [data]="smartEditClaimsRepairedResubmitted"
+      ></app-error-card>
       <div
         class="repaired-block"
         *ngIf="smartEditClaimsRepairedResubmitted[0] != null && smartEditClaimsRepairedResubmitted[1] != null"
@@ -59,11 +69,11 @@
           <app-common-footer [timePeriod]="timePeriod" class="width-100"></app-common-footer>
         </div>
       </div>
-      <app-error-card
+      <!--<app-error-card
         *ngIf="smartEditClaimsRepairedResubmitted[0] == null && smartEditClaimsRepairedResubmitted[1] == null"
         class="cards"
         [data]="smartEditClaimsRepairedResubmitted"
-      ></app-error-card>
+      ></app-error-card>-->
     </div>
   </div>
   <!-- Smart Edits Repaired & Resubmitted Response Time Card Ends here -->

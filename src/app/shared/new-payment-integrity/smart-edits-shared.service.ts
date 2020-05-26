@@ -34,7 +34,7 @@ export class SmartEditsSharedService {
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.smartEditsService.smartEditReturned(parameters).subscribe(smartEditsData => {
-        if (smartEditsData != null && smartEditsData != undefined) {
+        if (smartEditsData != null && smartEditsData != undefined && smartEditsData.Data != null) {
           const totalReturned =
             smartEditsData.Data.All.RepairedResubmitted +
             smartEditsData.Data.All.ResubmittedWithoutChanges +
@@ -89,7 +89,7 @@ export class SmartEditsSharedService {
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.smartEditsService.smartEditReturned(parameters).subscribe(smartEditsData => {
-        if (smartEditsData != null && smartEditsData != undefined) {
+        if (smartEditsData != null && smartEditsData != undefined && smartEditsData.Data != null) {
           this.repairedResubmittedData[0] = smartEditsData.Data.All.ResubmittedTimeLessThanEqualToFiveDays;
           this.repairedResubmittedData[1] = smartEditsData.Data.All.ResubmittedTimeGreaterThanFiveDays;
 
@@ -107,11 +107,20 @@ export class SmartEditsSharedService {
               lessThan5Width = (this.repairedResubmittedData[0] * 382) / this.repairedResubmittedData[1];
             }
           }
-
           this.repairedResubmittedData[2] = lessThan5Width;
           this.repairedResubmittedData[3] = greaterThan5Width;
+          resolve(this.repairedResubmittedData);
+        } else {
+          this.repairedResubmittedData = {
+            category: 'app-card',
+            type: 'donutWithLabel',
+            status: 404,
+            title: 'Smart Edits Repaired & Resubmitted Response Time',
+            data: null,
+            timeperiod: null
+          };
+          resolve(this.repairedResubmittedData);
         }
-        resolve(this.repairedResubmittedData);
       });
     });
   }

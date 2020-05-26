@@ -170,25 +170,22 @@ export class SmartEditsComponent implements OnInit {
     this.smartEditsSharedService
       .getSmartEditsRepairedResubmittedShared(this.createPayloadService.payload)
       .then((smartEditsData: any) => {
-        this.smartEditClaimsRepairedResubmitted = smartEditsData;
-
-        const maxValue = Math.max(
-          this.smartEditClaimsRepairedResubmitted[2],
-          this.smartEditClaimsRepairedResubmitted[3]
-        );
+        const maxValue = Math.max(smartEditsData[2], smartEditsData[3]);
         this.lessThan5DaysBarData = {};
         this.lessThan5DaysBarData['id'] = 'lessThan5';
         this.lessThan5DaysBarData['title'] = 'Less Than 5 Days';
-        this.lessThan5DaysBarData['numeric'] = this.smartEditClaimsRepairedResubmitted[2];
+        this.lessThan5DaysBarData['numeric'] = smartEditsData[2];
         this.lessThan5DaysBarData['maxValue'] = maxValue;
         this.lessThan5DaysBarData['color'] = '#3381ff';
 
         this.greaterThan5DaysBarData = {};
         this.greaterThan5DaysBarData['id'] = 'greaterThan5';
         this.greaterThan5DaysBarData['title'] = 'Greater Than 5 Days';
-        this.greaterThan5DaysBarData['numeric'] = this.smartEditClaimsRepairedResubmitted[3];
+        this.greaterThan5DaysBarData['numeric'] = smartEditsData[3];
         this.greaterThan5DaysBarData['maxValue'] = maxValue;
         this.greaterThan5DaysBarData['color'] = '#fc6431';
+
+        this.smartEditClaimsRepairedResubmitted = smartEditsData;
       })
       .catch(reason => {
         console.log('Error in Smart Edits', reason);
