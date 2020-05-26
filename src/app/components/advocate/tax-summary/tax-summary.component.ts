@@ -20,6 +20,7 @@ export class TaxSummaryComponent implements OnInit {
   @Input() selectedTaxId;
   taxSummaryData: any;
   data: any;
+  taxIdSearch: string;
   numberOfTins: number;
   taxSummaryColumns: string[] = ['TinCheckBox', 'Tin', 'TinName', 'TaxIdType', 'TaxIdOwnership'];
   pageSize = 25;
@@ -157,6 +158,13 @@ export class TaxSummaryComponent implements OnInit {
 
   searchTaxId(filterValue: string, id: string) {
     this.allChecked = false;
+    if (id === 'Tin') {
+      if (filterValue.length > 2 && filterValue.length < 4 && filterValue.search('-') === -1) {
+        filterValue = filterValue.slice(0, 2) + '-' + filterValue.slice(2);
+      }
+      this.taxIdSearch = filterValue;
+    }
+
     this.filterObj = {
       value: filterValue.trim().toLowerCase(),
       key: id
