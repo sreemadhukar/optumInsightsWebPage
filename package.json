@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "format:fix": "pretty-quick --staged",
     "format:check": "prettier --config ./.prettierrc --list-different \"src/{app,environments,assets}/**/*{.ts,.js,.json,.css,.scss}\"",
-    "precommit": "run-s format:fix",
+    "precommit": "run-s format:fix lint",
     "e2e": "ng e2e",
     "sonarqube-scanner": "node_modules/sonarqube-scanner/dist/bin/sonar-scanner"
   },
