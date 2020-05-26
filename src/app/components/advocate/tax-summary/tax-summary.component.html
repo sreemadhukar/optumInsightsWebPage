@@ -39,7 +39,7 @@
                   [checked]="element.checked"
                   ([ngModel])="(element.checked)"
                   (keypress)="checkBoxChecked(element)"
-                  (click)="checkBoxChecked(element)"
+                  (click)="checkBoxChecked(element, i)"
                 />
                 <span class="checkbox-custom rectangular"></span>
               </label>
