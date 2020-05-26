@@ -14,11 +14,13 @@ export class SmartEditsService {
   constructor(private http: HttpClient) {}
 
   public smartEditReturned(parameters) {
-    //  const smartEditParams = parameters[1];
+    //   const smartEditParams = parameters[1].TimeFilter;
 
     const smartEditParams = {
-      TimeFilter: 'Rolling3Months'
+      TimeFilter: 'Last3Months'
     };
+    // const params = new HttpParams();
+    // const smartEditParams = params.append('TimeFilter', parameters[1].TimeFilter);
 
     const smartEditURL = this.APP_URL + this.SMART_EDITS_SERVICE_PATH + parameters[0];
     return this.http.post(smartEditURL, smartEditParams).pipe(

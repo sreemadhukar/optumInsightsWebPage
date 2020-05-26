@@ -33,6 +33,12 @@ export class SmartEditsComponent implements OnInit {
   showSmartEdits = false;
   smartEditsData: any;
   seReturnedLoading: boolean;
+  seRepairedLoading: boolean;
+  smartEditClaimsRepairedResubmitted: any;
+  returnMockCards: any;
+  repairMockCards: any;
+  lessThan5DaysBarData: any;
+  greaterThan5DaysBarData: any;
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     public MetricidService: GlossaryMetricidService,
@@ -58,11 +64,12 @@ export class SmartEditsComponent implements OnInit {
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'smartEditsPage' });
     this.checkStorage.emitEvent('smartEditsPage');
-    this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
+    //  this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.checkStorage.emitEvent('smartEditsPage');
 
     this.smartEditReturnedData();
-    this.timePeriod = this.session.filterObjValue.timeFrame;
+    this.smartEditRepairedResubmittedData();
+    //  this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
     } else {
@@ -150,11 +157,40 @@ export class SmartEditsComponent implements OnInit {
       .getSmartEditsReturnedShared(this.createPayloadService.payload)
       .then((smartEditsData: any) => {
         this.smartEditClaimsReturned = smartEditsData;
-        console.log('this.smartEditsData', this.smartEditClaimsReturned);
+        this.timePeriod = this.smartEditClaimsReturned.timeperiod;
         this.seReturnedLoading = false;
       })
       .catch(reason => {
         this.seReturnedLoading = false;
+        console.log('Error in Smart Edits', reason);
+      });
+  }
+
+  smartEditRepairedResubmittedData() {
+    this.smartEditsSharedService
+      .getSmartEditsRepairedResubmittedShared(this.createPayloadService.payload)
+      .then((smartEditsData: any) => {
+        this.smartEditClaimsRepairedResubmitted = smartEditsData;
+
+        const maxValue = Math.max(
+          this.smartEditClaimsRepairedResubmitted[2],
+          this.smartEditClaimsRepairedResubmitted[3]
+        );
+        this.lessThan5DaysBarData = {};
+        this.lessThan5DaysBarData['id'] = 'lessThan5';
+        this.lessThan5DaysBarData['title'] = 'Less Than 5 Days';
+        this.lessThan5DaysBarData['numeric'] = this.smartEditClaimsRepairedResubmitted[2];
+        this.lessThan5DaysBarData['maxValue'] = maxValue;
+        this.lessThan5DaysBarData['color'] = '#3381ff';
+
+        this.greaterThan5DaysBarData = {};
+        this.greaterThan5DaysBarData['id'] = 'greaterThan5';
+        this.greaterThan5DaysBarData['title'] = 'Greater Than 5 Days';
+        this.greaterThan5DaysBarData['numeric'] = this.smartEditClaimsRepairedResubmitted[3];
+        this.greaterThan5DaysBarData['maxValue'] = maxValue;
+        this.greaterThan5DaysBarData['color'] = '#fc6431';
+      })
+      .catch(reason => {
         console.log('Error in Smart Edits', reason);
       });
   }

@@ -13,6 +13,7 @@ export class SmartEditsSharedService {
   public providerKey;
   public smartEditClaimsReturned;
   public lob;
+  public repairedResubmittedData: any;
 
   constructor(
     private common: CommonUtilsService,
@@ -52,7 +53,11 @@ export class SmartEditsSharedService {
               hover: true,
               labels: ['Repaired & Resubmitted', 'Resubmitted Without Changes', 'No Action Taken']
             },
-            timeperiod: this.session.filterObjValue.timeFrame,
+            //  timeperiod: this.session.filterObjValue.timeFrame,
+            timeperiod:
+              this.common.dateFormat(smartEditsData.Data.PeriodStart) +
+              '&ndash;' +
+              this.common.dateFormat(smartEditsData.Data.PeriodEnd),
             title: 'Smart Edits Claims Returned',
             toggle: true,
             type: 'donutWithLabel',
@@ -62,7 +67,51 @@ export class SmartEditsSharedService {
             }
           };
           resolve(this.smartEditClaimsReturned);
+        } else {
+          this.smartEditClaimsReturned = {
+            category: 'app-card',
+            type: 'donutWithLabel',
+            status: 404,
+            title: 'Smart Edits Claims Returned',
+            data: null,
+            timeperiod: null
+          };
         }
+        resolve(this.smartEditClaimsReturned);
+      });
+    });
+  }
+
+  public getSmartEditsRepairedResubmittedShared(param) {
+    this.repairedResubmittedData = [];
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
+    this.lob = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
+    return new Promise(resolve => {
+      const parameters = this.getParameterCategories(param);
+      this.smartEditsService.smartEditReturned(parameters).subscribe(smartEditsData => {
+        if (smartEditsData != null && smartEditsData != undefined) {
+          this.repairedResubmittedData[0] = smartEditsData.Data.All.ResubmittedTimeLessThanEqualToFiveDays;
+          this.repairedResubmittedData[1] = smartEditsData.Data.All.ResubmittedTimeGreaterThanFiveDays;
+
+          let lessThan5Width = 4;
+          let greaterThan5Width = 4;
+
+          if (this.repairedResubmittedData[0] > this.repairedResubmittedData[1]) {
+            lessThan5Width = 382;
+            if (this.repairedResubmittedData[1] !== 0) {
+              greaterThan5Width = (this.repairedResubmittedData[1] * 382) / this.repairedResubmittedData[0];
+            }
+          } else {
+            greaterThan5Width = 382;
+            if (this.repairedResubmittedData[0] !== 0) {
+              lessThan5Width = (this.repairedResubmittedData[0] * 382) / this.repairedResubmittedData[1];
+            }
+          }
+
+          this.repairedResubmittedData[2] = lessThan5Width;
+          this.repairedResubmittedData[3] = greaterThan5Width;
+        }
+        resolve(this.repairedResubmittedData);
       });
     });
   }
