@@ -20,15 +20,32 @@
   <div class="container-flex">
     <!-- Smart Edits Claims Returned Card Starts here -->
     <div>
-      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
-      <app-card class="cards" [chartData]="smartEditClaimsReturned"></app-card>
+      <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
+      <app-error-card
+        *ngIf="smartEditClaimsReturned.data == null && smartEditClaimsReturned.status != null"
+        class="cards"
+        [data]="smartEditClaimsReturned"
+      ></app-error-card>
+      <app-card
+        *ngIf="smartEditClaimsReturned.data != null && !seReturnedLoading"
+        class="cards"
+        [chartData]="smartEditClaimsReturned"
+      ></app-card>
     </div>
 
     <!-- Smart Edits Claims Returned Card Ends here -->
     <!-- Smart Edits Repaired & Resubmitted Response Time Card Starts here -->
     <div>
-      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
-      <div class="repaired-block">
+      <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
+      <app-error-card
+        *ngIf="smartEditClaimsRepairedResubmitted.data == null && smartEditClaimsRepairedResubmitted.status != null"
+        class="cards"
+        [data]="smartEditClaimsRepairedResubmitted"
+      ></app-error-card>
+      <div
+        class="repaired-block"
+        *ngIf="smartEditClaimsRepairedResubmitted[0] != null && smartEditClaimsRepairedResubmitted[1] != null"
+      >
         <app-common-header
           [title]="smartEditsRepairedAndResubmittedTitle"
           class="full-display"
@@ -36,20 +53,20 @@
         ></app-common-header>
         <div class="smart-edits-bar-chart-block">
           <div class="pi-numbers-block">
-            <p class="mr-returned-number">402</p>
-            <p class="mr-not-returned-number mr-returned-number">134</p>
+            <p class="mr-returned-number">{{ smartEditClaimsRepairedResubmitted[0] }}</p>
+            <p class="mr-not-returned-number mr-returned-number">{{ smartEditClaimsRepairedResubmitted[1] }}</p>
           </div>
           <div class="smart-edits-pull-left">
             <div class="less-than-five-days-block">
               <div class="mr-returned-bar-block">
                 <p class="mr-returned-text">5 Days or Less</p>
-                <div class="less-than-five-days-bar"></div>
+                <app-bar-simple-pi [chartOptions]="lessThan5DaysBarData"></app-bar-simple-pi>
               </div>
             </div>
             <div class="more-than-five-days-block">
               <div class="mr-returned-bar-block">
                 <p class="mr-not-returned-text mr-returned-text">Greater than 5 Days</p>
-                <div class="more-than-five-days-bar"></div>
+                <app-bar-simple-pi [chartOptions]="greaterThan5DaysBarData"></app-bar-simple-pi>
               </div>
             </div>
           </div>

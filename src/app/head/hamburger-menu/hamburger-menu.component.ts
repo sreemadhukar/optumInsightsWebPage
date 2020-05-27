@@ -385,6 +385,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
+        if (sessionStorage.getItem('currentUser')) {
+          this.glossarySharedService.init();
+        }
         this.printStyle = event.url.includes('print-');
       }
     });
@@ -496,7 +499,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
       }
     }
-    this.glossarySharedService.init();
   }
 
   advocateRole() {
@@ -520,6 +522,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   insertRlpNav(isRlpDisable) {
+    if (this.fromKOP || this.advocateView) {
+      isRlpDisable = {
+        All: true,
+        Referral: true,
+        Labs: true,
+        Perscription: true
+      };
+    }
     const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
     this.navCategories[getIndex].children[0].disabled = isRlpDisable.All;
     this.navCategories[getIndex].children[1].disabled = isRlpDisable.Referral;

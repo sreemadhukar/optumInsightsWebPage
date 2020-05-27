@@ -1,6 +1,6 @@
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
 import { Router } from '@angular/router';
@@ -21,6 +21,7 @@ import { ModalPopupService } from 'src/app/common-utils/modal-popup/modal-popup.
   styleUrls: ['./smart-edits.component.scss']
 })
 export class SmartEditsComponent implements OnInit {
+  @Input() printStyle;
   topReasonsData: any;
   loading: boolean;
   reportLink: string;
@@ -41,6 +42,13 @@ export class SmartEditsComponent implements OnInit {
   smartEditsTopReasonsData: any;
   reasonDataAvailable: boolean;
   reason: any = [];
+  seReturnedLoading: boolean;
+  seRepairedLoading: boolean;
+  smartEditClaimsRepairedResubmitted: any;
+  returnMockCards: any;
+  repairMockCards: any;
+  lessThan5DaysBarData: any;
+  greaterThan5DaysBarData: any;
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     public MetricidService: GlossaryMetricidService,
@@ -74,12 +82,14 @@ export class SmartEditsComponent implements OnInit {
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'smartEditsPage' });
     this.checkStorage.emitEvent('smartEditsPage');
-    this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
+    //  this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.checkStorage.emitEvent('smartEditsPage');
     this.reasonDataAvailable = true;
     this.smartEditReturnedData();
     this.SmartEditReturneddTopReasons();
     this.timePeriod = this.session.filterObjValue.timeFrame;
+    this.smartEditRepairedResubmittedData();
+    //  this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
     } else {
@@ -93,50 +103,8 @@ export class SmartEditsComponent implements OnInit {
     } else {
       this.taxID = [];
     }
-
-    this.smartEditClaimsReturned = {
-      category: 'app-card',
-      data: {
-        centerNumber: '2.1K',
-        color: ['#3381FF', '#80B0FF', '#003DA1'],
-        gdata: ['card-inner', 'smartEditsClaimsReturned'],
-        graphValues: [1000, 500, 600],
-        hover: true,
-        labels: ['Repaired & Resubmitted', 'Resubmitted Without Changes', 'No Action Taken']
-      },
-      timeperiod: this.session.filterObjValue.timeFrame,
-      title: 'Smart Edits Claims Returned',
-      toggle: true,
-      type: 'donutWithLabel',
-      besideData: {
-        labels: ['Repaired & Resubmitted', 'Resubmitted Without Changes', 'No Action Taken'],
-        color: ['#3381FF', '#80B0FF', '#003DA1']
-      }
-    };
-
-    // **** Smart Edits Claims Top Reasons Starts here**** //
-    const reasonsVal1 = [22, 19, 16, 12, 5];
-    const reasonsVal2 = [78, 81, 84, 88, 95];
-    const barTitle = [
-      'NDC Unlisted Denials',
-      'Replacement Code Denial',
-      'ProTech, Incorrect Modifier',
-      'Missing Texas Taxonomy Codes Reason Text Is Too Long',
-      'Add-On Codes'
-    ];
-    const barVal = ['22%', '19%', '16%', '12%', '5%'];
-    for (let i = 0; i <= 4; i++) {
-      this.claimsTopReason.push({
-        type: 'bar chart',
-        graphValues: [reasonsVal1[i], reasonsVal2[i]],
-        barText: barTitle[i],
-        barValue: barVal[i],
-        color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
-        gdata: ['app-card-structure', 'smartEditsTopClaimsReason' + i]
-      });
-    }
-    // **** Smart Edits Claims Top Reasons Ends here**** //
   }
+  // modal poup function
   public handleClick() {
     const showPopUp = sessionStorage.getItem('dontShowPCORpopup');
     if (JSON.parse(showPopUp)) {
@@ -159,26 +127,53 @@ export class SmartEditsComponent implements OnInit {
         }
       });
     }
-  }
+  } // modalpopup function end
   saveData() {
     window.open('https://www.uhcprovider.com/content/dam/provider/docs/public/resources/edi/EDI-ACE-Smart-Edits.pdf');
   }
+  // **** Smart Edits Claims Returned Starts here**** //
   smartEditReturnedData() {
-    // this.paymentLoading = true;
-    // this.topRowMockCards = [{}, {}, {}];
     this.smartEditsSharedService
       .getSmartEditsReturnedShared(this.createPayloadService.payload)
       .then((smartEditsData: any) => {
-        this.smartEditsData = smartEditsData;
-        console.log('this.smartEditsData', this.smartEditsData);
-        //  this.paymentLoading = false;
+        this.seReturnedLoading = false;
+        this.smartEditClaimsReturned = smartEditsData;
+        this.timePeriod = this.smartEditClaimsReturned.timeperiod;
       })
       .catch(reason => {
-        //   this.paymentLoading = false;
+        console.log('Error in Smart Edits', reason);
+        this.seReturnedLoading = false;
+      });
+  } // **** Ends here *** //
+
+  // **** Smart Edits Repaired & Resubmitted Response Time Starts here**** //
+  smartEditRepairedResubmittedData() {
+    this.smartEditsSharedService
+      .getSmartEditsRepairedResubmittedShared(this.createPayloadService.payload)
+      .then((smartEditsData: any) => {
+        const maxValue = Math.max(smartEditsData[2], smartEditsData[3]);
+        this.lessThan5DaysBarData = {};
+        this.lessThan5DaysBarData['id'] = 'lessThan5';
+        this.lessThan5DaysBarData['title'] = 'Less Than 5 Days';
+        this.lessThan5DaysBarData['numeric'] = smartEditsData[2];
+        this.lessThan5DaysBarData['maxValue'] = maxValue;
+        this.lessThan5DaysBarData['color'] = '#3381ff';
+
+        this.greaterThan5DaysBarData = {};
+        this.greaterThan5DaysBarData['id'] = 'greaterThan5';
+        this.greaterThan5DaysBarData['title'] = 'Greater Than 5 Days';
+        this.greaterThan5DaysBarData['numeric'] = smartEditsData[3];
+        this.greaterThan5DaysBarData['maxValue'] = maxValue;
+        this.greaterThan5DaysBarData['color'] = '#fc6431';
+
+        this.smartEditClaimsRepairedResubmitted = smartEditsData;
+      })
+      .catch(reason => {
         console.log('Error in Smart Edits', reason);
       });
-  }
+  } // **** Ends here *** //
 
+  // **** Smart Edits Claims Top Reasons Starts here**** //
   SmartEditReturneddTopReasons() {
     this.smartEditsSharedService
       .getSmartEditSharedTopReasons()
@@ -200,6 +195,7 @@ export class SmartEditsComponent implements OnInit {
         this.loading = false;
       });
   }
+  // **** Ends here *** //
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title, this.metricId);
   }
