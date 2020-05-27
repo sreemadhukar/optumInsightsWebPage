@@ -249,7 +249,8 @@ export class PatientCareOpportunityComponent implements OnInit {
       const qualityMeasure = this.qualityMeasureData.filter((qualityMeasureItem: any) => {
         return qualityMeasureItem.star === stars - index;
       })[0];
-      if (qualityMeasure) {
+      if (qualityMeasure && qualityMeasure.count) {
+        item.subItem = true;
         item.qualityPcorData = qualityMeasure.insideData
           .sort((a, b) =>
             a.CMSWeight < b.CMSWeight ? 1 : a.CMSWeight === b.CMSWeight ? (a.Name > b.Name ? 1 : -1) : -1
@@ -264,6 +265,7 @@ export class PatientCareOpportunityComponent implements OnInit {
             return subItem;
           });
       } else {
+        item.subItem = false;
         item.qualityPcorData = [];
       }
     });

@@ -82,7 +82,7 @@
           </div>
         </div>
 
-        <div class="inner-block" *ngIf="item.active">
+        <div class="inner-block" *ngIf="item.active && item.subItem">
           <div class="bottom-shadow">
             <div class="hide-bottom-arrow-block"></div>
           </div>
@@ -93,7 +93,7 @@
               class="expand"
               (click)="subItemsExpanded[i] = !subItemsExpanded[i]; onClickExpandAllSubItem(i)"
             >
-              <div class="name">Expand {{ item.data.starCount }} Star Ratings</div>
+              <div class="name">Expand All {{ item.data.starCount }}-Star Quality Mesaures</div>
               <mat-icon
                 class="bar-graph-block-icon"
                 svgIcon="carrot"
@@ -101,7 +101,7 @@
                 [@rotatedState]="subItemsExpanded[i] ? 'rotated' : 'default'"
               ></mat-icon>
             </div>
-            <div *ngFor="let listitem of item.qualityPcorData; let j = index">
+            <div *ngFor="let listitem of item[subItemKey]; let j = index">
               <div class="horizontal-line">
                 <div class="accor-content-space">
                   <div
