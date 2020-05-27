@@ -482,101 +482,50 @@ export class NonPaymentSharedService {
   }
 
   public sharedTrendByMonth(param) {
-    let parameters = [];
-    parameters = this.getParameterCategories(param);
+    console.log('paramater', this.getParameterCategories(param), this.getParameterCategories(param));
     return new Promise(resolve => {
-      this.nonPaymentService.getNonPaymentTrendByMonth(parameters).subscribe(data => {
-        try {
-          // const lobData = this.lob;
-          const nonPaymentsTrendData = data;
-
-          // Tempory check for data
-          if (
-            !nonPaymentsTrendData ||
-            !(nonPaymentsTrendData instanceof Array) ||
-            !nonPaymentsTrendData[0] ||
-            Object.keys(nonPaymentsTrendData[0]).length === 0
-          ) {
-            return resolve(null);
+      this.nonPaymentService.getNonPaymentTrendByMonth(this.getParameterCategories(param)).subscribe(data => {
+        console.log('non Payment by month data 1', data);
+        const payload = this.getParameterCategories(param)[1] || {};
+        let timePeriod;
+        const { ClaimsBy } = payload;
+        let claimsLobSummary: Array<any> = [];
+        const filteredData: Array<any> = [];
+        let sendData: Object = {};
+        if (ClaimsBy === 'DOP') {
+          claimsLobSummary = _.get(data[0], 'ClaimsLobSummary');
+          if (!claimsLobSummary) {
+            resolve(null);
           }
-          let dataTrendLine;
-
-          if (param.viewClaimsByFilter === 'DOP') {
-            const filter_data_claimSummary = [];
-            if (nonPaymentsTrendData[0].hasOwnProperty('ClaimsLobSummary')) {
-              nonPaymentsTrendData.forEach(element => {
-                let monthlyData = [];
-                monthlyData = element.ClaimsLobSummary;
-                for (let i = 0; i < monthlyData.length; i++) {
-                  const trendMonthValue = monthlyData[i].AmountDenied;
-                  const trendTimePeriod = monthlyData[i].DenialMonth;
-                  const trendTimePeriodArr = trendTimePeriod.split('-');
-                  const trendTimePeriodFinal = trendTimePeriodArr[1];
-                  filter_data_claimSummary.push({
-                    name: this.ReturnMonthlyString(trendTimePeriodFinal),
-                    value: trendMonthValue,
-                    month: trendTimePeriod
-                  });
-                }
-              });
-              filter_data_claimSummary.sort(function(a, b) {
-                let dateA: any;
-                dateA = new Date(a.month);
-                let dateB: any;
-                dateB = new Date(b.month);
-                return dateA - dateB; // sort by date ascending
-              });
-              dataTrendLine = {
-                data: filter_data_claimSummary,
-                timePeriod:
-                  this.common.dateFormat(nonPaymentsTrendData[0].StartDate) +
-                  ' - ' +
-                  this.common.dateFormat(nonPaymentsTrendData[0].EndDate)
-              };
-            } else {
-              dataTrendLine = null;
-            }
-          } else {
-            const filter_data_claimSummary = [];
-            if (nonPaymentsTrendData && nonPaymentsTrendData[0].All) {
-              nonPaymentsTrendData.forEach(element => {
-                let monthlyData = [];
-                monthlyData = element.All.ClaimsLobSummary;
-                for (let i = 0; i < monthlyData.length; i++) {
-                  const trendMonthValue = monthlyData[i].AmountDenied;
-                  const trendTimePeriod = monthlyData[i].DenialMonth;
-                  const trendTimePeriodArr = trendTimePeriod.split('-');
-                  const trendTimePeriodFinal = trendTimePeriodArr[1];
-                  filter_data_claimSummary.push({
-                    name: this.ReturnMonthlyString(trendTimePeriodFinal),
-                    value: trendMonthValue,
-                    month: trendTimePeriod
-                  });
-                }
-              });
-              filter_data_claimSummary.sort(function(a, b) {
-                let dateA: any;
-                dateA = new Date(a.month);
-                let dateB: any;
-                dateB = new Date(b.month);
-                return dateA - dateB; // sort by date ascending
-              });
-              dataTrendLine = {
-                data: filter_data_claimSummary,
-                timePeriod:
-                  this.common.dateFormat(nonPaymentsTrendData[0].Startdate) +
-                  ' - ' +
-                  this.common.dateFormat(nonPaymentsTrendData[0].Enddate)
-              };
-            } else {
-              dataTrendLine = null;
-            }
+          timePeriod =
+            this.common.dateFormat(_.get(data[0], 'StartDate')) +
+            ' - ' +
+            this.common.dateFormat(_.get(data[0], 'EndDate'));
+        } else if (ClaimsBy === 'DOS') {
+          claimsLobSummary = _.get(data[0], 'All.ClaimsLobSummary');
+          if (!claimsLobSummary) {
+            resolve(null);
           }
-          resolve(dataTrendLine);
-        } catch (Error) {
-          console.log('Error in Trend Line Graph NonPayments', Error);
-          resolve(null);
+          timePeriod =
+            this.common.dateFormat(_.get(data[0], 'Startdate')) +
+            ' - ' +
+            this.common.dateFormat(_.get(data[0], 'Enddate'));
         }
+        claimsLobSummary.sort((a, b) => +a.DenialMonth.split('-').join('') - +b.DenialMonth.split('-').join(''));
+        for (let i = 0; i < claimsLobSummary.length; i++) {
+          filteredData.push({
+            name: this.ReturnMonthlyString(claimsLobSummary[i].DenialMonth.split('-')[1]),
+            value: claimsLobSummary[i].AmountDenied,
+            month: claimsLobSummary[i].DenialMonth
+          });
+        }
+        sendData = {
+          data: filteredData,
+          timePeriod: timePeriod
+        };
+        console.log('ClaimsLobsummmmar', claimsLobSummary);
+        console.log('sendData', sendData);
+        resolve(sendData);
       });
     });
   }

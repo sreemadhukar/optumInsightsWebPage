@@ -483,7 +483,8 @@ export class LineGraphComponent implements OnInit {
       .enter()
       .append('rect')
       .style('fill', '#E3F0FD')
-      .style('height', height - 70 + 'px')
+      .attr('height', height - 70 + 'px')
+      .attr('width', '48px')
       .style('opacity', 0)
       .attr('class', 'rect-bar')
       .attr('x', function(d) {
