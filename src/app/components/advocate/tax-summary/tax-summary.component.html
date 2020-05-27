@@ -39,7 +39,7 @@
                   [checked]="element.checked"
                   ([ngModel])="(element.checked)"
                   (keypress)="checkBoxChecked(element)"
-                  (click)="checkBoxChecked(element)"
+                  (click)="checkBoxChecked(element, i)"
                 />
                 <span class="checkbox-custom rectangular"></span>
               </label>
@@ -54,6 +54,7 @@
                 type="text"
                 class="tax-summary-input"
                 spellcheck="false"
+                [(ngModel)]="taxIdSearch"
                 (keyup)="searchTaxId($event.target.value, 'Tin')"
                 placeholder="Find Tax ID Number"
               />

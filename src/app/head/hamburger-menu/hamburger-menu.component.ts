@@ -385,6 +385,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
+        if (sessionStorage.getItem('currentUser')) {
+          this.glossarySharedService.init();
+        }
         this.printStyle = event.url.includes('print-');
       }
     });
@@ -496,7 +499,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
       }
     }
-    this.glossarySharedService.init();
   }
 
   advocateRole() {
