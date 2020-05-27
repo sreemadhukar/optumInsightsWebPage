@@ -520,6 +520,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   insertRlpNav(isRlpDisable) {
+    if (this.fromKOP || this.advocateView) {
+      isRlpDisable = {
+        All: true,
+        Referral: true,
+        Labs: true,
+        Perscription: true
+      };
+    }
     const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
     this.navCategories[getIndex].children[0].disabled = isRlpDisable.All;
     this.navCategories[getIndex].children[1].disabled = isRlpDisable.Referral;
