@@ -39,7 +39,7 @@ export class SmartEditsComponent implements OnInit {
   showSmartEdits = false;
   smartEditsData: any;
   smartEditsTopReasonsData: any;
-  reasonDataAvailable = true;
+  reasonDataAvailable: boolean;
   reason: any = [];
   constructor(
     private glossaryExpandService: GlossaryExpandService,
@@ -76,7 +76,7 @@ export class SmartEditsComponent implements OnInit {
     this.checkStorage.emitEvent('smartEditsPage');
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.checkStorage.emitEvent('smartEditsPage');
-    this.reasonDataAvailable = false;
+    this.reasonDataAvailable = true;
     this.smartEditReturnedData();
     this.SmartEditReturneddTopReasons();
     this.timePeriod = this.session.filterObjValue.timeFrame;
@@ -194,7 +194,6 @@ export class SmartEditsComponent implements OnInit {
           this.loading = false;
         }
         this.reason = this.topReasonsData;
-        console.log('reason-->>>', this.reason);
       })
       .catch(err => {
         console.log('Error', err);

@@ -62,7 +62,7 @@ export const environment: any = {
     // NewPaymentIntegrity: 'payment-integrity/' // please uncomment this when new-PI i allowed in prod
     ProviderSearch: 'provider-search',
     AdvocateTinDetails: 'advocate-tin-details/',
-    SmartEdits: 'smart-edit-metrics/'
+    SmartEdits: 'smart-edit-metrics/',
     ProviderSearch: 'v1/provider-search',
     AdvocateTinDetails: 'v1/advocate-tin-details/',
     getPublicKey: 'v1/getPublicKey'

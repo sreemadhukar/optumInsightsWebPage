@@ -66,7 +66,7 @@
   <!-- Smart Edits Claims Top Reasons STARTS HERE -->
 
   <div
-    *ngIf="reasonDataAvailable && !loading"
+    [hidden]="reasonDataAvailable"
     class="overturn-reason-block"
     [ngClass]="{ 'print-overturn-reason-block': printStyle === true }"
   >
@@ -80,18 +80,25 @@
       [class.five-reason]="reason.length >= 5"
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
-    <div *ngFor="let r of reason; let i = index" class="appeals-overturned-bar-chart">
-      <app-med-bar-chart [chartOptions]="r"></app-med-bar-chart>
-    </div>
+    <div *ngFor="let r of reason; let i = index" class="smartEdit-overturned-bar-chart">
+      <div *ngIf="r.barDescp == null">
+        <div class="reason-code">{{ r.barText1 }} -</div>
+        <div (click)="handleClick()" class="reason-reference">See Reference Guide</div>
+      </div>
 
+      <div *ngIf="r.barDescp != null">
+        <div class="reason-code">{{ r.barText1 }} - {{ r.barDescp }}</div>
+      </div>
+      <app-med-bar-chart [chartOptions]="r"></app-med-bar-chart>
+
+      <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
+    </div>
     <div class="common-footer">
       <app-common-footer [timePeriod]="timePeriod" [title]="title"></app-common-footer>
     </div>
-    <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
+    <div *ngIf="!reasonDataAvailable && !loading" class="overturn-margin">
+      <app-error-card *ngIf="reason[0] && reason[0].status" class="cards" [data]="reason[0]"></app-error-card>
+    </div>
   </div>
-  <div *ngIf="!reasonDataAvailable && !loading" class="overturn-margin">
-    <app-error-card *ngIf="reason[0] && reason[0].status" class="cards" [data]="reason[0]"></app-error-card>
-  </div>
-
   <!-- Smart Edits Claims Top Reasons ENDS HERE -->
 </app-layoutcontainer>

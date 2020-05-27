@@ -9,34 +9,16 @@
     "PeriodEnd": "2020-05-21",
     "Reasons": [
       {
-        "Code": "MOD",
+        "Code": "uCOVPf",
         "Description": null,
-        "Value": 39,
-        "Percentage": 1
+        "Value": 815,
+        "Percentage": 26
       },
       {
-        "Code": "uMCID",
-        "Description": "Missing CLIA ID",
-        "Value": 91,
-        "Percentage": 2
-      },
-      {
-        "Code": "CSPDN",
-        "Description": "Consultation No Longer Covered",
-        "Value": 94,
-        "Percentage": 3
-      },
-      {
-        "Code": "uEUDCf",
-        "Description": "Commercial Unproven Drug Charges",
-        "Value": 98,
-        "Percentage": 3
-      },
-      {
-        "Code": "IPDDN",
-        "Description": "Inappropriate Primary Diagnosis",
-        "Value": 153,
-        "Percentage": 5
+        "Code": "VFCSD",
+        "Description": "Excess Serum Code Denial",
+        "Value": 573,
+        "Percentage": 18
       },
       {
         "Code": "uMLOHf",
@@ -45,16 +27,16 @@
         "Percentage": 13
       },
       {
-        "Code": "VFCSD",
+        "Code": "IPDDN",
         "Description": null,
-        "Value": 573,
-        "Percentage": 18
+        "Value": 153,
+        "Percentage": 5
       },
       {
-        "Code": "uCOVPf",
-        "Description": "No description found on edit code file",
-        "Value": 815,
-        "Percentage": 26
+        "Code": "uEUDCf",
+        "Description": "Commercial Unproven Drug Charges",
+        "Value": 98,
+        "Percentage": 3
       }
     ]
   },

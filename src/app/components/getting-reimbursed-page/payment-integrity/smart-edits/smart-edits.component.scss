@@ -187,9 +187,9 @@
   // margin-top: 319px;
   border-top: 1px solid #efefef;
 }
-.appeals-overturned-bar-chart {
+.smartEdit-overturned-bar-chart {
   padding-bottom: 16px;
-  padding-left: 75px; // centre aligned to card
+  padding-left: 73px; // centre aligned to card
 }
 
 .top-reason-one {
@@ -218,4 +218,38 @@
   font-size: 16px;
   letter-spacing: 0.2px;
   color: $black-rock;
+}
+
+.one-reason {
+  padding-bottom: 132.5px;
+}
+.two-reason {
+  padding-bottom: 107.5px;
+}
+.three-reason {
+  padding-bottom: 82.5px;
+}
+.four-reason {
+  padding-bottom: 57.5px;
+}
+.five-reason {
+  padding-bottom: 32.5px;
+}
+.reason-code {
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  display: inline-block;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+}
+.reason-reference {
+  color: #196ecf;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-style: italic;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  cursor: hand;
+  display: inline-block;
 }
