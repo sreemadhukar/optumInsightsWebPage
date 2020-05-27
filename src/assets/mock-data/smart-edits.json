@@ -10,7 +10,7 @@
     "Reasons": [
       {
         "Code": "MOD",
-        "Description": "Modifier not Appropriate",
+        "Description": null,
         "Value": 39,
         "Percentage": 1
       },
@@ -46,7 +46,7 @@
       },
       {
         "Code": "VFCSD",
-        "Description": "Excess Serum Code Denial",
+        "Description": null,
         "Value": 573,
         "Percentage": 18
       },

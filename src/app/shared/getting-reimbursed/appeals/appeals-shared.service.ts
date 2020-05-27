@@ -299,6 +299,7 @@ export class AppealsSharedService {
         this.timeFrame === '2018'
       ) {
         this.gettingReimbursedService.claimsAppealsReasonData(...parameters).subscribe(appealsReasonData => {
+          console.log('appealsReasonData--->', appealsReasonData);
           if (!appealsReasonData) {
             reason.push({
               category: 'app-card',
@@ -331,13 +332,17 @@ export class AppealsSharedService {
                   overturnCountTotal = appealsReasonData[y].Count;
                 } else {
                   overturnCountTotal = overturnCountTotal + appealsReasonData[y].Count;
+                  console.log('overturnCountTotal', overturnCountTotal);
                 }
               }
               for (let a = 0; a < appealsReasonData.length; a++) {
                 barTitle[a] = appealsReasonData[a].Reason;
                 reasonsVal1[a] = appealsReasonData[a].Count;
+                console.log(' reasonsVal1[a]-->', reasonsVal1[a]);
                 reasonsVal2[a] = overturnCountTotal - Number(reasonsVal1[a]);
+                console.log('reasonsVal2[a] -->', reasonsVal2[a]);
                 barVal[a] = ((Number(reasonsVal1[a]) / overturnCountTotal) * 100).toFixed() + '%';
+                console.log('barVal[a] -->', barVal[a]);
               }
 
               for (let i = 0; i < appealsReasonData.length; i++) {

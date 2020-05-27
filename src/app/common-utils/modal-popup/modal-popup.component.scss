@@ -2,15 +2,18 @@
 @import '~src/scss/mixins';
 ::ng-deep {
   .custom-dialog-container > .mat-dialog-container {
+    padding: 48px 45px 64px 45px;
+    text-align: center;
     .mat-dialog {
       text-align: center;
-      padding: 24px 56px;
     }
     .modal-popup-header {
       color: $black-rock;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       font-size: 28px;
       line-height: 32px;
+      padding-bottom: 20px;
+      padding: 20px 12px 24px 12px;
     }
     .modal-popup-text {
       color: $black-rock;
@@ -30,7 +33,9 @@
     }
 
     .checkbox-block {
-      float: left;
+      text-align: center;
+      padding: 20px 22px 12px 22px;
+      display: inline-block;
     }
     .dont-show-checkbox {
       height: 23px;
@@ -39,7 +44,7 @@
       margin: 0;
     }
     .buttons-block {
-      margin-top: 20px;
+      margin-top: 8px;
       float: left;
     }
     .no-thanks-btn {
@@ -83,7 +88,7 @@
     }
     .below-block {
       float: left;
-      padding: 26px;
+      padding: 0 61px 0 61px;
     }
   }
 }

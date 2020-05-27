@@ -1,3 +1,5 @@
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material';
 import { Component, OnInit } from '@angular/core';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
@@ -19,6 +21,8 @@ import { ModalPopupService } from 'src/app/common-utils/modal-popup/modal-popup.
   styleUrls: ['./smart-edits.component.scss']
 })
 export class SmartEditsComponent implements OnInit {
+  topReasonsData: any;
+  loading: boolean;
   reportLink: string;
   pageTitle: String = '';
   metricId = 'NA';
@@ -34,6 +38,9 @@ export class SmartEditsComponent implements OnInit {
   subscription: any;
   showSmartEdits = false;
   smartEditsData: any;
+  smartEditsTopReasonsData: any;
+  reasonDataAvailable = true;
+  reason: any = [];
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     public MetricidService: GlossaryMetricidService,
@@ -46,7 +53,9 @@ export class SmartEditsComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>,
     private common: CommonUtilsService,
     private smartEditsSharedService: SmartEditsSharedService,
-    private dialogService: ModalPopupService
+    private dialogService: ModalPopupService,
+    private iconRegistry: MatIconRegistry,
+    private readonly sanitizer: DomSanitizer
   ) {
     this.pageTitle = 'Smart Edits';
     this.reportLink = 'View Smart Edits Reference Guide';
@@ -56,6 +65,10 @@ export class SmartEditsComponent implements OnInit {
       this.createPayloadService.resetTinNumber('smartEditsPage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
     });
+    this.iconRegistry.addSvgIcon(
+      'external-link',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/open_in_new-24px.svg')
+    );
   }
 
   ngOnInit() {
@@ -63,7 +76,9 @@ export class SmartEditsComponent implements OnInit {
     this.checkStorage.emitEvent('smartEditsPage');
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.checkStorage.emitEvent('smartEditsPage');
+    this.reasonDataAvailable = false;
     this.smartEditReturnedData();
+    this.SmartEditReturneddTopReasons();
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
@@ -121,29 +136,6 @@ export class SmartEditsComponent implements OnInit {
       });
     }
     // **** Smart Edits Claims Top Reasons Ends here**** //
-
-    // **** Smart Edits Top Informational Reasons starts here****//
-    const rVal1 = [22, 19, 16, 12, 5];
-    const rVal2 = [78, 81, 84, 88, 95];
-    const bTitle = [
-      'Credentials Expiring in 90 Days',
-      'Modifier 52 Documentation Required',
-      'Always Therapy GN Modifier',
-      'Consultation Services Policy Update',
-      'CMS 1500 Reimburdement Policy Rules'
-    ];
-    const bVal = ['22%', '19%', '16%', '12%', '5%'];
-    for (let i = 0; i <= 4; i++) {
-      this.claimsInfoTopReason.push({
-        type: 'bar chart',
-        graphValues: [rVal1[i], rVal2[i]],
-        barText: bTitle[i],
-        barValue: bVal[i],
-        color: ['#80B0FF', '#FFFFFF', '#E0E0E0'],
-        gdata: ['app-card-structure', 'smartEditsTopInfoReason' + i]
-      });
-    }
-    // **** Smart Edits Top Informational Reasons starts here****//
   }
   public handleClick() {
     const showPopUp = sessionStorage.getItem('dontShowPCORpopup');
@@ -156,8 +148,7 @@ export class SmartEditsComponent implements OnInit {
           'A new browser window will open the Smart Edits Reference Guide, which is being hosted on uhcprovider.com.',
         cancelText: 'No Thanks, Stay Here.',
         dontShowText: 'Don’t show me this again this session.',
-        confirmText: 'Continue',
-        width: '550px'
+        confirmText: 'Continue'
       };
 
       this.dialogService.open(options);
@@ -170,7 +161,7 @@ export class SmartEditsComponent implements OnInit {
     }
   }
   saveData() {
-    window.open('https://www.uhcprovider.com/en/reports-quality-programs/physician-perf-based-comp.html');
+    window.open('https://www.uhcprovider.com/content/dam/provider/docs/public/resources/edi/EDI-ACE-Smart-Edits.pdf');
   }
   smartEditReturnedData() {
     // this.paymentLoading = true;
@@ -188,6 +179,28 @@ export class SmartEditsComponent implements OnInit {
       });
   }
 
+  SmartEditReturneddTopReasons() {
+    this.smartEditsSharedService
+      .getSmartEditSharedTopReasons()
+      .then((smartEditsTopReasonsData: any) => {
+        this.topReasonsData = smartEditsTopReasonsData;
+        console.log('this.TopReasonsData191', this.topReasonsData);
+
+        if (this.topReasonsData !== null && this.topReasonsData.Data !== null) {
+          this.reasonDataAvailable = true;
+          this.loading = false;
+        } else {
+          this.reasonDataAvailable = false;
+          this.loading = false;
+        }
+        this.reason = this.topReasonsData;
+        console.log('reason-->>>', this.reason);
+      })
+      .catch(err => {
+        console.log('Error', err);
+        this.loading = false;
+      });
+  }
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title, this.metricId);
   }

@@ -18,6 +18,7 @@ export class ModalPopupComponent {
       message: string;
       title: string;
     },
+
     private mdDialogRef: MatDialogRef<ModalPopupComponent>
   ) {}
   public cancel() {

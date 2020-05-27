@@ -30,7 +30,7 @@
   .page-title {
     flex-basis: 100%;
     font-size: 36px;
-    @include padding(16px, 0, 20px, 0);
+    @include padding(16px, 0, 8px, 0);
     color: $black-rock;
     font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
   }
@@ -42,7 +42,7 @@
       color: $strom-grey;
       font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
-
+      display: inline-block;
       line-height: 22px;
     }
     .subtitle-reportLink {
@@ -52,10 +52,13 @@
       font-size: 16px;
       letter-spacing: 0.2px;
       line-height: 22px;
+      display: inline-block;
+      padding-right: 11px;
     }
     .page-subtitle-icon {
       cursor: pointer;
       color: $blue;
+      vertical-align: sub;
     }
   }
   .print-page-title {

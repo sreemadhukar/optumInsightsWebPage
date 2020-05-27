@@ -20,6 +20,7 @@ export class ModalPopupService {
         dontShowText: options.dontShowText,
         confirmText: options.confirmText
       },
+      width: '550px',
       panelClass: 'custom-dialog-container'
     });
   }
