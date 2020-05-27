@@ -484,8 +484,10 @@ export class NonPaymentSharedService {
   public sharedTrendByMonth(param) {
     let parameters = [];
     parameters = this.getParameterCategories(param);
+    console.log('paramater', parameters, this.getParameterCategories(param));
     return new Promise(resolve => {
       this.nonPaymentService.getNonPaymentTrendByMonth(parameters).subscribe(data => {
+        console.log('non Payment by month data 1', data);
         try {
           // const lobData = this.lob;
           const nonPaymentsTrendData = data;
@@ -502,6 +504,7 @@ export class NonPaymentSharedService {
           let dataTrendLine;
 
           if (param.viewClaimsByFilter === 'DOP') {
+            console.log('non Payment by month data DOP', data);
             const filter_data_claimSummary = [];
             if (nonPaymentsTrendData[0].hasOwnProperty('ClaimsLobSummary')) {
               nonPaymentsTrendData.forEach(element => {
@@ -537,6 +540,7 @@ export class NonPaymentSharedService {
               dataTrendLine = null;
             }
           } else {
+            console.log('non Payment by month data Not DOP', data);
             const filter_data_claimSummary = [];
             if (nonPaymentsTrendData && nonPaymentsTrendData[0].All) {
               nonPaymentsTrendData.forEach(element => {
@@ -572,6 +576,7 @@ export class NonPaymentSharedService {
               dataTrendLine = null;
             }
           }
+          console.log('non Payment by month data Not DOP', dataTrendLine);
           resolve(dataTrendLine);
         } catch (Error) {
           console.log('Error in Trend Line Graph NonPayments', Error);

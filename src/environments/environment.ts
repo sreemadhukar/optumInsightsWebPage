@@ -85,6 +85,7 @@ export const environment: any = {
     ProviderSearch: 'provider-search',
     AdvocateTinDetails: 'advocate-tin-details/',
     SmartEdits: 'smart-edit-metrics/'
+    getPublicKey: 'getPublicKey'
   },
   headerKeys: {
     selectedCompany: '',

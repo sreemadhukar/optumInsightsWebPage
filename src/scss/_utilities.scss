@@ -9,3 +9,11 @@
 
 @import 'utilities/reset';
 @import 'utilities/text';
+
+// print utility to avoid encapsulation
+@media print {
+  .label-dots {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}

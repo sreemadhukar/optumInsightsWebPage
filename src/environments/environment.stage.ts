@@ -5,7 +5,7 @@
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/stage/pdr/uhci/v1/',
+  apiProxyUrl: 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -64,6 +64,7 @@ export const environment: any = {
     ProviderSearch: 'provider-search',
     AdvocateTinDetails: 'advocate-tin-details/',
     SmartEdits: 'smart-edit-metrics/'
+    getPublicKey: 'getPublicKey'
   },
   headerKeys: {
     selectedCompany: '',
