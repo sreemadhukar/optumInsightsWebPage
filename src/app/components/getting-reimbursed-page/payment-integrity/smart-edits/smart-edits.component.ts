@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ import { SmartEditsSharedService } from '../../../../shared/new-payment-integrit
   styleUrls: ['./smart-edits.component.scss']
 })
 export class SmartEditsComponent implements OnInit {
+  @Input() printStyle;
   pageTitle: String = '';
   metricId = 'NA';
   lob: string;
