@@ -151,11 +151,7 @@ export class KOPSharedService {
           this.kopService
             .getSummary({ params })
             .then((response: any) => {
-              if (response.StatusCode === 200) {
-                return resolve(response.Data);
-              } else {
-                return reject();
-              }
+              return resolve(response.Data);
             })
             .catch(() => {
               return resolve();
