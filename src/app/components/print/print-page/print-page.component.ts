@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { select } from '@angular-redux/store';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-print-page',
@@ -12,7 +13,7 @@ export class PrintPageComponent implements OnInit {
   printStyle = true;
   pagename = '';
   data: any;
-  constructor() {
+  constructor(private _location: Location) {
     this.printStyle = true;
     // this.data = [
     //   { page: 'overviewPage', load: 7000 },
@@ -33,6 +34,9 @@ export class PrintPageComponent implements OnInit {
     setTimeout(() => {
       (window as any).print();
     }, 7000);
+    window.addEventListener('afterprint', () => {
+      this._location.back();
+    });
     // }, this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0)));
   }
 }
