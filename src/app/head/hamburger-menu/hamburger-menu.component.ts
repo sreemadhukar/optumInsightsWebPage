@@ -107,9 +107,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         {
           name: 'Payment Integrity',
           children: [
-            { name: 'Medical Records Coding Review', path: '/GettingReimbursed/PaymentIntegrity' }
+            { name: 'Medical Records Coding Review', path: '/GettingReimbursed/PaymentIntegrity' },
             // Uncomment Next Line when data is available for Smart Edits
-            // { name: 'Smart Edits', path: '/GettingReimbursed/SmartEdits' }
+            { name: 'Smart Edits', path: '/GettingReimbursed/SmartEdits' }
           ]
         }
       ],
@@ -822,7 +822,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         } else {
           element.close();
         }
-      } else if (path === '/GettingReimbursed/PaymentIntegrity') {
+      } else if (path === '/GettingReimbursed/PaymentIntegrity' || path === '/GettingReimbursed/SmartEdits') {
         if (element.id === 'cdk-accordion-child-0' || element.id === 'cdk-accordion-child-1') {
           element.open();
         } else {
