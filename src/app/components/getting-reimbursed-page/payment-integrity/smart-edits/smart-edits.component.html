@@ -28,7 +28,7 @@
     <!-- Smart Edits Claims Returned Card Ends here -->
     <!-- Smart Edits Repaired & Resubmitted Response Time Card Starts here -->
     <div>
-      <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
+      <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoadings"> </app-card>
       <app-error-card
         *ngIf="smartEditClaimsRepairedResubmitted.data == null && smartEditClaimsRepairedResubmitted.status != null"
         class="cards"

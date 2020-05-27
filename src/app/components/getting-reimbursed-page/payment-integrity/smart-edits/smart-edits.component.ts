@@ -84,26 +84,6 @@ export class SmartEditsComponent implements OnInit {
       this.taxID = [];
     }
 
-    /*this.smartEditClaimsReturned = {
-      category: 'app-card',
-      data: {
-        centerNumber: '2.1K',
-        color: ['#3381FF', '#80B0FF', '#003DA1'],
-        gdata: ['card-inner', 'smartEditsClaimsReturned'],
-        graphValues: [1000, 500, 600],
-        hover: true,
-        labels: ['Repaired & Resubmitted', 'Resubmitted Without Changes', 'No Action Taken']
-      },
-      timeperiod: this.session.filterObjValue.timeFrame,
-      title: 'Smart Edits Claims Returned',
-      toggle: true,
-      type: 'donutWithLabel',
-      besideData: {
-        labels: ['Repaired & Resubmitted', 'Resubmitted Without Changes', 'No Action Taken'],
-        color: ['#3381FF', '#80B0FF', '#003DA1']
-      }
-    };*/
-
     // **** Smart Edits Claims Top Reasons Starts here**** //
     const reasonsVal1 = [22, 19, 16, 12, 5];
     const reasonsVal2 = [78, 81, 84, 88, 95];
