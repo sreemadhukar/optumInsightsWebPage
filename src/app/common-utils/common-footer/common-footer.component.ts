@@ -93,13 +93,7 @@ export class CommonFooterComponent {
         if (str.lastIndexOf(months[i]) === str.indexOf(months[i])) {
           const lessMonth = [...months];
           _.pull(lessMonth, months[i]);
-
-          for (let j = 0; j < lessMonth.length; j++) {
-            if (str.indexOf(lessMonth[j]) !== -1) {
-              m2 = lessMonth[j];
-              break;
-            }
-          }
+          m2 = lessMonth.filter(item => str.indexOf(item) !== -1)[0];
           break;
         } else {
           m2 = m1;

@@ -14,5 +14,6 @@
 @media print {
   .label-dots {
     -webkit-print-color-adjust: exact;
+    color-adjust: [economy | exact];
   }
 }
