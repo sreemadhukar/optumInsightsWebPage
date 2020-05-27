@@ -19,7 +19,7 @@
         [data]="smartEditClaimsReturned"
       ></app-error-card>
       <app-card
-        *ngIf="smartEditClaimsReturned.data != null"
+        *ngIf="smartEditClaimsReturned.data != null && !seReturnedLoading"
         class="cards"
         [chartData]="smartEditClaimsReturned"
       ></app-card>
@@ -28,7 +28,7 @@
     <!-- Smart Edits Claims Returned Card Ends here -->
     <!-- Smart Edits Repaired & Resubmitted Response Time Card Starts here -->
     <div>
-      <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoadings"> </app-card>
+      <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
       <app-error-card
         *ngIf="smartEditClaimsRepairedResubmitted.data == null && smartEditClaimsRepairedResubmitted.status != null"
         class="cards"
@@ -74,7 +74,7 @@
 
   <!-- Smart Edits Claims Top Reasons STARTS HERE -->
   <div>
-    <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+    <!-- <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>-->
     <div class="overturn-reason-block">
       <app-common-header
         [title]="smartEditsReasonTitle"
