@@ -16,6 +16,7 @@ export interface CommonHeaderOptions {
 export class CommonHeaderComponent implements OnInit {
   @Input() title: String;
   @Input() subtitle: String;
+  @Input() expandAllButton: boolean;
   @Output() helpIconClicked = new EventEmitter();
   @Input() cardType: String;
   @Input() noHeaderClick: boolean;
@@ -26,6 +27,8 @@ export class CommonHeaderComponent implements OnInit {
   typeOfCard: String = null;
   titleSubHeader: String = null;
   routhPath: string;
+  accordianExpanded: boolean;
+  @Output() accordianExpandedListener = new EventEmitter();
   constructor(private iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
@@ -36,6 +39,10 @@ export class CommonHeaderComponent implements OnInit {
     this.iconRegistry.addSvgIcon(
       'warning-icon',
       this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'carrot',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
     );
   }
   ngOnInit() {
@@ -56,6 +63,11 @@ export class CommonHeaderComponent implements OnInit {
     } else {
       this.helpIconClicked.emit(this.title);
     }
+  }
+
+  onClickExpand() {
+    this.accordianExpanded = !this.accordianExpanded;
+    this.accordianExpandedListener.emit(this.accordianExpanded);
   }
 
   titleClicked(title: string) {
