@@ -99,7 +99,7 @@ export class TaxSummaryComponent implements OnInit {
     } else if (!row.checked) {
       this.swap(orignalIndex, this.checkedCount());
     }
-    this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
+    // this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
     this.taxSummaryData.paginator = this.paginator;
   }
 
@@ -172,6 +172,9 @@ export class TaxSummaryComponent implements OnInit {
     this.taxSummaryData.filter = filterValue === 'All' ? '' : filterValue.trim().toLowerCase();
     if (this.taxSummaryData.paginator) {
       this.taxSummaryData.paginator.firstPage();
+    }
+    if (filterValue.length === 0) {
+      this.taxSummaryData = new MatTableDataSource(this.data.All);
     }
   }
 
