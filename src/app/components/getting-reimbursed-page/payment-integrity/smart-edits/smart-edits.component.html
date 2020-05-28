@@ -111,7 +111,7 @@
       <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
     </div>
     <div class="common-footer">
-      <app-common-footer [timePeriod]="timePeriod" [title]="title"></app-common-footer>
+      <app-common-footer [timePeriod]="timePeriod"></app-common-footer>
     </div>
     <div *ngIf="!reasonDataAvailable && !loading" class="overturn-margin">
       <app-error-card *ngIf="reason[0] && reason[0].status" class="cards" [data]="reason[0]"></app-error-card>
