@@ -93,7 +93,12 @@
               class="expand"
               (click)="subItemsExpanded[i] = !subItemsExpanded[i]; onClickExpandAllSubItem(i)"
             >
-              <div class="name">Expand All {{ item.data.starCount }}-Star Quality Mesaures</div>
+              <div class="name" *ngIf="!subItemsExpanded[i]">
+                Expand All {{ item.data.starCount }}-Star Quality Mesaures
+              </div>
+              <div class="name" *ngIf="subItemsExpanded[i]">
+                Collapse All {{ item.data.starCount }}-Star Quality Mesaures
+              </div>
               <mat-icon
                 class="bar-graph-block-icon"
                 svgIcon="carrot"
