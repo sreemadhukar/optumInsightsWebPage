@@ -304,16 +304,20 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .call(wrap, 250, tspanID, 16);
     }
     // where we should enable the hover object to exist
+    function assignTspan(tspanArray) {
+      const temp = [];
+      for (let i = 0; i < tspanArray.length; i++) {
+        temp.push(tspanArray[i].id);
+      }
+      return temp;
+    }
     if (textWithHover.selectAll('tspan').size() > 1) {
       d3.select('#' + uniqueText).attr('cursor', 'pointer');
       const tspanArray = textWithHover.selectAll('tspan').nodes();
-      const tspanArrayIDs = [];
       const replacementtspan = tspanArray[0];
       d3.select(replacementtspan).text(replacementtspan.textContent + '...');
 
-      for (let i = 0; i < tspanArray.length; i++) {
-        tspanArrayIDs.push(tspanArray[i].id);
-      }
+      const tspanArrayIDs = assignTspan(tspanArray);
       for (let i = tspanArrayIDs.length - 1; i > 0; i--) {
         d3.select('#' + tspanArrayIDs[i]).remove();
       }
@@ -372,11 +376,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       /// madhukar
       d3.select('#paymentIntegrityRect' + chartOptions.graphValues[1]).attr('cursor', 'pointer');
       const tspanArray = textWithHover.selectAll('tspan').nodes();
-      const tspanArrayIDs = [];
-
-      for (let i = 0; i < tspanArray.length; i++) {
-        tspanArrayIDs.push(tspanArray[i].id);
-      }
+      const tspanArrayIDs = assignTspan(tspanArray);
       for (let i = tspanArrayIDs.length - 1; i > 0; i--) {
         d3.select('#' + tspanArrayIDs[i]).remove();
       }
