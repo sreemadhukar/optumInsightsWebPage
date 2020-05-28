@@ -13,9 +13,9 @@
         <img class="Uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
       </a>
     </div>
-    <div *ngIf="isKop" class="kop-div">
+    <!-- <div *ngIf="isKop" class="kop-div">
       <p>Internal Insights</p>
-    </div>
+    </div> -->
     <div class="margin-left-auto" (clickElsewhere)="closeDropdown()" *ngIf="!printStyle">
       <!-- <mat-slide-toggle [checked]="isDarkTheme | async" labelPosition="before" (change)="toggleDarkTheme($event.checked)"></mat-slide-toggle> -->
       <div class="user-div" (click)="advocateUserClicked()">
