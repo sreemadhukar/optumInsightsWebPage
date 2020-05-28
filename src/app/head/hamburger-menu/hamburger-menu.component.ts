@@ -107,9 +107,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         {
           name: 'Payment Integrity',
           children: [
-            { name: 'Medical Records Coding Review', path: '/GettingReimbursed/PaymentIntegrity' }
+            { name: 'Medical Records Coding Review', path: '/GettingReimbursed/PaymentIntegrity' },
             // Uncomment Next Line when data is available for Smart Edits
-            // { name: 'Smart Edits', path: '/GettingReimbursed/SmartEdits' }
+            { name: 'Smart Edits', path: '/GettingReimbursed/SmartEdits' }
           ]
         }
       ],
@@ -522,6 +522,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   insertRlpNav(isRlpDisable) {
+    if (this.fromKOP || this.advocateView) {
+      isRlpDisable = {
+        All: true,
+        Referral: true,
+        Labs: true,
+        Perscription: true
+      };
+    }
     const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
     this.navCategories[getIndex].children[0].disabled = isRlpDisable.All;
     this.navCategories[getIndex].children[1].disabled = isRlpDisable.Referral;
@@ -814,7 +822,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         } else {
           element.close();
         }
-      } else if (path === '/GettingReimbursed/PaymentIntegrity') {
+      } else if (path === '/GettingReimbursed/PaymentIntegrity' || path === '/GettingReimbursed/SmartEdits') {
         if (element.id === 'cdk-accordion-child-0' || element.id === 'cdk-accordion-child-1') {
           element.open();
         } else {
