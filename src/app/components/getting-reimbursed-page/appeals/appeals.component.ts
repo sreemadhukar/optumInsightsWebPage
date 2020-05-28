@@ -110,6 +110,7 @@ export class AppealsComponent implements OnInit {
       .then(appealsReason => {
         let appealsReasonData: any;
         appealsReasonData = appealsReason;
+
         if (appealsReasonData[0].status !== null && appealsReasonData[0].data !== null) {
           this.reasonDataAvailable = true;
           this.loading = false;
