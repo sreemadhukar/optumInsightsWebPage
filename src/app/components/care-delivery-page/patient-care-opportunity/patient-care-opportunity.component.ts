@@ -57,27 +57,21 @@ export class PatientCareOpportunityComponent implements OnInit {
     private checkStorage: StorageService,
     private route: ActivatedRoute,
     private pcorService: PcorSharedService,
-    private filtermatch: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
     private iconRegistry: MatIconRegistry,
+    private common: CommonUtilsService,
     private sanitizer: DomSanitizer,
     private router: Router,
     private sessionService: SessionService,
     private dialog: MatDialog
   ) {
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.iconRegistry.addSvgIcon(
       'external-link',
       this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/open_in_new-24px.svg')
     );
   }
 
-  public ratingComponentClick(): void {
-    this.pcorService.getQualityMeasureData().then(data => {
-      this.pcorData = data;
-      this.starRatings = this.pcorData[3];
-    });
-  }
   public locations(substring, string, errorBound) {
     const a = [];
     let i = -1;
@@ -235,7 +229,7 @@ export class PatientCareOpportunityComponent implements OnInit {
             // second number we might have to iterate
             this.customFormattingMeasureDescription(this.customFormatting, this.pcorData[2]);
             this.starRatings = this.pcorData[3];
-            console.log('starRatings', this.starRatings);
+            this.generateAccordionData();
           }
         })
 
@@ -247,6 +241,36 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.reportTitle = 'View the PCOR Report';
     this.reportLink = 'View the Patient Care Opportunity Report';
   }
+
+  generateAccordionData() {
+    const stars = 5;
+    this.starRatings.forEach((item: any, index: number) => {
+      item.active = false;
+      const qualityMeasure = this.qualityMeasureData.filter((qualityMeasureItem: any) => {
+        return qualityMeasureItem.star === stars - index;
+      })[0];
+      if (qualityMeasure && qualityMeasure.count) {
+        item.subItem = true;
+        item.qualityPcorData = qualityMeasure.insideData
+          .sort((a, b) =>
+            a.CMSWeight < b.CMSWeight ? 1 : a.CMSWeight === b.CMSWeight ? (a.Name > b.Name ? 1 : -1) : -1
+          )
+          .map((subItem: any) => {
+            subItem.active = false;
+            subItem.starCount = this.qualityMeasureData[index].star;
+            const { CompliantMemberscount, EligibleMemberscount } = subItem;
+            subItem.currentRateCalc = this.common.nFormatter(
+              ((CompliantMemberscount / EligibleMemberscount) * 100).toFixed(0) + '%'
+            );
+            return subItem;
+          });
+      } else {
+        item.subItem = false;
+        item.qualityPcorData = [];
+      }
+    });
+  }
+
   PCORreport() {
     const showPopUp = sessionStorage.getItem('dontShowPCORpopup');
     if (JSON.parse(showPopUp)) {

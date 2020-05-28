@@ -82,17 +82,9 @@
         [timePeriod]="kopInsightsData.timePeriod"
       >
       </app-large-card-kop>
-      <app-large-card-kop
-        [data]="kopInsightsData.engagement"
-        [noHeaderClick]="true"
-        [footerLinkTitle]="'View More'"
-        [timePeriod]="kopInsightsData.timePeriod"
-      >
-      </app-large-card-kop>
     </div>
   </div>
 
-  <!--Commenting it out as its showing error message even if one api call is not successful-->
   <div class="m-left-30" *ngIf="isError && npsLoaded">
     <div class="align-center">
       <mat-icon matPrefix class="error-icon" svgIcon="error"></mat-icon>
@@ -106,5 +98,3 @@
     </div>
   </div>
 </app-layoutcontainer>
-
-<!-- <app-uhc-loader *ngIf="loading"></app-uhc-loader> -->
