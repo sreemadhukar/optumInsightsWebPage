@@ -1,19 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { select } from '@angular-redux/store';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-print-page',
   templateUrl: './print-page.component.html',
   styleUrls: ['./print-page.component.scss']
 })
-export class PrintPageComponent implements OnInit {
+export class PrintPageComponent implements OnInit, OnDestroy {
   @select(['uhc', 'currentPage']) currentPage;
   selectedPage;
   printStyle = true;
   pagename = '';
   data: any;
-  constructor(private _location: Location) {
+  constructor(private _location: Location, private _router: Router) {
     this.printStyle = true;
     // this.data = [
     //   { page: 'overviewPage', load: 7000 },
@@ -29,14 +30,24 @@ export class PrintPageComponent implements OnInit {
     // ];
   }
 
+  ngOnDestroy() {
+    window.onafterprint = () => {};
+  }
+
   ngOnInit() {
     this.currentPage.subscribe(c => (this.selectedPage = c));
     setTimeout(() => {
       (window as any).print();
     }, 7000);
-    window.addEventListener('afterprint', () => {
-      this._location.back();
-    });
-    // }, this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0)));
+
+    window.onafterprint = this.navigateToLastPage.bind(this);
+  }
+
+  navigateToLastPage() {
+    setTimeout(() => {
+      if (this._router.url === '/print-page') {
+        this._location.back();
+      }
+    }, 1000);
   }
 }
