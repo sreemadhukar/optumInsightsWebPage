@@ -92,7 +92,7 @@ app-header {
 
 .side-navigation {
   top: 72px !important;
-  width: 286px; // previously 256px -- width before PI Sub menu undo when toggled off
+  width: 264px; // previously 256px -- width before PI Sub menu undo when toggled off
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   //  background-color: $white;
   .mat-drawer-inner-container {
@@ -102,7 +102,7 @@ app-header {
 }
 
 .health-system-representation-block {
-  @include padding(20px, 7px, 27px, 56px);
+  @include padding(20px, 7px, 27px, 32px);
   // @include padding(16px, 12px, 0px, 32px); before adding PI Sub Menu undo when toggled off
   border-bottom: 1px solid $gainsboro;
 }
@@ -170,7 +170,7 @@ app-header {
 
 .mat-expansion-panel-header {
   height: 25px !important;
-  padding: 8px 16px 8px 10px !important;
+  padding: 9px 16px 9px 16px !important;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif !important;
   font-size: 16px;
   letter-spacing: 0.2px;
@@ -205,7 +205,7 @@ app-header {
   letter-spacing: 0.2px;
   margin-top: 4px !important;
   line-height: 18px;
-  margin-left: 38px !important; // previously 30px befor PI sub menu undo when toggled off
+  margin-left: 24px !important; // previously 30px befor PI sub menu undo when toggled off
 }
 
 .firstNavCategory {
@@ -267,7 +267,7 @@ app-header {
 
 .nav-no-child-category {
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif !important;
-  padding: 9px 12px 9px 10px !important;
+  padding: 9px 12px 9px 16px !important;
   color: $strom-grey !important;
   font-size: 16px !important;
   letter-spacing: 0.2px;
