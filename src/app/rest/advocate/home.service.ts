@@ -23,7 +23,7 @@ export class HomeService {
       '&search-value=' +
       filter.searchValue;
     return this.http.get<IUserResponse[]>(searchURL, { params: myparam }).pipe(
-      map((response: IUserResponse) => response),
+      map((response: any) => response),
       catchError(err => err)
     );
   }
@@ -31,7 +31,7 @@ export class HomeService {
     const myparam = new HttpParams();
     const searchURL = this.APP_URL + this.ADVOCATE_TIN_PATH + param;
     return this.http.get<IAdvTinDetailsResponse[]>(searchURL, { params: myparam }).pipe(
-      map((response: IAdvTinDetailsResponse) => response),
+      map((response: any) => response),
       catchError(err => err)
     );
   }
