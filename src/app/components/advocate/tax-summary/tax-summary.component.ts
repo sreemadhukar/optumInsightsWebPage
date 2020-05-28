@@ -99,7 +99,7 @@ export class TaxSummaryComponent implements OnInit {
     } else if (!row.checked) {
       this.swap(orignalIndex, this.checkedCount());
     }
-    // this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
+    this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
     this.taxSummaryData.paginator = this.paginator;
   }
 
@@ -175,6 +175,7 @@ export class TaxSummaryComponent implements OnInit {
     }
     if (filterValue.length === 0) {
       this.taxSummaryData = new MatTableDataSource(this.data.All);
+      this.taxSummaryData.paginator = this.paginator;
     }
   }
 
