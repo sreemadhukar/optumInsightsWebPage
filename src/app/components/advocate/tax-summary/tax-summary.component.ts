@@ -175,6 +175,7 @@ export class TaxSummaryComponent implements OnInit {
     }
     if (filterValue.length === 0) {
       this.taxSummaryData = new MatTableDataSource(this.data.All);
+      this.taxSummaryData.paginator = this.paginator;
     }
   }
 
