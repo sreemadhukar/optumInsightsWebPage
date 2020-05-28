@@ -77,16 +77,6 @@
                   [class.zero-data-bar]="cardData.MedicalRecordsOutstanding == 0"
                   [style.width.px]="cardData.notReturnedWidth"
                 ></div> -->
-              <div class="financial-ooportunity-block">
-                <div class="financial-ooportunity-numbers-block">
-                  <p class="financial-value">{{ cardData.OutStandingAmount }}</p>
-                  <mat-icon class="pi-trend-icons" svgIcon="{{ cardData.OutStandingAmountVarianceIcon }}"></mat-icon>
-                  <p class="financial-trend" [style.color]="cardData.OutStandingAmountVarianceColor">
-                    {{ cardData.OutStandingAmountVariance }} &dagger;
-                  </p>
-                </div>
-                <p class="financial-opportunity">Financial Opportunity</p>
-              </div>
             </div>
           </div>
         </div>
