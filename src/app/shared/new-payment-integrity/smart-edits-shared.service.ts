@@ -132,14 +132,17 @@ export class SmartEditsSharedService {
   //     console.log('shared', data);
   //   });
   // }
-  public getSmartEditSharedTopReasons() {
+
+  public getSmartEditSharedTopReasons(param) {
     const reason = [];
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
+    this.lob = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
+
     return new Promise(resolve => {
-      this.smartEditsService.getSmartEditTopReasons().subscribe(smartEditReasonData => {
+      const parameters = this.getParameterCategories(param);
+      this.smartEditsService.getSmartEditTopReasons(parameters).subscribe(smartEditReasonData => {
         const topReasonsData = smartEditReasonData;
-
         const ReasonsData = topReasonsData.Data;
-
         if (topReasonsData !== null) {
           if (topReasonsData == null && topReasonsData.hasOwnProperty('Status')) {
             reason.push({
@@ -169,6 +172,7 @@ export class SmartEditsSharedService {
             for (let i = 0; i < ReasonsData.Reasons.length; i++) {
               reason.push({
                 type: 'bar chart',
+                cdata: 'smartedit',
                 graphValues: [reasonsPercentageVal1[i], reasonsPercentageVal2[i]],
                 barText1: reasonsCode[i],
                 barDescp: reasonsDesc[i],

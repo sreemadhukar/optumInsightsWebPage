@@ -24,7 +24,7 @@ export const environment: any = {
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   // apiProxyUrl: 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/',
   // stage
-  apiProxyUrl: config.intApi,
+  apiProxyUrl: config.devTwoApi,
   originUrl: config.originUrl,
 
   apiUrls: {
@@ -85,6 +85,7 @@ export const environment: any = {
     ProviderSearch: 'provider-search',
     AdvocateTinDetails: 'advocate-tin-details/',
     SmartEdits: 'smart-edit-metrics/',
+    SmartEditsTopClaims: 'smart-edit-codes/',
     getPublicKey: 'getPublicKey'
   },
   headerKeys: {
