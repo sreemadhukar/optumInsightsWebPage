@@ -209,7 +209,7 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
         .attr('font-size', '14')
         .attr('text-anchor', 'start')
         .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-        .text(chartOptions.barText1, chartOptions.barDesc)
+        .text(chartOptions.barText)
         // .call(wrap, 250, tspanID, 16);
         .call(wrap, 250, tspanID + 'hover', 14);
 

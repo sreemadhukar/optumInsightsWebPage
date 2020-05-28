@@ -254,3 +254,47 @@
   cursor: hand;
   display: inline-block;
 }
+.overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  pointer-events: none;
+}
+
+.overflow:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 15px;
+  z-index: 1;
+  border: 1px solid red; /* for visualization only */
+  pointer-events: initial;
+}
+
+.overflow:hover:after {
+  cursor: pointer;
+}
+
+.tooltip {
+  /* visibility: hidden; */
+  display: none;
+  position: absolute;
+  top: 10;
+  left: 0;
+  background-color: #fff;
+  padding: 10px;
+  -webkit-box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.overflow:hover + .tooltip {
+  /*visibility: visible; */
+  display: initial;
+  transition: opacity 0.5s ease;
+  opacity: 1;
+}

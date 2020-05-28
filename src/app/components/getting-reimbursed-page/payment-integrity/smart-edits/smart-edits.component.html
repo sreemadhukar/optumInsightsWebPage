@@ -111,7 +111,8 @@
       </div>
 
       <div *ngIf="r.barDescp != 'No description found on edit code file'">
-        <div class="reason-code">{{ r.barText1 }} - {{ r.barDescp }}</div>
+        <div class="reason-code overflow">{{ r.barText1 }} - {{ r.barDescp }}</div>
+        <span class="tooltip">{{ r.barText1 }} - {{ r.barDescp }}</span>
       </div>
       <app-med-bar-chart-two [chartOptions]="r"></app-med-bar-chart-two>
 
