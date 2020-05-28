@@ -299,6 +299,7 @@ export class AppealsSharedService {
         this.timeFrame === '2018'
       ) {
         this.gettingReimbursedService.claimsAppealsReasonData(...parameters).subscribe(appealsReasonData => {
+          console.log('appealsReasonData--->', appealsReasonData);
           if (!appealsReasonData) {
             reason.push({
               category: 'app-card',
