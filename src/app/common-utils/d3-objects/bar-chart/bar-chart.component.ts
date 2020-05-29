@@ -194,13 +194,28 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .text(chartOptions.barText)
         .call(wrap, 250, tspanID, 16);
 
-      const tspanSize = textWithHover.selectAll('tspan').size();
+      textOnHover(uniqueText, tspanID, textWithHover, this.renderChart);
+
+      // This if for Prior Auth
+      this.chartPA
+        .append('text')
+        .attr('x', xScaleBarStartingPointConstant - 24) // text should be 24px from the bar
+        .attr('y', (barHeight + 8) / 2)
+        .attr('class', 'PA-text-style')
+
+        .text(this.common.nFormatter(chartOptions.barData));
+    }
+
+    function textOnHover(uniqueText, tspanID, textWithHover, renderChart) {
       // Shift text object up for 2+ line reasons
-      if (tspanSize > 1) {
+      if (textWithHover.selectAll('tspan').size() > 1) {
         d3.select('#' + uniqueText)
           .attr('transform', 'translate(' + 0 + ',' + -7.5 + ')')
           .attr('cursor', 'pointer');
-      } else if (tspanSize > 2) {
+      }
+
+      // where we should enable the hover object to exist
+      if (textWithHover.selectAll('tspan').size() > 2) {
         const tspanArray = textWithHover.selectAll('tspan').nodes();
         const tspanArrayIDs = [];
         const replacementtspan = tspanArray[1];
@@ -221,7 +236,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .text(replacementtspan.textContent + '...');
 
         const div = d3
-          .select(this.renderChart)
+          .select(renderChart)
           .append('div')
           .attr('class', 'tooltip');
 
@@ -273,14 +288,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               .style('opacity', 0);
           });
       }
-      // This if for Prior Auth
-      this.chartPA
-        .append('text')
-        .attr('x', xScaleBarStartingPointConstant - 24) // text should be 24px from the bar
-        .attr('y', (barHeight + 8) / 2)
-        .attr('class', 'PA-text-style')
-
-        .text(this.common.nFormatter(chartOptions.barData));
     }
   }
 }
