@@ -146,12 +146,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       icon: 'performance',
       name: 'Performance',
       children: [
-        { name: 'Summary', path: '/Performance', disabled: false },
-        { name: 'Referrals', path: '/Performance/Referrals', disabled: false },
-        { name: 'Labs', path: '/Performance/Labs', disabled: false },
-        { name: 'Prescriptions', path: '/Performance/Prescriptions', disabled: false }
+        { name: 'Summary', path: '/Performance', disabled: true },
+        { name: 'Referrals', path: '/Performance/Referrals', disabled: true },
+        { name: 'Labs', path: '/Performance/Labs', disabled: true },
+        { name: 'Prescriptions', path: '/Performance/Prescriptions', disabled: true }
       ],
-      disabled: false
+      disabled: true
     }
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
@@ -313,6 +313,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             this.checkPro.value) ||
           this.checkExecutive.value
         ) {
+          const isRlpDisable = {
+            All: true,
+            Referral: true,
+            Labs: true,
+            Perscription: true
+          };
+          this.insertRlpNav(isRlpDisable);
           this.fromKOP = true;
         } else {
           this.fromKOP = false;
@@ -326,6 +333,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
           event.url !== '/OverviewPageAdvocate/Home' &&
           this.checkAdv.value
         ) {
+          const isRlpDisable = {
+            All: true,
+            Referral: true,
+            Labs: true,
+            Perscription: true
+          };
+          this.insertRlpNav(isRlpDisable);
           this.advocateView = true;
         } else {
           this.advocateView = false;

@@ -22,7 +22,7 @@
     <div>
       <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
       <app-error-card
-        *ngIf="smartEditClaimsReturned.data == null && smartEditClaimsReturned.status != null"
+        *ngIf="smartEditClaimsReturned.data == null && smartEditClaimsReturned.status != null && !seReturnedLoading"
         class="cards"
         [data]="smartEditClaimsReturned"
       ></app-error-card>
@@ -38,13 +38,21 @@
     <div>
       <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
       <app-error-card
-        *ngIf="smartEditClaimsRepairedResubmitted.data == null && smartEditClaimsRepairedResubmitted.status != null"
+        *ngIf="
+          smartEditClaimsRepairedResubmitted.data == null &&
+          smartEditClaimsRepairedResubmitted.status != null &&
+          !seReturnedLoading
+        "
         class="cards"
         [data]="smartEditClaimsRepairedResubmitted"
       ></app-error-card>
       <div
         class="repaired-block"
-        *ngIf="smartEditClaimsRepairedResubmitted[0] != null && smartEditClaimsRepairedResubmitted[1] != null"
+        *ngIf="
+          smartEditClaimsRepairedResubmitted[0] != null &&
+          smartEditClaimsRepairedResubmitted[1] != null &&
+          !seReturnedLoading
+        "
       >
         <app-common-header
           [title]="smartEditsRepairedAndResubmittedTitle"
