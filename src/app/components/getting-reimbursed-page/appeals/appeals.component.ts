@@ -43,7 +43,7 @@ export class AppealsComponent implements OnInit {
     private appealsSharedService: AppealsSharedService,
     private iconRegistry: MatIconRegistry,
     private checkStorage: StorageService,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private glossaryExpandService: GlossaryExpandService,
     private session: SessionService,
     private common: CommonUtilsService,
@@ -110,6 +110,7 @@ export class AppealsComponent implements OnInit {
       .then(appealsReason => {
         let appealsReasonData: any;
         appealsReasonData = appealsReason;
+
         if (appealsReasonData[0].status !== null && appealsReasonData[0].data !== null) {
           this.reasonDataAvailable = true;
           this.loading = false;

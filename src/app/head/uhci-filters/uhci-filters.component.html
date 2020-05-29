@@ -2,7 +2,7 @@
   <!-- Time Period -->
   <div class="line-top"></div>
   <ng-container *ngIf="selectedPage !== 'summaryTrendsPage'; else summaryTrends">
-    <div class="titleData" (click)="toggle('toggleTimePeriod')">
+    <div class="titleData" (click)="toggle('toggleTimePeriod')" (keypress)="toggle('toggleTimePeriod')">
       <div class="title">Time Period</div>
       <div class="chevron">
         <mat-icon
@@ -34,7 +34,12 @@
 
     <!-- Tax ID -->
     <div class="line"></div>
-    <div class="titleData" [ngClass]="{ titleDisable: selectedPage === 'callsPage' }" (click)="toggle('toggleTaxId')">
+    <div
+      class="titleData"
+      [ngClass]="{ titleDisable: selectedPage === 'callsPage' }"
+      (keypress)="toggle('toggleTaxId')"
+      (click)="toggle('toggleTaxId')"
+    >
       <div class="title">Tax ID</div>
       <div class="chevron">
         <mat-icon class="icon-display" svgIcon="arrowdn" [class.arrow-toggle]="collapseToggle.toggleTaxId"></mat-icon>
@@ -65,7 +70,12 @@
 
     <!--Line of Business-->
     <div class="line"></div>
-    <div class="titleData" [ngClass]="{ titleDisable: selectedPage === 'callsPage' }" (click)="toggle('toggleLob')">
+    <div
+      class="titleData"
+      [ngClass]="{ titleDisable: selectedPage === 'callsPage' }"
+      (keypress)="toggle('toggleLob')"
+      (click)="toggle('toggleLob')"
+    >
       <div class="title">Line of Business</div>
       <div class="chevron">
         <mat-icon class="icon-display" svgIcon="arrowdn" [class.arrow-toggle]="collapseToggle.toggleLob"></mat-icon>
@@ -127,6 +137,7 @@
     <div
       class="titleData"
       *ngIf="selectedPage == 'appealsPage' || gettingReimbursedTabName == 'gettingReimbursedAppeals'"
+      (keypress)="toggle('toggleAppeals')"
       (click)="toggle('toggleAppeals')"
     >
       <div class="title">View Appeals By</div>
@@ -164,6 +175,7 @@
         gettingReimbursedTabName == 'gettingReimbursedPayments' ||
         gettingReimbursedTabName == 'gettingReimbursedNonPayments' ||
         selectedPage == 'nonPaymentsPage' ||
+        selectedPage == 'smartEditsPage' ||
         selectedPage == 'overviewAdvocatePage'
       "
     ></div>
@@ -175,8 +187,10 @@
         gettingReimbursedTabName == 'gettingReimbursedPayments' ||
         gettingReimbursedTabName == 'gettingReimbursedNonPayments' ||
         selectedPage == 'nonPaymentsPage' ||
+        selectedPage == 'smartEditsPage' ||
         selectedPage == 'overviewAdvocatePage'
       "
+      (keypress)="toggle('toggleClaim')"
       (click)="toggle('toggleClaim')"
     >
       <div class="title">Claim Type</div>
@@ -196,6 +210,7 @@
         gettingReimbursedTabName == 'gettingReimbursedPayments' ||
         gettingReimbursedTabName == 'gettingReimbursedNonPayments' ||
         selectedPage == 'nonPaymentsPage' ||
+        selectedPage == 'smartEditsPage' ||
         selectedPage == 'overviewAdvocatePage'
       "
     >
@@ -220,7 +235,7 @@
     <div *ngIf="selectedPage === 'priorAuthPage'">
       <!--Service Setting (Only Prior Auth)-->
       <div class="line"></div>
-      <div class="titleData" (click)="toggle('toggleServiceSetting')">
+      <div class="titleData" (click)="toggle('toggleServiceSetting')" (keypress)="toggle('toggleServiceSetting')">
         <div class="title">Service Setting</div>
         <div class="chevron">
           <mat-icon
@@ -276,7 +291,7 @@
 
       <!--Service Category-->
       <div class="line"></div>
-      <div class="titleData" (click)="toggle('toggleServiceCategory')">
+      <div class="titleData" (keypress)="toggle('toggleServiceCategory')" (click)="toggle('toggleServiceCategory')">
         <div class="title">Service Category</div>
         <div class="chevron">
           <mat-icon class="icon-display" svgIcon="arrowdn" [class.arrow-toggle]="collapseToggle.toggleServiceCategory">
@@ -341,6 +356,7 @@
         selectedPage == 'overviewAdvocatePage'
       "
       (click)="toggle('toggleViewClaimsBy')"
+      (keypress)="toggle('toggleViewClaimsBy')"
     >
       <div class="title">View Claims By</div>
       <div class="chevron">
@@ -383,7 +399,7 @@
 
   <ng-template #summaryTrends>
     <!--Metric-->
-    <div class="titleData" (click)="toggle('toggleMetric')">
+    <div class="titleData" (click)="toggle('toggleMetric')" (keypress)="toggle('toggleMetric')">
       <div class="title">Metric</div>
       <div class="chevron">
         <mat-icon class="icon-display" svgIcon="arrowdn" [class.arrow-toggle]="collapseToggle.toggleMetric"></mat-icon>
@@ -404,7 +420,7 @@
 
     <!--Date-->
     <div class="line"></div>
-    <div class="titleData" (click)="toggle('toggleDate')">
+    <div class="titleData" (click)="toggle('toggleDate')" (keypress)="toggle('toggleDate')">
       <div class="title">Date</div>
       <div class="chevron">
         <mat-icon class="icon-display" svgIcon="arrowdn" [class.arrow-toggle]="collapseToggle.toggleDate"></mat-icon>

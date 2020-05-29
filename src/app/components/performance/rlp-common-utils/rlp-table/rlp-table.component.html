@@ -10,11 +10,30 @@
   <!--Table header starts-->
   <div class="table-header-labels" *ngIf="showTableHeader">
     <div class="rlp-table-tin">
-      <div class="table-head-text">{{ tableHeader[0] }}</div>
+      <div
+        class="table-head-text icon"
+        (click)="sortTin()"
+        (keypress)="sortTin()"
+        tabindex="0"
+        [ngClass]="{ active: mytin === true }"
+      >
+        {{ tableHeader[0] }}
+        <mat-icon
+          class="nav-menu-icons nav-menu-icons-down-arrow arrow-aligns"
+          *ngIf="!isAscending2"
+          svgIcon="downarrow"
+        ></mat-icon>
+        <mat-icon
+          class="nav-menu-icons nav-menu-icons-down-arrow-reverse arrow-aligns"
+          *ngIf="isAscending2"
+          svgIcon="downarrow"
+        ></mat-icon>
+      </div>
       <div class="search-box">
         <input
           type="text"
-          class="table-input-query tin-input-width"
+          id="hyphenid"
+          class="table-input-query tin-input-width hyphen"
           placeholder=""
           [(ngModel)]="qTinSearch"
           (keyup)="enterQuery()"
@@ -27,12 +46,31 @@
           matSuffix
           svgIcon="close"
           (click)="clearValue('qTinSearch')"
+          (keypress)="clearValue('qTinSearch')"
           *ngIf="qTinSearch"
         ></mat-icon>
       </div>
     </div>
     <div class="rlp-table-group">
-      <div class="table-head-text">{{ tableHeader[1] }}</div>
+      <div
+        class="table-head-text icon"
+        (click)="sortGroupName()"
+        tabindex="1"
+        (keypress)="sortGroupName()"
+        [ngClass]="{ active: mytinname === true }"
+      >
+        {{ tableHeader[1] }}
+        <mat-icon
+          class="nav-menu-icons nav-menu-icons-down-arrow arrow-aligns"
+          *ngIf="!isAscending1"
+          svgIcon="downarrow"
+        ></mat-icon>
+        <mat-icon
+          class="nav-menu-icons nav-menu-icons-down-arrow-reverse arrow-aligns"
+          *ngIf="isAscending1"
+          svgIcon="downarrow"
+        ></mat-icon>
+      </div>
       <div class="search-box-g">
         <input
           type="text"
@@ -47,13 +85,21 @@
           class="search-icon-group close-curser"
           matSuffix
           svgIcon="close"
+          tabindex="2"
+          (keypress)="clearValue('qGroupNameSearch')"
           (click)="clearValue('qGroupNameSearch')"
           *ngIf="qGroupNameSearch"
         ></mat-icon>
       </div>
     </div>
-    <div class="rlp-table-bar" (click)="sortIconRate()">
-      <div class="table-head-text padding-left-90">
+    <div
+      class="rlp-table-bar icon"
+      (click)="sortIconRate()"
+      tabindex="3"
+      (keypress)="sortIconRate()"
+      [ngClass]="{ active: mybar === true }"
+    >
+      <div class="table-head-text padding-left-120">
         {{ tableHeader[2] }}
       </div>
       <mat-icon class="nav-menu-icons nav-menu-icons-down-arrow" *ngIf="!isAscending" svgIcon="downarrow"></mat-icon>

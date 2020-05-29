@@ -26,7 +26,7 @@ export class SelfServiceService {
     eparams = eparams.append('filter', 'executive');
 
     const executiveURL = this.APP_URL + this.EXECUTIVE_SERVICE_PATH + parameters[0];
-    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?request-type=PAYMENT_METRICS';
     return combineLatest(
       this.http.get(executiveURL, { params: eparams }).pipe(
         map(res => res),
@@ -34,11 +34,11 @@ export class SelfServiceService {
         catchError(err => of(err))
       ),
       this.http.post(claimsURL, ediparams).pipe(
-        map(res => res[0]),
+        map(res => res['Data'][0]),
         catchError(err => of(err))
       ),
       this.http.post(claimsURL, pprparams).pipe(
-        map(res => res[0]),
+        map(res => res['Data'][0]),
         catchError(err => of(err))
       )
     );

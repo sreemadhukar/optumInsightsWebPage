@@ -7,9 +7,6 @@
 <div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
   <div class="example-container example-is-mobile" color="primary">
     <mat-toolbar color="primary" class="example-toolbar" [class.display-none]="!showPrintHeader && makeAbsolute">
-      <!--<button mat-icon-button (click)="srnav.toggle()">-->
-      <!--<mat-icon>filter</mat-icon>-->
-      <!--</button>-->
       <div *ngIf="fromKOP" class="butter-bar align-horizonal">
         <div class="cross-icon">
           <mat-icon class="hover-pointer" svgIcon="closeGlossary" (click)="navigateToKOP()"></mat-icon>
@@ -67,11 +64,6 @@
         [ngClass]="fromKOP || advocateView ? 'top-112' : ''"
         color="primary"
       >
-        <!-- UHC LOGO BLOCK -->
-        <!-- <div class="uhc-logo-block">
-          <img class="uhc-logo" src="/src/assets/images/UHC Logo@2x.png" />
-        </div> -->
-        <!-- END OF UHC LOGO BLOCK -->
         <!-- HEALTHSYSTEM REPRESENTATION BLOCK -->
         <div class="health-system-representation-block" *ngIf="!isKop">
           <p class="representing-label">You are representing</p>
@@ -192,17 +184,6 @@
           </mat-nav-list>
         </div>
         <!-- END OF MENU CATEGORIES BLOCK -->
-
-        <!-- SIGNOUT BLOCK -->
-        <!-- <div class="signout-block">
-          <p class="signout-label" (click)="signOut()">
-            <a>
-              <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon
-              ><span class="sign-out-text">Sign Out </span>
-            </a>
-          </p>
-        </div>-->
-        <!-- END OF SIGNOUT BLOCK -->
       </mat-sidenav>
       <!-- END OF SIDE NAVIGATION BAR-->
 
@@ -242,13 +223,7 @@
               [MetricID]="glossaryMetricID"
             ></app-glossary>
             <app-uhci-filter *ngIf="filterFlag && !isKop" (filterFlag)="filterFlagChange($event)"></app-uhci-filter>
-            <!-- <app-kop-filters
-              *ngIf="filterFlag && isKop"
-              [filterurl]="filterurl"
-              [filterData]="filterData"
-              [customFilter]="customFilter"
-              (filterFlag)="filterFlagChange($event)"
-            ></app-kop-filters> -->
+
             <app-uhc-kop-filter
               *ngIf="filterFlag && isKop"
               [customFilter]="customFilter"
@@ -262,7 +237,6 @@
 
       <mat-sidenav-content color="primary">
         <router-outlet></router-outlet>
-        <!-- <router-outlet (activate)="changeOfRoutes()"></router-outlet> -->
       </mat-sidenav-content>
     </mat-sidenav-container>
     <app-footer-common class="footer-block" [class.display-none]="makeAbsolute"></app-footer-common>

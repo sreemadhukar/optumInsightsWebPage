@@ -19,7 +19,7 @@ export class AppealsSharedService {
     private MetricidService: GlossaryMetricidService,
     private gettingReimbursedService: GettingReimbursedService,
     private common: CommonUtilsService,
-    private session: SessionService
+    private readonly session: SessionService
   ) {}
   public sharedAppealsYearWiseData(parameters) {
     let appeals: object;
@@ -284,7 +284,7 @@ export class AppealsSharedService {
     this.lob = param.lineOfBusiness ? param.lineOfBusiness : 'ALL';
     this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
     this.providerKey = this.session.providerKeyData();
-    // const reasonArray: Array<Object> = []; // change to let later
+
     return new Promise(resolve => {
       let parameters;
       parameters = [this.providerKey, new GettingReimbursedPayload(param)];
@@ -299,6 +299,7 @@ export class AppealsSharedService {
         this.timeFrame === '2018'
       ) {
         this.gettingReimbursedService.claimsAppealsReasonData(...parameters).subscribe(appealsReasonData => {
+          console.log('appealsReasonData--->', appealsReasonData);
           if (!appealsReasonData) {
             reason.push({
               category: 'app-card',
@@ -386,12 +387,11 @@ export class AppealsSharedService {
         /** Changed the function name from appealsData to claimsAppealsData for PDP API*/
         this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.getFullLobData(this.lob);
-          // const lobData = this.common.matchLobWithData(this.lob);
 
           if (appealsData && appealsData.hasOwnProperty('Status')) {
             appealsOverturnedRate = {
               category: 'app-card',
-              // type: 'donutWithBottomLabelOnly',
+
               type: 'donut',
               status: appealsData.status,
               title: 'Claims Appeals Overturned Rate',
@@ -467,7 +467,7 @@ export class AppealsSharedService {
               } else {
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  // type: 'donutWithBottomLabelOnly',
+
                   type: 'donut',
                   status: 404,
                   title: 'Claims Appeals Overturned Rate',
@@ -501,7 +501,7 @@ export class AppealsSharedService {
                   }
                   for (let a = 0; a < getTopFiveReasons.length; a++) {
                     reasonsVal1[a] = getTopFiveReasons[a].Count;
-                    // const value1 = Number(reasonsVal1[a]);
+
                     reasonsVal2[a] = topFiveReasonTotal - getTopFiveReasons[a].Count;
                     barVal[a] =
                       Number(((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed()) >= 1
@@ -534,7 +534,7 @@ export class AppealsSharedService {
             } else {
               appealsOverturnedRate = {
                 category: 'app-card',
-                // type: 'donutWithBottomLabelOnly',
+
                 type: 'donut',
                 status: 404,
                 title: 'Claims Appeals Overturned Rate',
@@ -555,7 +555,7 @@ export class AppealsSharedService {
           } else {
             appealsOverturnedRate = {
               category: 'app-card',
-              // type: 'donutWithBottomLabelOnly',
+
               type: 'donut',
               status: 404,
               title: 'Claims Appeals Overturned Rate',
@@ -586,11 +586,11 @@ export class AppealsSharedService {
         /** Changed the function name from appealsData to claimsAppealsData for PDP API*/
         this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.getFullLobData(this.lob);
-          // const lobData = this.common.matchLobWithData(this.lob);
+
           if (appealsData && appealsData.hasOwnProperty('Status')) {
             appealsOverturnedRate = {
               category: 'app-card',
-              // type: 'donutWithBottomLabelOnly',
+
               type: 'donut',
               status: appealsData.status,
               title: 'Claims Appeals Overturned Rate',
@@ -623,7 +623,7 @@ export class AppealsSharedService {
 
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  // type: 'donutWithBottomLabelOnly',
+
                   type: 'donut',
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -668,7 +668,7 @@ export class AppealsSharedService {
               } else {
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  // type: 'donutWithBottomLabelOnly',
+
                   type: 'donut',
                   status: 404,
                   title: 'Claims Appeals Overturned Rate',
@@ -702,7 +702,7 @@ export class AppealsSharedService {
                   }
                   for (let a = 0; a < getTopFiveReasons.length; a++) {
                     reasonsVal1[a] = getTopFiveReasons[a].Count;
-                    // const value1 = Number(reasonsVal1[a]);
+
                     reasonsVal2[a] = topFiveReasonTotal - getTopFiveReasons[a].Count;
                     barVal[a] =
                       Number(((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed()) >= 1
@@ -745,7 +745,7 @@ export class AppealsSharedService {
             } else {
               appealsOverturnedRate = {
                 category: 'app-card',
-                // type: 'donutWithBottomLabelOnly',
+
                 type: 'donut',
                 status: 404,
                 title: 'Claims Appeals Overturned Rate',
@@ -766,7 +766,7 @@ export class AppealsSharedService {
           } else {
             appealsOverturnedRate = {
               category: 'app-card',
-              // type: 'donutWithBottomLabelOnly',
+
               type: 'donut',
               status: 404,
               title: 'Claims Appeals Overturned Rate',

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { KopInsightsService } from './kop-insights.service';
+import { ModalPopupService } from './modal-popup.service';
 
-describe('KopInsightsService', () => {
+describe('ModalPopupService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: KopInsightsService = TestBed.get(KopInsightsService);
+    const service: ModalPopupService = TestBed.get(ModalPopupService);
     expect(service).toBeTruthy();
   });
 });

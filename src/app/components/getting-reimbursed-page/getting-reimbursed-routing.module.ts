@@ -55,7 +55,7 @@ const routes: Routes = [
     path: 'SmartEdits',
     component: SmartEditsComponent,
     data: {
-      breadcrumb: 'Payment Integrity'
+      breadcrumb: 'Smart Edits'
     }
   }
 ];

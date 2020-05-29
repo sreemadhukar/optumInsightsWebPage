@@ -18,5 +18,14 @@
     <div *ngIf="titleSubHeader !== null" class="sub-header-title">
       {{ titleSubHeader }}
     </div>
+    <div *ngIf="expandAllButton" class="expand" (click)="onClickExpand()">
+      <span *ngIf="!accordianExpanded">Expand All Star Ratings</span>
+      <span *ngIf="accordianExpanded">Collapse All Star Ratings</span>
+      <mat-icon
+        class="bar-graph-block-icon"
+        svgIcon="carrot"
+        [ngClass]="accordianExpanded ? 'rotated' : 'default'"
+      ></mat-icon>
+    </div>
   </div>
 </div>

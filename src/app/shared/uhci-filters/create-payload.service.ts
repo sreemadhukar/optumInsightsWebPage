@@ -90,6 +90,9 @@ export class CreatePayloadService {
       case 'viewTopClaimsPage':
         this.payload = this.getPayloadForCalls(this.initialState);
         break;
+      case 'smartEditsPage':
+        this.payload = this.getPayload(this.initialState);
+        break;
       case 'otherPages':
         this.payload = this.getPayload(this.initialState);
         break;
@@ -97,7 +100,6 @@ export class CreatePayloadService {
   }
 
   resetTinNumber(appliedPage) {
-    // this.taxId.subscribe(taxId => (this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }]));
     this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }];
     if (appliedPage) {
       if (appliedPage === 'priorAuthPage') {
@@ -106,8 +108,6 @@ export class CreatePayloadService {
         this.payload = this.getPayload(this.initialState);
       }
     }
-    /* commented for mutiple api call solution*/
-    // this.emitFilterEvent(appliedPage);
   }
 
   emitFilterEvent(appliedPage) {
@@ -140,6 +140,10 @@ export class CreatePayloadService {
         this.payload = this.getPayload(this.initialState);
         this.payloadEmit.next({ value: this.getPayload(this.initialState) });
         break;
+      case 'smartEditsPage':
+        this.payload = this.getPayload(this.initialState);
+        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
+        break;
       case 'callsPage':
         this.payload = this.getPayloadForCalls(this.initialState);
         this.payloadEmit.next({ value: this.getPayloadForCalls(this.initialState) });
@@ -147,30 +151,15 @@ export class CreatePayloadService {
     }
   }
 
-  // resetToInitialState() {
-  //   this.payloadEmit.next(this.initialPayload);
-  // }
-
   getEvent(): Observable<any> {
     return this.payloadEmit.asObservable();
   }
 
   getPayloadForGettingReimbursed(temporaryState) {
-    /* Uncomment if the data is not available for 2018 */
-    /* if (
-      temporaryState.currentPage === 'paymentsPage' ||
-      temporaryState.currentPage === 'nonPaymentsPage' ||
-      temporaryState.currentPage === 'gettingReimbursedSummary'
-    ) {
-      if (temporaryState.timePeriod === '2018') {
-        temporaryState.timePeriod = 'Last6Months';
-      }
-    } else { */
     const serializedState = JSON.parse(sessionStorage.getItem('state'));
     if (serializedState && serializedState.timePeriod) {
       temporaryState.timePeriod = serializedState.timePeriod;
     }
-    // }
     return temporaryState.currentPage;
   }
 

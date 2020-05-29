@@ -10,7 +10,7 @@ export class AcoPageComponent implements OnInit, OnDestroy {
   loading = true;
   public pageTitle: any;
   public pageSubTitle = 'Your ACO Insights at a glance.';
-  constructor(private acoEventEmitter: AcoEventEmitterService) {
+  constructor(private readonly acoEventEmitter: AcoEventEmitterService) {
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
     this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
   }
