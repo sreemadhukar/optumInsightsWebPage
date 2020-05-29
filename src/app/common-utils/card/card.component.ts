@@ -109,4 +109,20 @@ export class CardComponent implements OnInit {
       }
     }
   }
+
+  setLabels(labelArray, loopedValue, i) {
+    if (this.chartData.title === 'Calls By Call Type' || this.chartData.title === 'Talk Time By Call Type') {
+      return labelArray.graphValueName[labelArray.graphValueName.indexOf(loopedValue)];
+    } else {
+      return labelArray.labels[i];
+    }
+  }
+
+  setValues(labelArray, loopedValue, i) {
+    if (this.chartData.title === 'Calls By Call Type' || this.chartData.title === 'Talk Time By Call Type') {
+      return labelArray.graphValues[labelArray.graphValueName.indexOf(loopedValue)];
+    } else {
+      return labelArray.graphValues[i];
+    }
+  }
 }
