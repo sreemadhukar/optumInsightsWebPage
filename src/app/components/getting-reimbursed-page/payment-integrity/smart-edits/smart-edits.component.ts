@@ -49,6 +49,7 @@ export class SmartEditsComponent implements OnInit {
   lessThan5DaysBarData: any;
   greaterThan5DaysBarData: any;
   mockCards: any = [{}, {}];
+  topReasonsDataError: any;
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     public MetricidService: GlossaryMetricidService,
@@ -172,18 +173,30 @@ export class SmartEditsComponent implements OnInit {
     this.smartEditsSharedService
       .getSmartEditSharedTopReasons(this.createPayloadService.payload)
       .then((smartEditsTopReasonsData: any) => {
-        this.topReasonsData = smartEditsTopReasonsData;
-        this.loading = false;
-        console.log('this.TopReasonsData191', this.topReasonsData);
-
-        if (this.topReasonsData != null && this.topReasonsData !== undefined && this.topReasonsData.Data != null) {
+        console.log('smartEditsTopReasonsData-->', smartEditsTopReasonsData);
+        if (
+          smartEditsTopReasonsData != null &&
+          smartEditsTopReasonsData != undefined &&
+          smartEditsTopReasonsData.length !== 0
+        ) {
+          this.topReasonsData = smartEditsTopReasonsData;
+          console.log('this.topReasonsData-->', this.topReasonsData);
           this.reasonDataAvailable = true;
           this.loading = false;
+          this.reason = this.topReasonsData;
         } else {
-          this.reasonDataAvailable = false;
+          this.topReasonsDataError = {
+            category: 'app-card',
+            type: 'donut',
+            status: 404,
+            title: 'Top Claims Appeals Overturn Reasons',
+            MetricID: this.MetricidService.MetricIDs.TopClaimSmartEditOverturnReasons,
+            data: null,
+            timeperiod: null
+          };
           this.loading = false;
+          this.reasonDataAvailable = false;
         }
-        this.reason = this.topReasonsData;
       })
       .catch(err => {
         console.log('Error', err);

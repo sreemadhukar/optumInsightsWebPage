@@ -90,7 +90,7 @@
   <!-- Smart Edits Claims Top Reasons STARTS HERE -->
   <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
   <div
-    *ngIf="reasonDataAvailable && !loading"
+    *ngIf="smartEditsTopReasonsData && smartEditsTopReasonsData != null && smartEditsTopReasonsData.length !== 0"
     class="overturn-reason-block"
     [ngClass]="{ 'print-overturn-reason-block': printStyle === true }"
   >
@@ -120,9 +120,6 @@
     </div>
     <div class="common-footer">
       <app-common-footer [timePeriod]="timePeriod"></app-common-footer>
-    </div>
-    <div *ngIf="!reasonDataAvailable && !loading" class="overturn-margin">
-      <app-error-card *ngIf="reason[0] && reason[0].status" class="cards" [data]="reason[0]"></app-error-card>
     </div>
   </div>
   <!-- Smart Edits Claims Top Reasons ENDS HERE -->
