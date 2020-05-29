@@ -158,13 +158,17 @@ export class KOPSharedService {
             });
           break;
         case 'priorauthtat':
-          this.kopService
-            .getPriorAuthTATSummary({ params })
-            .subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getPriorAuthTATSummary({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
         case 'reimbursementClaims':
           Object.assign(params, { region: 'LEASED MARKETS', markets: ['MINNEAPOLIS, MN', 'CHICAGO, IL'] });
-          this.kopService.getClaimsData({ params }).subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getClaimsData({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
       }
     });
