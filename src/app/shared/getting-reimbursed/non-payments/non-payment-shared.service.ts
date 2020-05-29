@@ -482,10 +482,8 @@ export class NonPaymentSharedService {
   }
 
   public sharedTrendByMonth(param) {
-    console.log('paramater', this.getParameterCategories(param), this.getParameterCategories(param));
     return new Promise(resolve => {
       this.nonPaymentService.getNonPaymentTrendByMonth(this.getParameterCategories(param)).subscribe(data => {
-        console.log('non Payment by month data 1', data);
         const payload = this.getParameterCategories(param)[1] || {};
         let timePeriod;
         const { ClaimsBy } = payload;
@@ -523,8 +521,6 @@ export class NonPaymentSharedService {
           data: filteredData,
           timePeriod: timePeriod
         };
-        console.log('ClaimsLobsummmmar', claimsLobSummary);
-        console.log('sendData', sendData);
         resolve(sendData);
       });
     });
