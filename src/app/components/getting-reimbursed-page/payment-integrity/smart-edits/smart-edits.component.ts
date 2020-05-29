@@ -83,7 +83,6 @@ export class SmartEditsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'smartEditsPage' });
     this.checkStorage.emitEvent('smartEditsPage');
     //  this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
-    this.checkStorage.emitEvent('smartEditsPage');
 
     this.reasonDataAvailable = true;
     this.smartEditReturnedData();
@@ -134,6 +133,7 @@ export class SmartEditsComponent implements OnInit {
   }
   // **** Smart Edits Claims Returned Starts here**** //
   smartEditReturnedData() {
+    this.seReturnedLoading = true;
     this.smartEditsSharedService
       .getSmartEditsReturnedShared(this.createPayloadService.payload)
       .then((smartEditsData: any) => {
