@@ -99,7 +99,12 @@ export class TaxSummaryComponent implements OnInit {
     } else if (!row.checked) {
       this.swap(orignalIndex, this.checkedCount());
     }
-    this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.filteredData);
+    this.taxSummaryData.sort = this.sort;
+    const sortState3: Sort = { active: 'TinCheckBox', direction: 'asc' };
+    this.sort.active = sortState3.active;
+    this.sort.direction = sortState3.direction;
+    this.sort.sortChange.emit(sortState3);
+
     this.taxSummaryData.paginator = this.paginator;
   }
 
@@ -138,7 +143,7 @@ export class TaxSummaryComponent implements OnInit {
   getTaxSummaryData() {
     this.taxSummaryData = new MatTableDataSource(this.data.All);
     this.taxSummaryData.sort = this.sort;
-    const sortState: Sort = { active: 'Tin', direction: 'asc' };
+    const sortState: Sort = { active: 'TinCheckBox', direction: 'asc' };
     this.sort.active = sortState.active;
     this.sort.direction = sortState.direction;
     this.sort.sortChange.emit(sortState);
@@ -150,6 +155,11 @@ export class TaxSummaryComponent implements OnInit {
       return false;
     };
     this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.data);
+    this.taxSummaryData.sort = this.sort;
+    const sortState1: Sort = { active: 'TinCheckBox', direction: 'asc' };
+    this.sort.active = sortState1.active;
+    this.sort.direction = sortState1.direction;
+    this.sort.sortChange.emit(sortState1);
     for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
       this.taxSummaryData.filteredData[i]['id'] = i + 1;
       this.taxSummaryData.filteredData[i]['checked'] = false;
@@ -158,7 +168,7 @@ export class TaxSummaryComponent implements OnInit {
 
   searchTaxId(filterValue: string, id: string) {
     this.allChecked = false;
-    if (id === 'Tin') {
+    if (id === 'TinCheckBox') {
       if (filterValue.length > 2 && filterValue.length < 4 && filterValue.search('-') === -1) {
         filterValue = filterValue.slice(0, 2) + '-' + filterValue.slice(2);
       }
@@ -174,7 +184,22 @@ export class TaxSummaryComponent implements OnInit {
       this.taxSummaryData.paginator.firstPage();
     }
     if (filterValue.length === 0) {
+      if (this.checkedCount()) {
+        for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
+          if (this.taxSummaryData.filteredData[i].checked) {
+            this.taxSummaryData.filteredData.unshift(
+              this.taxSummaryData.filteredData.splice(this.taxSummaryData.filteredData[i].id - 1, 1)[0]
+            );
+          }
+        }
+      }
+
       this.taxSummaryData = new MatTableDataSource(this.data.All);
+      this.taxSummaryData.sort = this.sort;
+      const sortState2: Sort = { active: 'TinCheckBox', direction: 'asc' };
+      this.sort.active = sortState2.active;
+      this.sort.direction = sortState2.direction;
+      this.sort.sortChange.emit(sortState2);
       this.taxSummaryData.paginator = this.paginator;
     }
   }
