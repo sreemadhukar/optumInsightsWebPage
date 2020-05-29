@@ -22,28 +22,26 @@
     </div>
   </div>
 
-  <div *ngFor="let item of MRAStarData" class="left">
-    <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
-  </div>
-  <div *ngFor="let item of MRACVCompletionData" class="right">
+  <ng-container *ngFor="let item of MRAStarData">
+    <app-card *ngIf="item.data != null" class="cards left" [chartData]="item"> </app-card>
+  </ng-container>
+  <ng-container *ngFor="let item of MRACVCompletionData">
     <app-card
       *ngIf="item.data != null"
-      class="cards"
+      class="cards right"
       [chartData]="item"
       [tabData]="PCORTabData"
       (tabSelectEvent)="onTabSelected($event)"
       [selectedTab]="selectedItemId"
     >
     </app-card>
-  </div>
-  <div *ngIf="!loading">
-    <app-accordion-large-card
-      [title]="qualityTitle"
-      [qualityMeasure]="qualityMeasureData"
-      [data]="starRatings"
-      (ratingClick)="ratingComponentClick()"
-    ></app-accordion-large-card>
-  </div>
+  </ng-container>
+  <app-accordion-large-card
+    *ngIf="!loading"
+    [title]="qualityTitle"
+    [expandAll]="'true'"
+    [data]="starRatings"
+  ></app-accordion-large-card>
   <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
   <div *ngIf="!subtitle" class="report-Tile">
     <div class="report-Title">{{ reportTitle }}</div>

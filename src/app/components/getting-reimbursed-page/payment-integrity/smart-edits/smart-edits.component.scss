@@ -1,60 +1,14 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
-.breadcrumb-top-padding {
-  @include margin(12px, 0, 1px, 0);
-  box-sizing: border-box;
+@import '~src/scss/my-custom-theme';
 
-  width: 961px;
-
-  .filter_bg {
-    height: 40px;
-    width: 100px;
-    box-sizing: border-box;
-    border: 1px solid $blue;
-    border-radius: 2px;
-    float: right;
-    cursor: pointer;
-    margin-right: 7px;
-
-    .filter_title {
-      color: $blue;
-      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-      font-size: 16px;
-      letter-spacing: 0.2px;
-      line-height: 22px;
-      text-align: center;
-      margin: 9px 0;
-      float: left;
-    }
-    .filter_icon {
-      color: $blue;
-      margin: 7px 10px;
-      float: left;
-    }
-  }
-  .filter_bg:hover,
-  .filter_bg:focus {
-    background-color: #196ecf;
-    color: #ffffff;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-    .filter_title {
-      color: #ffffff;
-    }
-    .filter_icon {
-      color: #ffffff;
-    }
-  }
-  .filter_bg:active {
-    background-color: #003da1;
-    color: #ffffff;
-    .filter_title {
-      color: #ffffff;
-    }
-    .filter_icon {
-      color: #ffffff;
-    }
-  }
+::ng-deep .smart-edits .even .app-card-structure {
+  margin: 15px 15px 15px 0px !important;
 }
+::ng-deep .smart-edits .odd .app-card-structure {
+  margin: 15px 0 15px 15px !important;
+}
+
 .time-period {
   box-sizing: border-box;
   height: 33px;
@@ -66,69 +20,70 @@
   padding-left: 7px;
   float: left;
 }
-.time--period {
-  .filterchips {
-    width: 845px;
-    float: left;
-    .horizontal-align {
-      display: inline-block;
-      margin: 5px 17px 5px 0;
-      .btn-rounded {
-        height: 34px;
-        padding: 0.355rem 0.78125rem;
-      }
-    }
-    button {
-      span:first-child {
-        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-      }
-      span.text-semibold {
-        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-      }
-    }
-    .close-btn {
-      display: inherit;
-      position: relative;
-      cursor: pointer;
-      height: 24px;
-      display: inline-block;
-      vertical-align: middle;
-      padding: 0 0 0 8px;
-      margin-top: -1px;
-      .icon-display {
-        color: #757588;
-      }
-    }
-  }
-}
-.smart-edits-content {
+
+.container-flex {
   display: flex;
-  justify-content: left;
-  width: 1000px;
-  margin: auto;
-  flex-wrap: wrap;
-  .cust-width-title {
-    width: 961px;
-    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-    color: $black-rock;
-    margin-left: 10px;
-  }
+  margin-left: -15px;
+}
+
+.cust-width-title {
   .page-title {
     flex-basis: 100%;
     font-size: 36px;
-    @include padding(16px, 0, 20px, 0);
-    line-height: 40px;
-    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    @include padding(16px, 0, 8px, 0);
+    color: $black-rock;
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
   }
-  .filter-div {
-    overflow: auto;
-    line-height: 0;
+  .page-title-subtitle {
+    padding-bottom: 0px;
+  }
+  .page-subtitle {
+    .page-subtitle-header {
+      color: $strom-grey;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      display: inline-block;
+      line-height: 22px;
+    }
+    .subtitle-reportLink {
+      cursor: pointer;
+      color: $blue;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      display: inline-block;
+      padding-right: 11px;
+    }
+    .page-subtitle-icon {
+      cursor: pointer;
+      color: $blue;
+      vertical-align: sub;
+    }
+  }
+  .print-page-title {
+    padding-top: 30px;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    line-height: 30px;
+  }
+
+  .print-page-subtitle {
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+    line-height: 40px;
+    flex-basis: 100%;
+    font-size: 28px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    justify-content: space-between;
+    width: 98.5%;
   }
 }
 
 .smart-edits-bar-chart-block {
   float: left;
-  padding: 81px 40px 117px 40px;
+  // padding: 81px 40px 117px 40px;
+  padding: 14px 0px 48px 32px;
 }
 .less-than-five-days-block {
   float: left;
@@ -157,6 +112,7 @@
   float: left;
   display: flex;
   flex-flow: column;
+  padding-top: 6px;
 }
 .pi-numbers-block {
   float: left;
@@ -205,6 +161,17 @@
   float: left;
   position: relative;
 }
+
+.repaired-block {
+  margin: 12px;
+  height: 356px;
+  width: 468px;
+  border-radius: 2px;
+  background-color: $white;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  float: left;
+  position: relative;
+}
 .reason-time {
   width: 468px;
   // margin-top: 372px;
@@ -221,9 +188,9 @@
   // margin-top: 319px;
   border-top: 1px solid #efefef;
 }
-.appeals-overturned-bar-chart {
+.smartEdit-overturned-bar-chart {
   padding-bottom: 16px;
-  padding-left: 75px; // centre aligned to card
+  padding-left: 73px; // centre aligned to card
 }
 
 .top-reason-one {
@@ -252,4 +219,38 @@
   font-size: 16px;
   letter-spacing: 0.2px;
   color: $black-rock;
+}
+
+.one-reason {
+  padding-bottom: 132.5px;
+}
+.two-reason {
+  padding-bottom: 107.5px;
+}
+.three-reason {
+  padding-bottom: 82.5px;
+}
+.four-reason {
+  padding-bottom: 57.5px;
+}
+.five-reason {
+  padding-bottom: 32.5px;
+}
+.reason-code {
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  display: inline-block;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+}
+.reason-reference {
+  color: #196ecf;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-style: italic;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  cursor: hand;
+  display: inline-block;
 }

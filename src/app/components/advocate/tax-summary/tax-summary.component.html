@@ -11,6 +11,7 @@
       <table mat-table [dataSource]="taxSummaryData" matSort matSortDirection="asc">
         <ng-container matColumnDef="TinCheckBox">
           <th mat-header-cell *matHeaderCellDef>
+            <span mat-sort-header class="displayNone"></span>
             <div class="checkbox-container-th">
               <label class="checkbox-label">
                 <input
@@ -54,7 +55,7 @@
                 type="text"
                 class="tax-summary-input"
                 spellcheck="false"
-                [(ngModel)]="taxIdSearch"
+                [ngModel]="taxIdSearch"
                 (keyup)="searchTaxId($event.target.value, 'Tin')"
                 placeholder="Find Tax ID Number"
               />
