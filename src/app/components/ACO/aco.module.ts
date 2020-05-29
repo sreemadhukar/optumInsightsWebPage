@@ -10,4 +10,8 @@ import { AcoPageRoutingModule } from './aco-page-routing.module';
   providers: [AcoPageComponent],
   declarations: [AcoPageComponent]
 })
-export class AcoModule {}
+export class AcoModule {
+  constructor() {
+    console.log('ACO Loaded');
+  }
+}

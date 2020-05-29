@@ -1,0 +1,19 @@
+<!-- table containter-->
+<div class="rlp-table-container">
+  <!--Tin column -->
+  <div class="rlp-table-label rlp-table-tin">
+    {{ tableItem.tin }}
+  </div>
+  <!--Tin column -->
+  <!--Group Name column -->
+  <div class="rlp-table-label rlp-table-group">
+    {{ tableItem.groupName | sliceString }}
+  </div>
+  <!--Group Name column -->
+  <!--User Rate column -->
+  <div class="rlp-table-label rlp-table-bar">
+    <app-rlp-common-bar [data]="tableItem.graphData"></app-rlp-common-bar>
+  </div>
+  <!--User Rate column -->
+</div>
+<!-- table containter-->

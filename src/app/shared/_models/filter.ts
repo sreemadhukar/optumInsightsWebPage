@@ -5,5 +5,7 @@ export class Filter {
   public taxwithSymbols: Array<string>;
   public serviceSetting?: string;
   public priorAuthType?: string;
-  public scType?: string;
+  public serviceCategory?: string;
+  public date?: Date;
+  public metric?: string;
 }

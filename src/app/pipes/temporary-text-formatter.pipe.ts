@@ -4,16 +4,16 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'temporaryTextFormatter'
 })
 export class TemporaryTextFormatterPipe implements PipeTransform {
-  transform(value: any, args?: any): any {
+  transform(value: any): any {
     switch (value) {
       case 'Prior Authorizations':
         return 'Prior Auth';
-      case 'Medicare & Retirement':
-        return 'M&R';
-      case 'Community & State':
-        return 'C&S';
-      case 'Employer & Individual':
-        return 'E&I';
+      case 'Eligibility and Benefits':
+        return 'Eligibility/Benefits';
+      case 'FI (Fully Insured)':
+        return 'FI';
+      case 'ASO (Administrative Services Only)':
+        return 'ASO';
       default:
         return value;
     }

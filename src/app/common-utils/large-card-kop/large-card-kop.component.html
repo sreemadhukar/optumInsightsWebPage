@@ -1,0 +1,161 @@
+<div class="card-structure" [class.half-card]="cardData.small" *ngIf="cardData && !skeletonLarge">
+  <div class="card-inner-large">
+    <app-common-header
+      [title]="cardData.title"
+      [noHeaderClick]="noHeaderClick"
+      class="full-display"
+      (helpIconClicked)="helpIconClick()"
+    ></app-common-header>
+    <div class="card-inner-large-content" [ngSwitch]="cardData.type">
+      <ng-container *ngSwitchCase="'cards'">
+        <div class="kop-insights-data" *ngFor="let item of cardData.chartData; let i = index">
+          <div *ngIf="!item.singleCard; else singleCardTemplate">
+            <div [ngSwitch]="item.cardType" *ngIf="!item.showMetricProgressIcon; else showProgressIcon">
+              <div *ngSwitchCase="'horizontalBar'" class="bars_container">
+                <app-horizontal-charts
+                  class="full-width-container"
+                  *ngIf="item.quarters[0].title !== null || item.quarters[1].title !== null"
+                  [data]="item.quarters"
+                ></app-horizontal-charts>
+                <app-error-template
+                  *ngIf="item.quarters[0].title === null || item.quarters[1].title === null"
+                ></app-error-template>
+              </div>
+              <div *ngSwitchCase="'verticalBar'" class="bars_container">
+                <app-vertical-bar-charts
+                  class="full-width-container"
+                  *ngIf="item.quarters[0].title !== null || item.quarters[1].title !== null"
+                  [data]="item.quarters"
+                ></app-vertical-bar-charts>
+                <app-error-template
+                  *ngIf="item.quarters[0].title === null || item.quarters[1].title === null"
+                ></app-error-template>
+              </div>
+              <div *ngSwitchCase="'hollowbox'" class="highlighted-boxes">
+                <div class="hollow-box-container" *ngFor="let quarter of item.quarters">
+                  <div
+                    *ngIf="quarter.title != null"
+                    class="highlighted-box-{{ quarter.id }}"
+                    [class.current-quarter]="quarter.currentQuarter"
+                  >
+                    {{ quarter.title }}
+                  </div>
+                  <div *ngIf="quarter.title == null">
+                    <app-error-template></app-error-template>
+                  </div>
+                </div>
+              </div>
+              <div *ngSwitchCase="'miniDonut'" class="mini-donut-chart">
+                <div *ngFor="let quarter of item.quarters">
+                  <app-donut-charts *ngIf="quarter.title" [chartData]="item" [quarter]="quarter"></app-donut-charts>
+                  <app-error-template *ngIf="!quarter.title"></app-error-template>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #singleCardTemplate>
+            <div *ngIf="!item.showMetricProgressIcon; else showProgressIcon">
+              <div *ngIf="item.quarters[0]?.title != null" class="highlighted-value">
+                {{ item.quarters[0]?.title | currencyFormatter }}
+              </div>
+              <div *ngIf="item.quarters[0]?.title == null" class="highlighted-value">
+                <app-error-template></app-error-template>
+              </div>
+            </div>
+          </ng-template>
+          <div>
+            <div class="caption">
+              {{ item.caption }}
+            </div>
+            <div
+              *ngIf="
+                (!item.singleCard && item.quarters[0]?.title != null) ||
+                item.quarters[1]?.title != null ||
+                (item.singleCard && item.quarters[0]?.title != null)
+              "
+            >
+              <app-trends
+                class="trend-container"
+                *ngIf="item.trends && item.sdata && item.quarters[0]?.title != null && item.quarters[1]?.title != null"
+                [data]="item"
+              ></app-trends>
+            </div>
+            <div class="report-box" *ngIf="item.report && item.cardType === 'hollowbox'">
+              <div class="report-content">
+                Touchpoint - Top Box % (9-10)
+              </div>
+            </div>
+            <div
+              class="report-box"
+              *ngIf="item.report && item.cardType === 'miniDonut' && item.key === 'SatWithCredentialing'"
+            >
+              <div class="report-content">
+                Touchpoint - Top Box % (9-10)
+              </div>
+            </div>
+            <div
+              class="report-box"
+              *ngIf="item.report && item.cardType === 'miniDonut' && item.key !== 'SatWithCredentialing'"
+            >
+              <div class="report-content">
+                Relationship - Top Box % (9-10)
+              </div>
+            </div>
+            <div class="metric-in-progress" *ngIf="item.showMetricProgressIcon">
+              <i class="metric-in-progress-content">
+                (Metric in development)
+              </i>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="'graph'">
+        <div class="full-width-block graph" [class.small]="cardData.small">
+          <div class="graph-details" [ngClass]="cardData.small ? 'horizontal' : 'vertical'">
+            <div
+              class="graph-quarter"
+              *ngFor="let quarter of cardData.quarters"
+              [class.highlighted]="quarter.highlighted"
+            >
+              <div class="quarter-value">{{ quarter.value }}</div>
+              <div class="quarter-year">{{ quarter.year }}</div>
+            </div>
+          </div>
+          <div class="graph-content">
+            <div class="graph-plot">
+              <app-line-graph [chartOptions]="cardData.npsGraph"></app-line-graph>
+            </div>
+            <div class="graph-legend">
+              <div class="graph-legend-item">
+                <div class="line solid"></div>
+                Combined NPS
+              </div>
+              <div class="graph-legend-item">
+                <div class="line dashed"></div>
+                Target NPS
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="full-width-block" *ngIf="timePeriod">
+      <app-common-footer
+        [linkName]="footerLinkTitle"
+        [timePeriod]="timePeriod.title.concat(' ').concat(timePeriod.timeFrame | timeperiod)"
+      ></app-common-footer>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="skeletonLarge">
+  <div class="card-structure">
+    <div class="card-inner-large-skeleton">
+      <div class="card-skeleton-large"></div>
+    </div>
+  </div>
+</div>
+
+<ng-template #showProgressIcon>
+  <mat-icon class="metrics-icon-display" svgIcon="insert-chart"></mat-icon>
+</ng-template>

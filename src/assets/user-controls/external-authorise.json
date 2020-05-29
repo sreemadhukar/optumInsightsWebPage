@@ -5,21 +5,37 @@
       "Claims Paid": true,
       "Prior Authorization Approval": true,
       "Self Service Adoption Rate": true,
-      "Claims Yield": true,
+      "Claims Yield": false,
       "Medicare Star Rating": true,
       "Total Calls": true
     },
     "Opportunities": {
       "Reduce Calls and Operating Costs by:": true,
       "Save Your Staff's Time by:": true,
-      "Reduce Claim Processing Time by:": false,
-      "Reduce Reconsideration Processing by:": false
+      "Reduce Claim Processing Time by:": true,
+      "Reduce Reconsideration Processing by:": true
+    }
+  },
+  "OverviewAdvocate": {
+    "navLink": true,
+    "TopRow": {
+      "Claims Paid": true,
+      "Claims Not Paid": true,
+      "Claims Submitted": true
+    },
+    "MiddleTow": {
+      "Claims Appeals Submitted": true,
+      "Calls by Call Type": true
+    },
+    "BottomRow": {
+      "Payments by Submission": true,
+      "Claims Yield": false
     }
   },
   "Getting Reimbursed": {
     "Summary": {
       "navLink": true,
-      "Claims Submissions": {
+      "Claims Processed": {
         "tile": true,
         "Total Claims Submitted": true,
         "Claims Average Turnaround Time to Payment": true
@@ -75,8 +91,8 @@
     },
     "Patient Care Opportunity": {
       "navLink": true,
-      "Medicare & Retirement Average Star Rating": true,
-      "Medicare & Retirement Annual Care Visits Completion Rate": true,
+      "Medicare Average Star Rating": true,
+      "Medicare Annual Care Visits Completion Rate": true,
       "Quality Measure Star Ratings": true
     }
   },
@@ -88,13 +104,33 @@
       "Paperless Delivery": true,
       "Reduce Calls and Operating Costs by:": true,
       "Save Your Staff's Time by:": true,
-      "Reduce Claim Processing Time by:": false,
-      "Reduce Reconsideration Processing by:": false
+      "Reduce Claim Processing Time by:": true,
+      "Reduce Reconsideration Processing by:": true
     },
     "Calls": {
       "navLink": true,
       "Calls by Call Type": true,
       "Talk Time By Call Type": true
+    }
+  },
+  "Performance": {
+    "Summary": {
+      "navLink": true,
+      "Preferred Specialist Referral Rate": true,
+      "Preferred Lab Network Use Rate": true,
+      "Preferred Tier Prescribing Rate": true
+    },
+    "Referral": {
+      "navLink": true,
+      "Preferred Specialist Referral Rate": true
+    },
+    "Labs": {
+      "navLink": true,
+      "Preferred Lab Network Use Rate": true
+    },
+    "Perscription": {
+      "navLink": true,
+      "Preferred Tier Prescribing Rate": true
     }
   }
 }

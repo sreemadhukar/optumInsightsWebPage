@@ -21,6 +21,22 @@
   margin-top: 17px;
 }
 
+.tick_hidden_custom path {
+  opacity: 0;
+}
+
+.tick_hidden_custom line {
+  visibility: hidden;
+}
+
+.tick_hidden_custom text {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  fill: $strom-grey;
+  text-transform: capitalize;
+  margin-top: 17px;
+}
+
 .grid text {
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -52,6 +68,20 @@
   fill: $black-rock;
 }
 
+.tick_hidden_y_custom line {
+  visibility: hidden;
+}
+
+.tick_hidden_y_custom path {
+  display: none;
+}
+
+.tick_hidden_y_custom text {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  fill: $strom-grey;
+}
+
 .dot {
   border: 15px;
   border-color: $dodger-blue;
@@ -65,7 +95,6 @@
 }
 .rect-bar {
   width: 48px;
-  height: 350px;
   position: absolute;
   z-index: 1;
 }
@@ -76,7 +105,7 @@
 }
 .line2 {
   stroke: rgba(25, 110, 207, 1);
-  stroke-width: 3px;
+  stroke-width: 2px;
   stroke-dasharray: 5;
   z-index: 200;
 }
@@ -110,9 +139,9 @@
 }
 .tooltipClass {
   position: absolute;
-  width: auto;
+  width: 90px;
   height: auto;
-  padding: 10px 12px;
+  padding: 10px 0px;
   color: black;
   font-family: $font-family-UHC;
   background-color: $white;
@@ -121,6 +150,20 @@
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
   z-index: 99;
   opacity: 0.95;
+}
+
+.tooltipClassPrint {
+  position: absolute;
+  width: auto;
+  height: auto;
+  color: 2f2a3c;
+  font-family: $font-family-UHC;
+  pointer-events: none;
+  z-index: 99;
+  opacity: 0.95;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.16px;
 }
 
 .tooltipClassLeft::before {
@@ -136,9 +179,9 @@
 }
 .tooltipClassLeft {
   position: absolute;
-  width: auto;
+  width: 90px;
   height: auto;
-  padding: 10px 12px;
+  padding: 10px 0;
   color: black;
   font-family: $font-family-UHC;
   background-color: $white;
@@ -155,10 +198,29 @@
   line-height: 18px;
   padding-bottom: 5px;
   color: $black-rock;
+  margin: 0 10px;
+  text {
+    font-size: 16px;
+    padding: 0 10px;
+  }
 }
+.lineLabelHoverNps {
+  font-size: 16px;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  line-height: 18px;
+  padding-bottom: 5px;
+  color: $black-rock;
+  margin: 0 10px;
+  text {
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    padding: 0 5px;
+  }
+}
+
 .details-label {
   color: $strom-grey;
   font-size: 14px;
+  margin: 0 10px;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 }
 .claim-yield-rate {
@@ -200,4 +262,11 @@
 
 .displayNone {
   display: none;
+}
+
+.dot {
+  fill: rgba(81, 165, 222, 1);
+  stroke: rgba(81, 165, 222, 1);
+  border: 15px;
+  border-color: rgba(81, 165, 222, 1);
 }

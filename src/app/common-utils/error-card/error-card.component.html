@@ -1,11 +1,15 @@
 <div
+  *ngIf="data"
   [class.card-structure]="data.category === 'mini-tile'"
   [class.small-card-structure]="data.category === 'small-card'"
   [class.app-card-structure]="data.category === 'app-card'"
   [class.card-structure]="data.category === 'large-card'"
+  [class.long-card-inner-large]="data.category === 'app-large-card'"
+  [class.table-structure]="data.category === 'app-table-card'"
   [class.app-card-structure-with-more-height]="
     data.category === 'app-card' &&
     (data.title == 'Claims Appeals Submitted' ||
+      data.title == 'Claims Appeals Closed' ||
       data.title == 'Claims Appeals Overturned Rate' ||
       data.title == 'Claims Appeals Overturned' ||
       data.title == 'Top Claims Appeals Overturn Reasons')
@@ -13,7 +17,7 @@
 >
   <div
     [class.card-inner]="data.category === 'mini-tile' || data.category === 'small-card'"
-    [class.card-inner-large]="data.category === 'large-card'"
+    [class.card-inner-large]="data.category === 'large-card' || data.category === 'app-table-card'"
   >
     <div [class.self-service-title]="data.category === 'mini-tile'" *ngIf="data.category === 'mini-tile'">
       {{ data.title }}
@@ -25,11 +29,20 @@
       *ngIf="data.category !== 'mini-tile'"
     ></app-common-header>
     <div
-      [class.full-width-block]="data.category === 'large-card' || data.category === 'app-card'"
+      [class.full-width-block]="
+        data.category === 'large-card' ||
+        data.category === 'app-card' ||
+        data.category === 'app-large-card' ||
+        data.category === 'app-table-card'
+      "
       [class.full-width]="data.category === 'small-card'"
       [class.self-service-width]="data.category === 'mini-tile'"
     >
-      <div class="img-align">
+      <div *ngIf="data.metricInProgres" class="metric-in-prog">
+        <mat-icon class="icon-progress-img" svgIcon="insert-chart"></mat-icon>
+        <div class="metric-in-development">{{ metricInProgress }}</div>
+      </div>
+      <div *ngIf="!data.metricInProgres" class="img-align">
         <img class="image-align" src="/src/assets/images/warning-icon.svg" />
       </div>
       <div *ngFor="let errorCode of errorCodes">

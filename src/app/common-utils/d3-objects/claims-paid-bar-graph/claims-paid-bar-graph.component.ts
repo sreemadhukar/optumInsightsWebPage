@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, HostListener, AfterViewInit, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
-import { CommonUtilsService } from '../../../shared/common-utils.service';
 
 @Component({
   selector: 'app-claims-paid-bar-graph',
@@ -15,10 +14,10 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
   initialized: any;
   public testID = 'claimsPaidBreakDown';
 
-  constructor(private common: CommonUtilsService) {}
+  constructor() {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_event) {
     this.doBarGraph(this.chartOptions.chartData, this.noTransition);
   }
 
@@ -53,110 +52,11 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     return fnumber;
   }
 
-  formatDynamicAbbreviation(tickNumber: number, tickValue: number, prefix: string) {
-    // zero is false and one is true
-    const q = tickValue;
-    const w = tickNumber - 1;
-    const step = q / w;
-    let zeroOrOne;
-    let abbreviation;
-
-    const maxTickValueStringLength = q.toString().length;
-    const stepStringLength = step.toString().length;
-
-    if (maxTickValueStringLength === stepStringLength) {
-      zeroOrOne = 0;
-    } else if (maxTickValueStringLength % 3 === 0 || maxTickValueStringLength % 5 === 0) {
-      zeroOrOne = 0;
-    } else {
-      zeroOrOne = 1;
-    }
-
-    // 6 = T, 5 = B, 4 = M, 3 = K, 2 = mid-K, 1=hundreds
-
-    if (q >= 1000000000) {
-      abbreviation = 9;
-    } else if (q >= 1000000) {
-      abbreviation = 6;
-    } else if (q >= 1000) {
-      abbreviation = 3;
-    } else {
-      abbreviation = 0;
-    }
-
-    const newFormatNumber = d3.format(',.0f'),
-      formatBillion = function(x) {
-        if (x === 0) {
-          return prefix + '0';
-        } else {
-          return prefix + newFormatNumber(x / 1e9) + 'B';
-        }
-      },
-      formatMillion = function(x) {
-        if (x === 0) {
-          return prefix + '0';
-        } else {
-          return prefix + newFormatNumber(x / 1e6) + 'M';
-        }
-      },
-      formatThousand = function(x) {
-        if (x === 0) {
-          return prefix + '0';
-        } else {
-          return prefix + newFormatNumber(x / 1e3) + 'K';
-        }
-      },
-      formatZero = function(x) {
-        return prefix + newFormatNumber(x);
-      };
-
-    const newFormatNumberOne = d3.format('.1f'),
-      formatBillionOne = function(x) {
-        if (x === 0) {
-          return prefix + '0';
-        } else {
-          return prefix + newFormatNumberOne(x / 1e9) + 'B';
-        }
-      },
-      formatMillionOne = function(x) {
-        if (x === 0) {
-          return prefix + '0';
-        } else {
-          return prefix + newFormatNumberOne(x / 1e6) + 'M';
-        }
-      },
-      formatThousandOne = function(x) {
-        if (x === 0) {
-          return prefix + '0';
-        } else {
-          return prefix + newFormatNumberOne(x / 1e3) + 'K';
-        }
-      },
-      formatZeroOne = function(x) {
-        return prefix + newFormatNumberOne(x);
-      };
-
-    const flag = abbreviation + zeroOrOne;
-    switch (flag) {
-      case 10:
-        return formatBillionOne;
-      case 9:
-        return formatBillion;
-      case 7:
-        return formatMillionOne;
-      case 6:
-        return formatMillion;
-      case 4:
-        return formatThousandOne;
-      case 3:
-        return formatThousand;
-      case 1:
-        return formatZeroOne;
-      case 0:
-        return formatZero;
-      default:
-        break;
-    }
+  maxTickValue(num) {
+    const numOfDigits = num.toFixed(0).toString().length;
+    const ceilingMultiplier = Math.pow(10, numOfDigits - 1);
+    const maxCeilingValue = Math.ceil(num / ceilingMultiplier) * ceilingMultiplier;
+    return maxCeilingValue;
   }
   findGreatest(inputOne, inputTwo, inputThree, inputFour) {
     let valOne = 0;
@@ -179,7 +79,21 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       return valTwo;
     }
   }
-  doBarGraph(chartOptions: any, transition: number) {
+  formatAbbreviationGtoB(x) {
+    let formatSi;
+    if (Math.round(x).toString().length % 3 === 0) {
+      formatSi = d3.format('$.2s');
+    } else {
+      formatSi = d3.format('$.1s');
+    }
+    const s = formatSi(x);
+    switch (s[s.length - 1]) {
+      case 'G':
+        return s.slice(0, -1) + 'B';
+    }
+    return s;
+  }
+  doBarGraph(_chartOptions: any, _transition: number) {
     // might have to hard code class names for testing
     const className = 'claims-paid-content'; // 'card-inner-large'
     // this.chartOptions.gdata[0]
@@ -206,7 +120,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('text')
       .attr('x', 32)
-      .attr('y', 100)
+      .attr('y', 65)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'start')
@@ -215,8 +129,8 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
 
     chart
       .append('text')
-      .attr('x', 370)
-      .attr('y', 100)
+      .attr('x', 376)
+      .attr('y', 64)
       .attr('fill', '#2D2D39')
       .attr('font-size', '20')
       .style('text-anchor', 'end')
@@ -226,17 +140,27 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('text')
       .attr('x', 32)
-      .attr('y', 180)
+      .attr('y', 134)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'start')
       .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text('Actual Allowed †');
+      .text('Actual Allowed');
 
     chart
       .append('text')
-      .attr('x', 370)
-      .attr('y', 180)
+      .attr('x', 32)
+      .attr('y', 154)
+      .attr('fill', '#757588')
+      .attr('font-size', '14')
+      .style('text-anchor', 'start')
+      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+      .text('(Includes Member Responsibility)');
+
+    chart
+      .append('text')
+      .attr('x', 376)
+      .attr('y', 144)
       .attr('fill', '#2D2D39')
       .attr('font-size', '20')
       .style('text-anchor', 'end')
@@ -246,27 +170,25 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('text')
       .attr('x', 32)
-      .attr('y', 230)
+      .attr('y', 224)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'start')
       .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text('Estimated Non-Payment');
+      .text('Total Non-Payment');
 
     chart
-      .append('text')
-      .attr('x', 370)
-      .attr('y', 230)
-      .attr('fill', '#2D2D39')
-      .attr('font-size', '20')
-      .style('text-anchor', 'end')
-      .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$' + this.nFormatter(this.chartOptions.chartData[2]));
+      .append('svg:image')
+      .attr('x', 316)
+      .attr('y', 184)
+      .attr('xlink:href', 'src/assets/images/icons/Content/round-insert_chart-24px - Copy.svg')
+      .attr('width', 70)
+      .attr('height', 70);
 
     chart
       .append('text')
       .attr('x', 32)
-      .attr('y', 310)
+      .attr('y', 304)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'start')
@@ -275,8 +197,8 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
 
     chart
       .append('text')
-      .attr('x', 370)
-      .attr('y', 310)
+      .attr('x', 376)
+      .attr('y', 304)
       .attr('fill', '#2D2D39')
       .attr('font-size', '20')
       .style('text-anchor', 'end')
@@ -284,21 +206,11 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .text('$' + this.nFormatter(this.chartOptions.chartData[3]));
 
     chart
-      .append('text')
-      .attr('x', 900)
-      .attr('y', 30)
-      .attr('fill', '#2D2D39')
-      .attr('font-size', '12')
-      .style('text-anchor', 'end')
-      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text('† Includes Member Responsibility');
-
-    chart
       .append('line')
       .attr('x1', 400)
-      .attr('y1', 55)
+      .attr('y1', 18)
       .attr('x2', 400)
-      .attr('y2', 350)
+      .attr('y2', 338)
       .attr('stroke', '#757588')
       .attr('stroke-width', '1px');
 
@@ -310,73 +222,126 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     );
     // const highestValue = 800;
     const xScale = d3
-      .scaleLinear()
+      .scalePoint()
       .domain([0, highestValue])
-      .range([400, 900])
-      .nice(3);
+      .range([400, 900]);
 
-    chart
+    const axisHidden = d3
+      .axisBottom(xScale)
+      .ticks(3)
+      .tickSize(5, 0, 0);
+
+    const firstAxis = chart
       .append('g')
       .attr('visibility', 'hidden')
-      .attr('id', 'forCalculations')
-      .call(
-        d3
-          .axisBottom(xScale)
-          .ticks(3)
-          .tickSize(5, 0, 0)
-        // .tickSizeOuter([0])
-      );
+      .attr('id', 'forCalculationz');
 
-    const preArray = d3
-      .select('#forCalculations')
-      .selectAll('.tick>text')
-      .nodes()
-      .map(function(t) {
-        const tagString = new XMLSerializer().serializeToString(t);
-        const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
-        return mySubString;
-      });
+    firstAxis.call(axisHidden);
 
-    d3.select('#forCalculations').remove();
-
-    for (let i = 0; i < preArray.length; i++) {
-      preArray[i] = preArray[i].replace(/,/g, '');
-    }
-
-    const preArrayOfNumbers = preArray.map(Number);
-    const numberOfTicks = preArrayOfNumbers.length;
-    const highestTickValue = preArrayOfNumbers[numberOfTicks - 1];
     const axisPrefix = '$';
 
-    const xScaleBar = d3
-      .scaleLinear()
-      .domain([0, highestTickValue])
-      .range([0, 500]);
+    const highestTickValue = this.maxTickValue(highestValue);
+
+    d3.scaleLinear()
+      .domain([0, highestValue])
+      .range([400, 900])
+      .nice();
 
     chart
-      .append('g')
-      .attr('transform', 'translate(' + 0 + ',' + 55 + ')')
-      .call(
-        d3
-          .axisBottom(xScale)
-          .ticks(3)
-          .tickSize(295)
-          .tickFormat(this.formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
-      )
-      .call(g => g.select('.domain').remove());
+      .append('text')
+      .attr('x', '400.5')
+      .attr('y', '358')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '14')
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text('$0');
 
-    d3.selectAll('.tick')
-      .selectAll('line')
+    chart
+      .append('line')
+      .attr('x1', 525.5)
+      .attr('y1', 18)
+      .attr('x2', 525.5)
+      .attr('y2', 338)
       .attr('stroke', '#B3BABC')
       .attr('stroke-width', 1)
       .attr('stroke-opacity', 0.7);
 
-    d3.selectAll('.tick')
-      .selectAll('text')
-      .attr('y', '305')
+    chart
+      .append('text')
+      .attr('x', '525.5')
+      .attr('y', '358')
       .attr('fill', '#2D2D39')
       .attr('font-size', '14')
-      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'");
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text(axisPrefix + this.nFormatter(highestTickValue * 0.25));
+
+    chart
+      .append('line')
+      .attr('x1', 650.5)
+      .attr('y1', 18)
+      .attr('x2', 650.5)
+      .attr('y2', 338)
+      .attr('stroke', '#B3BABC')
+      .attr('stroke-width', 1)
+      .attr('stroke-opacity', 0.7);
+
+    chart
+      .append('text')
+      .attr('x', '650.5')
+      .attr('y', '358')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '14')
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text(axisPrefix + this.nFormatter(highestTickValue * 0.5));
+
+    chart
+      .append('line')
+      .attr('x1', 775.5)
+      .attr('y1', 18)
+      .attr('x2', 775.5)
+      .attr('y2', 338)
+      .attr('stroke', '#B3BABC')
+      .attr('stroke-width', 1)
+      .attr('stroke-opacity', 0.7);
+
+    chart
+      .append('text')
+      .attr('x', '775.5')
+      .attr('y', '358')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '14')
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text(axisPrefix + this.nFormatter(highestTickValue * 0.75));
+
+    chart
+      .append('line')
+      .attr('x1', 900.5)
+      .attr('y1', 18)
+      .attr('x2', 900.5)
+      .attr('y2', 338)
+      .attr('stroke', '#B3BABC')
+      .attr('stroke-width', 1)
+      .attr('stroke-opacity', 0.7);
+
+    chart
+      .append('text')
+      .attr('x', '900.5')
+      .attr('y', '358')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '14')
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text(axisPrefix + this.nFormatter(highestTickValue));
+
+    // only used for bar objects
+    const xScaleBar = d3
+      .scaleLinear()
+      .domain([0, highestTickValue])
+      .range([0, 500]);
 
     d3.selectAll('.tick')
       .selectAll('line')
@@ -394,28 +359,28 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 70)
+        .attr('y', 34)
         .attr('width', this.chartOptions.chartData[0])
         .attr('height', 48)
         .attr('fill', '#3381FF');
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 150)
+        .attr('y', 114)
         .attr('width', this.chartOptions.chartData[1])
         .attr('height', 48)
         .attr('fill', '#3381FF');
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 200)
+        .attr('y', 194)
         .attr('width', this.chartOptions.chartData[2])
         .attr('height', 48)
-        .attr('fill', '#FC6431');
+        .attr('fill', '#3381FF');
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 280)
+        .attr('y', 274)
         .attr('width', this.chartOptions.chartData[3])
         .attr('height', 48)
         .attr('fill', '#3381FF');
@@ -423,7 +388,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 70)
+        .attr('y', 34)
         .attr('width', xScaleBar(this.chartOptions.chartData[0]))
         .attr('height', 48)
         .attr('fill', '#3381FF');
@@ -431,7 +396,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 150)
+        .attr('y', 114)
         .attr('width', xScaleBar(this.chartOptions.chartData[1]))
         .attr('height', 48)
         .attr('fill', '#3381FF');
@@ -439,15 +404,23 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 200)
-        .attr('width', xScaleBar(this.chartOptions.chartData[2]))
+        .attr('y', 194)
+        .attr('width', 170)
         .attr('height', 48)
-        .attr('fill', '#FC6431');
+        .attr('fill', '#E0E0E0');
+      chart
+        .append('text')
+        .attr('x', 416)
+        .attr('y', 224)
+        .attr('font-size', '14')
+        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+
+        .text('Metric in development');
 
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 280)
+        .attr('y', 274)
         .attr('width', xScaleBar(this.chartOptions.chartData[3]))
         .attr('height', 48)
         .attr('fill', '#3381FF');

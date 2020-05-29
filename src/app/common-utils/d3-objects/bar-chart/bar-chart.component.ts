@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
-
+import { Router } from '@angular/router';
+import { CommonUtilsService } from '../../../shared/common-utils.service';
 @Component({
   selector: 'app-bar-chart',
   templateUrl: './bar-chart.component.html',
@@ -11,35 +12,29 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   public transition = 1;
   public noTransition = 0;
   public renderChart: string;
+  printStyle: boolean;
+  public chartPA;
+  public chartPCOR;
   @Input() chartOptions: any = {};
 
-  constructor() {}
+  constructor(private router: Router, private common: CommonUtilsService) {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_event) {
     this.doBarChart(this.chartOptions, this.noTransition);
   }
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.gdata[1];
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
   }
 
   ngAfterViewInit() {
     this.doBarChart(this.chartOptions, this.transition);
   }
 
-  doBarChart(chartOptions: any, transition: number) {
-    function formatDy(dy: number): string {
-      if (dy === 0) {
-        return '0.0M';
-      } else if (dy < 999) {
-        return dy.toFixed(0);
-      } else if (dy < 999999) {
-        return (dy / 1000).toFixed(1) + 'K';
-      } else if (dy) {
-        return (dy / 1000000).toFixed(1) + 'M';
-      }
-    }
-
+  doBarChart(chartOptions: any, _transition: number) {
     function getTextWidth(text, fontSize, fontFace) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
@@ -56,8 +51,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
             .text()
             .split(/\s+/)
             .reverse(),
-          lineNumber = 0,
-          lineHeight = 1.1, // ems
+          // lineNumber = 0,
+          // lineHeight = 1.1, // ems
           y = text.attr('y'),
           dy = parseFloat(text.attr('dy'));
         let tspan = text
@@ -108,17 +103,10 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       barHeight = chartOptions.barHeight; // bar height to be 48
     }
 
-    const margin = { top: 25, right: 10, bottom: 5, left: 10 };
+    const margin = { top: 16, right: 10, bottom: 16, left: 10 };
     const width = preWidth - margin.left - margin.right;
     const height = barHeight * 1.5 - margin.top - margin.bottom;
-
-    const chart = d3
-      .select(this.renderChart)
-      .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .append('g')
-      .attr('transform', 'translate(' + (margin.left + 6) + ',' + (margin.top + 5) + ')');
+    const svg = d3.select(this.renderChart);
 
     let xScaleConstant;
 
@@ -128,13 +116,26 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     /** Following 2 variable are for Prior Auth Bar Grpah */
 
     if (chartOptions.starObject) {
-      xScaleConstant = width - 115; // For PCOR graph width should be 849
+      xScaleConstant = width - 231; // For PCOR graph width should be 703
+
+      this.chartPCOR = svg
+        .append('svg')
+        .attr('width', xScaleConstant)
+        .attr('height', height + margin.top + margin.bottom + 8)
+        .append('g')
+        .attr('class', 'transfrom-style');
     } else {
       /** Following 2 variable are for Prior Auth Bar Grpah */
       xScaleBarWidthConstant = width / 1.79; // 522    when width is 554 , it will touch the border of the the card
       xScaleBarStartingPointConstant = width / 2.43; // 384
+      const paddingVertical = (height + margin.top + margin.bottom - barHeight) / 2;
+      this.chartPA = svg
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + (margin.left + 6) + ',' + paddingVertical + ')');
     }
-    // console.log('Width', width); 934
     const xScale = d3
       .scaleLinear()
       .domain([0, chartOptions.barSummation])
@@ -145,45 +146,26 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .domain([0, chartOptions.barSummation])
       .range([0, xScaleBarWidthConstant]);
 
+    // PCOR quality measure bar graph
     if (chartOptions.starObject) {
-      const PCORStars = chartOptions.starCount;
-      const PCORStarXCoordinateMultiplier = 17.5;
-
-      for (let i = 0; i < PCORStars; i++) {
-        const xCoordinate = 16 + PCORStarXCoordinateMultiplier * i;
-        chart
-          .append('g')
-          .attr('transform', 'translate(' + xCoordinate + ',' + -20 + ')')
-          .append('polygon')
-          .attr('fill', '#3381FF')
-          .attr(
-            'points',
-            '8 13.2668737 3.05572809 16 4 10.2111456 -3.02535774e-13 6.11145618 5.52786405 5.26687371 8 0 ' +
-              '10.472136 5.26687371 16 6.11145618 12 10.2111456 12.9442719 16'
-          );
-      }
       // This belongs to PCOR
-      chart
-        .append('text')
-        .attr('x', 20 + 16 + xScale(chartOptions.barData))
-        // 20 will make this text attached with bar graph and moving 16px from right is the requirement
-        .attr('y', (height + 20) / 2)
-        .attr('fill', '#2D2D39')
-        .attr('font-size', '20')
-        .attr('text-align', 'right')
-        .style('text-anchor', 'start')
-        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-        .text(chartOptions.barData);
-
-      chart
+      this.chartPCOR
         .append('rect')
-        .attr('x', 20)
-        .attr('y', 5)
+        .attr('x', 36)
+        .attr('y', 0)
         .attr('width', xScale(chartOptions.barData))
         .attr('height', barHeight)
         .attr('fill', chartOptions.color[0].color1);
+      this.chartPCOR
+        .append('text')
+        .attr('x', 20)
+        // 20 will make this text attached with bar graph and moving 16px from right is the requirement
+        .attr('y', 31)
+        .attr('fill', '#2D2D39')
+        .attr('class', ' bar-graph-Textstyle')
+        .text(chartOptions.barData);
     } else {
-      chart
+      this.chartPA
         .append('rect')
         .attr('x', xScaleBarStartingPointConstant)
         .attr('y', 0)
@@ -192,7 +174,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('fill', chartOptions.color[0].color1);
 
       if (chartOptions.color.length === 2) {
-        chart
+        this.chartPA
           .append('rect')
           .attr('x', xScaleBarStartingPointConstant)
           .attr('y', 0)
@@ -203,15 +185,12 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
       const uniqueText = 'reasonText' + this.renderChart.slice(1);
       const tspanID = uniqueText + 'tspan';
-      const textWithHover = chart
+      const textWithHover = this.chartPA
         .append('text')
         .attr('id', uniqueText)
         .attr('x', xScale(chartOptions.barSummation / 10))
         .attr('y', (height + 10) / 2)
-        .attr('fill', '#2D2D39')
-        .attr('font-size', '16')
-        .attr('text-anchor', 'start')
-        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('class', ' text-with-hover')
         .text(chartOptions.barText)
         .call(wrap, 250, tspanID, 16);
 
@@ -246,11 +225,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         const div = d3
           .select(this.renderChart)
           .append('div')
-          .attr('class', 'tooltip')
-          .style('height', 'auto')
-          .style('width', '438px')
-          .style('opacity', 0)
-          .style('border-radius', '2px');
+          .attr('class', 'tooltip');
 
         const svg2 = div
           .append('svg')
@@ -262,31 +237,38 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .append('text')
           .attr('id', uniqueText + 'hover')
           .attr('y', (height + 10) / 2)
-          .attr('fill', '#2D2D39')
-          .attr('font-size', '14')
-          .attr('text-anchor', 'start')
-          .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+          .attr('class', 'PA-text-style2')
           .text(chartOptions.barText)
           .call(wrap, 420, tspanID + 'hover', 14);
 
         const label = d3.select('#' + uniqueText).selectAll('*');
 
+        let tooltipLabelAdjustor = 120;
+        switch (tspanArray.length) {
+          case 3:
+            tooltipLabelAdjustor = 80;
+            break;
+          case 8:
+            tooltipLabelAdjustor = 160;
+            break;
+        }
+
         label
-          .on('mouseenter', function(d) {
+          .on('mouseenter', function() {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 14 + 'px').style('top', d3.event.layerY - 130 + 'px');
+            div.style('left', d3.event.layerX - 38 + 'px').style('top', d3.event.layerY - tooltipLabelAdjustor + 'px');
           })
-          .on('mousemove', function(d) {
+          .on('mousemove', function() {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 14 + 'px').style('top', d3.event.layerY - 130 + 'px');
+            div.style('left', d3.event.layerX - 38 + 'px').style('top', d3.event.layerY - tooltipLabelAdjustor + 'px');
           })
-          .on('mouseleave', function(d) {
+          .on('mouseleave', function() {
             div
               .transition()
               .duration(10)
@@ -294,17 +276,13 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           });
       }
       // This if for Prior Auth
-      chart
+      this.chartPA
         .append('text')
         .attr('x', xScaleBarStartingPointConstant - 24) // text should be 24px from the bar
         .attr('y', (barHeight + 8) / 2)
-        .attr('fill', '#2D2D39')
-        .attr('font-size', '20')
-        .attr('float', 'right')
-        .style('text-anchor', 'end')
-        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+        .attr('class', 'PA-text-style')
 
-        .text(formatDy(chartOptions.barData));
+        .text(this.common.nFormatter(chartOptions.barData));
     }
   }
 }

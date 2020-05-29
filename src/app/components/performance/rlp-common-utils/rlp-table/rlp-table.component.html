@@ -1,0 +1,184 @@
+<!-- Show tablecount-->
+<div class="table-show-count" *ngIf="tableData.length > 0">
+  <span class="table-show-text">
+    Showing {{ currentPageNumber == totalPages ? afterQuery.length - startIndex : selectPageSize }} of
+    {{ afterQuery.length }}
+  </span>
+</div>
+<!-- table container-->
+<div class="table-container" *ngIf="!skeletonTable">
+  <!--Table header starts-->
+  <div class="table-header-labels" *ngIf="showTableHeader">
+    <div class="rlp-table-tin">
+      <div
+        class="table-head-text icon"
+        (click)="sortTin()"
+        (keypress)="sortTin()"
+        tabindex="0"
+        [ngClass]="{ active: mytin === true }"
+      >
+        {{ tableHeader[0] }}
+        <mat-icon
+          class="nav-menu-icons nav-menu-icons-down-arrow arrow-aligns"
+          *ngIf="!isAscending2"
+          svgIcon="downarrow"
+        ></mat-icon>
+        <mat-icon
+          class="nav-menu-icons nav-menu-icons-down-arrow-reverse arrow-aligns"
+          *ngIf="isAscending2"
+          svgIcon="downarrow"
+        ></mat-icon>
+      </div>
+      <div class="search-box">
+        <input
+          type="text"
+          id="hyphenid"
+          class="table-input-query tin-input-width hyphen"
+          placeholder=""
+          [(ngModel)]="qTinSearch"
+          (keyup)="enterQuery()"
+          (keydown.backspace)="enterQuery()"
+          maxlength="10"
+        />
+        <mat-icon class="search-icon" matSuffix svgIcon="search" *ngIf="!qTinSearch"></mat-icon>
+        <mat-icon
+          class="search-icon close-curser"
+          matSuffix
+          svgIcon="close"
+          (click)="clearValue('qTinSearch')"
+          (keypress)="clearValue('qTinSearch')"
+          *ngIf="qTinSearch"
+        ></mat-icon>
+      </div>
+    </div>
+    <div class="rlp-table-group">
+      <div
+        class="table-head-text icon"
+        (click)="sortGroupName()"
+        tabindex="1"
+        (keypress)="sortGroupName()"
+        [ngClass]="{ active: mytinname === true }"
+      >
+        {{ tableHeader[1] }}
+        <mat-icon
+          class="nav-menu-icons nav-menu-icons-down-arrow arrow-aligns"
+          *ngIf="!isAscending1"
+          svgIcon="downarrow"
+        ></mat-icon>
+        <mat-icon
+          class="nav-menu-icons nav-menu-icons-down-arrow-reverse arrow-aligns"
+          *ngIf="isAscending1"
+          svgIcon="downarrow"
+        ></mat-icon>
+      </div>
+      <div class="search-box-g">
+        <input
+          type="text"
+          class="table-input-query-g tinname-input-width"
+          placeholder=""
+          [(ngModel)]="qGroupNameSearch"
+          (keyup)="enterQuery()"
+          (keydown.backspace)="enterQuery()"
+        />
+        <mat-icon class="search-icon-group" matSuffix svgIcon="search" *ngIf="!qGroupNameSearch"></mat-icon>
+        <mat-icon
+          class="search-icon-group close-curser"
+          matSuffix
+          svgIcon="close"
+          tabindex="2"
+          (keypress)="clearValue('qGroupNameSearch')"
+          (click)="clearValue('qGroupNameSearch')"
+          *ngIf="qGroupNameSearch"
+        ></mat-icon>
+      </div>
+    </div>
+    <div
+      class="rlp-table-bar icon"
+      (click)="sortIconRate()"
+      tabindex="3"
+      (keypress)="sortIconRate()"
+      [ngClass]="{ active: mybar === true }"
+    >
+      <div class="table-head-text padding-left-90">
+        {{ tableHeader[2] }}
+      </div>
+      <mat-icon class="nav-menu-icons nav-menu-icons-down-arrow" *ngIf="!isAscending" svgIcon="downarrow"></mat-icon>
+      <mat-icon
+        class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
+        *ngIf="isAscending"
+        svgIcon="downarrow"
+      ></mat-icon>
+    </div>
+  </div>
+  <!--Table header ends-->
+
+  <div class="zebra-stripe"></div>
+  <!--Table body starts-->
+  <div *ngIf="showTableBody && tableData.length > 0">
+    <div
+      class="table-items"
+      *ngFor="
+        let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:endIndex
+      "
+    >
+      <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
+    </div>
+  </div>
+  <!--Table body ends-->
+
+  <div class="zebra-stripe"></div>
+  <!-- Table footer-->
+  <div *ngIf="afterQuery.length > pageSizeValues[0]" class="rlp-table-footer">
+    <!--pagination left section-->
+    <div class="rlp-left-section">
+      <div class="rlp-footer-label">Display</div>
+
+      <mat-select [(ngModel)]="selectPageSize" name="p" (selectionChange)="pageSizeMethod()">
+        <mat-option *ngFor="let p of pageSizeValues" [value]="p">
+          {{ p }}
+        </mat-option>
+      </mat-select>
+      <div class="rlp-footer-label ml-8">per page</div>
+      <mat-icon class="rlp-left-section-arrow-icon" svgIcon="arrow"></mat-icon>
+    </div>
+    <!--pagination left section ends-->
+    <!-- pagination right section-->
+    <div class="rlp-right-section">
+      <div>
+        <form (submit)="enterPageNumber()">
+          <div class="rlp-footer-label">Page</div>
+          <input
+            [(ngModel)]="currentPageNumber"
+            name="enterPage"
+            class="page-number"
+            [value]="currentPageNumber"
+            onkeyup="this.value=this.value.replace(/[^\d]/,'')"
+          />
+          <div class="rlp-footer-label ml-8">of {{ totalPages }}</div>
+        </form>
+      </div>
+      <div class="pagination-btn-widget">
+        <div (click)="prevClick()" class="previous-button mr-8">
+          <button [ngClass]="currentPageNumber > 1 ? 'button-style-blue' : 'button-style'">
+            <mat-icon svgIcon="leftarrow"></mat-icon>
+          </button>
+        </div>
+        <div (click)="nextClick()" class="next-button">
+          <button [ngClass]="currentPageNumber < totalPages ? 'button-style-blue' : 'button-style'">
+            <mat-icon svgIcon="rightarrow"></mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- pagination right section ends-->
+  </div>
+  <!-- Table footer ends-->
+</div>
+<!-- table container ends-->
+<div *ngIf="skeletonTable">
+  <div class="table-conatiner">
+    <div class="table-conatiner-inner">
+      <div class="table-skeleton-long"></div>
+    </div>
+  </div>
+</div>

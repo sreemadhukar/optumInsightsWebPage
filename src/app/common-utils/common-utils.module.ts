@@ -13,7 +13,6 @@ import { StarChartComponent } from './d3-objects/star-chart/star-chart.component
 import { BarChartComponent } from './d3-objects/bar-chart/bar-chart.component';
 import { HeadMaterialModule } from '../head/head.material.module';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
-import { FeedbackComponent } from './feedback/feedback.component';
 import { LargeCardComponent } from './large-card/large-card.component';
 import { RotatingArrowObjectComponent } from './d3-objects/rotating-arrow-object/rotating-arrow-object.component';
 import { ClaimsPaidBarGraphComponent } from './d3-objects/claims-paid-bar-graph/claims-paid-bar-graph.component';
@@ -37,7 +36,28 @@ import { D3StarBlueComponent } from './d3-objects/d3-star-blue/d3-star-blue.comp
 import { D3StarGreyComponent } from './d3-objects/d3-star-grey/d3-star-grey.component';
 import { HeacSmallCardComponent } from './heac-small-card/heac-small-card.component';
 import { PipesModule } from '../pipes/pipes.module';
+import { LargeCardKopComponent } from './large-card-kop/large-card-kop.component';
+import { TrendsComponent } from './trends/trends.component';
+import { DonutChartsComponent } from './kop-cards/donut-charts/donut-charts.component';
+import { HorizontalChartsComponent } from './kop-cards/horizontal-charts/horizontal-charts.component';
+import { VerticalBarChartsComponent } from './kop-cards/vertical-bar-charts/vertical-bar-charts.component';
+import { KopFiltersComponent } from './kop-filters/kop-filters.component';
+import { MultiLineGraphComponent } from './d3-objects/multi-line-graph/multi-line-graph.component';
+import { ErrorTemplateComponent } from './kop-cards/error-template/error-template.component';
+import { FiltersAppliedComponent } from './filters-applied/filters-applied.component';
+import { FiltersMultiSelectComponent } from './filters-multi-select/filters-multi-select.component';
+import { NoAccessErrorPageComponent } from './no-access-error-page/no-access-error-page.component';
+import { ColorGreyMiniBarChartComponent } from './d3-objects/color-grey-mini-bar-chart/color-grey-mini-bar-chart.component';
+import { BarSimplePiComponent } from './d3-objects/bar-simple-pi/bar-simple-pi.component';
+import { StackedBarChartComponent } from './d3-objects/stacked-bar-chart/stacked-bar-chart.component';
+import { UhcKopFilterComponent } from './uhc-kop-filter/uhc-kop-filter.component';
+import { ClickElsewhereDirective } from './directives/ClickElsewhereDirective';
 
+import { RlpCommonUtilsModule } from '../components/performance/rlp-common-utils/rlp-common-utils.module';
+import { RlpLongCardComponent } from './rlp-long-card/rlp-long-card.component';
+import { LayoutContainerComponent } from './_layouts/layout_container/layoutcontainer.component';
+import { LayoutSeparatorComponent } from './_layouts/layout_seperator/layout_seperator.component';
+import { PageHeaderComponent } from './_headers/page_header/page_header.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -46,9 +66,13 @@ import { PipesModule } from '../pipes/pipes.module';
     HeadMaterialModule,
     RouterModule,
     MatIconModule,
-    PipesModule
+    PipesModule,
+    RlpCommonUtilsModule
   ],
   exports: [
+    LayoutContainerComponent,
+    LayoutSeparatorComponent,
+    PageHeaderComponent,
     MiniTileComponent,
     CardComponent,
     CommonFooterComponent,
@@ -56,7 +80,6 @@ import { PipesModule } from '../pipes/pipes.module';
     SmallCardComponent,
     BarChartComponent,
     BreadcrumbsComponent,
-    FeedbackComponent,
     LargeCardComponent,
     ErrorCardComponent,
     GlossaryComponent,
@@ -73,9 +96,28 @@ import { PipesModule } from '../pipes/pipes.module';
     PrintComponent,
     ClarifyClaimsMessageComponent,
     AccordionLargeCardComponent,
-    HeacSmallCardComponent
+    HeacSmallCardComponent,
+    LargeCardKopComponent,
+    TrendsComponent,
+    DonutChartsComponent,
+    HorizontalChartsComponent,
+    VerticalBarChartsComponent,
+    KopFiltersComponent,
+    MultiLineGraphComponent,
+    FiltersAppliedComponent,
+    MultiSelectComponent,
+    FiltersMultiSelectComponent,
+    ColorGreyMiniBarChartComponent,
+    BarSimplePiComponent,
+    UhcKopFilterComponent,
+    StackedBarChartComponent,
+    ClickElsewhereDirective,
+    RlpLongCardComponent
   ],
   declarations: [
+    LayoutContainerComponent,
+    LayoutSeparatorComponent,
+    PageHeaderComponent,
     MiniTileComponent,
     CardComponent,
     CommonHeaderComponent,
@@ -86,7 +128,6 @@ import { PipesModule } from '../pipes/pipes.module';
     StarChartComponent,
     BarChartComponent,
     BreadcrumbsComponent,
-    FeedbackComponent,
     LargeCardComponent,
     RotatingArrowObjectComponent,
     ClaimsPaidBarGraphComponent,
@@ -107,7 +148,24 @@ import { PipesModule } from '../pipes/pipes.module';
     AccordionLargeCardComponent,
     D3StarBlueComponent,
     D3StarGreyComponent,
-    HeacSmallCardComponent
+    HeacSmallCardComponent,
+    LargeCardKopComponent,
+    TrendsComponent,
+    DonutChartsComponent,
+    HorizontalChartsComponent,
+    VerticalBarChartsComponent,
+    KopFiltersComponent,
+    MultiLineGraphComponent,
+    ErrorTemplateComponent,
+    FiltersAppliedComponent,
+    FiltersMultiSelectComponent,
+    NoAccessErrorPageComponent,
+    ColorGreyMiniBarChartComponent,
+    BarSimplePiComponent,
+    StackedBarChartComponent,
+    UhcKopFilterComponent,
+    ClickElsewhereDirective,
+    RlpLongCardComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })

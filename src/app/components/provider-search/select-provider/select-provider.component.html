@@ -6,15 +6,33 @@
       </a>
     </div>
 
-    <div class="user-div">
+    <div (clickElsewhere)="closeDropdown()" class="margin-left-auto">
       <!-- <mat-slide-toggle [checked]="isDarkTheme | async" labelPosition="before" (change)="toggleDarkTheme($event.checked)"></mat-slide-toggle> -->
-      <div class="user-icon">
-        <mat-icon class="nav-menu-icons" svgIcon="person"></mat-icon>
+      <div class="user-div" (click)="advocateUserClicked()">
+        <div class="user-icon">
+          <mat-icon class="nav-menu-icons no-margin-icons" svgIcon="person"></mat-icon>
+        </div>
+        <div class="user-name">{{ username }}</div>
+        <div class="user-expand-more">
+          <!-- *ngIf="isAdvocate"-->
+          <mat-icon class="nav-menu-icons no-margin-icons" svgIcon="expand-more"></mat-icon>
+        </div>
       </div>
-      <div class="user-name">{{ username }}</div>
-      <!--<div class="user-expand-more">-->
-      <!--<mat-icon class="nav-menu-icons" svgIcon="expand-more"></mat-icon>-->
-      <!--</div>-->
+      <div>
+        <div *ngIf="openDropdownBool" class="user-info-block">
+          <div class="profile-details-block">
+            <p class="profile-name">{{ fullname }}</p>
+            <p class="profile-mail">{{ EmailId }}</p>
+            <p class="profile-id" *ngIf="!isInternal">Optum ID: {{ OptumId }}</p>
+            <p class="profile-id" *ngIf="isInternal">MSID: {{ MsId }}</p>
+          </div>
+          <div class="sign-out-block">
+            <div (click)="signOut()" class="signout-icon-text">
+              <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon><span class="signout-text">Sign Out</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -22,20 +40,53 @@
     <div class="select-provider-header">
       <h2 mat-dialog-title>Select an organization to represent</h2>
     </div>
-    <form class="select-provider-form">
+    <form class="select-provider-form" *ngIf="isInternal">
+      <!-- <mat-form-field appearance="outline"> -->
+      <!-- -->
+      <!-- <mat-label>Search Providers.</mat-label> -->
+      <!-- -->
+      <!-- <input matInput placeholder="Enter an organization here." [matAutocomplete]="auto" [formControl]="stateCtrl" />
+          <mat-icon matPrefix class="nav-menu-icons provider-icon-color searchicon" svgIcon="search"></mat-icon>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="providerSelect($event)">
+            <mat-option *ngFor="let state of (filteredStates | async)" [value]="state.HealthCareOrganizationName">
+              <span>{{ state.HealthCareOrganizationName }}</span></mat-option
+            >
+            <div *ngIf="checkCondition()" [ngClass]="{ hidden: nomatchFlag }" class="no-result-found-div">
+              <div class="no-result-found">No Results Found.</div>
+              <div class="no-result-found-text">
+                Your search –<span class="match-font"> {{ stateCtrl.value }} </span>– did not match any providers. Please
+                recheck your search criteria or try a different search.
+              </div>
+            </div> -->
+      <!-- -->
+      <!-- uncomment when view all providers page is available <div *ngIf="stateCtrl.value" class="view-allProviders" (click)="provider()">View All Providers</div> -->
+      <!-- -->
+      <!-- -->
+      <!-- <div class="view-allProviders" (click)="provider()">View All Providers</div> -->
+      <!-- -->
+      <!-- </mat-autocomplete>
+          <mat-icon *ngIf="!nomatchFlag" matSuffix class="nav-menu-icons noDataicon" svgIcon="noData"></mat-icon>
+        </mat-form-field> -->
+
       <mat-form-field appearance="outline">
         <!-- <mat-label>Search Providers.</mat-label> -->
-        <input matInput placeholder="Enter an organization here." [matAutocomplete]="auto" [formControl]="stateCtrl" />
+        <input
+          matInput
+          placeholder="Enter an organization here."
+          [matAutocomplete]="auto"
+          [formControl]="stateCtrl"
+          (keyup)="check($event.target.value)"
+        />
         <mat-icon matPrefix class="nav-menu-icons provider-icon-color searchicon" svgIcon="search"></mat-icon>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="providerSelect($event)">
-          <mat-option *ngFor="let state of (filteredStates | async)" [value]="state.HealthCareOrganizationName">
+          <mat-option *ngFor="let state of states" [value]="state.HealthCareOrganizationName">
             <span>{{ state.HealthCareOrganizationName }}</span></mat-option
           >
-          <div *ngIf="checkCondition()" [ngClass]="{ hidden: nomatchFlag }" class="no-result-found-div">
+          <div *ngIf="noProviders" class="no-result-found-div">
             <div class="no-result-found">No Results Found.</div>
             <div class="no-result-found-text">
-              Your search –<span class="match-font"> {{ stateCtrl.value }} </span>– did not match any providers. Please
-              recheck your search criteria or try a different search.
+              Your search –<span class="match-font"> {{ stateCtrl.value }} </span>– did not match any organizations.
+              Please recheck your search criteria or try a different search.
             </div>
           </div>
           <!-- uncomment when view all providers page is available <div *ngIf="stateCtrl.value" class="view-allProviders" (click)="provider()">View All Providers</div> -->
@@ -44,6 +95,33 @@
         <mat-icon *ngIf="!nomatchFlag" matSuffix class="nav-menu-icons noDataicon" svgIcon="noData"></mat-icon>
       </mat-form-field>
     </form>
+    <form class="select-provider-form" *ngIf="!isInternal">
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          placeholder="Enter an organization here."
+          [matAutocomplete]="auto"
+          [formControl]="ExtstateCtrl"
+          (click)="extProviders($event.target.value)"
+          (keyup)="extProviders($event.target.value)"
+        />
+        <mat-icon matPrefix class="nav-menu-icons provider-icon-color searchicon" svgIcon="search"></mat-icon>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="ExtproviderSelect($event)">
+          <mat-option *ngFor="let extstate of extstates" [value]="extstate.Healthcareorganizationname">
+            <span>{{ extstate.Healthcareorganizationname }}</span></mat-option
+          >
+          <div *ngIf="noExtProviders" id="check" class="no-result-found-div">
+            <div class="no-result-found">No Results Found.</div>
+            <div class="no-result-found-text">
+              Your search –<span class="match-font"> {{ ExtstateCtrl.value }} </span>– did not match any organizations.
+              Please recheck your search criteria or try a different search.
+            </div>
+          </div>
+        </mat-autocomplete>
+        <mat-icon *ngIf="!noextmatchFlag" matSuffix class="nav-menu-icons noDataicon" svgIcon="noData"></mat-icon>
+      </mat-form-field>
+    </form>
+    <div *ngIf="isInternal" class="three-char-text">Please type 3 characters to start your search.</div>
   </div>
   <div class="footer-separtor"></div>
   <app-footer-common></app-footer-common>

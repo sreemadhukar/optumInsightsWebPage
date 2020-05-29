@@ -1,7 +1,7 @@
 <div class="filter">
   <div class="line-top"></div>
-  <div class="titleData">
-    <div class="title">Time Period</div>
+  <div class="titleData" *ngIf="filterurl !== '/AdminSummaryTrends'">
+    <div class="title" (click)="clickArrowMark('timeframe')">Time Period</div>
     <div class="chevron">
       <mat-icon
         class="icon-display"
@@ -17,7 +17,7 @@
       ></mat-icon>
     </div>
   </div>
-  <div class="lobgrp">
+  <div class="lobgrp" *ngIf="filterurl !== '/AdminSummaryTrends'">
     <div>
       <label id="radio-group-label" class="label-data">{{ timeframeData }}</label>
     </div>
@@ -40,9 +40,13 @@
       </div>
     </div>
   </div>
-  <div class="line"></div>
-  <div class="titleData" [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }">
-    <div class="title">Tax ID</div>
+  <div class="line" *ngIf="filterurl !== '/AdminSummaryTrends'"></div>
+  <div
+    class="titleData"
+    [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }"
+    *ngIf="filterurl !== '/AdminSummaryTrends'"
+  >
+    <div class="title" (click)="clickArrowMark('tax')">Tax ID</div>
     <div class="chevron">
       <mat-icon class="icon-display" *ngIf="!tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowdn"></mat-icon>
       <mat-icon class="icon-display" *ngIf="tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowup"></mat-icon>
@@ -55,7 +59,7 @@
   >
     Not Available
   </div>
-  <div class="lobgrp" *ngIf="filterurl !== '/ServiceInteraction/Calls'">
+  <div class="lobgrp" *ngIf="filterurl !== '/ServiceInteraction/Calls' && filterurl !== '/AdminSummaryTrends'">
     <div *ngIf="taxArrayData.length == 0">
       <label id="radio-group-label" class="label-data">{{ taxData }}</label>
     </div>
@@ -86,10 +90,14 @@
       ></app-multi-select>
     </div>
   </div>
-  <div class="line"></div>
+  <div class="line" *ngIf="filterurl !== '/AdminSummaryTrends'"></div>
 
-  <div class="titleData" [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }">
-    <div class="title">Line of Business</div>
+  <div
+    class="titleData"
+    [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }"
+    *ngIf="filterurl !== '/AdminSummaryTrends'"
+  >
+    <div class="title" (click)="clickArrowMark('lob')">Line of Business</div>
     <div class="chevron">
       <mat-icon class="icon-display" *ngIf="!arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowdn"></mat-icon>
       <mat-icon class="icon-display" *ngIf="arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowup"></mat-icon>
@@ -102,7 +110,7 @@
   >
     Not Available
   </div>
-  <div class="lobgrp" *ngIf="filterurl !== '/ServiceInteraction/Calls'">
+  <div class="lobgrp" *ngIf="filterurl !== '/ServiceInteraction/Calls' && filterurl !== '/AdminSummaryTrends'">
     <div>
       <label id="radio-group" class="label-data">{{ lobData }}</label>
     </div>
@@ -124,7 +132,7 @@
     <!-- Service Setting Filter  -->
     <div class="line"></div>
     <div class="titleData">
-      <div class="title">Service Setting</div>
+      <div class="title" (click)="clickArrowMark('servicesetting')">Service Setting</div>
       <div class="chevron">
         <mat-icon
           class="icon-display"
@@ -186,6 +194,7 @@
     -->
 
     <!-- Service Category -->
+    <!--
     <div class="line"></div>
     <div class="titleData">
       <div class="title">Service Category</div>
@@ -225,18 +234,83 @@
             (optionSelected)="scArrayFunction($event.option.value)"
           >
             <mat-option *ngFor="let servicecategory of (filteredOptions | async)" [value]="servicecategory">
-              <!-- <span class="highlight" [innerHTML]="servicecategory | highlight: toHighlight"></span> -->
               {{ servicecategory }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
 
-        <!-- <mat-radio-group class="radio-group" [(ngModel)]="scTypeData">
+        <mat-radio-group class="radio-group" [(ngModel)]="scTypeData">
           <mat-radio-button class="radio-button" *ngFor="let patype of priorauthdecisiontype" [value]="patype">
             {{ patype }}
           </mat-radio-button>
-        </mat-radio-group> -->
+        </mat-radio-group>
       </div>
+    </div>
+    -->
+  </div>
+
+  <div class="titleData" *ngIf="filterurl === '/AdminSummaryTrends'">
+    <div class="title" (click)="clickArrowMark('metric')">Metric</div>
+    <div class="chevron">
+      <mat-icon
+        class="icon-display"
+        *ngIf="!metricarrowmark"
+        (click)="clickArrowMark('metric')"
+        svgIcon="arrowdn"
+      ></mat-icon>
+      <mat-icon
+        class="icon-display"
+        *ngIf="metricarrowmark"
+        (click)="clickArrowMark('metric')"
+        svgIcon="arrowup"
+      ></mat-icon>
+    </div>
+  </div>
+
+  <div class="lobgrp" *ngIf="filterurl === '/AdminSummaryTrends'">
+    <div>
+      <label id="radio-group" class="label-data">{{ formattingText(metricData) }}</label>
+    </div>
+    <div class="select-option-data" *ngIf="metricarrowmark">
+      <mat-radio-group class="radio-group" [(ngModel)]="metricData">
+        <mat-radio-button class="radio-button" *ngFor="let metric of metrics" [value]="metric">
+          {{ formattingText(metric) }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div class="line" *ngIf="filterurl === '/AdminSummaryTrends'"></div>
+  <div class="titleData" *ngIf="filterurl === '/AdminSummaryTrends'">
+    <div class="title" (click)="clickArrowMark('date')">Date</div>
+    <div class="chevron">
+      <mat-icon
+        class="icon-display"
+        *ngIf="!datearrowmark"
+        (click)="clickArrowMark('date')"
+        svgIcon="arrowdn"
+      ></mat-icon>
+      <mat-icon
+        class="icon-display"
+        *ngIf="datearrowmark"
+        (click)="clickArrowMark('date')"
+        svgIcon="arrowup"
+      ></mat-icon>
+    </div>
+  </div>
+  <div class="lobgrp" *ngIf="filterurl === '/AdminSummaryTrends'">
+    <div>
+      <label id="radio-group-label" class="label-data">{{ initial_data_date | date: 'yyyy-MM-dd' }}</label>
+    </div>
+    <div *ngIf="datearrowmark" class="label-cls">
+      <input
+        matInput
+        [matDatepicker]="picker1"
+        class="input-class trends-date-picker"
+        placeholder="Select Date"
+        [(ngModel)]="data_date"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker1" class="trends-dp-icon"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
     </div>
   </div>
 

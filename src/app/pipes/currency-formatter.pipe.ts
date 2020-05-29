@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'currencyFormatter'
 })
 export class CurrencyFormatterPipe implements PipeTransform {
-  transform(fnumber: any, args?: any): any {
+  transform(fnumber: any): any {
     if (fnumber >= 1000000000) {
       return (fnumber / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
     }

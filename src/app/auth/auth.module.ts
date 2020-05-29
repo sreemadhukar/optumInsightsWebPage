@@ -6,7 +6,6 @@ import { LoginStubComponent } from './login-stub/login-stub.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeadMaterialModule } from '../head/head.material.module';
 import { CommonUtilsModule } from '../common-utils/common-utils.module';
-import { SessionTimeoutComponent } from './session-timeout/session-timeout.component';
 import { IdleTimeoutDialogComponent } from './idle-timeout-dialog/idle-timeout-dialog.component';
 import { SharedModule } from '../shared/shared.module';
 
@@ -20,6 +19,8 @@ import { SharedModule } from '../shared/shared.module';
     CommonUtilsModule,
     SharedModule
   ],
-  declarations: [LoginStubComponent, SessionTimeoutComponent, IdleTimeoutDialogComponent]
+  declarations: [LoginStubComponent, IdleTimeoutDialogComponent]
 })
-export class AuthModule {}
+export class AuthModule {
+  constructor() {}
+}

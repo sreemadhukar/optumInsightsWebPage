@@ -16,10 +16,30 @@ app.use(helmet());
 app.use(express.static(path.join(__dirname, '.')));
 
 var apiProxy = httpProxy.createProxyServer();
-var apiForwardingUrl = 'https://gateway-stage-core.optum.com';
+var apiForwardingUrl = 'https://pedapigateway-pedprddr.ocp-ctc-dmz.optum.com';
+var apiForwardingUrlStage = 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/';
 var sessionSecret = 'STwHkLYUwN1L5rc3yqdkuthRvczrBupc';
 var key = 'Q9gRpXWjVm5GXethNxG60utGMGW7NpsO';
 var heac = require('./src/assets/mock-data/heac.json');
+var trendAccess = require('./src/assets/mock-data/trendAccess.json');
+var whitelist = ['http://localhost:4200', 'https://localhost:4200'];
+var corsOptions = {
+  origin: function(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
+app.all('/uhci/stage/*', function(req, res) {
+  const urlBreakDown = req.url.split('/uhci/stage/');
+  const proxyUrl = apiForwardingUrlStage + urlBreakDown[urlBreakDown.length - 1];
+  apiProxy.web(req, res, { target: proxyUrl, ignorePath: true, changeOrigin: true, secure: false }, function(e) {
+    handleExceptions(e, res);
+  });
+});
 
 app.all('/uhci/prd/*', function(req, res) {
   apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false }, function(e) {
@@ -27,10 +47,16 @@ app.all('/uhci/prd/*', function(req, res) {
   });
 });
 
+//app.use(cors(corsOptions));
+app.all('*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  next();
+});
+
 app.use((error, req, res, next) => {
   handleExceptions(error, res);
 });
-
 app.get('/api/getJwt', cors(), function(req, res) {
   let token = jwt.sign(
     {
@@ -44,9 +70,15 @@ app.get('/api/getJwt', cors(), function(req, res) {
   });
 });
 
-app.get('/api/getHeac/:MsId', cors(), function(req, res) {
+app.get('/api/getHeac/:MsId', function(req, res) {
   res.status(200).json({
     heac: include(heac.user, req.params.MsId)
+  });
+});
+
+app.get('/api/getTrendAccess/:MsId', function(req, res) {
+  res.status(200).json({
+    trendAccess: include(trendAccess.user, req.params.MsId)
   });
 });
 

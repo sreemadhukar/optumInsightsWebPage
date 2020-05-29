@@ -1,20 +1,22 @@
 <div *ngIf="titleHeader != null" class="header-container">
-  <div class="details">
+  <div *ngIf="!printStyle" class="details">
     <mat-icon class="onHoverIcon" (click)="helpFunctionClicked()" svgIcon="help"></mat-icon>
   </div>
   <div
     class="header-title"
+    [class.sub-header-padding]="titleSubHeader !== null"
     [class.nps-header]="options && options.npsHeader"
-    [class.title-width]="title === 'Medicare & Retirement Annual Care Visits Completion Rate'"
+    [class.title-width]="title === 'Medicare Annual Care Visits Completion Rate'"
     [class.title-padding]="title === 'Top Reasons for Prior Authorizations Not Approved'"
     [class.common-header]="cardType === 'error-card'"
     [class.non-small-card-header-title]="typeOfCard != 'smallCard'"
   >
-    <div *ngIf="typeOfCard === 'smallCard'">
+    <div>
       <a class="handClicked" (click)="titleClicked(titleHeader)">{{ titleHeader }}</a>
+      <span *ngIf="addIcon"><mat-icon class="icon-class" svgIcon="warning-icon"></mat-icon></span>
     </div>
-    <div *ngIf="typeOfCard != 'smallCard'">
-      {{ titleHeader }}
+    <div *ngIf="titleSubHeader !== null" class="sub-header-title">
+      {{ titleSubHeader }}
     </div>
   </div>
 </div>
