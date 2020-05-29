@@ -39,10 +39,10 @@ export class SmartEditsComponent implements OnInit {
   subscription: any;
   showSmartEdits = false;
   smartEditsData: any;
+  seReturnedLoading = true;
   smartEditsTopReasonsData: any;
   reasonDataAvailable: boolean;
   reason: any = [];
-  seReturnedLoading: boolean;
   seRepairedLoading: boolean;
   smartEditClaimsRepairedResubmitted: any;
   returnMockCards: any;
@@ -133,11 +133,12 @@ export class SmartEditsComponent implements OnInit {
   }
   // **** Smart Edits Claims Returned Starts here**** //
   smartEditReturnedData() {
+    this.seReturnedLoading = true;
     this.smartEditsSharedService
       .getSmartEditsReturnedShared(this.createPayloadService.payload)
       .then((smartEditsData: any) => {
-        this.seReturnedLoading = false;
         this.smartEditClaimsReturned = smartEditsData;
+        this.seReturnedLoading = false;
         this.timePeriod = this.smartEditClaimsReturned.timeperiod;
       })
       .catch(reason => {
