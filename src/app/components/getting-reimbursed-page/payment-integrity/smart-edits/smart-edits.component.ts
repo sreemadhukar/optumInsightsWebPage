@@ -90,13 +90,6 @@ export class SmartEditsComponent implements OnInit {
     this.smartEditRepairedResubmittedData();
     this.SmartEditReturnedTopReasons();
     //  this.timePeriod = this.session.filterObjValue.timeFrame;
-    let elemInnerText;
-    let elemContent;
-    elemInnerText = document.getElementById('myDataId').innerText;
-    elemContent = document.getElementById('myDataId').getAttribute('content');
-    if (elemInnerText.length <= elemContent.length) {
-      document.getElementById('myDataId').setAttribute('title', elemContent);
-    }
   }
   // modal poup function
   public handleClick() {

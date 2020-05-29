@@ -22,7 +22,7 @@
     <!-- Smart Edits Claims Returned Card Starts here -->
 
     <ng-container>
-      <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading && !printStyle"> </app-card>
+      <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="ully && !printStyle"> </app-card>
 
       <app-error-card
         *ngIf="smartEditClaimsReturned.data == null && smartEditClaimsReturned.status != null && !seReturnedLoading"
@@ -38,7 +38,7 @@
 
     <!-- Smart Edits Claims Returned Card Ends here -->
     <!-- Smart Edits Repaired & Resubmitted Response Time Card Starts here -->
-    <div>
+    <div class="app-card-structure">
       <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
       <app-error-card
         *ngIf="
@@ -50,7 +50,7 @@
         [data]="smartEditClaimsRepairedResubmitted"
       ></app-error-card>
       <div
-        class="repaired-block"
+        class="repaired-block card-inner"
         *ngIf="smartEditClaimsRepairedResubmitted[0] != null && smartEditClaimsRepairedResubmitted[1] != null"
       >
         <app-common-header
@@ -58,7 +58,7 @@
           class="full-display"
           (helpIconClicked)="helpIconClick($event)"
         ></app-common-header>
-        <div class="smart-edits-bar-chart-block">
+        <div class="smart-edits-bar-chart-block full-width-block">
           <div class="pi-numbers-block">
             <p class="mr-returned-number">{{ smartEditClaimsRepairedResubmitted[0] }}</p>
             <p class="mr-not-returned-number mr-returned-number">{{ smartEditClaimsRepairedResubmitted[1] }}</p>
@@ -105,15 +105,16 @@
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
     <div *ngFor="let r of reason; let i = index" class="smartEdit-overturned-bar-chart">
-      <div *ngIf="r.barDescp == 'No description found on edit code file'">
+      <!-- <div *ngIf="r.barDescp == 'No description found on edit code file'">
+
         <div class="reason-code">{{ r.barText1 }} -</div>
         <div (click)="handleClick()" class="reason-reference">See Reference Guide</div>
       </div>
 
       <div *ngIf="r.barDescp != 'No description found on edit code file'">
-        <div class="reason-code overflow">{{ r.barText1 }} - {{ r.barDescp }}</div>
-        <span class="tooltip">{{ r.barText1 }} - {{ r.barDescp }}</span>
-      </div>
+        <div class="reason-code " data-title="fgfgf gfgffgfgfg">{{ r.barText1 }} - {{ (r.barDescp).substring(0,220) }}</div>
+
+      </div> -->
       <app-med-bar-chart-two [chartOptions]="r"></app-med-bar-chart-two>
 
       <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
@@ -121,9 +122,9 @@
     <div class="common-footer">
       <app-common-footer [timePeriod]="timePeriod"></app-common-footer>
     </div>
-    <div *ngIf="!reasonDataAvailable && !loading" class="overturn-margin">
-      <app-error-card *ngIf="reason[0] && reason[0].status" class="cards" [data]="reason[0]"></app-error-card>
-    </div>
+  </div>
+  <div *ngIf="!reasonDataAvailable && !loading" class="overturn-margin">
+    <app-error-card *ngIf="reason.data && reason[0].status" class="cards" [data]="reason[0]"></app-error-card>
   </div>
   <!-- Smart Edits Claims Top Reasons ENDS HERE -->
 </app-layoutcontainer>
