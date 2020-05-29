@@ -33,7 +33,7 @@ export class SmartEditsComponent implements OnInit {
   subscription: any;
   showSmartEdits = false;
   smartEditsData: any;
-  seReturnedLoading: boolean;
+  seReturnedLoading = true;
   seRepairedLoading: boolean;
   smartEditClaimsRepairedResubmitted: any;
   returnMockCards: any;
@@ -67,7 +67,6 @@ export class SmartEditsComponent implements OnInit {
     this.checkStorage.emitEvent('smartEditsPage');
     //  this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.checkStorage.emitEvent('smartEditsPage');
-
     this.smartEditReturnedData();
     this.smartEditRepairedResubmittedData();
     //  this.timePeriod = this.session.filterObjValue.timeFrame;
@@ -138,8 +137,8 @@ export class SmartEditsComponent implements OnInit {
       .getSmartEditsReturnedShared(this.createPayloadService.payload)
       .then((smartEditsData: any) => {
         this.smartEditClaimsReturned = smartEditsData;
-        this.timePeriod = this.smartEditClaimsReturned.timeperiod;
         this.seReturnedLoading = false;
+        this.timePeriod = this.smartEditClaimsReturned.timeperiod;
       })
       .catch(reason => {
         this.seReturnedLoading = false;
