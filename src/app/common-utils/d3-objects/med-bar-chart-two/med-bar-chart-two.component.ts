@@ -178,16 +178,25 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
         .attr('fill', '#2D2D39')
         .attr('font-size', '16')
         .attr('text-anchor', 'start')
-
         .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-        .text(reasonDescp[0] + ' -')
-        .append('tspan')
+        .text(reasonDescp[0] + ' -');
+      chart
+        .append('text')
+        .attr('x', 75)
+        .attr('y', 12)
         .attr('fill', '#196ecf')
+        .attr('font-size', '16')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('cursor', 'pointer')
         .text('See Reference Guide')
-        .attr('x', 75)
         .attr('class', 'reason-reference')
-        .attr('x', 75)
-        .call(wrap, 250, tspanID, 16);
+        .on(
+          'click',
+          function() {
+            this.handleClick();
+          }.bind(this)
+        );
     } else {
       textWithHover = chart
         .append('text')
