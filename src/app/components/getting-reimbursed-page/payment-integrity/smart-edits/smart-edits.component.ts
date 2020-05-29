@@ -1,3 +1,5 @@
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material';
 import { Component, OnInit, Input } from '@angular/core';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
@@ -12,8 +14,7 @@ import { CURRENT_PAGE, REMOVE_FILTER } from '../../../../store/filter/actions';
 import { IAppState } from '../../../../store/store';
 import { SmartEditsSharedService } from '../../../../shared/new-payment-integrity/smart-edits-shared.service';
 import { ModalPopupService } from 'src/app/common-utils/modal-popup/modal-popup.service';
-import { DomSanitizer } from '@angular/platform-browser';
-import { MatIconRegistry } from '@angular/material';
+
 @Component({
   selector: 'app-smart-edits',
   templateUrl: './smart-edits.component.html',
@@ -38,18 +39,16 @@ export class SmartEditsComponent implements OnInit {
   subscription: any;
   showSmartEdits = false;
   smartEditsData: any;
+  seReturnedLoading = true;
   smartEditsTopReasonsData: any;
-  reasonDataAvailable = true;
+  reasonDataAvailable: boolean;
   reason: any = [];
-  seReturnedLoading: boolean;
   seRepairedLoading: boolean;
   smartEditClaimsRepairedResubmitted: any;
   returnMockCards: any;
   repairMockCards: any;
   lessThan5DaysBarData: any;
   greaterThan5DaysBarData: any;
-  mockCards: any = [{}, {}];
-  topReasonsDataError: any;
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     public MetricidService: GlossaryMetricidService,
@@ -57,6 +56,7 @@ export class SmartEditsComponent implements OnInit {
     private router: Router,
     private session: SessionService,
     private checkStorage: StorageService,
+    private filtermatch: CommonUtilsService,
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>,
     private common: CommonUtilsService,
@@ -83,20 +83,25 @@ export class SmartEditsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'smartEditsPage' });
     this.checkStorage.emitEvent('smartEditsPage');
     //  this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
-    this.mockCards = [{}, {}];
-    this.loading = true;
-    this.seReturnedLoading = true;
-    this.reasonDataAvailable = false;
+
+    this.reasonDataAvailable = true;
     this.smartEditReturnedData();
+    this.SmartEditReturneddTopReasons();
+    this.timePeriod = this.session.filterObjValue.timeFrame;
     this.smartEditRepairedResubmittedData();
-    this.SmartEditReturnedTopReasons();
     //  this.timePeriod = this.session.filterObjValue.timeFrame;
-    let elemInnerText;
-    let elemContent;
-    elemInnerText = document.getElementById('myDataId').innerText;
-    elemContent = document.getElementById('myDataId').getAttribute('content');
-    if (elemInnerText.length <= elemContent.length) {
-      document.getElementById('myDataId').setAttribute('title', elemContent);
+    if (this.session.filterObjValue.lob !== 'All') {
+      this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    } else {
+      this.lob = '';
+    }
+    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
+      this.taxID = this.session.filterObjValue.tax;
+      if (this.taxID.length > 3) {
+        this.taxID = [this.taxID.length + ' Selected'];
+      }
+    } else {
+      this.taxID = [];
     }
   }
   // modal poup function
@@ -128,11 +133,12 @@ export class SmartEditsComponent implements OnInit {
   }
   // **** Smart Edits Claims Returned Starts here**** //
   smartEditReturnedData() {
+    this.seReturnedLoading = true;
     this.smartEditsSharedService
       .getSmartEditsReturnedShared(this.createPayloadService.payload)
       .then((smartEditsData: any) => {
-        this.seReturnedLoading = false;
         this.smartEditClaimsReturned = smartEditsData;
+        this.seReturnedLoading = false;
         this.timePeriod = this.smartEditClaimsReturned.timeperiod;
       })
       .catch(reason => {
@@ -169,34 +175,20 @@ export class SmartEditsComponent implements OnInit {
   } // **** Ends here *** //
 
   // **** Smart Edits Claims Top Reasons Starts here**** //
-  SmartEditReturnedTopReasons() {
+  SmartEditReturneddTopReasons() {
     this.smartEditsSharedService
       .getSmartEditSharedTopReasons(this.createPayloadService.payload)
       .then((smartEditsTopReasonsData: any) => {
-        console.log('smartEditsTopReasonsData-->', smartEditsTopReasonsData);
-        if (
-          smartEditsTopReasonsData != null &&
-          smartEditsTopReasonsData != undefined &&
-          smartEditsTopReasonsData.length !== 0
-        ) {
-          this.topReasonsData = smartEditsTopReasonsData;
-          console.log('this.topReasonsData-->', this.topReasonsData);
+        this.topReasonsData = smartEditsTopReasonsData;
+        console.log('this.TopReasonsData191', this.topReasonsData);
+        if (this.topReasonsData !== null && this.topReasonsData.Data !== null) {
           this.reasonDataAvailable = true;
           this.loading = false;
-          this.reason = this.topReasonsData;
         } else {
-          this.topReasonsDataError = {
-            category: 'app-card',
-            type: 'donut',
-            status: 404,
-            title: 'Top Claims Appeals Overturn Reasons',
-            MetricID: this.MetricidService.MetricIDs.TopClaimSmartEditOverturnReasons,
-            data: null,
-            timeperiod: null
-          };
-          this.loading = false;
           this.reasonDataAvailable = false;
+          this.loading = false;
         }
+        this.reason = this.topReasonsData;
       })
       .catch(err => {
         console.log('Error', err);

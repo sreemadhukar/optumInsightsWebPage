@@ -56,7 +56,7 @@ export class SmartEditsSharedService {
               hover: true,
               labels: ['Repaired & Resubmitted', 'Resubmitted Without Changes', 'No Action Taken']
             },
-            //  timeperiod: this.session.filterObjValue.timeFrame,
+            // timeperiod: this.session.filterObjValue.timeFrame,
             timeperiod:
               this.common.dateFormat(smartEditsData.Data.PeriodStart) +
               '&ndash;' +
@@ -144,7 +144,7 @@ export class SmartEditsSharedService {
         const topReasonsData = smartEditReasonData;
         const ReasonsData = topReasonsData.Data;
         if (topReasonsData !== null) {
-          if (topReasonsData == null && topReasonsData.hasOwnProperty('Status')) {
+          if (ReasonsData == null && topReasonsData.hasOwnProperty('Status')) {
             reason.push({
               category: 'app-card',
               type: 'donut',
@@ -185,6 +185,7 @@ export class SmartEditsSharedService {
         } // null
       });
       const r = reason;
+      console.log('r------>', r);
       resolve(r);
     }); // promise
   } // function end
