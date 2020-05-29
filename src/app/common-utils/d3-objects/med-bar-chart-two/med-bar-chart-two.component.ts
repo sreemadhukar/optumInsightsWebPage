@@ -1,9 +1,11 @@
-import { Component, OnInit, Input, HostListener, AfterViewInit } from '@angular/core';
+import { ModalPopupService } from 'src/app/common-utils/modal-popup/modal-popup.service';
+import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 @Component({
   selector: 'app-med-bar-chart-two',
   templateUrl: './med-bar-chart-two.component.html',
-  styleUrls: ['./med-bar-chart-two.component.scss']
+  styleUrls: ['./med-bar-chart-two.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
   public renderChart: string;
@@ -12,7 +14,7 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
   public transition = 1;
   public noTransition = 0;
 
-  constructor() {}
+  constructor(private dialogService: ModalPopupService) {}
 
   @HostListener('window:resize', ['$event'])
   onResize(_event) {
@@ -161,17 +163,53 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
     const tspanID = uniqueText + 'tspan';
     let textWithHover;
 
-    textWithHover = chart
-      .append('text')
-      .attr('id', uniqueText)
-      .attr('x', 10)
-      .attr('y', 12)
-      .attr('fill', '#2D2D39')
-      .attr('font-size', '16')
-      .attr('text-anchor', 'start')
-      .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text(chartOptions.barText1, chartOptions.barDesc)
-      .call(wrap, 250, tspanID, 16);
+    const barvalue = chartOptions.barText;
+    const reasonDescp = barvalue.split('-');
+    const reasonDescpValue = reasonDescp[reasonDescp.length - 1];
+    let barTextValue = chartOptions.barText;
+
+    if (chartOptions.barDescp === 'No description found on edit code file') {
+      barTextValue = reasonDescp[0] + ' - ' + 'See Reference Guide';
+      textWithHover = chart
+        .append('text')
+        .attr('id', uniqueText)
+        .attr('x', 10)
+        .attr('y', 12)
+        .attr('fill', '#2D2D39')
+        .attr('font-size', '16')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .text(reasonDescp[0] + ' -');
+      chart
+        .append('text')
+        .attr('x', 75)
+        .attr('y', 12)
+        .attr('fill', '#196ecf')
+        .attr('font-size', '16')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('cursor', 'pointer')
+        .text('See Reference Guide')
+        .attr('class', 'reason-reference')
+        .on(
+          'click',
+          function() {
+            this.handleClick();
+          }.bind(this)
+        );
+    } else {
+      textWithHover = chart
+        .append('text')
+        .attr('id', uniqueText)
+        .attr('x', 10)
+        .attr('y', 12)
+        .attr('fill', '#2D2D39')
+        .attr('font-size', '16')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .text(barTextValue)
+        .call(wrap, 250, tspanID, 16);
+    }
 
     // where we should enable the hover object to exist
     if (textWithHover.selectAll('tspan').size() > 1) {
@@ -239,5 +277,31 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
             .style('opacity', 0);
         });
     }
+  }
+  public handleClick() {
+    const showPopUp = sessionStorage.getItem('dontShowPCORpopup');
+    if (JSON.parse(showPopUp)) {
+      this.saveData();
+    } else {
+      const options = {
+        title: 'You are being directed to the Smart Edits Reference Guide',
+        message:
+          'A new browser window will open the Smart Edits Reference Guide, which is being hosted on uhcprovider.com.',
+        cancelText: 'No Thanks, Stay Here.',
+        dontShowText: 'Don’t show me this again this session.',
+        confirmText: 'Continue'
+      };
+
+      this.dialogService.open(options);
+
+      this.dialogService.confirmed().subscribe(confirmed => {
+        if (confirmed) {
+          this.saveData();
+        }
+      });
+    }
+  } // modalpopup function end
+  saveData() {
+    window.open('https://www.uhcprovider.com/content/dam/provider/docs/public/resources/edi/EDI-ACE-Smart-Edits.pdf');
   }
 }

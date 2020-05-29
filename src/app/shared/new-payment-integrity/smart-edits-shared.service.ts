@@ -174,7 +174,7 @@ export class SmartEditsSharedService {
                 type: 'bar chart',
                 cdata: 'smartedit',
                 graphValues: [reasonsPercentageVal1[i], reasonsPercentageVal2[i]],
-                barText1: reasonsCode[i],
+                barText: reasonsCode[i] + ' - ' + reasonsDesc[i],
                 barDescp: reasonsDesc[i],
                 barValue: [barVal[i]],
                 color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
@@ -185,7 +185,6 @@ export class SmartEditsSharedService {
         } // null
       });
       const r = reason;
-      console.log('r------>', r);
       resolve(r);
     }); // promise
   } // function end
