@@ -24,7 +24,7 @@ export class BreadcrumbsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer
+    private readonly sanitizer: DomSanitizer
   ) {
     this.breadcrumbs = [];
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
@@ -72,6 +72,12 @@ export class BreadcrumbsComponent implements OnInit {
           label: 'Payment Integrity',
           params: {},
           url: '//GettingReimbursed/GettingReimbursed/PaymentIntegrity'
+        });
+      } else if (child.snapshot.data[ROUTE_DATA_BREADCRUMB] === 'Smart Edits') {
+        breadcrumbs.push({
+          label: 'Payment Integrity',
+          params: {},
+          url: '//GettingReimbursed/GettingReimbursed/SmartEdits'
         });
       }
       const breadcrumb: IBreadcrumb = {

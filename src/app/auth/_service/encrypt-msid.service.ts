@@ -13,9 +13,12 @@ export class EncryptMsidService {
     let result = '';
     let i = 0;
     do {
-      let a = string.charCodeAt(i++);
-      let b = string.charCodeAt(i++);
-      let c = string.charCodeAt(i++);
+      let a = string.charCodeAt(i);
+      i = i + 1;
+      let b = string.charCodeAt(i);
+      i = i + 1;
+      let c = string.charCodeAt(i);
+      i = i + 1;
       a = a ? a : 0;
       b = b ? b : 0;
       c = c ? c : 0;

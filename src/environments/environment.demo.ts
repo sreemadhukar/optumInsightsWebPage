@@ -65,7 +65,9 @@ export const environment: any = {
     PaymentIntegrityTabsInfo: 'pi-tab-info/',
     NewPaymentIntegrity: 'payment-integrity/',
     ProviderSearch: 'provider-search',
-    AdvocateTinDetails: 'advocate-tin-details/'
+    AdvocateTinDetails: 'advocate-tin-details/',
+    SmartEdits: 'smart-edit-metrics/',
+    getPublicKey: 'getPublicKey'
   },
   headerKeys: {
     selectedCompany: '',

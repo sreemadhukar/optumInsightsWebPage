@@ -2,6 +2,7 @@ import { lobName } from '../../../modals/lob-name';
 
 export const TimePeriod = [
   { name: 'Last30Days', value: 'Last 30 Days', disable: false },
+  { name: 'Rolling3Months', value: 'Rolling 3 Months', disable: false },
   { name: 'Last3Months', value: 'Last 3 Months', disable: false },
   { name: 'Last6Months', value: 'Last 6 Months', disable: false },
   { name: 'Last12Months', value: 'Last 12 Months', disable: false },

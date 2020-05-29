@@ -38,16 +38,9 @@ export class KOPSharedService {
 
           timePeriod.timeFrame.years = npsData.quarters.map((quarter: any) => quarter.year);
 
-          // const npsDetailInstancePM = new NPSDetail({ records: response, small: true, id: 'npsPM' });
-          // const npsDataPM = npsDetailInstancePM.getData();
-
-          // const npsDetailInstanceMD = new NPSDetail({ records: response, small: true, id: 'npsMd' });
-          // const npsDataMD = npsDetailInstanceMD.getData();
-
           return resolve({
             npsData,
-            // npsDataMD,
-            // npsDataPM,
+
             timePeriod
           });
         },
@@ -155,10 +148,14 @@ export class KOPSharedService {
     return new Promise((resolve, reject) => {
       switch (metricKey) {
         case 'kop':
-          this.kopService.getSummary({ params }).subscribe(
-            (response: any) => resolve(response),
-            () => reject()
-          );
+          this.kopService
+            .getSummary({ params })
+            .then((response: any) => {
+              return resolve(response.Data);
+            })
+            .catch(() => {
+              return resolve();
+            });
           break;
         case 'priorauthtat':
           this.kopService.getPriorAuthTATSummary({ params }).subscribe(
@@ -188,26 +185,15 @@ export class KOPSharedService {
       Promise.all(tasks)
         .then((response: any) => {
           const totalResponse = [];
-          if (metricKey === 'kop') {
-            if (response[0] && response[0]['StatusCode'] === 200) {
-              const npsResponse = response[0]['Data'];
-              for (let i = 0; i < npsResponse.length; i++) {
-                totalResponse.push(npsResponse[i]);
-              }
+          response.forEach((responseItem: any) => {
+            if (responseItem && responseItem instanceof Array && responseItem.length > 0) {
+              responseItem.forEach((innerResponseItem: any) => {
+                totalResponse.push(innerResponseItem);
+              });
             } else {
               return resolve([]);
             }
-          } else {
-            response.forEach((responseItem: any) => {
-              if (responseItem && responseItem instanceof Array && responseItem.length > 0) {
-                responseItem.forEach((innerResponseItem: any) => {
-                  totalResponse.push(innerResponseItem);
-                });
-              } else {
-                return resolve([]);
-              }
-            });
-          }
+          });
           return resolve(totalResponse);
         })
         .catch(() => {

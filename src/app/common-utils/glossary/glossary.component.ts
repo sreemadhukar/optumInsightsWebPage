@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
-import { GlossarySharedService } from 'src/app/shared/glossary.service';
+import { GlossarySharedService } from './../../shared/glossary.service';
 
 @Component({
   selector: 'app-glossary',
@@ -33,7 +33,7 @@ export class GlossaryComponent implements OnInit, DoCheck {
   public internal = environment.internalAccess;
   @Input() title: string;
   @Input() MetricID: string;
-  constructor(private glossarySharedService: GlossarySharedService, private router: Router) {}
+  constructor(private readonly glossarySharedService: GlossarySharedService, private readonly router: Router) {}
 
   checkIfKOP() {
     return this.router.url.includes('NationalExecutive') ? true : false;
@@ -46,9 +46,7 @@ export class GlossaryComponent implements OnInit, DoCheck {
     this.options = [];
   }
 
-  ngDoCheck() {
-    // this.networkLeverUlTag();
-  }
+  ngDoCheck() {}
 
   public networkLeverUlTag() {
     setTimeout(function() {

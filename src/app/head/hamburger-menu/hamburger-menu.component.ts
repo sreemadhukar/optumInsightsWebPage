@@ -16,7 +16,7 @@ import { MatExpansionPanel, MatDialog, MatSidenav, MatDialogConfig } from '@angu
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
-import { ViewportScroller } from '@angular/common';
+import { ViewportScroller, DOCUMENT } from '@angular/common';
 import { AuthenticationService } from '../../auth/_service/authentication.service';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
@@ -25,7 +25,6 @@ import { StorageService } from '../../shared/storage-service.service';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
 import { FilterExpandService } from '../../shared/filter-expand.service';
-import { DOCUMENT } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
@@ -38,8 +37,7 @@ import { NgRedux } from '@angular-redux/store';
 import { GroupPremiumDesignationService } from '../../rest/group-premium-designation/group-premium-designation.service';
 import { PCORData } from './../../modals/title-config';
 import { routingLinks } from './../../modals/route-config';
-// import { UserReviewService } from 'src/app/shared/user-review.service';
-// declare const externalRatingIntercept: any;
+import { GlossarySharedService } from '../../shared/glossary.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -109,9 +107,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         {
           name: 'Payment Integrity',
           children: [
-            { name: 'Medical Records Coding Review', path: '/GettingReimbursed/PaymentIntegrity' }
+            { name: 'Medical Records Coding Review', path: '/GettingReimbursed/PaymentIntegrity' },
             // Uncomment Next Line when data is available for Smart Edits
-            // { name: 'Smart Edits', path: '/GettingReimbursed/SmartEdits' }
+            { name: 'Smart Edits', path: '/GettingReimbursed/SmartEdits' }
           ]
         }
       ],
@@ -148,12 +146,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       icon: 'performance',
       name: 'Performance',
       children: [
-        { name: 'Summary', path: '/Performance', disabled: false },
-        { name: 'Referrals', path: '/Performance/Referrals', disabled: false },
-        { name: 'Labs', path: '/Performance/Labs', disabled: false },
-        { name: 'Prescriptions', path: '/Performance/Prescriptions', disabled: false }
+        { name: 'Summary', path: '/Performance', disabled: true },
+        { name: 'Referrals', path: '/Performance/Referrals', disabled: true },
+        { name: 'Labs', path: '/Performance/Labs', disabled: true },
+        { name: 'Prescriptions', path: '/Performance/Prescriptions', disabled: true }
       ],
-      disabled: false
+      disabled: true
     }
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
@@ -171,11 +169,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private authService: AuthenticationService,
-    private sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private themeService: ThemeService,
     private dialog: MatDialog,
     private checkStorage: StorageService,
     private glossaryExpandService: GlossaryExpandService,
+    private readonly glossarySharedService: GlossarySharedService,
     private filterExpandService: FilterExpandService,
     private filterCloseService: FilterCloseService,
     private pcorService: PcorService,
@@ -185,7 +184,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private viewPortScroller: ViewportScroller,
     private checkRlpService: CheckHcoRlpService,
     private ngRedux: NgRedux<any>,
-    // private userreviewservice: UserReviewService,
+
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -218,9 +217,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     }
     let currentUser: any;
     currentUser = { ProviderKey: false };
-    if (!(sessionStorage.getItem('currentUser') === null)) {
+    if (sessionStorage.getItem('currentUser') !== null) {
       currentUser = JSON.parse(sessionStorage.getItem('currentUser'))[0];
     }
+
     // Group Premium Designation
     if (this.groupPremiumDesignationService && this.internalUser && currentUser.ProviderKey) {
       this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
@@ -270,14 +270,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
         // Role based access for Advocates Overview page
-        if (this.checkAdv.value && sessionStorage.advocateView !== 'true') {
+        if (this.checkAdv.value && sessionStorage['advocateView'] !== 'true') {
           this.navCategories[1].path = routingLinks.OverviewAdvocatepath;
 
           if (window.location.pathname === '/OverviewPage' && !event.url.includes('print-')) {
             window.location.href = routingLinks.OverviewAdvocatepath;
           }
         }
-        // this.checkPcorData();
+
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
@@ -313,6 +313,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             this.checkPro.value) ||
           this.checkExecutive.value
         ) {
+          const isRlpDisable = {
+            All: true,
+            Referral: true,
+            Labs: true,
+            Perscription: true
+          };
+          this.insertRlpNav(isRlpDisable);
           this.fromKOP = true;
         } else {
           this.fromKOP = false;
@@ -326,6 +333,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
           event.url !== '/OverviewPageAdvocate/Home' &&
           this.checkAdv.value
         ) {
+          const isRlpDisable = {
+            All: true,
+            Referral: true,
+            Labs: true,
+            Perscription: true
+          };
+          this.insertRlpNav(isRlpDisable);
           this.advocateView = true;
         } else {
           this.advocateView = false;
@@ -385,6 +399,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
+        if (sessionStorage.getItem('currentUser')) {
+          this.glossarySharedService.init();
+        }
         this.printStyle = event.url.includes('print-');
       }
     });
@@ -448,9 +465,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.glossaryFlag = true;
         this.glossaryTitle = data.value;
         this.glossaryMetricID = data.MetricID;
-        // setTimeout(() => {
-        // this.viewPortScroller.scrollToPosition([0, 0]);
-        // }, 500);
+
         this.stopBodyScroll(true);
       },
       err => {
@@ -500,10 +515,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     }
   }
 
-  // changeOfRoutes() {
-  //   this.userreviewservice.removeCreatedCookies();
-  // }
-
   advocateRole() {
     this.sessionService.checkAdvocateRole();
     this.navCategories[1].path = routingLinks.OverviewAdvocatepath;
@@ -525,6 +536,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   insertRlpNav(isRlpDisable) {
+    if (this.fromKOP || this.advocateView) {
+      isRlpDisable = {
+        All: true,
+        Referral: true,
+        Labs: true,
+        Perscription: true
+      };
+    }
     const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
     this.navCategories[getIndex].children[0].disabled = isRlpDisable.All;
     this.navCategories[getIndex].children[1].disabled = isRlpDisable.Referral;
@@ -587,13 +606,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     const parametersExecutive = [this.sessionService.providerKeyData(), true];
     this.pcorService.getPCORMedicareData(...parametersExecutive).subscribe(
       data => {
-        if (!data || !data.ReportingPeriod) {
+        const PcorData = data.Data;
+        if (!PcorData || !PcorData.ReportingPeriod) {
           try {
             this.removePCORnav();
             sessionStorage.removeItem('pcor');
-            // this.navCategories[4].children = this.navCategories[4].children.filter(
-            //   i => i.name !== 'Patient Care Opportunity'
-            // );
+
             if (this.router.url.includes('CareDelivery/PatientCareOpportunity')) {
               // Role based access for Advocates Overview page
               if (this.checkAdv.value) {
@@ -658,7 +676,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
-    // alert(this.sideNavFlag);
   }
 
   toggleDarkTheme(isDarkTheme: boolean) {
@@ -750,7 +767,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   taxSummaryLink() {
     if (this.sessionService.checkRole('UHCI_Advocate')) {
-      if (sessionStorage.advocateView === 'true') {
+      if (sessionStorage['advocateView'] === 'true') {
         this.router.navigateByUrl('/TinList');
       } else {
         this.router.navigateByUrl('/OverviewPageAdvocate/HealthSystemDetails');
@@ -819,7 +836,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         } else {
           element.close();
         }
-      } else if (path === '/GettingReimbursed/PaymentIntegrity') {
+      } else if (path === '/GettingReimbursed/PaymentIntegrity' || path === '/GettingReimbursed/SmartEdits') {
         if (element.id === 'cdk-accordion-child-0' || element.id === 'cdk-accordion-child-1') {
           element.open();
         } else {

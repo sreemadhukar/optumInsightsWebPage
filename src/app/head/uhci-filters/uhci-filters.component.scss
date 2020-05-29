@@ -44,7 +44,7 @@
   .title {
     width: 300px;
     color: #2d2d39;
-    font-family: 'UHCSans-SemiBold', 'Arial';
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     font-size: 18px;
     line-height: 22px;
     margin: 15px 0 8px 0;
@@ -165,7 +165,7 @@
   box-sizing: border-box;
   height: 41px;
   width: 50%;
-  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
 }
 .btn-display {
   margin-top: 24px;
@@ -238,7 +238,7 @@
 .commercial-lob-header {
   margin: 15px 0px 8px 0px;
   color: $black-rock;
-  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 22px;

@@ -48,6 +48,9 @@ h1.example-app-name {
   flex: 1;
   min-height: 760px;
 }
+.example-sidenav-container.top-40 {
+  margin-bottom: 40px;
+}
 
 .example-is-mobile .example-sidenav-container {
   /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
