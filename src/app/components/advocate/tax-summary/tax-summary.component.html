@@ -51,14 +51,24 @@
           <th mat-header-cell *matHeaderCellDef id="taxidNumber">
             <span mat-sort-header>Tax ID Number</span>
             <div>
-              <input
-                type="text"
-                class="tax-summary-input"
-                spellcheck="false"
-                [ngModel]="taxIdSearch"
-                (keyup)="searchTaxId($event.target.value, 'Tin')"
-                placeholder="Find Tax ID Number"
-              />
+              <label class="tax-id-label">
+                <input
+                  type="text"
+                  class="tax-summary-input tax-summary-tin-input"
+                  spellcheck="false"
+                  [ngModel]="taxIdSearch"
+                  (keyup)="searchTaxId($event.target.value, 'Tin')"
+                />
+                <mat-icon class="tin-search-icon" matSuffix svgIcon="search" *ngIf="!taxIdSearch"></mat-icon>
+                <mat-icon
+                  class="tin-search-icon close-cursor"
+                  matSuffix
+                  svgIcon="close"
+                  (click)="searchTaxId('', 'Tin'); clearValue('taxIdSearch')"
+                  (keypress)="clearValue('taxIdSearch')"
+                  *ngIf="taxIdSearch"
+                ></mat-icon>
+              </label>
             </div>
           </th>
           <td mat-cell class="tax-summary-table-cell" *matCellDef="let element; let i = index; let isLast = last">
@@ -69,13 +79,24 @@
           <th mat-header-cell *matHeaderCellDef id="taxIdName">
             <span mat-sort-header>Tax ID Name</span>
             <div>
-              <input
-                type="text"
-                class="tax-summary-name-input"
-                spellcheck="false"
-                (keyup)="searchTaxId($event.target.value, 'TinName')"
-                placeholder="Find Tax ID Name"
-              />
+              <label class="tax-id-name-label">
+                <input
+                  type="text"
+                  class="tax-summary-name-input"
+                  spellcheck="false"
+                  [ngModel]="tinNameSearch"
+                  (keyup)="searchTaxId($event.target.value, 'TinName')"
+                />
+                <mat-icon class="tin-search-icon" matSuffix svgIcon="search" *ngIf="!tinNameSearch"></mat-icon>
+                <mat-icon
+                  class="tin-search-icon close-cursor"
+                  matSuffix
+                  svgIcon="close"
+                  (click)="clearValue('tinNameSearch')"
+                  (keypress)="clearValue('tinNameSearch')"
+                  *ngIf="tinNameSearch"
+                ></mat-icon>
+              </label>
             </div>
           </th>
           <td mat-cell class="tax-summary-table-cell" [class.italic]="!element.TinName" *matCellDef="let element">
@@ -86,11 +107,13 @@
           <th mat-header-cell *matHeaderCellDef id="taxIdType">
             <span mat-sort-header>Tax ID Type</span>
             <div>
-              <select class="tax-summary-input" (change)="searchTaxId($event.target.value, 'TaxIdType')">
-                <option>All</option>
-                <option *ngFor="let tin of data.TinTypes"> {{ tin | sliceString }} </option>
-              </select>
-              <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
+              <label class="tax-id-type-label">
+                <select class="tax-summary-input" (change)="searchTaxId($event.target.value, 'TaxIdType')">
+                  <option>All</option>
+                  <option *ngFor="let tin of data.TinTypes"> {{ tin | sliceString }} </option>
+                </select>
+                <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
+              </label>
             </div>
           </th>
           <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
@@ -101,12 +124,14 @@
           <th mat-header-cell *matHeaderCellDef id="taxIdOwnership">
             Tax ID Ownership
             <div>
-              <select class="tax-summary-input" (change)="searchTaxId($event.target.value, 'TaxIdOwnership')">
-                <option value="All">All</option>
-                <option value="Owned" [selected]="tinOwnershipSelected">Owned</option>
-                <option value="Affiliated">Affiliated</option>
-              </select>
-              <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
+              <label class="tax-id-ownership-label">
+                <select class="tax-summary-input" (change)="searchTaxId($event.target.value, 'TaxIdOwnership')">
+                  <option value="All">All</option>
+                  <option value="Owned" [selected]="tinOwnershipSelected">Owned</option>
+                  <option value="Affiliated">Affiliated</option>
+                </select>
+                <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
+              </label>
             </div>
           </th>
           <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
@@ -114,7 +139,12 @@
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="taxSummaryColumns"></tr>
-        <tr mat-row class="tax-summary-rows" *matRowDef="let row; columns: taxSummaryColumns"></tr>
+        <tr
+          mat-row
+          class="tax-summary-rows"
+          *matRowDef="let row; let i = index; columns: taxSummaryColumns"
+          [ngClass]="{ active: i === selectedTaxId.length - 1 && selectedTaxId[0]['Tin'] !== 'All' && row.checked }"
+        ></tr>
       </table>
 
       <mat-paginator

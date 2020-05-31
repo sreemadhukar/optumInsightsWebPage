@@ -18,6 +18,7 @@ export class TaxSummaryComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @Input() selectedTaxId;
+  tinNameSearch: string;
   taxSummaryData: any;
   data: any;
   taxIdSearch: string;
@@ -34,6 +35,14 @@ export class TaxSummaryComponent implements OnInit {
       this.sanitizer.bypassSecurityTrustResourceUrl(
         '/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg'
       )
+    );
+    iconRegistry.addSvgIcon(
+      'search',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
+    );
+    this.iconRegistry.addSvgIcon(
+      'close',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
   }
 
@@ -93,22 +102,21 @@ export class TaxSummaryComponent implements OnInit {
         ? [{ Tin: 'All', Tinname: 'All' }]
         : this.selectedTaxId
     );
-    const orignalIndex = index + this.paginator.pageIndex * this.pageSize;
-    if (row.checked && orignalIndex !== this.checkedCount() - 1) {
-      this.taxSummaryData.filteredData.unshift(this.taxSummaryData.filteredData.splice(orignalIndex, 1)[0]);
+    const originalIndex = index + this.paginator.pageIndex * this.pageSize;
+    if (row.checked && originalIndex !== this.checkedCount() - 1) {
+      this.taxSummaryData.filteredData.unshift(this.taxSummaryData.filteredData.splice(originalIndex, 1)[0]);
     } else if (!row.checked) {
-      this.swap(orignalIndex, this.checkedCount());
+      this.swap(originalIndex, this.checkedCount());
     }
     this.taxSummaryData.sort = this.sort;
     const sortState3: Sort = { active: 'TinCheckBox', direction: 'asc' };
     this.sort.active = sortState3.active;
     this.sort.direction = sortState3.direction;
     this.sort.sortChange.emit(sortState3);
-
     this.taxSummaryData.paginator = this.paginator;
   }
 
-  // function for chec all checkboxes
+  // function for check all checkboxes
   checkAllChecked() {
     this.allChecked = !this.allChecked;
     const checkSelected = !this.checkAllSelected();
@@ -174,7 +182,12 @@ export class TaxSummaryComponent implements OnInit {
       }
       this.taxIdSearch = filterValue;
     }
-
+    if (id === 'TinName') {
+      this.tinNameSearch = filterValue;
+    }
+    if (id === 'Tin') {
+      this.taxIdSearch = filterValue;
+    }
     this.filterObj = {
       value: filterValue.trim().toLowerCase(),
       key: id
@@ -238,5 +251,14 @@ export class TaxSummaryComponent implements OnInit {
       .style('float', 'left')
       .lower()
       .attr('id', 'page-text');
+  }
+
+  clearValue(value: string) {
+    if (value === 'taxIdSearch') {
+      this.taxIdSearch = '';
+    }
+    if (value === 'tinNameSearch') {
+      this.tinNameSearch = '';
+    }
   }
 }
