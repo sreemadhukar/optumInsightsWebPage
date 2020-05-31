@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { select } from '@angular-redux/store';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './print-page.component.html',
   styleUrls: ['./print-page.component.scss']
 })
-export class PrintPageComponent implements OnInit, OnDestroy {
+export class PrintPageComponent implements OnInit {
   @select(['uhc', 'currentPage']) currentPage;
   selectedPage;
   printStyle = true;
@@ -30,23 +30,23 @@ export class PrintPageComponent implements OnInit, OnDestroy {
     // ];
   }
 
-  ngOnDestroy() {
-    window.onafterprint = () => {};
-  }
-
   ngOnInit() {
     this.currentPage.subscribe(c => (this.selectedPage = c));
+
     setTimeout(() => {
       (window as any).print();
     }, 7000);
 
-    window.onafterprint = this.navigateToLastPage.bind(this);
+    setTimeout(this.navigateToLastPage.bind(this), 10000);
   }
 
   navigateToLastPage() {
-    setTimeout(() => {
+    const id = setInterval(() => {
+      console.log(window.matchMedia('print'));
       if (this._router.url === '/print-page') {
+        console.log('I am In');
         this._location.back();
+        clearInterval(id);
       }
     }, 1000);
   }
