@@ -7,7 +7,7 @@
     </span>
   </div>
   <div class="tax-summary-body">
-    <div class="tax-summary-table-block mat-elevation-z8" #taxSummaryTable>
+    <div class="tax-summary-table-block mat-elevation-z8">
       <table mat-table [dataSource]="taxSummaryData" matSort matSortDirection="asc">
         <ng-container matColumnDef="TinCheckBox">
           <th mat-header-cell *matHeaderCellDef>
@@ -142,8 +142,8 @@
         <tr
           mat-row
           class="tax-summary-rows"
-          *matRowDef="let row; columns: taxSummaryColumns"
-          [ngClass]="{ active: row.checked }"
+          *matRowDef="let row; let i = index; columns: taxSummaryColumns"
+          [ngClass]="{ active: i === selectedTaxId.length - 1 && selectedTaxId[0]['Tin'] !== 'All' && row.checked }"
         ></tr>
       </table>
 

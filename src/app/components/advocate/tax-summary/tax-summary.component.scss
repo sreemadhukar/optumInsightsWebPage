@@ -164,6 +164,9 @@
     font-size: 16px;
     line-height: 22px;
     padding: 15px 0;
+    &:last-of-type {
+      padding-right: 0;
+    }
   }
 }
 
@@ -175,6 +178,9 @@
     .mat-sort-header-container.mat-sort-header-sorted .mat-sort-header-arrow {
       opacity: 1 !important;
       transform: translateY(0) !important;
+    }
+    &:last-of-type {
+      padding-right: 0;
     }
   }
 }
@@ -338,4 +344,8 @@
 
 .example-margin {
   margin: 0 10px;
+}
+
+.active {
+  border-bottom: 3px solid #e0e0e0;
 }
