@@ -18,7 +18,6 @@ export class TaxSummaryComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @Input() selectedTaxId;
-  @ViewChild('taxSummaryTable') taxSummaryTable;
   tinNameSearch: string;
   taxSummaryData: any;
   data: any;
@@ -106,7 +105,6 @@ export class TaxSummaryComponent implements OnInit {
     const orignalIndex = index + this.paginator.pageIndex * this.pageSize;
     if (row.checked && orignalIndex !== this.checkedCount() - 1) {
       this.taxSummaryData.filteredData.unshift(this.taxSummaryData.filteredData.splice(orignalIndex, 1)[0]);
-      this.showBorder('3px solid #E0E0E0');
     } else if (!row.checked) {
       this.swap(orignalIndex, this.checkedCount());
     }
@@ -136,7 +134,6 @@ export class TaxSummaryComponent implements OnInit {
       this.selectedTaxId =
         this.selectedTaxId.length === this.data.All.length ? [{ Tin: 'All', Tinname: 'All' }] : this.selectedTaxId;
       this.tinValues.emit(this.selectedTaxId);
-      this.showBorder('1px solid #757588');
     } else {
       for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
         this.taxSummaryData.filteredData[i]['checked'] = false;
@@ -144,7 +141,6 @@ export class TaxSummaryComponent implements OnInit {
       this.allChecked = false;
       this.selectedTaxId = [{ Tin: 'All', Tinname: 'All' }];
       this.tinValues.emit(this.selectedTaxId);
-      this.showBorder('1px solid #757588');
     }
   }
 
@@ -264,13 +260,5 @@ export class TaxSummaryComponent implements OnInit {
     if (value === 'tinNameSearch') {
       this.tinNameSearch = '';
     }
-  }
-
-  showBorder(borderValue: string) {
-    const elements = this.taxSummaryTable.nativeElement.querySelectorAll('.active');
-    Array.prototype.forEach.call(elements, () => {
-      const lastElement = elements[elements.length - 1];
-      lastElement.style.borderBottom = borderValue;
-    });
   }
 }
