@@ -102,11 +102,11 @@ export class TaxSummaryComponent implements OnInit {
         ? [{ Tin: 'All', Tinname: 'All' }]
         : this.selectedTaxId
     );
-    const orignalIndex = index + this.paginator.pageIndex * this.pageSize;
-    if (row.checked && orignalIndex !== this.checkedCount() - 1) {
-      this.taxSummaryData.filteredData.unshift(this.taxSummaryData.filteredData.splice(orignalIndex, 1)[0]);
+    const originalIndex = index + this.paginator.pageIndex * this.pageSize;
+    if (row.checked && originalIndex !== this.checkedCount() - 1) {
+      this.taxSummaryData.filteredData.unshift(this.taxSummaryData.filteredData.splice(originalIndex, 1)[0]);
     } else if (!row.checked) {
-      this.swap(orignalIndex, this.checkedCount());
+      this.swap(originalIndex, this.checkedCount());
     }
     this.taxSummaryData.sort = this.sort;
     const sortState3: Sort = { active: 'TinCheckBox', direction: 'asc' };
