@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 export class TaxSummaryComponent implements OnInit {
   @Input() inputData;
   @Output() tinValues = new EventEmitter();
+  @Output() showAllTins = new EventEmitter();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @Input() selectedTaxId;
@@ -68,6 +69,7 @@ export class TaxSummaryComponent implements OnInit {
           }
         });
       }
+      this.showAllTins.emit(false);
     }
   }
 
@@ -108,6 +110,7 @@ export class TaxSummaryComponent implements OnInit {
     } else if (!row.checked) {
       this.swap(originalIndex, this.checkedCount());
     }
+    this.selectedTaxId.length === this.data.All.length ? this.showAllTins.emit(true) : this.showAllTins.emit(false);
     this.taxSummaryData.sort = this.sort;
     const sortState3: Sort = { active: 'TinCheckBox', direction: 'asc' };
     this.sort.active = sortState3.active;
@@ -131,8 +134,7 @@ export class TaxSummaryComponent implements OnInit {
           Tinname: this.taxSummaryData.filteredData[i].TinName
         });
       }
-      this.selectedTaxId =
-        this.selectedTaxId.length === this.data.All.length ? [{ Tin: 'All', Tinname: 'All' }] : this.selectedTaxId;
+      this.selectedTaxId.length === this.data.All.length ? this.showAllTins.emit(true) : this.showAllTins.emit(false);
       this.tinValues.emit(this.selectedTaxId);
     } else {
       for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
