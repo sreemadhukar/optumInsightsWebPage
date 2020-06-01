@@ -556,17 +556,7 @@ export class TopRowAdvOverviewSharedService {
           if (parameters[1]['ClaimsBy'] === 'DOP') {
             lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'ALL';
             if (!claimsData || !claimsData.hasOwnProperty('LineOfBusiness')) {
-              claimsPaid = {
-                category: 'small-card',
-                type: 'donutWithLabel',
-                status: 404,
-                title: 'Claims Paid',
-                MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
-                data: null,
-                besideData: null,
-                bottomData: null,
-                timeperiod: null
-              };
+              claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
             } else if (claimsData != null) {
               if (lobData === 'Mr') {
                 lobData = 'MedicareAndRetirement';
@@ -585,17 +575,7 @@ export class TopRowAdvOverviewSharedService {
                 claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount')
               ) {
               } else {
-                claimsPaid = {
-                  category: 'small-card',
-                  type: 'donutWithLabel',
-                  status: 404,
-                  title: 'Claims Paid',
-                  MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
-                  data: null,
-                  besideData: null,
-                  bottomData: null,
-                  timeperiod: null
-                };
+                claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
               }
 
               if (
@@ -606,89 +586,57 @@ export class TopRowAdvOverviewSharedService {
                 claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.hasOwnProperty('AmountDenied')
               ) {
                 const notPaidData = [];
+
                 if (
                   claimsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
-                  claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics != null
+                  claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics != null &&
+                  claimsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClaimFinancialMetrics') &&
+                  claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics.hasOwnProperty('AmountDenied')
                 ) {
-                  if (
-                    claimsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClaimFinancialMetrics') &&
-                    claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics.hasOwnProperty('AmountDenied')
-                  ) {
-                    notPaidData.push(
-                      claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics.AmountDenied
-                    );
-                  }
+                  notPaidData.push(claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics.AmountDenied);
                 }
+
                 if (
                   claimsData.LineOfBusiness.hasOwnProperty('CommunityAndState') &&
-                  claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics != null
+                  claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics != null &&
+                  claimsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClaimFinancialMetrics') &&
+                  claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics.hasOwnProperty('AmountDenied')
                 ) {
-                  if (
-                    claimsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClaimFinancialMetrics') &&
-                    claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics.hasOwnProperty('AmountDenied')
-                  ) {
-                    notPaidData.push(claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics.AmountDenied);
-                  }
+                  notPaidData.push(claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics.AmountDenied);
                 }
+
                 if (
                   claimsData.LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
-                  claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics != null
+                  claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics != null &&
+                  claimsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClaimFinancialMetrics') &&
+                  claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics.hasOwnProperty('AmountDenied')
                 ) {
-                  if (
-                    claimsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClaimFinancialMetrics') &&
-                    claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics.hasOwnProperty('AmountDenied')
-                  ) {
-                    notPaidData.push(
-                      claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics.AmountDenied
-                    );
-                  }
+                  notPaidData.push(claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics.AmountDenied);
                 }
+
                 if (
                   claimsData.LineOfBusiness.hasOwnProperty('UNKNOWN') &&
-                  claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics != null
+                  claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics != null &&
+                  claimsData.LineOfBusiness.UNKNOWN.hasOwnProperty('ClaimFinancialMetrics') &&
+                  claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics.hasOwnProperty('AmountDenied')
                 ) {
-                  if (
-                    claimsData.LineOfBusiness.UNKNOWN.hasOwnProperty('ClaimFinancialMetrics') &&
-                    claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics.hasOwnProperty('AmountDenied')
-                  ) {
-                    notPaidData.push(claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics.AmountDenied);
-                  }
+                  notPaidData.push(claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics.AmountDenied);
                 }
+
                 if (lobData !== 'ALL') {
                   notPaidData.push(
                     claimsData.LineOfBusiness.ALL.ClaimFinancialMetrics.ApprovedAmount -
                       claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.ApprovedAmount
                   );
                 }
-              } else {
               }
             } else {
-              claimsPaid = {
-                category: 'small-card',
-                type: 'donutWithLabel',
-                status: 404,
-                title: 'Claims Paid',
-                MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
-                data: null,
-                besideData: null,
-                bottomData: null,
-                timeperiod: null
-              };
+              claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
             }
           } else {
             lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
             if (!claimsData || !claimsData.hasOwnProperty(lobData)) {
-              claimsPaid = {
-                category: 'small-card',
-                type: 'donutWithLabel',
-                status: 404,
-                title: 'Claims Paid',
-                MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
-                data: null,
-                besideData: null,
-                bottomData: null,
-                timeperiod: null
-              };
+              claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
             } else if (claimsData != null) {
               if (
                 claimsData.hasOwnProperty(lobData) &&
@@ -805,17 +753,7 @@ export class TopRowAdvOverviewSharedService {
                   };
                 } // Date : 31/5/2019
               } else {
-                claimsPaid = {
-                  category: 'small-card',
-                  type: 'donutWithLabel',
-                  status: 404,
-                  title: 'Claims Paid',
-                  MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
-                  data: null,
-                  besideData: null,
-                  bottomData: null,
-                  timeperiod: null
-                };
+                claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
               }
               if (
                 claimsData.hasOwnProperty(lobData) &&
@@ -826,50 +764,55 @@ export class TopRowAdvOverviewSharedService {
               ) {
                 const paidData = [];
                 const paidLOBBoolean = [false, false, false, false];
-                if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
-                  if (
-                    claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
-                    claimsData.Mr.ClaimsLobSummary.length &&
-                    claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                    (lobData === 'All' || lobData === 'Mr')
-                  ) {
-                    paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
-                    paidLOBBoolean[0] = true;
-                  }
+
+                if (
+                  claimsData.hasOwnProperty('Mr') &&
+                  claimsData.Mr != null &&
+                  claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Mr.ClaimsLobSummary.length &&
+                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Mr')
+                ) {
+                  paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+                  paidLOBBoolean[0] = true;
                 }
-                if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
-                  if (
-                    claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
-                    claimsData.Cs.ClaimsLobSummary.length &&
-                    claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                    (lobData === 'All' || lobData === 'Cs')
-                  ) {
-                    paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
-                    paidLOBBoolean[1] = true;
-                  }
+
+                if (
+                  claimsData.hasOwnProperty('Cs') &&
+                  claimsData.Cs != null &&
+                  claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Cs.ClaimsLobSummary.length &&
+                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Cs')
+                ) {
+                  paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+                  paidLOBBoolean[1] = true;
                 }
-                if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
-                  if (
-                    claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
-                    claimsData.Ei.ClaimsLobSummary.length &&
-                    claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                    (lobData === 'All' || lobData === 'Ei')
-                  ) {
-                    paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
-                    paidLOBBoolean[2] = true;
-                  }
+
+                if (
+                  claimsData.hasOwnProperty('Ei') &&
+                  claimsData.Ei != null &&
+                  claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Ei.ClaimsLobSummary.length &&
+                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Ei')
+                ) {
+                  paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+                  paidLOBBoolean[2] = true;
                 }
-                if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
-                  if (
-                    claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
-                    claimsData.Un.ClaimsLobSummary.length &&
-                    claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                    (lobData === 'All' || lobData === 'Un')
-                  ) {
-                    paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
-                    paidLOBBoolean[3] = true;
-                  }
+
+                if (
+                  claimsData.hasOwnProperty('Un') &&
+                  claimsData.Un != null &&
+                  claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Un.ClaimsLobSummary.length &&
+                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Un')
+                ) {
+                  paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+                  paidLOBBoolean[3] = true;
                 }
+
                 if (lobData !== 'All') {
                   paidData.push(
                     claimsData.All.ClaimsLobSummary[0].AmountPaid - claimsData[lobData].ClaimsLobSummary[0].AmountPaid
@@ -908,17 +851,7 @@ export class TopRowAdvOverviewSharedService {
                     this.common.dateFormat(claimsData.Enddate)
                 };
               } else {
-                claimsPaid = {
-                  category: 'small-card',
-                  type: 'donutWithLabel',
-                  status: 404,
-                  title: 'Claims Paid',
-                  MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
-                  data: null,
-                  besideData: null,
-                  bottomData: null,
-                  timeperiod: null
-                };
+                claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
               }
               if (
                 claimsData.hasOwnProperty(lobData) &&
@@ -928,41 +861,45 @@ export class TopRowAdvOverviewSharedService {
                 claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
               ) {
                 const notPaidData = [];
-                if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
-                  if (
-                    claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
-                    claimsData.Mr.ClaimsLobSummary.length &&
-                    claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
-                  ) {
-                    notPaidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountDenied);
-                  }
+
+                if (
+                  claimsData.hasOwnProperty('Mr') &&
+                  claimsData.Mr != null &&
+                  claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Mr.ClaimsLobSummary.length &&
+                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                ) {
+                  notPaidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountDenied);
                 }
-                if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
-                  if (
-                    claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
-                    claimsData.Cs.ClaimsLobSummary.length &&
-                    claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
-                  ) {
-                    notPaidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountDenied);
-                  }
+
+                if (
+                  claimsData.hasOwnProperty('Cs') &&
+                  claimsData.Cs != null &&
+                  claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Cs.ClaimsLobSummary.length &&
+                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                ) {
+                  notPaidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountDenied);
                 }
-                if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
-                  if (
-                    claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
-                    claimsData.Ei.ClaimsLobSummary.length &&
-                    claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
-                  ) {
-                    notPaidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountDenied);
-                  }
+
+                if (
+                  claimsData.hasOwnProperty('Ei') &&
+                  claimsData.Ei != null &&
+                  claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Ei.ClaimsLobSummary.length &&
+                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                ) {
+                  notPaidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountDenied);
                 }
-                if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
-                  if (
-                    claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
-                    claimsData.Un.ClaimsLobSummary.length &&
-                    claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
-                  ) {
-                    notPaidData.push(claimsData.Un.ClaimsLobSummary[0].AmountDenied);
-                  }
+
+                if (
+                  claimsData.hasOwnProperty('Un') &&
+                  claimsData.Un != null &&
+                  claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Un.ClaimsLobSummary.length &&
+                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                ) {
+                  notPaidData.push(claimsData.Un.ClaimsLobSummary[0].AmountDenied);
                 }
               }
               // end if else for Claims Non-Payment Rate | Getting Reimbursed Non-Payment Page            if (
@@ -979,17 +916,7 @@ export class TopRowAdvOverviewSharedService {
               } else {
               }
             } else {
-              claimsPaid = {
-                category: 'small-card',
-                type: 'donutWithLabel',
-                status: 404,
-                title: 'Claims Paid',
-                MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
-                data: null,
-                besideData: null,
-                bottomData: null,
-                timeperiod: null
-              };
+              claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
             }
           }
           resolve(claimsPaid);
@@ -999,6 +926,20 @@ export class TopRowAdvOverviewSharedService {
         }
       );
     });
+  }
+
+  setDataForEmptyPaymentDataCard() {
+    return {
+      category: 'small-card',
+      type: 'donutWithLabel',
+      status: 404,
+      title: 'Claims Paid',
+      MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
+      data: null,
+      besideData: null,
+      bottomData: null,
+      timeperiod: null
+    };
   }
 
   setClaimsPaidDataForNoColor(claimsData, lobData) {
@@ -1022,56 +963,48 @@ export class TopRowAdvOverviewSharedService {
   }
 
   processClaimsForPayment(claimsData, lobData) {
-    let claimsPaid: any;
     const paidData = [];
+
     if (
       claimsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
-      claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics != null
+      claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics != null &&
+      claimsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClaimFinancialMetrics') &&
+      claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount') &&
+      (lobData === 'ALL' || lobData === 'MedicareAndRetirement')
     ) {
-      if (
-        claimsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClaimFinancialMetrics') &&
-        claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount') &&
-        (lobData === 'ALL' || lobData === 'MedicareAndRetirement')
-      ) {
-        paidData.push(claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics.ApprovedAmount);
-      }
+      paidData.push(claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics.ApprovedAmount);
     }
+
     if (
       claimsData.LineOfBusiness.hasOwnProperty('CommunityAndState') &&
-      claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics != null
+      claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics != null &&
+      claimsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClaimFinancialMetrics') &&
+      claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount') &&
+      (lobData === 'ALL' || lobData === 'CommunityAndState')
     ) {
-      if (
-        claimsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClaimFinancialMetrics') &&
-        claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount') &&
-        (lobData === 'ALL' || lobData === 'CommunityAndState')
-      ) {
-        paidData.push(claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics.ApprovedAmount);
-      }
+      paidData.push(claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics.ApprovedAmount);
     }
+
     if (
       claimsData.LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
-      claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics != null
+      claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics != null &&
+      claimsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClaimFinancialMetrics') &&
+      claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount') &&
+      (lobData === 'ALL' || lobData === 'EmployerAndIndividual')
     ) {
-      if (
-        claimsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClaimFinancialMetrics') &&
-        claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount') &&
-        (lobData === 'ALL' || lobData === 'EmployerAndIndividual')
-      ) {
-        paidData.push(claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics.ApprovedAmount);
-      }
+      paidData.push(claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics.ApprovedAmount);
     }
+
     if (
       claimsData.LineOfBusiness.hasOwnProperty('UNKNOWN') &&
-      claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics != null
+      claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics != null &&
+      claimsData.LineOfBusiness.UNKNOWN.hasOwnProperty('ClaimFinancialMetrics') &&
+      claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount') &&
+      (lobData === 'ALL' || lobData === 'UNKNOWN')
     ) {
-      if (
-        claimsData.LineOfBusiness.UNKNOWN.hasOwnProperty('ClaimFinancialMetrics') &&
-        claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount') &&
-        (lobData === 'ALL' || lobData === 'UNKNOWN')
-      ) {
-        paidData.push(claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics.ApprovedAmount);
-      }
+      paidData.push(claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics.ApprovedAmount);
     }
+
     if (lobData !== 'ALL') {
       paidData.push(
         claimsData.LineOfBusiness.ALL.ClaimFinancialMetrics.ApprovedAmount -
@@ -1079,7 +1012,7 @@ export class TopRowAdvOverviewSharedService {
       );
     }
 
-    claimsPaid = {
+    const claimsPaid = {
       category: 'small-card',
       type: 'donutWithLabel',
       title: 'Claims Paid',
