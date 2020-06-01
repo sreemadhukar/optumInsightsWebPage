@@ -142,23 +142,21 @@ export class SmartEditsSharedService {
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.smartEditsService.getSmartEditTopReasons(parameters).subscribe(smartEditReasonData => {
-        const topReasonsData = smartEditReasonData;
-        const ReasonsData = topReasonsData.Data;
-        if (topReasonsData !== null && topReasonsData !== undefined && ReasonsData !== null) {
+        if (smartEditReasonData != null && smartEditReasonData.Data != null) {
           const reasonsCode = [{}];
           const reasonsPercentageVal1 = [{}];
           const reasonsDesc = [{}];
           const reasonsPercentageVal2 = [{}];
           const barVal = [{}];
 
-          for (let a = 0; a < ReasonsData.Reasons.length; a++) {
-            reasonsCode[a] = ReasonsData.Reasons[a].Code;
-            reasonsDesc[a] = ReasonsData.Reasons[a].Description;
-            reasonsPercentageVal1[a] = ReasonsData.Reasons[a].Percentage;
+          for (let a = 0; a < smartEditReasonData.Data.Reasons.length; a++) {
+            reasonsCode[a] = smartEditReasonData.Data.Reasons[a].Code;
+            reasonsDesc[a] = smartEditReasonData.Data.Reasons[a].Description;
+            reasonsPercentageVal1[a] = smartEditReasonData.Data.Reasons[a].Percentage;
             reasonsPercentageVal2[a] = 100 - Number(reasonsPercentageVal1[a]);
             barVal[a] = reasonsPercentageVal1[a] + '%';
           }
-          for (let i = 0; i < ReasonsData.Reasons.length; i++) {
+          for (let i = 0; i < smartEditReasonData.Data.Reasons.length; i++) {
             reason.push({
               type: 'bar chart',
               cdata: 'smartedit',
@@ -169,9 +167,9 @@ export class SmartEditsSharedService {
               color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
               gdata: ['app-card-structure', 'smartEditClaimsOverturnReason' + i],
               timeperiod:
-                this.common.dateFormat(ReasonsData.PeriodStart) +
+                this.common.dateFormat(smartEditReasonData.Data.PeriodStart) +
                 '&ndash;' +
-                this.common.dateFormat(ReasonsData.PeriodEnd)
+                this.common.dateFormat(smartEditReasonData.Data.PeriodEnd)
             });
           }
         } else {
@@ -184,10 +182,10 @@ export class SmartEditsSharedService {
             data: null,
             timeperiod: null
           });
-        }
-      });
-      const r = reason;
-      resolve(r);
-    }); // promise
-  } // function end
+        } // promise
+        const r = reason;
+        resolve(r);
+      }); // function end
+    });
+  }
 }

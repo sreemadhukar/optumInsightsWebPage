@@ -22,7 +22,7 @@ import { ModalPopupService } from 'src/app/common-utils/modal-popup/modal-popup.
 })
 export class SmartEditsComponent implements OnInit {
   @Input() printStyle;
-  topReasonsData: any;
+  // topReasonsData: any;
   loading: boolean;
   reportLink: string;
   pageTitle: String = '';
@@ -170,16 +170,19 @@ export class SmartEditsComponent implements OnInit {
     this.smartEditsSharedService
       .getSmartEditSharedTopReasons(this.createPayloadService.payload)
       .then((smartEditsTopReasonsData: any) => {
-        this.topReasonsData = smartEditsTopReasonsData;
-        this.seReasonsLoading = false;
-        if (this.topReasonsData !== null && this.topReasonsData.Data !== null) {
+        let topReasonsData: any;
+        topReasonsData = smartEditsTopReasonsData;
+
+        console.log('this.topReasonsData', topReasonsData);
+        if (topReasonsData && topReasonsData.lenth > 0) {
           this.reasonDataAvailable = true;
           this.seReasonsLoading = false;
         } else {
           this.reasonDataAvailable = false;
           this.seReasonsLoading = false;
         }
-        this.reason = this.topReasonsData;
+        this.reason = topReasonsData;
+        console.log('reasons', this.reason);
       })
       .catch(err => {
         console.log('Error', err);
