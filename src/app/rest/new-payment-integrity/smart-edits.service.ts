@@ -36,7 +36,7 @@ export class SmartEditsService {
 
   public getSmartEditTopReasons(parameters) {
     const smartEditParams = {
-      TimeFilter: 'Rolling3Months'
+      TimeFilter: parameters[1].TimeFilter
     };
     const smartEditClaimsurl = this.APP_URL + this.SMART_EDITS_Claims_SERVICE_PATH + parameters[0];
     return this.http.post(smartEditClaimsurl, smartEditParams).pipe(
