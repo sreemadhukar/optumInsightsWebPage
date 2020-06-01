@@ -913,86 +913,7 @@ export class OverviewSharedService {
       let cIR: any;
       this.overviewService.getOverviewTotalCalls(parameters).subscribe(
         (response: ICallsResponse) => {
-          const calls = response.Data;
-          if (
-            calls &&
-            calls.hasOwnProperty('CallVolByQuesType') &&
-            calls.CallVolByQuesType.hasOwnProperty('Total') &&
-            calls.CallVolByQuesType.hasOwnProperty('Claims') &&
-            calls.CallVolByQuesType.hasOwnProperty('BenefitsEligibility') &&
-            calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
-            calls.CallVolByQuesType.hasOwnProperty('Others')
-          ) {
-            const startDate = calls.ReportStartDate;
-            const endDate = calls.ReportEndDate;
-            const timePeriodCalls: String =
-              this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
-            cIR = {
-              category: 'small-card',
-              type: 'donut',
-              title: 'Calls By Call Type',
-              MetricID: this.MetricidService.MetricIDs.CallsbyCallType,
-              toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
-              data: {
-                graphValues: [
-                  calls.CallVolByQuesType.Claims,
-                  calls.CallVolByQuesType.BenefitsEligibility,
-                  calls.CallVolByQuesType.PriorAuth,
-                  calls.CallVolByQuesType.Others
-                ],
-                centerNumber: this.common.nondecimalFormatter(calls.CallVolByQuesType.Total),
-                color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                gdata: ['card-inner', 'callsCardD3Donut'],
-                hover: true,
-                labels: ['Claims', 'Eligibilty and Benefits', 'Prior Authorizations', 'Others']
-              },
-              sdata: {
-                sign: '',
-                data: ''
-              },
-              timeperiod: timePeriodCalls
-            };
-            if (
-              trends != undefined &&
-              trends != null &&
-              trends.hasOwnProperty('TendingMtrics') &&
-              trends.TendingMtrics != null &&
-              trends.TendingMtrics.hasOwnProperty('CallsTrendByQuesType') &&
-              trends.TendingMtrics.CallsTrendByQuesType != null
-            ) {
-              const dataPoint = trends.TendingMtrics.CallsTrendByQuesType.toFixed(1) + '%';
-              if (trends.TendingMtrics.CallsTrendByQuesType >= 1) {
-                cIR.sdata = {
-                  sign: 'up-red',
-                  data: dataPoint
-                };
-              } else if (
-                trends.TendingMtrics.CallsTrendByQuesType < 1 &&
-                trends.TendingMtrics.CallsTrendByQuesType >= 0
-              ) {
-                cIR.sdata = {
-                  sign: 'neutral',
-                  data: 'No Change'
-                };
-              } else {
-                cIR.sdata = {
-                  sign: 'down-green',
-                  data: dataPoint
-                };
-              }
-            } else {
-              cIR.sdata = null;
-            }
-          } else {
-            cIR = {
-              category: 'small-card',
-              type: 'donut',
-              title: null,
-              data: null,
-              sdata: null,
-              timeperiod: null
-            };
-          }
+          cIR = this.getTotalCallsDataObject(response, trends);
           resolve(cIR);
         },
         err => {
@@ -1009,6 +930,87 @@ export class OverviewSharedService {
         }
       );
     });
+  }
+
+  getTotalCallsDataObject(response, trends) {
+    const calls = response.Data;
+    let cIR;
+    if (
+      calls &&
+      calls.hasOwnProperty('CallVolByQuesType') &&
+      calls.CallVolByQuesType.hasOwnProperty('Total') &&
+      calls.CallVolByQuesType.hasOwnProperty('Claims') &&
+      calls.CallVolByQuesType.hasOwnProperty('BenefitsEligibility') &&
+      calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
+      calls.CallVolByQuesType.hasOwnProperty('Others')
+    ) {
+      const startDate = calls.ReportStartDate;
+      const endDate = calls.ReportEndDate;
+      const timePeriodCalls: String = this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
+      cIR = {
+        category: 'small-card',
+        type: 'donut',
+        title: 'Calls By Call Type',
+        MetricID: this.MetricidService.MetricIDs.CallsbyCallType,
+        toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
+        data: {
+          graphValues: [
+            calls.CallVolByQuesType.Claims,
+            calls.CallVolByQuesType.BenefitsEligibility,
+            calls.CallVolByQuesType.PriorAuth,
+            calls.CallVolByQuesType.Others
+          ],
+          centerNumber: this.common.nondecimalFormatter(calls.CallVolByQuesType.Total),
+          color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+          gdata: ['card-inner', 'callsCardD3Donut'],
+          hover: true,
+          labels: ['Claims', 'Eligibilty and Benefits', 'Prior Authorizations', 'Others']
+        },
+        sdata: {
+          sign: '',
+          data: ''
+        },
+        timeperiod: timePeriodCalls
+      };
+      if (
+        trends != undefined &&
+        trends != null &&
+        trends.hasOwnProperty('TendingMtrics') &&
+        trends.TendingMtrics != null &&
+        trends.TendingMtrics.hasOwnProperty('CallsTrendByQuesType') &&
+        trends.TendingMtrics.CallsTrendByQuesType != null
+      ) {
+        const dataPoint = trends.TendingMtrics.CallsTrendByQuesType.toFixed(1) + '%';
+        if (trends.TendingMtrics.CallsTrendByQuesType >= 1) {
+          cIR.sdata = {
+            sign: 'up-red',
+            data: dataPoint
+          };
+        } else if (trends.TendingMtrics.CallsTrendByQuesType < 1 && trends.TendingMtrics.CallsTrendByQuesType >= 0) {
+          cIR.sdata = {
+            sign: 'neutral',
+            data: 'No Change'
+          };
+        } else {
+          cIR.sdata = {
+            sign: 'down-green',
+            data: dataPoint
+          };
+        }
+      } else {
+        cIR.sdata = null;
+      }
+    } else {
+      cIR = {
+        category: 'small-card',
+        type: 'donut',
+        title: null,
+        data: null,
+        sdata: null,
+        timeperiod: null
+      };
+    }
+    return cIR;
   }
 
   getAllTrends() {
