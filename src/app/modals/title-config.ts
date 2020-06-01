@@ -12,3 +12,10 @@ export const OverviewAdvocate = {
 export const PCORData = {
   PCORTitle: 'Patient Care Opportunity'
 };
+export const smartEdits = {
+  smartEditCardTitle: [
+    'Smart Edits Claims Returned',
+    'Smart Edits Repaired & Resubmitted Response Time',
+    'Smart Edits Returned Claims Top Reasons'
+  ]
+};

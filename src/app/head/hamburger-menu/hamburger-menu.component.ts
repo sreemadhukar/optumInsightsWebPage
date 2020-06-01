@@ -107,9 +107,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         {
           name: 'Payment Integrity',
           children: [
-            { name: 'Medical Records Coding Review', path: '/GettingReimbursed/PaymentIntegrity' }
+            { name: 'Medical Records Coding Review', path: '/GettingReimbursed/PaymentIntegrity' },
             // Uncomment Next Line when data is available for Smart Edits
-            // { name: 'Smart Edits', path: '/GettingReimbursed/SmartEdits' }
+            { name: 'Smart Edits', path: '/GettingReimbursed/SmartEdits' }
           ]
         }
       ],
@@ -146,12 +146,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       icon: 'performance',
       name: 'Performance',
       children: [
-        { name: 'Summary', path: '/Performance', disabled: false },
-        { name: 'Referrals', path: '/Performance/Referrals', disabled: false },
-        { name: 'Labs', path: '/Performance/Labs', disabled: false },
-        { name: 'Prescriptions', path: '/Performance/Prescriptions', disabled: false }
+        { name: 'Summary', path: '/Performance', disabled: true },
+        { name: 'Referrals', path: '/Performance/Referrals', disabled: true },
+        { name: 'Labs', path: '/Performance/Labs', disabled: true },
+        { name: 'Prescriptions', path: '/Performance/Prescriptions', disabled: true }
       ],
-      disabled: false
+      disabled: true
     }
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
@@ -313,6 +313,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             this.checkPro.value) ||
           this.checkExecutive.value
         ) {
+          const isRlpDisable = {
+            All: true,
+            Referral: true,
+            Labs: true,
+            Perscription: true
+          };
+          this.insertRlpNav(isRlpDisable);
           this.fromKOP = true;
         } else {
           this.fromKOP = false;
@@ -326,6 +333,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
           event.url !== '/OverviewPageAdvocate/Home' &&
           this.checkAdv.value
         ) {
+          const isRlpDisable = {
+            All: true,
+            Referral: true,
+            Labs: true,
+            Perscription: true
+          };
+          this.insertRlpNav(isRlpDisable);
           this.advocateView = true;
         } else {
           this.advocateView = false;
@@ -385,6 +399,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
+        if (sessionStorage.getItem('currentUser')) {
+          this.glossarySharedService.init();
+        }
         this.printStyle = event.url.includes('print-');
       }
     });
@@ -496,7 +513,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
       }
     }
-    this.glossarySharedService.init();
   }
 
   advocateRole() {
@@ -520,6 +536,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   insertRlpNav(isRlpDisable) {
+    if (this.fromKOP || this.advocateView) {
+      isRlpDisable = {
+        All: true,
+        Referral: true,
+        Labs: true,
+        Perscription: true
+      };
+    }
     const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
     this.navCategories[getIndex].children[0].disabled = isRlpDisable.All;
     this.navCategories[getIndex].children[1].disabled = isRlpDisable.Referral;
@@ -812,7 +836,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         } else {
           element.close();
         }
-      } else if (path === '/GettingReimbursed/PaymentIntegrity') {
+      } else if (path === '/GettingReimbursed/PaymentIntegrity' || path === '/GettingReimbursed/SmartEdits') {
         if (element.id === 'cdk-accordion-child-0' || element.id === 'cdk-accordion-child-1') {
           element.open();
         } else {

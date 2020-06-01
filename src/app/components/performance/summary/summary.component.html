@@ -8,7 +8,7 @@
     ></app-rlp-header>
   </div>
   <div class="container-body">
-    <div>
+    <div *ngIf="referralsLoading || (!referralsLoading && referralCard.data != null)">
       <app-card class="cards" [skeleton]="referralsLoading" *ngIf="referralsLoading"> </app-card>
       <app-card
         *ngIf="referralCard.toggle && referralCard.data != null && referralCard.category == 'app-card'"
@@ -17,7 +17,7 @@
       ></app-card>
     </div>
 
-    <div>
+    <div *ngIf="labsLoading || (!labsLoading && labsCard.data != null)">
       <app-card class="cards" [skeleton]="labsLoading" *ngIf="labsLoading"> </app-card>
       <app-card
         *ngIf="labsCard.toggle && labsCard.data != null && labsCard.category == 'app-card'"
@@ -26,7 +26,7 @@
       ></app-card>
     </div>
 
-    <div>
+    <div *ngIf="prescriptionLoading || (!prescriptionLoading && prescriptionCard.data != null)">
       <app-card class="cards" [skeleton]="prescriptionLoading" *ngIf="prescriptionLoading"> </app-card>
       <app-card
         *ngIf="prescriptionCard.toggle && prescriptionCard.data != null && prescriptionCard.category == 'app-card'"

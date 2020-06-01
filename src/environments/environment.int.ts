@@ -61,9 +61,11 @@ export const environment: any = {
     GroupPremiumDesignation: 'group-premium-designation/',
     NetworkLever: 'network-lever/',
     PaymentIntegrityTabsInfo: 'pi-tab-info/',
-    // NewPaymentIntegrity: 'payment-integrity/', uncommented for PROD and INT
+    NewPaymentIntegrity: 'payment-integrity/', // uncommented for PROD and INT
     ProviderSearch: 'provider-search',
     AdvocateTinDetails: 'advocate-tin-details/',
+    SmartEdits: 'smart-edit-metrics/',
+    SmartEditsTopClaims: 'smart-edit-codes/',
     getPublicKey: 'getPublicKey'
   },
   headerKeys: {

@@ -151,24 +151,24 @@ export class KOPSharedService {
           this.kopService
             .getSummary({ params })
             .then((response: any) => {
-              if (response.StatusCode === 200) {
-                return resolve(response.Data);
-              } else {
-                return reject();
-              }
+              return resolve(response.Data);
             })
             .catch(() => {
               return resolve();
             });
           break;
         case 'priorauthtat':
-          this.kopService
-            .getPriorAuthTATSummary({ params })
-            .subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getPriorAuthTATSummary({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
         case 'reimbursementClaims':
           Object.assign(params, { region: 'LEASED MARKETS', markets: ['MINNEAPOLIS, MN', 'CHICAGO, IL'] });
-          this.kopService.getClaimsData({ params }).subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getClaimsData({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
       }
     });

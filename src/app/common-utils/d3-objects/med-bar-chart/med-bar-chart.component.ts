@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
+import { _get } from 'lodash';
 @Component({
   selector: 'app-med-bar-chart',
   templateUrl: './med-bar-chart.component.html',
@@ -38,6 +39,11 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     function getModifiedXscale(base, addition = 0) {
       if (typeof chartOptions.graphValues[0] !== 'undefined') {
         return base + addition;
+      }
+    }
+    function getGraphValue(s) {
+      if (typeof chartOptions.graphValues[0] !== 'undefined') {
+        return s.toString() + '%';
       }
     }
     function wrap(textObject, pixelWidth, uniqueID, fontSize) {
@@ -143,7 +149,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
         .append('g')
-        .attr('transform', 'translate(' + 10 + ',' + 0 + ')');
+        .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
     }
     let totalSum = 0;
 
@@ -160,30 +166,18 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         chart
           .append('rect')
           .attr('id', 'paymentIntegrityRect' + chartOptions.graphValues[1])
-          .attr('width', function() {
-            if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return chartOptions.graphValues[0].toString() + '%';
-            }
-          })
+          .attr('width', getGraphValue(chartOptions.graphValues[0]))
           .attr('height', 64)
           .style('padding-bottom', 16)
           .attr('fill', chartOptions.color[0]);
 
         chart
           .append('rect')
-          .attr('x', function() {
-            if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return (0 + chartOptions.graphValues[0]).toString() + '%';
-            }
-          })
+          .attr('x', getGraphValue(chartOptions.graphValues[0]))
           // .attr('y', -25)
           .attr('rx', 2)
           .attr('ry', 0)
-          .attr('width', function() {
-            if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return chartOptions.graphValues[1].toString() + '%';
-            }
-          })
+          .attr('width', getGraphValue(chartOptions.graphValues[1]))
           .attr('height', 64)
           .attr('fill', chartOptions.color[2]);
       } else {
@@ -246,7 +240,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     const uniqueText = 'reasonText' + this.renderChart.slice(1);
     const tspanID = uniqueText + 'tspan';
     let textWithHover;
-    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+    if (_get(chartOptions, 'cdata') === 'paymentintegrity') {
       if (chartOptions.type === 'bar chart') {
         textWithHover = chart
           .append('text')
@@ -276,16 +270,20 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .call(wrap, 250, tspanID, 16);
     }
     // where we should enable the hover object to exist
+    function assignTspan(tspanArray) {
+      const temp = [];
+      for (let i = 0; i < tspanArray.length; i++) {
+        temp.push(tspanArray[i].id);
+      }
+      return temp;
+    }
     if (textWithHover.selectAll('tspan').size() > 1) {
       d3.select('#' + uniqueText).attr('cursor', 'pointer');
       const tspanArray = textWithHover.selectAll('tspan').nodes();
-      const tspanArrayIDs = [];
       const replacementtspan = tspanArray[0];
       d3.select(replacementtspan).text(replacementtspan.textContent + '...');
 
-      for (let i = 0; i < tspanArray.length; i++) {
-        tspanArrayIDs.push(tspanArray[i].id);
-      }
+      const tspanArrayIDs = assignTspan(tspanArray);
       for (let i = tspanArrayIDs.length - 1; i > 0; i--) {
         d3.select('#' + tspanArrayIDs[i]).remove();
       }
@@ -340,15 +338,10 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .duration(10)
             .style('opacity', 0);
         });
-    } else if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
-      /// madhukar
+    } else if (_get(chartOptions, 'cdata') === 'paymentintegrity') {
       d3.select('#paymentIntegrityRect' + chartOptions.graphValues[1]).attr('cursor', 'pointer');
       const tspanArray = textWithHover.selectAll('tspan').nodes();
-      const tspanArrayIDs = [];
-
-      for (let i = 0; i < tspanArray.length; i++) {
-        tspanArrayIDs.push(tspanArray[i].id);
-      }
+      const tspanArrayIDs = assignTspan(tspanArray);
       for (let i = tspanArrayIDs.length - 1; i > 0; i--) {
         d3.select('#' + tspanArrayIDs[i]).remove();
       }
@@ -416,8 +409,8 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .style('opacity', 0);
         });
     }
-    const graphTextData = 'Accounts Receivable Opportunity';
-    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+
+    if (_get(chartOptions, 'cdata') === 'paymentintegrity') {
       if (chartOptions.type === 'large bar chart') {
         chart
           .append('line')
@@ -443,132 +436,6 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .style('font-size', '16px')
           .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'");
 
-        if (chartOptions.trendValue.includes('+')) {
-          d3.select(this.renderChart)
-            .append('div')
-            .style('position', 'absolute')
-            .style('top', '30px')
-            .style('right', '155px')
-            .attr('fill', '#2D2D39')
-            .attr('font-size', '20px')
-            .attr('text-anchor', 'start')
-            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
-            .text(graphTextData)
-            .append('div')
-            .style('text-align', 'right')
-            .text(chartOptions.AccountsReceivableOpportunity)
-            .attr('class', 'trend-text')
-            .append('svg')
-            .attr('class', 'trend-SVG-style')
-            .append('g')
-            .insert('svg:image')
-            .attr('width', '24px')
-            .attr('height', '24px')
-            .attr('xlink:href', 'src/assets/images/trend-down.svg')
-            .select(function() {
-              return this.parentNode;
-            })
-            .select(function() {
-              return this.parentNode;
-            })
-            .select(function() {
-              return this.parentNode;
-            })
-            .append('span')
-            .text(chartOptions.trendValue)
-            .attr('class', ' trend-value');
-        } else if (chartOptions.trendValue.includes('-')) {
-          d3.select(this.renderChart)
-            .append('div')
-            .style('position', 'absolute')
-            .style('top', '30px')
-            .style('right', '155px')
-            .attr('fill', '#2D2D39')
-            .attr('font-size', '20px')
-            .attr('text-anchor', 'start')
-            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
-            .text(graphTextData)
-            .append('div')
-            .style('text-align', 'right')
-            .text(chartOptions.AccountsReceivableOpportunity)
-            .style('line-height', '22px')
-            .style('font-size', '20px')
-            .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-            .append('svg')
-            .style('margin-top', '8px')
-            .style('margin-bottom', '-5px')
-            .style('padding-left', '3px')
-            .style('transform', 'scaleY(-1)')
-            .attr('width', '24px')
-            .attr('height', '24px')
-            .append('g')
-            .insert('svg:image')
-            .attr('width', '24px')
-            .attr('height', '24px')
-            .attr('xlink:href', 'src/assets/images/trend-up.svg')
-            .select(function() {
-              return this.parentNode;
-            })
-            .select(function() {
-              return this.parentNode;
-            })
-            .select(function() {
-              return this.parentNode;
-            })
-            .append('span')
-            .text(chartOptions.trendValue)
-            .style('font-size', '14px')
-            .style('line-height', '18px')
-            .style('letter-spacing', '0.2px')
-            .style('color', '#007000')
-            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
-            .style('padding-left', '5px');
-        } else {
-          d3.select(this.renderChart)
-            .append('div')
-            .style('position', 'absolute')
-            .style('top', '30px')
-            .style('right', '155px')
-            .attr('fill', '#2D2D39')
-            .attr('font-size', '20px')
-            .attr('text-anchor', 'start')
-            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
-            .text(graphTextData)
-            .append('div')
-            .style('text-align', 'right')
-            .text(chartOptions.AccountsReceivableOpportunity)
-            .style('line-height', '22px')
-            .style('font-size', '20px')
-            .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-            .append('svg')
-            .style('margin-top', '8px')
-            .style('margin-bottom', '-5px')
-            .style('padding-left', '5px')
-            .style('transform', 'scaleY(-1)')
-            .attr('width', '24px')
-            .attr('height', '24px')
-            .append('g')
-            .insert('svg:image')
-            .attr('width', '18px')
-            .attr('height', '21px')
-            .attr('xlink:href', 'src/assets/images/flat-no-change.svg')
-            .select(function() {
-              return this.parentNode;
-            })
-            .select(function() {
-              return this.parentNode;
-            })
-            .select(function() {
-              return this.parentNode;
-            })
-            .append('span')
-            .text(chartOptions.trendValue)
-            .style('font-size', '14px')
-            .style('line-height', '18px')
-            .style('letter-spacing', '0.2px')
-            .style('color', '#007000')
-            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'");
-        }
         d3.select(this.renderChart)
           .append('div')
           .text('Target ' + chartOptions.target + '%')

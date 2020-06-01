@@ -93,6 +93,7 @@
 .pi-cards {
   display: flex;
   flex-wrap: wrap;
+  width: 980px;
   & > .cards {
     text-align: left;
     // @include margin(0, 0, 0, 12px);

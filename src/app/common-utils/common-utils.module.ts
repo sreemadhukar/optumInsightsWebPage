@@ -1,3 +1,4 @@
+import { ModalPopupService } from './modal-popup/modal-popup.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -58,6 +59,8 @@ import { RlpLongCardComponent } from './rlp-long-card/rlp-long-card.component';
 import { LayoutContainerComponent } from './_layouts/layout_container/layoutcontainer.component';
 import { LayoutSeparatorComponent } from './_layouts/layout_seperator/layout_seperator.component';
 import { PageHeaderComponent } from './_headers/page_header/page_header.component';
+import { ModalPopupComponent } from './modal-popup/modal-popup.component';
+import { MedBarChartTwoComponent } from './d3-objects/med-bar-chart-two/med-bar-chart-two.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -112,7 +115,8 @@ import { PageHeaderComponent } from './_headers/page_header/page_header.componen
     UhcKopFilterComponent,
     StackedBarChartComponent,
     ClickElsewhereDirective,
-    RlpLongCardComponent
+    RlpLongCardComponent,
+    MedBarChartTwoComponent
   ],
   declarations: [
     LayoutContainerComponent,
@@ -165,8 +169,11 @@ import { PageHeaderComponent } from './_headers/page_header/page_header.componen
     StackedBarChartComponent,
     UhcKopFilterComponent,
     ClickElsewhereDirective,
-    RlpLongCardComponent
+    RlpLongCardComponent,
+    ModalPopupComponent,
+    MedBarChartTwoComponent
   ],
-  entryComponents: [ProviderSearchComponent]
+  entryComponents: [ProviderSearchComponent, ModalPopupComponent],
+  providers: [ModalPopupService]
 })
 export class CommonUtilsModule {}
