@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
-import { _get } from 'lodash';
+
 @Component({
   selector: 'app-med-bar-chart',
   templateUrl: './med-bar-chart.component.html',
@@ -39,11 +39,6 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     function getModifiedXscale(base, addition = 0) {
       if (typeof chartOptions.graphValues[0] !== 'undefined') {
         return base + addition;
-      }
-    }
-    function getGraphValue(s) {
-      if (typeof chartOptions.graphValues[0] !== 'undefined') {
-        return s.toString() + '%';
       }
     }
     function wrap(textObject, pixelWidth, uniqueID, fontSize) {
@@ -166,18 +161,30 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         chart
           .append('rect')
           .attr('id', 'paymentIntegrityRect' + chartOptions.graphValues[1])
-          .attr('width', getGraphValue(chartOptions.graphValues[0]))
+          .attr('width', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return chartOptions.graphValues[0].toString() + '%';
+            }
+          })
           .attr('height', 64)
           .style('padding-bottom', 16)
           .attr('fill', chartOptions.color[0]);
 
         chart
           .append('rect')
-          .attr('x', getGraphValue(chartOptions.graphValues[0]))
+          .attr('x', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return (0 + chartOptions.graphValues[0]).toString() + '%';
+            }
+          })
           // .attr('y', -25)
           .attr('rx', 2)
           .attr('ry', 0)
-          .attr('width', getGraphValue(chartOptions.graphValues[1]))
+          .attr('width', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return chartOptions.graphValues[1].toString() + '%';
+            }
+          })
           .attr('height', 64)
           .attr('fill', chartOptions.color[2]);
       } else {
@@ -240,7 +247,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     const uniqueText = 'reasonText' + this.renderChart.slice(1);
     const tspanID = uniqueText + 'tspan';
     let textWithHover;
-    if (_get(chartOptions, 'cdata') === 'paymentintegrity') {
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
       if (chartOptions.type === 'bar chart') {
         textWithHover = chart
           .append('text')
@@ -338,7 +345,8 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .duration(10)
             .style('opacity', 0);
         });
-    } else if (_get(chartOptions, 'cdata') === 'paymentintegrity') {
+    } else if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+      /// madhukar
       d3.select('#paymentIntegrityRect' + chartOptions.graphValues[1]).attr('cursor', 'pointer');
       const tspanArray = textWithHover.selectAll('tspan').nodes();
       const tspanArrayIDs = assignTspan(tspanArray);
@@ -409,8 +417,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .style('opacity', 0);
         });
     }
-
-    if (_get(chartOptions, 'cdata') === 'paymentintegrity') {
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
       if (chartOptions.type === 'large bar chart') {
         chart
           .append('line')
