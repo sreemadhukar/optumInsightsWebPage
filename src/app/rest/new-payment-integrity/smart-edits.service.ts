@@ -19,10 +19,10 @@ export class SmartEditsService {
   }
 
   public smartEditReturned(parameters) {
-    //   const smartEditParams = parameters[1].TimeFilter;
+    //  const smartEditParams = parameters[1].TimeFilter;
 
     const smartEditParams = {
-      TimeFilter: 'Last3Months'
+      TimeFilter: parameters[1].TimeFilter
     };
     // const params = new HttpParams();
     // const smartEditParams = params.append('TimeFilter', parameters[1].TimeFilter);

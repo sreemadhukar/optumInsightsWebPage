@@ -23,7 +23,7 @@
       <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
       <app-error-card
         *ngIf="smartEditClaimsReturned.data == null && smartEditClaimsReturned.status != null && !seReturnedLoading"
-        class="cards "
+        class="cards"
         [data]="smartEditClaimsReturned"
       ></app-error-card>
       <app-card
