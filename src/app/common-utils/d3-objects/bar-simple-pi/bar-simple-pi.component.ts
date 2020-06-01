@@ -38,7 +38,7 @@ export class BarSimplePiComponent implements OnInit, AfterViewInit {
     }
 
     const margin = { top: 25, right: 10, bottom: 5, left: 10 };
-    const width = 382 - margin.left - margin.right;
+    const width = 342 - margin.left - margin.right;
     const height = heightAdjustor * 1.5 - margin.top - margin.bottom;
 
     const chart = d3
@@ -52,7 +52,7 @@ export class BarSimplePiComponent implements OnInit, AfterViewInit {
     const xScale = d3
       .scaleLinear()
       .domain([0, xScaleMax])
-      .range([0, 380]);
+      .range([0, 340]);
 
     let blueBarLength;
     if (chartOptions.maxValue) {

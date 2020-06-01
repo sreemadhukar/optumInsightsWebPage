@@ -22,12 +22,17 @@
     <div class="odd ">
       <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
       <app-error-card
-        *ngIf="smartEditClaimsReturned.data == null && smartEditClaimsReturned.status != null && !seReturnedLoading"
+        *ngIf="
+          smartEditClaimsReturned &&
+          smartEditClaimsReturned.data == null &&
+          smartEditClaimsReturned.status != null &&
+          !seReturnedLoading
+        "
         class="cards"
         [data]="smartEditClaimsReturned"
       ></app-error-card>
       <app-card
-        *ngIf="smartEditClaimsReturned.data != null && !seReturnedLoading"
+        *ngIf="smartEditClaimsReturned && smartEditClaimsReturned.data != null && !seReturnedLoading"
         class="cards"
         [chartData]="smartEditClaimsReturned"
       ></app-card>
@@ -39,6 +44,7 @@
       <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
       <app-error-card
         *ngIf="
+          smartEditClaimsRepairedResubmitted &&
           smartEditClaimsRepairedResubmitted.data == null &&
           smartEditClaimsRepairedResubmitted.status != null &&
           !seReturnedLoading
@@ -49,6 +55,7 @@
       <div
         class="repaired-block"
         *ngIf="
+          smartEditClaimsRepairedResubmitted &&
           smartEditClaimsRepairedResubmitted[0] != null &&
           smartEditClaimsRepairedResubmitted[1] != null &&
           !seReturnedLoading
@@ -90,13 +97,14 @@
 
   <!-- Smart Edits Claims Top Reasons STARTS HERE -->
   <div class="odd">
+    <app-card class="cards" [skeleton]="seReasonsLoading" *ngIf="seReasonsLoading"> </app-card>
     <app-error-card
-      *ngIf="reason[0] && reason[0].status"
+      *ngIf="reason[0] && reason[0].status && !seReasonsLoading"
       class="cards margin-left-0"
       [data]="reason[0]"
     ></app-error-card>
     <div
-      *ngIf="!reason[0].status"
+      *ngIf="reason[0] && !reason[0].status && !seReasonsLoading"
       class="smartedit-reason-block"
       [ngClass]="{ 'print-overturn-reason-block': printStyle === true }"
     >
