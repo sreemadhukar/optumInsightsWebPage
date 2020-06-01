@@ -96,6 +96,7 @@
   <!-- Smart Edits Repaired & Resubmitted Response Time Card Ends here -->
 
   <!-- Smart Edits Claims Top Reasons STARTS HERE -->
+
   <div class="odd">
     <app-card class="cards" [skeleton]="seReasonsLoading" *ngIf="seReasonsLoading"> </app-card>
     <app-error-card
@@ -141,5 +142,10 @@
       </div>
     </div>
   </div>
+  <app-error-card
+    *ngIf="reason[0] && reason[0].status"
+    class="cards smat-card-space"
+    [data]="reason[0]"
+  ></app-error-card>
   <!-- Smart Edits Claims Top Reasons ENDS HERE -->
 </app-layoutcontainer>
