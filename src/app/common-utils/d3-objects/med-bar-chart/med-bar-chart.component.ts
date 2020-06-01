@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
-
+import * as _ from 'lodash';
 @Component({
   selector: 'app-med-bar-chart',
   templateUrl: './med-bar-chart.component.html',
@@ -37,14 +37,10 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       return context.measureText(text).width;
     }
     function getModifiedXscale(base, addition = 0) {
-      if (typeof chartOptions.graphValues[0] !== 'undefined') {
-        return base + addition;
-      }
+      return typeof chartOptions.graphValues[0] !== 'undefined' ? base + addition : null;
     }
     function getGraphValue(s) {
-      if (typeof chartOptions.graphValues[0] !== 'undefined') {
-        return s.toString() + '%';
-      }
+      return typeof chartOptions.graphValues[0] !== 'undefined' ? s.toString() + '%' : null;
     }
 
     function wrap(textObject, pixelWidth, uniqueID, fontSize) {
@@ -107,7 +103,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     const width = preWidth - margin.left - margin.right;
     const height = 50 - margin.top - margin.bottom;
     let chart;
-    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+    function paymentInt() {
       if (chartOptions.type === 'large bar chart') {
         d3.select(this.renderChart)
           .style('display', 'flex')
@@ -143,6 +139,9 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .append('g')
           .attr('transform', 'translate(' + 10 + ',' + 50 + ')');
       }
+    }
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+      paymentInt();
     } else {
       chart = d3
         .select(this.renderChart)
@@ -338,7 +337,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .duration(10)
             .style('opacity', 0);
         });
-    } else if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+    } else if (_.get(chartOptions, 'cdata') === 'paymentintegrity') {
       /// madhukar
       d3.select('#paymentIntegrityRect' + chartOptions.graphValues[1]).attr('cursor', 'pointer');
       const tspanArray = textWithHover.selectAll('tspan').nodes();
@@ -410,7 +409,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .style('opacity', 0);
         });
     }
-    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+    function paymentInt2() {
       if (chartOptions.type === 'large bar chart') {
         chart
           .append('line')
@@ -544,6 +543,9 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .text(chartOptions.targetValue);
         }
       }
+    }
+    if (_.get(chartOptions, 'cdata') === 'paymentintegrity') {
+      paymentInt2();
     } else {
       chart
         .append('text')
