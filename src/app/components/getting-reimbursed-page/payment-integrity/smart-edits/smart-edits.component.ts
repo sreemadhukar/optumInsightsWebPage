@@ -44,6 +44,7 @@ export class SmartEditsComponent implements OnInit {
   reasonDataAvailable: boolean;
   reason: any = [];
   seRepairedLoading: boolean;
+  seReasonsLoading = true;
   smartEditClaimsRepairedResubmitted: any;
   returnMockCards: any;
   repairMockCards: any;
@@ -75,6 +76,10 @@ export class SmartEditsComponent implements OnInit {
     this.iconRegistry.addSvgIcon(
       'external-link',
       this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/open_in_new-24px.svg')
+    );
+    this.iconRegistry.addSvgIcon(
+      'filter',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
   }
 
@@ -161,23 +166,24 @@ export class SmartEditsComponent implements OnInit {
 
   // **** Smart Edits Claims Top Reasons Starts here**** //
   SmartEditReturneddTopReasons() {
+    this.seReasonsLoading = true;
     this.smartEditsSharedService
       .getSmartEditSharedTopReasons(this.createPayloadService.payload)
       .then((smartEditsTopReasonsData: any) => {
         this.topReasonsData = smartEditsTopReasonsData;
-        console.log('this.TopReasonsData191', this.topReasonsData);
+        this.seReasonsLoading = false;
         if (this.topReasonsData !== null && this.topReasonsData.Data !== null) {
           this.reasonDataAvailable = true;
-          this.loading = false;
+          this.seReasonsLoading = false;
         } else {
           this.reasonDataAvailable = false;
-          this.loading = false;
+          this.seReasonsLoading = false;
         }
         this.reason = this.topReasonsData;
       })
       .catch(err => {
         console.log('Error', err);
-        this.loading = false;
+        this.seReasonsLoading = false;
       });
   }
   // **** Ends here *** //

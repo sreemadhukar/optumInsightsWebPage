@@ -101,14 +101,14 @@ export class SmartEditsSharedService {
           let greaterThan5Width = 4;
 
           if (this.repairedResubmittedData[0] > this.repairedResubmittedData[1]) {
-            lessThan5Width = 382;
+            lessThan5Width = 342;
             if (this.repairedResubmittedData[1] !== 0) {
-              greaterThan5Width = (this.repairedResubmittedData[1] * 382) / this.repairedResubmittedData[0];
+              greaterThan5Width = (this.repairedResubmittedData[1] * 342) / this.repairedResubmittedData[0];
             }
           } else {
-            greaterThan5Width = 382;
+            greaterThan5Width = 342;
             if (this.repairedResubmittedData[0] !== 0) {
-              lessThan5Width = (this.repairedResubmittedData[0] * 382) / this.repairedResubmittedData[1];
+              lessThan5Width = (this.repairedResubmittedData[0] * 342) / this.repairedResubmittedData[1];
             }
           }
           this.repairedResubmittedData[2] = lessThan5Width;
@@ -143,9 +143,8 @@ export class SmartEditsSharedService {
       const parameters = this.getParameterCategories(param);
       this.smartEditsService.getSmartEditTopReasons(parameters).subscribe(smartEditReasonData => {
         const topReasonsData = smartEditReasonData;
-
-        if (smartEditReasonData !== null && smartEditReasonData !== undefined && smartEditReasonData.Data !== null) {
-          const ReasonsData = topReasonsData.Data;
+        const ReasonsData = topReasonsData.Data;
+        if (topReasonsData !== null && topReasonsData !== undefined && ReasonsData !== null) {
           const reasonsCode = [{}];
           const reasonsPercentageVal1 = [{}];
           const reasonsDesc = [{}];
