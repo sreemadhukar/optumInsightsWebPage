@@ -73,6 +73,12 @@ export class BreadcrumbsComponent implements OnInit {
           params: {},
           url: '//GettingReimbursed/GettingReimbursed/PaymentIntegrity'
         });
+      } else if (child.snapshot.data[ROUTE_DATA_BREADCRUMB] === 'Smart Edits') {
+        breadcrumbs.push({
+          label: 'Payment Integrity',
+          params: {},
+          url: '//GettingReimbursed/GettingReimbursed/SmartEdits'
+        });
       }
       const breadcrumb: IBreadcrumb = {
         label: child.snapshot.data[ROUTE_DATA_BREADCRUMB],

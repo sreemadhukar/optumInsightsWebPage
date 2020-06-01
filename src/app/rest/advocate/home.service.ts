@@ -22,17 +22,21 @@ export class HomeService {
       filter.searchType +
       '&search-value=' +
       filter.searchValue;
-    return this.http.get<IUserResponse[]>(searchURL, { params: myparam }).pipe(
-      map((response: IUserResponse) => response),
-      catchError(err => err)
-    );
+    return this.http
+      .get<IUserResponse[]>(searchURL, { params: myparam })
+      .pipe(
+        map((response: any) => response),
+        catchError(err => err)
+      );
   }
   getAdvDetails(param: string): Observable<IAdvTinDetailsResponse[]> {
     const myparam = new HttpParams();
     const searchURL = this.APP_URL + this.ADVOCATE_TIN_PATH + param;
-    return this.http.get<IAdvTinDetailsResponse[]>(searchURL, { params: myparam }).pipe(
-      map((response: IAdvTinDetailsResponse) => response),
-      catchError(err => err)
-    );
+    return this.http
+      .get<IAdvTinDetailsResponse[]>(searchURL, { params: myparam })
+      .pipe(
+        map((response: any) => response),
+        catchError(err => err)
+      );
   }
 }

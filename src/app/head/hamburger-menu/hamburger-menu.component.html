@@ -118,7 +118,6 @@
               >
                 <mat-panel-title>
                   <ng-container *ngIf="!category.disabled">
-                    <mat-icon class="nav-menu-icons" svgIcon="{{ category.icon }}"></mat-icon>
                     {{ category.name }}
                   </ng-container>
                 </mat-panel-title>
@@ -179,7 +178,7 @@
                 routerLinkActive="active-link"
                 *ngIf="!category.children"
               >
-                <mat-icon class="nav-menu-icons" svgIcon="{{ category.icon }}"></mat-icon> {{ category.name }}
+                {{ category.name }}
               </a>
             </div>
           </mat-nav-list>

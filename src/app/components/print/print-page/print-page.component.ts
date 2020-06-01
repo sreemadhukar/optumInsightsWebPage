@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { select } from '@angular-redux/store';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-print-page',
@@ -12,7 +14,7 @@ export class PrintPageComponent implements OnInit {
   printStyle = true;
   pagename = '';
   data: any;
-  constructor() {
+  constructor(private _location: Location, private _router: Router) {
     this.printStyle = true;
     // this.data = [
     //   { page: 'overviewPage', load: 7000 },
@@ -30,9 +32,22 @@ export class PrintPageComponent implements OnInit {
 
   ngOnInit() {
     this.currentPage.subscribe(c => (this.selectedPage = c));
+
     setTimeout(() => {
       (window as any).print();
     }, 7000);
-    // }, this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0)));
+
+    setTimeout(this.navigateToLastPage.bind(this), 10000);
+  }
+
+  navigateToLastPage() {
+    const id = setInterval(() => {
+      console.log(window.matchMedia('print'));
+      if (this._router.url === '/print-page') {
+        console.log('I am In');
+        this._location.back();
+        clearInterval(id);
+      }
+    }, 1000);
   }
 }

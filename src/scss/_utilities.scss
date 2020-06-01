@@ -12,7 +12,9 @@
 
 // print utility to avoid encapsulation
 @media print {
-  .label-dots {
+  .label-dots,
+  .heac-label-dots {
     -webkit-print-color-adjust: exact;
+    color-adjust: economy;
   }
 }
