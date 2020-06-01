@@ -93,7 +93,7 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
       .selectAll('*')
       .remove();
 
-    const margin = { top: 10, right: 0, bottom: 10, left: 0 };
+    const margin = { top: 12, right: 0, bottom: 10, left: 0 };
     const width = preWidth - margin.left - margin.right;
     const height = 50 - margin.top - margin.bottom;
     let chart;
@@ -119,7 +119,7 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
     chart
       .append('rect')
       .attr('x', 10)
-      .attr('y', 20)
+      .attr('y', 26)
       .attr('width', function() {
         if (typeof chartOptions.graphValues[0] !== 'undefined') {
           return xScale(chartOptions.graphValues[0]);
@@ -136,7 +136,7 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
           return 10 + xScale(chartOptions.graphValues[0]);
         }
       })
-      .attr('y', 20)
+      .attr('y', 26)
       .attr('width', 2)
       .attr('height', 24)
       .attr('fill', chartOptions.color[1]);
@@ -148,7 +148,7 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
           return 12 + xScale(chartOptions.graphValues[0]);
         }
       })
-      .attr('y', 20)
+      .attr('y', 26)
       .attr('rx', 2)
       .attr('ry', 2)
       .attr('width', function() {
@@ -165,12 +165,13 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
 
     const barvalue = chartOptions.barText;
     const reasonDescp = barvalue.split('-');
-    const reasonDescpValue = reasonDescp[reasonDescp.length - 1];
+    // const reasonDescpValue = reasonDescp[reasonDescp.length - 1];
     let barTextValue = chartOptions.barText;
 
     if (chartOptions.barDescp === 'No description found on edit code file') {
       barTextValue = reasonDescp[0] + ' - ' + 'See Reference Guide';
       textWithHover = chart
+
         .append('text')
         .attr('id', uniqueText)
         .attr('x', 10)
@@ -179,6 +180,7 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
         .attr('font-size', '16')
         .attr('text-anchor', 'start')
         .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('margin-bottom', '8')
         .text(reasonDescp[0] + ' -');
       chart
         .append('text')
@@ -190,6 +192,7 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
         .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .attr('cursor', 'pointer')
         .text('See Reference Guide')
+        .attr('margin-bottom', '8px')
         .attr('class', 'reason-reference')
         .on(
           'click',
@@ -277,6 +280,15 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
             .style('opacity', 0);
         });
     }
+    chart
+      .append('text')
+      .attr('x', 270)
+      .attr('y', 42)
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '16')
+      .attr('text-anchor', 'start')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text(chartOptions.barValue);
   }
   public handleClick() {
     const showPopUp = sessionStorage.getItem('dontShowPCORpopup');

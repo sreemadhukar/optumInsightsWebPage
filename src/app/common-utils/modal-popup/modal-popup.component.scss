@@ -22,7 +22,7 @@
       letter-spacing: 0.2px;
       line-height: 22px;
       float: left;
-      margin-left: 2px;
+      padding-left: 4px;
     }
     .mat-dialog-content {
       color: $black-rock;
@@ -36,12 +36,13 @@
       text-align: center;
       padding: 20px 22px 12px 22px;
       display: inline-block;
+      outline: none;
     }
     .dont-show-checkbox {
       height: 23px;
       width: 23px;
       float: left;
-      margin: 0 4px 0 0;
+      margin: 0;
     }
     .buttons-block {
       float: left;
