@@ -26,6 +26,7 @@ export class TaxSummaryComponent implements OnInit {
   numberOfTins: number;
   taxSummaryColumns: string[] = ['TinCheckBox', 'Tin', 'TinName', 'TaxIdType', 'TaxIdOwnership'];
   pageSize = 25;
+  pageIndex = 0;
   pageNumber = 0;
   filterObj = {};
   tinOwnershipSelected = 'Owned';
@@ -148,6 +149,7 @@ export class TaxSummaryComponent implements OnInit {
 
   getPageSize(event) {
     this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
   }
 
   getTaxSummaryData() {
