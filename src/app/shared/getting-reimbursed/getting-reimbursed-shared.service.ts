@@ -948,39 +948,43 @@ export class GettingReimbursedSharedService {
       const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
       if (parameters[1]['ClaimsBy'] === 'DOS') {
-        if (!claimsData || !claimsData.hasOwnProperty(lobData)) {
-          claimsTAT = {
-            category: 'app-card',
-            type: 'rotateWithLabel',
-            status: 404,
-            title: 'Average Claim Processing Days',
-            MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-            data: null,
-            besideData: null,
-            timeperiod: null
-          };
-        } else if (claimsData != null) {
-          if (
-            claimsData.hasOwnProperty(lobData) &&
-            claimsData[lobData] != null &&
-            claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
-            claimsData[lobData].ClaimsLobSummary.length &&
-            claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat') &&
-            claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('DosToReceived') &&
-            claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ReceivedToPaid')
+        claimsTAT = this.claimsDataForDOS(claimsData, lobData);
+        resolve(claimsTAT);
+      } else {
+        this.gettingReimbursedService.getTatDataforDOP(parameters).subscribe(claimsdata => {
+          if (!claimsdata || !claimsdata.hasOwnProperty('LineOfBusiness')) {
+            claimsTAT = {
+              category: 'app-card',
+              type: 'rotateWithLabel',
+              status: 404,
+              title: 'Average Claim Processing Days',
+              MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
+              data: null,
+              besideData: null,
+              timeperiod: null
+            };
+          } else if (
+            claimsdata != null &&
+            claimsdata.LineOfBusiness.hasOwnProperty(lobFullData) &&
+            claimsdata.LineOfBusiness[lobFullData] != null &&
+            claimsdata.LineOfBusiness[lobFullData].hasOwnProperty('TatMetrics') &&
+            claimsdata.LineOfBusiness[lobFullData].TatMetrics.hasOwnProperty('ClaimsAvgTat') &&
+            claimsdata.LineOfBusiness[lobFullData].TatMetrics.hasOwnProperty('AvgDosToReceived') &&
+            claimsdata.LineOfBusiness[lobFullData].TatMetrics.hasOwnProperty('AvgReceivedToPaid')
           ) {
-            const startDate = (claimsData || {}).Startdate;
-            const endDate = (claimsData || {}).Enddate;
-            const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+            const startDate = (claimsdata || {}).StartDate;
+            const endDate = (claimsdata || {}).EndDate;
+            const timePeriodCalls: String =
+              this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
 
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
               title: 'Average Claim Processing Days',
               MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-              // toggle: true,
+
               data: {
-                centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days',
+                centerNumber: claimsdata.LineOfBusiness[lobFullData].TatMetrics.ClaimsAvgTat + ' days',
                 color: ['#3381FF', '#3381FF'],
                 gdata: ['card-inner', 'claimsAverageTurnAround'],
                 sdata: {
@@ -991,11 +995,11 @@ export class GettingReimbursedSharedService {
               besideData: {
                 verticalData: [
                   {
-                    values: claimsData[lobData].ClaimsLobSummary[0].AvgDosToReceived + ' Days',
+                    values: claimsdata.LineOfBusiness[lobFullData].TatMetrics.AvgDosToReceived + ' Days',
                     labels: 'Date of Service to Received'
                   },
                   {
-                    values: claimsData[lobData].ClaimsLobSummary[0].AvgReceivedToPaid + ' Days',
+                    values: claimsdata.LineOfBusiness[lobFullData].TatMetrics.AvgReceivedToPaid + ' Days',
                     labels: 'Received to Processed'
                   }
                 ]
@@ -1014,93 +1018,83 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
           }
-        }
 
-        resolve(claimsTAT);
-      } else {
-        this.gettingReimbursedService.getTatDataforDOP(parameters).subscribe(claimsdata => {
-          if (!claimsdata || !claimsdata.hasOwnProperty('LineOfBusiness')) {
-            claimsTAT = {
-              category: 'app-card',
-              type: 'rotateWithLabel',
-              status: 404,
-              title: 'Average Claim Processing Days',
-              MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-              data: null,
-              besideData: null,
-              timeperiod: null
-            };
-          } else if (claimsdata != null) {
-            if (
-              claimsdata.LineOfBusiness.hasOwnProperty(lobFullData) &&
-              claimsdata.LineOfBusiness[lobFullData] != null &&
-              claimsdata.LineOfBusiness[lobFullData].hasOwnProperty('TatMetrics') &&
-              claimsdata.LineOfBusiness[lobFullData].TatMetrics.hasOwnProperty('ClaimsAvgTat') &&
-              claimsdata.LineOfBusiness[lobFullData].TatMetrics.hasOwnProperty('AvgDosToReceived') &&
-              claimsdata.LineOfBusiness[lobFullData].TatMetrics.hasOwnProperty('AvgReceivedToPaid')
-            ) {
-              const startDate = (claimsdata || {}).StartDate;
-              const endDate = (claimsdata || {}).EndDate;
-              const timePeriodCalls: String =
-                this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
-
-              claimsTAT = {
-                category: 'app-card',
-                type: 'rotateWithLabel',
-                title: 'Average Claim Processing Days',
-                MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-
-                data: {
-                  centerNumber: claimsdata.LineOfBusiness[lobFullData].TatMetrics.ClaimsAvgTat + ' days',
-                  color: ['#3381FF', '#3381FF'],
-                  gdata: ['card-inner', 'claimsAverageTurnAround'],
-                  sdata: {
-                    sign: 'down',
-                    data: '-1.2%'
-                  }
-                },
-                besideData: {
-                  verticalData: [
-                    {
-                      values: claimsdata.LineOfBusiness[lobFullData].TatMetrics.AvgDosToReceived + ' Days',
-                      labels: 'Date of Service to Received'
-                    },
-                    {
-                      values: claimsdata.LineOfBusiness[lobFullData].TatMetrics.AvgReceivedToPaid + ' Days',
-                      labels: 'Received to Processed'
-                    }
-                  ]
-                },
-                timeperiod: timePeriodCalls
-              };
-            } else {
-              claimsTAT = {
-                category: 'app-card',
-                type: 'rotateWithLabel',
-                status: 404,
-                title: 'Average Claim Processing Days',
-                MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-                data: null,
-                besideData: null,
-                timeperiod: null
-              };
-            }
-          } else {
-            claimsTAT = {
-              category: 'app-card',
-              type: 'rotateWithLabel',
-              status: 404,
-              title: 'Average Claim Processing Days',
-              MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-              data: null,
-              besideData: null,
-              timeperiod: null
-            };
-          }
           resolve(claimsTAT);
         });
       }
     });
+  }
+
+  claimsDataForDOS(claimsData, lobData) {
+    let claimsTAT: any;
+    if (!claimsData || !claimsData.hasOwnProperty(lobData)) {
+      claimsTAT = {
+        category: 'app-card',
+        type: 'rotateWithLabel',
+        status: 404,
+        title: 'Average Claim Processing Days',
+        MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
+        data: null,
+        besideData: null,
+        timeperiod: null
+      };
+    } else if (
+      claimsData != null &&
+      claimsData.hasOwnProperty(lobData) &&
+      claimsData[lobData] != null &&
+      claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+      claimsData[lobData].ClaimsLobSummary.length &&
+      claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat') &&
+      claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('DosToReceived') &&
+      claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ReceivedToPaid')
+    ) {
+      const startDate = (claimsData || {}).Startdate;
+      const endDate = (claimsData || {}).Enddate;
+      const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+
+      claimsTAT = {
+        category: 'app-card',
+        type: 'rotateWithLabel',
+        title: 'Average Claim Processing Days',
+        MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
+        // toggle: true,
+        data: {
+          centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days',
+          color: ['#3381FF', '#3381FF'],
+          gdata: ['card-inner', 'claimsAverageTurnAround'],
+          sdata: {
+            sign: 'down',
+            data: '-1.2%'
+          }
+        },
+        besideData: {
+          verticalData: [
+            {
+              values: claimsData[lobData].ClaimsLobSummary[0].AvgDosToReceived + ' Days',
+              labels: 'Date of Service to Received'
+            },
+            {
+              values: claimsData[lobData].ClaimsLobSummary[0].AvgReceivedToPaid + ' Days',
+              labels: 'Received to Processed'
+            }
+          ]
+        },
+        timeperiod: timePeriodCalls
+      };
+    } else {
+      claimsTAT = {
+        category: 'app-card',
+        type: 'rotateWithLabel',
+        status: 404,
+        title: 'Average Claim Processing Days',
+        MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
+        data: null,
+        besideData: null,
+        timeperiod: null
+      };
+    }
+
+    return claimsTAT;
   }
 
   claimSubmissionsData(parameters, claimsData) {
