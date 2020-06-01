@@ -568,61 +568,52 @@ export class OverviewSharedService {
   getClaimPaidObject(claims) {
     const paidData = [];
     let claimsPaid: any;
-    if (claims.hasOwnProperty('Mr') && claims.Mr != null) {
-      if (
-        claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
-        claims.Mr.ClaimsLobSummary.length &&
-        claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-      ) {
-        paidData.push(claims.Mr.ClaimsLobSummary[0].AmountPaid);
-      }
+    if (
+      claims.hasOwnProperty('Mr') &&
+      claims.Mr != null &&
+      claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
+      claims.Mr.ClaimsLobSummary.length &&
+      claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+    ) {
+      paidData.push(claims.Mr.ClaimsLobSummary[0].AmountPaid);
     }
-    if (claims.hasOwnProperty('Cs') && claims.Cs != null) {
-      if (
-        claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
-        claims.Cs.ClaimsLobSummary.length &&
-        claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-      ) {
-        paidData.push(claims.Cs.ClaimsLobSummary[0].AmountPaid);
-      }
+    if (
+      claims.hasOwnProperty('Cs') &&
+      claims.Cs != null &&
+      claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
+      claims.Cs.ClaimsLobSummary.length &&
+      claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+    ) {
+      paidData.push(claims.Cs.ClaimsLobSummary[0].AmountPaid);
     }
-    if (claims.hasOwnProperty('Ei') && claims.Ei != null) {
-      if (
-        claims.Ei.hasOwnProperty('ClaimsLobSummary') &&
-        claims.Ei.ClaimsLobSummary.length &&
-        claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-      ) {
-        paidData.push(claims.Ei.ClaimsLobSummary[0].AmountPaid);
-      }
+
+    if (
+      claims.hasOwnProperty('Ei') &&
+      claims.Ei != null &&
+      claims.Ei.hasOwnProperty('ClaimsLobSummary') &&
+      claims.Ei.ClaimsLobSummary.length &&
+      claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+    ) {
+      paidData.push(claims.Ei.ClaimsLobSummary[0].AmountPaid);
     }
-    if (claims.hasOwnProperty('Un') && claims.Un != null) {
-      if (
-        claims.Un.hasOwnProperty('ClaimsLobSummary') &&
-        claims.Un.ClaimsLobSummary.length &&
-        claims.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-      ) {
-        paidData.push(claims.Un.ClaimsLobSummary[0].AmountPaid);
-      }
+
+    if (
+      claims.hasOwnProperty('Un') &&
+      claims.Un != null &&
+      claims.Un.hasOwnProperty('ClaimsLobSummary') &&
+      claims.Un.ClaimsLobSummary.length &&
+      claims.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+    ) {
+      paidData.push(claims.Un.ClaimsLobSummary[0].AmountPaid);
     }
+
     claimsPaid = {
       category: 'small-card',
       type: 'donut',
       title: 'Claims Paid*',
       MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
       toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
-      data: {
-        graphValues: paidData,
-        centerNumber:
-          this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
-          this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
-            ? '< $1'
-            : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
-        centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
-        color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-        gdata: ['card-inner', 'claimsPaidCardD3Donut'],
-        labels: [lobName.mAndRMedicare, lobName.cAndSMedicaid, lobName.eAndICommerCial, lobName.unCategorized],
-        hover: true
-      },
+      data: this.setClaimsDataSucess(paidData, claims),
       timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
     };
     // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
@@ -633,22 +624,42 @@ export class OverviewSharedService {
         title: 'Claims Paid*',
         MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
         toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
-        data: {
-          graphValues: [0, 100],
-          centerNumber:
-            this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
-            this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
-              ? '< $1'
-              : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
-          centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
-          color: ['#D7DCE1', '#D7DCE1'],
-          gdata: ['card-inner', 'claimsPaidCardD3Donut']
-        },
+        data: this.setClaimsDataError(claims),
         timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
       };
     }
 
     return claimsPaid;
+  }
+
+  setClaimsDataSucess(paidData, claims) {
+    return {
+      graphValues: paidData,
+      centerNumber:
+        this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
+        this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
+          ? '< $1'
+          : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
+      centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
+      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+      gdata: ['card-inner', 'claimsPaidCardD3Donut'],
+      labels: [lobName.mAndRMedicare, lobName.cAndSMedicaid, lobName.eAndICommerCial, lobName.unCategorized],
+      hover: true
+    };
+  }
+
+  setClaimsDataError(claims) {
+    return {
+      graphValues: [0, 100],
+      centerNumber:
+        this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
+        this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
+          ? '< $1'
+          : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
+      centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
+      color: ['#D7DCE1', '#D7DCE1'],
+      gdata: ['card-inner', 'claimsPaidCardD3Donut']
+    };
   }
   /* function to create Claims Yield Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createClaimsYieldObject(claims) {
