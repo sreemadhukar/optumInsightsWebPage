@@ -1325,7 +1325,7 @@ export class GettingReimbursedSharedService {
 
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(
         r => {
-          const responseSanity = (r !== null && typeof r !== 'string') || r !== 'OK';
+          const responseSanity = !_.isString(r) || r !== 'OK';
           if (responseSanity && !r.status) {
             const paymentIntegrityData = r;
             const result: any = r;
@@ -1413,11 +1413,10 @@ export class GettingReimbursedSharedService {
             };
             resolve(temp);
           } else if (r.status) {
-            r.status = r.status === 404 ? 501 : r.status;
             const temp = {
               category: 'large-card',
               type: 'donutWithLabelBottom',
-              status: r.status,
+              status: r.status === 404 ? 501 : r.status,
               title: 'Claims Payment Integrity',
               MetricID: this.MetricidService.MetricIDs.ClaimsPaymentIntegrity,
               data: null,
