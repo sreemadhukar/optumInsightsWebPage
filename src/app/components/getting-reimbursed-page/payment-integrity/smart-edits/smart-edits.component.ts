@@ -77,6 +77,10 @@ export class SmartEditsComponent implements OnInit {
       'external-link',
       this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/open_in_new-24px.svg')
     );
+    this.iconRegistry.addSvgIcon(
+      'filter',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+    );
   }
 
   ngOnInit() {
