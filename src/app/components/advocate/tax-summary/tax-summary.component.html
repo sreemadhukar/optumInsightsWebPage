@@ -143,7 +143,10 @@
           mat-row
           class="tax-summary-rows"
           *matRowDef="let row; let i = index; columns: taxSummaryColumns"
-          [ngClass]="{ active: i === selectedTaxId.length - 1 && selectedTaxId[0]['Tin'] !== 'All' && row.checked }"
+          [ngClass]="{
+            active:
+              i + pageIndex * pageSize === selectedTaxId.length - 1 && selectedTaxId[0]['Tin'] !== 'All' && row.checked
+          }"
         ></tr>
       </table>
 
