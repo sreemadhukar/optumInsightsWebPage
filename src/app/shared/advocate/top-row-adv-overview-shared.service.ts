@@ -562,40 +562,15 @@ export class TopRowAdvOverviewSharedService {
           let lobData;
           if (parameters[1]['ClaimsBy'] === 'DOP') {
             lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'ALL';
-            if (!claimsData || !claimsData.hasOwnProperty('LineOfBusiness')) {
-              claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
-            } else if (claimsData != null && MASTER_DATA[lobData]) {
+
+            if (claimsData != null && MASTER_DATA[lobData] && claimsData.hasOwnProperty('LineOfBusiness')) {
               lobData = MASTER_DATA[lobData];
             } else {
               claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
             }
           } else {
             lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
-            if (!claimsData || !claimsData.hasOwnProperty(lobData)) {
-              claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
-            } else if (claimsData != null) {
-              if (_.get(claimsData, ['lobData', 'ClaimsLobSummary', '0', 'AmountPaid']) !== undefined) {
-                claimsPaid = this.setDataForLOBSumary(claimsData, lobData);
-                // Date : 31/5/2019
-              } else {
-                claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
-              }
-              if (
-                claimsData.hasOwnProperty(lobData) &&
-                claimsData[lobData] != null &&
-                claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
-                claimsData[lobData].ClaimsLobSummary.length &&
-                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-              ) {
-                claimsPaid = this.setClaimsPaidDataForLOBSummary(claimsData, lobData);
-              } else {
-                claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
-              }
-
-              // end if else for Claims Non-Payment Rate | Getting Reimbursed Non-Payment Page            if (
-            } else {
-              claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
-            }
+            claimsPaid = this.setDataForClaimDOS(claimsData, lobData);
           }
           resolve(claimsPaid);
         },
@@ -604,6 +579,37 @@ export class TopRowAdvOverviewSharedService {
         }
       );
     });
+  }
+
+  setDataForClaimDOS(claimsData, lobData) {
+    let claimsPaid;
+    if (!claimsData || !claimsData.hasOwnProperty(lobData)) {
+      claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
+    } else if (claimsData != null) {
+      if (_.get(claimsData, ['lobData', 'ClaimsLobSummary', '0', 'AmountPaid']) !== undefined) {
+        claimsPaid = this.setDataForLOBSumary(claimsData, lobData);
+        // Date : 31/5/2019
+      } else {
+        claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
+      }
+      if (
+        claimsData.hasOwnProperty(lobData) &&
+        claimsData[lobData] != null &&
+        claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+        claimsData[lobData].ClaimsLobSummary.length &&
+        claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+      ) {
+        claimsPaid = this.setClaimsPaidDataForLOBSummary(claimsData, lobData);
+      } else {
+        claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
+      }
+
+      // end if else for Claims Non-Payment Rate | Getting Reimbursed Non-Payment Page            if (
+    } else {
+      claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
+    }
+
+    return claimsPaid;
   }
 
   setClaimsPaidDataForLOBSummary(claimsData, lobData) {
