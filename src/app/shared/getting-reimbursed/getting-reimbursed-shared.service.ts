@@ -948,39 +948,43 @@ export class GettingReimbursedSharedService {
       const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
       if (parameters[1]['ClaimsBy'] === 'DOS') {
-        if (!claimsData || !claimsData.hasOwnProperty(lobData)) {
-          claimsTAT = {
-            category: 'app-card',
-            type: 'rotateWithLabel',
-            status: 404,
-            title: 'Average Claim Processing Days',
-            MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-            data: null,
-            besideData: null,
-            timeperiod: null
-          };
-        } else if (claimsData != null) {
-          if (
-            claimsData.hasOwnProperty(lobData) &&
-            claimsData[lobData] != null &&
-            claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
-            claimsData[lobData].ClaimsLobSummary.length &&
-            claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat') &&
-            claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('DosToReceived') &&
-            claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ReceivedToPaid')
+        claimsTAT = this.claimsDataForDOS(claimsData, lobData);
+        resolve(claimsTAT);
+      } else {
+        this.gettingReimbursedService.getTatDataforDOP(parameters).subscribe(claimsdata => {
+          if (!claimsdata || !claimsdata.hasOwnProperty('LineOfBusiness')) {
+            claimsTAT = {
+              category: 'app-card',
+              type: 'rotateWithLabel',
+              status: 404,
+              title: 'Average Claim Processing Days',
+              MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
+              data: null,
+              besideData: null,
+              timeperiod: null
+            };
+          } else if (
+            claimsdata != null &&
+            claimsdata.LineOfBusiness.hasOwnProperty(lobFullData) &&
+            claimsdata.LineOfBusiness[lobFullData] != null &&
+            claimsdata.LineOfBusiness[lobFullData].hasOwnProperty('TatMetrics') &&
+            claimsdata.LineOfBusiness[lobFullData].TatMetrics.hasOwnProperty('ClaimsAvgTat') &&
+            claimsdata.LineOfBusiness[lobFullData].TatMetrics.hasOwnProperty('AvgDosToReceived') &&
+            claimsdata.LineOfBusiness[lobFullData].TatMetrics.hasOwnProperty('AvgReceivedToPaid')
           ) {
-            const startDate = (claimsData || {}).Startdate;
-            const endDate = (claimsData || {}).Enddate;
-            const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+            const startDate = (claimsdata || {}).StartDate;
+            const endDate = (claimsdata || {}).EndDate;
+            const timePeriodCalls: String =
+              this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
 
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
               title: 'Average Claim Processing Days',
               MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-              // toggle: true,
+
               data: {
-                centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days',
+                centerNumber: claimsdata.LineOfBusiness[lobFullData].TatMetrics.ClaimsAvgTat + ' days',
                 color: ['#3381FF', '#3381FF'],
                 gdata: ['card-inner', 'claimsAverageTurnAround'],
                 sdata: {
@@ -991,11 +995,11 @@ export class GettingReimbursedSharedService {
               besideData: {
                 verticalData: [
                   {
-                    values: claimsData[lobData].ClaimsLobSummary[0].AvgDosToReceived + ' Days',
+                    values: claimsdata.LineOfBusiness[lobFullData].TatMetrics.AvgDosToReceived + ' Days',
                     labels: 'Date of Service to Received'
                   },
                   {
-                    values: claimsData[lobData].ClaimsLobSummary[0].AvgReceivedToPaid + ' Days',
+                    values: claimsdata.LineOfBusiness[lobFullData].TatMetrics.AvgReceivedToPaid + ' Days',
                     labels: 'Received to Processed'
                   }
                 ]
@@ -1014,93 +1018,83 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
           }
-        }
 
-        resolve(claimsTAT);
-      } else {
-        this.gettingReimbursedService.getTatDataforDOP(parameters).subscribe(claimsdata => {
-          if (!claimsdata || !claimsdata.hasOwnProperty('LineOfBusiness')) {
-            claimsTAT = {
-              category: 'app-card',
-              type: 'rotateWithLabel',
-              status: 404,
-              title: 'Average Claim Processing Days',
-              MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-              data: null,
-              besideData: null,
-              timeperiod: null
-            };
-          } else if (claimsdata != null) {
-            if (
-              claimsdata.LineOfBusiness.hasOwnProperty(lobFullData) &&
-              claimsdata.LineOfBusiness[lobFullData] != null &&
-              claimsdata.LineOfBusiness[lobFullData].hasOwnProperty('TatMetrics') &&
-              claimsdata.LineOfBusiness[lobFullData].TatMetrics.hasOwnProperty('ClaimsAvgTat') &&
-              claimsdata.LineOfBusiness[lobFullData].TatMetrics.hasOwnProperty('AvgDosToReceived') &&
-              claimsdata.LineOfBusiness[lobFullData].TatMetrics.hasOwnProperty('AvgReceivedToPaid')
-            ) {
-              const startDate = (claimsdata || {}).StartDate;
-              const endDate = (claimsdata || {}).EndDate;
-              const timePeriodCalls: String =
-                this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
-
-              claimsTAT = {
-                category: 'app-card',
-                type: 'rotateWithLabel',
-                title: 'Average Claim Processing Days',
-                MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-
-                data: {
-                  centerNumber: claimsdata.LineOfBusiness[lobFullData].TatMetrics.ClaimsAvgTat + ' days',
-                  color: ['#3381FF', '#3381FF'],
-                  gdata: ['card-inner', 'claimsAverageTurnAround'],
-                  sdata: {
-                    sign: 'down',
-                    data: '-1.2%'
-                  }
-                },
-                besideData: {
-                  verticalData: [
-                    {
-                      values: claimsdata.LineOfBusiness[lobFullData].TatMetrics.AvgDosToReceived + ' Days',
-                      labels: 'Date of Service to Received'
-                    },
-                    {
-                      values: claimsdata.LineOfBusiness[lobFullData].TatMetrics.AvgReceivedToPaid + ' Days',
-                      labels: 'Received to Processed'
-                    }
-                  ]
-                },
-                timeperiod: timePeriodCalls
-              };
-            } else {
-              claimsTAT = {
-                category: 'app-card',
-                type: 'rotateWithLabel',
-                status: 404,
-                title: 'Average Claim Processing Days',
-                MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-                data: null,
-                besideData: null,
-                timeperiod: null
-              };
-            }
-          } else {
-            claimsTAT = {
-              category: 'app-card',
-              type: 'rotateWithLabel',
-              status: 404,
-              title: 'Average Claim Processing Days',
-              MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-              data: null,
-              besideData: null,
-              timeperiod: null
-            };
-          }
           resolve(claimsTAT);
         });
       }
     });
+  }
+
+  claimsDataForDOS(claimsData, lobData) {
+    let claimsTAT: any;
+    if (!claimsData || !claimsData.hasOwnProperty(lobData)) {
+      claimsTAT = {
+        category: 'app-card',
+        type: 'rotateWithLabel',
+        status: 404,
+        title: 'Average Claim Processing Days',
+        MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
+        data: null,
+        besideData: null,
+        timeperiod: null
+      };
+    } else if (
+      claimsData != null &&
+      claimsData.hasOwnProperty(lobData) &&
+      claimsData[lobData] != null &&
+      claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+      claimsData[lobData].ClaimsLobSummary.length &&
+      claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat') &&
+      claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('DosToReceived') &&
+      claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ReceivedToPaid')
+    ) {
+      const startDate = (claimsData || {}).Startdate;
+      const endDate = (claimsData || {}).Enddate;
+      const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+
+      claimsTAT = {
+        category: 'app-card',
+        type: 'rotateWithLabel',
+        title: 'Average Claim Processing Days',
+        MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
+        // toggle: true,
+        data: {
+          centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days',
+          color: ['#3381FF', '#3381FF'],
+          gdata: ['card-inner', 'claimsAverageTurnAround'],
+          sdata: {
+            sign: 'down',
+            data: '-1.2%'
+          }
+        },
+        besideData: {
+          verticalData: [
+            {
+              values: claimsData[lobData].ClaimsLobSummary[0].AvgDosToReceived + ' Days',
+              labels: 'Date of Service to Received'
+            },
+            {
+              values: claimsData[lobData].ClaimsLobSummary[0].AvgReceivedToPaid + ' Days',
+              labels: 'Received to Processed'
+            }
+          ]
+        },
+        timeperiod: timePeriodCalls
+      };
+    } else {
+      claimsTAT = {
+        category: 'app-card',
+        type: 'rotateWithLabel',
+        status: 404,
+        title: 'Average Claim Processing Days',
+        MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
+        data: null,
+        besideData: null,
+        timeperiod: null
+      };
+    }
+
+    return claimsTAT;
   }
 
   claimSubmissionsData(parameters, claimsData) {
@@ -1111,85 +1105,8 @@ export class GettingReimbursedSharedService {
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
 
       if (parameters[1]['ClaimsBy'] === 'DOS') {
-        if (claimsData != null) {
-          if (
-            claimsData.hasOwnProperty(lobData) &&
-            claimsData[lobData] != null &&
-            claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
-            claimsData[lobData].ClaimsLobSummary.length &&
-            claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
-            claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
-            claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')
-          ) {
-            if (claimsData.hasOwnProperty('Startdate') && claimsData.hasOwnProperty('Enddate')) {
-              timePeriodData =
-                this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate);
-            }
-            claimsSubmitted = {
-              category: 'app-card',
-              type: 'donutWithLabel',
-              title: 'Total Number of Claims Processed',
-              MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
-              data: {
-                graphValues: [
-                  claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
-                  claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
-                ],
-
-                centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted,
-
-                labels: ['Paid', 'Not Paid'],
-                hover: true,
-
-                centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted),
-
-                color: ['#3381FF', '#80B0FF'],
-                gdata: ['card-inner', 'totalClaimsSubmitted'],
-                sdata: {
-                  sign: '',
-                  data: ''
-                }
-              },
-              besideData: {
-                labels: ['Paid', 'Not Paid'],
-                color: ['#3381FF', '#80B0FF'],
-                graphValues: [
-                  claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
-                  claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
-                ]
-              },
-              timeperiod: timePeriodData
-            };
-
-            resolve(claimsSubmitted);
-          } else {
-            claimsSubmitted = {
-              category: 'app-card',
-              type: 'donutWithLabel',
-              title: 'Total Number of Claims Processed',
-              MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
-              data: null,
-              status: 404,
-              besideData: null,
-              timeperiod: null
-            };
-
-            resolve(claimsSubmitted);
-          }
-        } else {
-          claimsSubmitted = {
-            category: 'app-card',
-            type: 'donutWithLabel',
-            title: 'Total Number of Claims Processed',
-            MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
-            data: null,
-            status: 404,
-            besideData: null,
-            timeperiod: null
-          };
-
-          resolve(claimsSubmitted);
-        }
+        claimsSubmitted = this.claimsSubmisionForDOS(claimsData, lobData, timePeriodData);
+        resolve(claimsSubmitted);
       } else {
         if (!claimsData || !claimsData.hasOwnProperty('LineOfBusiness')) {
           claimsSubmitted = {
@@ -1203,74 +1120,60 @@ export class GettingReimbursedSharedService {
             timeperiod: null
           };
           resolve(claimsSubmitted);
-        } else if (claimsData != null) {
-          if (
-            claimsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-            claimsData.LineOfBusiness[lobFullData] != null &&
-            claimsData.LineOfBusiness[lobFullData].hasOwnProperty('ClaimFinancialMetrics') &&
-            claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('ApprovedCount') &&
-            claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('DeniedCount')
-          ) {
-            if (claimsData.hasOwnProperty('StartDate') && claimsData.hasOwnProperty('EndDate')) {
-              timePeriodData =
-                this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate);
-            }
-            claimsSubmitted = {
-              category: 'app-card',
-              type: 'donutWithLabel',
-              title: 'Total Number of Claims Processed',
-              MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
-              toggle: this.toggle.setToggles(
-                'Total Number of Claims Processed',
-                'Claims Processed',
-                'Getting Reimbursed',
-                true
-              ),
-              data: {
-                graphValues: [
-                  claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.ApprovedCount,
-                  claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.DeniedCount
-                ],
-                centerNumber: this.common.nFormatter(
-                  claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.ApprovedCount +
-                    claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.DeniedCount
-                ),
-                centerNumberOriginal:
-                  claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.ApprovedCount +
-                  claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.DeniedCount,
-                color: ['#3381FF', '#80B0FF'],
-                gdata: ['card-inner', 'totalClaimsSubmitted'],
-                sdata: {
-                  sign: '',
-                  data: ''
-                },
-                labels: ['Paid', 'Not Paid'],
-                hover: true
-              },
-              besideData: {
-                labels: ['Paid', 'Not Paid'],
-                color: ['#3381FF', '#80B0FF'],
-                graphValues: [
-                  claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.ApprovedCount,
-                  claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.DeniedCount
-                ]
-              },
-              timeperiod: timePeriodData
-            };
-          } else {
-            claimsSubmitted = {
-              category: 'app-card',
-              type: 'donutWithLabel',
-              title: 'Total Number of Claims Processed',
-              MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
-              data: null,
-              status: 404,
-              besideData: null,
-              timeperiod: null
-            };
+        } else if (
+          claimsData != null &&
+          claimsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
+          claimsData.LineOfBusiness[lobFullData] != null &&
+          claimsData.LineOfBusiness[lobFullData].hasOwnProperty('ClaimFinancialMetrics') &&
+          claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('ApprovedCount') &&
+          claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.hasOwnProperty('DeniedCount')
+        ) {
+          if (claimsData.hasOwnProperty('StartDate') && claimsData.hasOwnProperty('EndDate')) {
+            timePeriodData =
+              this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate);
           }
-
-          resolve(claimsSubmitted);
+          claimsSubmitted = {
+            category: 'app-card',
+            type: 'donutWithLabel',
+            title: 'Total Number of Claims Processed',
+            MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
+            toggle: this.toggle.setToggles(
+              'Total Number of Claims Processed',
+              'Claims Processed',
+              'Getting Reimbursed',
+              true
+            ),
+            data: {
+              graphValues: [
+                claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.ApprovedCount,
+                claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.DeniedCount
+              ],
+              centerNumber: this.common.nFormatter(
+                claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.ApprovedCount +
+                  claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.DeniedCount
+              ),
+              centerNumberOriginal:
+                claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.ApprovedCount +
+                claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.DeniedCount,
+              color: ['#3381FF', '#80B0FF'],
+              gdata: ['card-inner', 'totalClaimsSubmitted'],
+              sdata: {
+                sign: '',
+                data: ''
+              },
+              labels: ['Paid', 'Not Paid'],
+              hover: true
+            },
+            besideData: {
+              labels: ['Paid', 'Not Paid'],
+              color: ['#3381FF', '#80B0FF'],
+              graphValues: [
+                claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.ApprovedCount,
+                claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.DeniedCount
+              ]
+            },
+            timeperiod: timePeriodData
+          };
         } else {
           claimsSubmitted = {
             category: 'app-card',
@@ -1282,11 +1185,95 @@ export class GettingReimbursedSharedService {
             besideData: null,
             timeperiod: null
           };
-          resolve(claimsSubmitted);
         }
+        resolve(claimsSubmitted);
       }
     });
   }
+
+  claimsSubmisionForDOS(claimsData, lobData, timePeriodData) {
+    let claimsSubmitted: any;
+    if (claimsData != null) {
+      if (
+        claimsData.hasOwnProperty(lobData) &&
+        claimsData[lobData] != null &&
+        claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+        claimsData[lobData].ClaimsLobSummary.length &&
+        claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+        claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
+        claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')
+      ) {
+        if (claimsData.hasOwnProperty('Startdate') && claimsData.hasOwnProperty('Enddate')) {
+          timePeriodData =
+            this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate);
+        }
+        claimsSubmitted = {
+          category: 'app-card',
+          type: 'donutWithLabel',
+          title: 'Total Number of Claims Processed',
+          MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
+          data: {
+            graphValues: [
+              claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
+              claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
+            ],
+
+            centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted,
+
+            labels: ['Paid', 'Not Paid'],
+            hover: true,
+
+            centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted),
+
+            color: ['#3381FF', '#80B0FF'],
+            gdata: ['card-inner', 'totalClaimsSubmitted'],
+            sdata: {
+              sign: '',
+              data: ''
+            }
+          },
+          besideData: {
+            labels: ['Paid', 'Not Paid'],
+            color: ['#3381FF', '#80B0FF'],
+            graphValues: [
+              claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
+              claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
+            ]
+          },
+          timeperiod: timePeriodData
+        };
+
+        return claimsSubmitted;
+      } else {
+        claimsSubmitted = {
+          category: 'app-card',
+          type: 'donutWithLabel',
+          title: 'Total Number of Claims Processed',
+          MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
+          data: null,
+          status: 404,
+          besideData: null,
+          timeperiod: null
+        };
+
+        return claimsSubmitted;
+      }
+    } else {
+      claimsSubmitted = {
+        category: 'app-card',
+        type: 'donutWithLabel',
+        title: 'Total Number of Claims Processed',
+        MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
+        data: null,
+        status: 404,
+        besideData: null,
+        timeperiod: null
+      };
+
+      return claimsSubmitted;
+    }
+  }
+
   calculateSummaryTrends(parameters, gettingReimbursedData) {
     return new Promise(resolve => {
       let baseTimePeriod: any;
@@ -1338,75 +1325,10 @@ export class GettingReimbursedSharedService {
 
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(
         r => {
-          if (((r !== null && typeof r !== 'string') || r !== 'OK') && !r.status) {
-            const paymentIntegrityData = r;
-            const result: any = r;
-            const output: any = {};
-            let returnedWidth = 4;
-            let notReturnedWidth = 4;
-
-            if (result.MedicalRecordsReturned > result.MedicalRecordsOutstanding) {
-              returnedWidth = 382;
-              if (result.MedicalRecordsOutstanding !== 0) {
-                notReturnedWidth = (result.MedicalRecordsOutstanding * 382) / result.MedicalRecordsReturned;
-              }
-            } else {
-              notReturnedWidth = 382;
-              if (result.MedicalRecordsReturned !== 0) {
-                returnedWidth = (result.MedicalRecordsReturned * 382) / result.MedicalRecordsOutstanding;
-              }
-            }
-
-            output.returnedWidth = returnedWidth;
-            output.notReturnedWidth = notReturnedWidth;
-            output.MedicalRecordsOutstanding = this.common.nFormatter(result.MedicalRecordsOutstanding);
-            output.MedicalRecordsRequested = this.common.nFormatter(result.MedicalRecordsRequested);
-            output.MedicalRecordsReturned = this.common.nFormatter(result.MedicalRecordsReturned);
-            output.OutStandingAmount = '$' + this.common.nFormatter(result.OutStandingAmount);
-
-            if (Math.round(result.OutStandingAmountVariance) > 0) {
-              output.OutStandingAmountVarianceColor = '#B10C00';
-              output.OutStandingAmountVariance = '+' + Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
-              output.OutStandingAmountVarianceIcon = 'up-red-trend-icon';
-            } else {
-              output.OutStandingAmountVarianceColor = '#007000';
-              output.OutStandingAmountVariance = Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
-              output.OutStandingAmountVarianceIcon = 'down-green-trend-icon';
-            }
-
-            output.RecordsRequestedVariance =
-              Math.round(result.RecordsRequestedVariance) > 0
-                ? '+' + Math.round(result.RecordsRequestedVariance * 10) / 10 + '%'
-                : Math.round(result.RecordsRequestedVariance * 10) / 10 + '%';
-            output.VarianceStartDate =
-              this.getMonthname(result.VarianceStartDate) + ' ' + this.getFullyear(result.VarianceStartDate);
-            output.VarianceEndDate =
-              this.getMonthname(result.VarianceEndDate) + ' ' + this.getFullyear(result.VarianceEndDate);
-            output.timeperiod =
-              this.common.dateFormat(paymentIntegrityData.StartDate + '-01') +
-              '&ndash;' +
-              this.common.dateFormat(paymentIntegrityData.EndDate + '-31');
-            let sData: any = {};
-            if (result.RecordsRequestedVariance > 0) {
-              sData = { sign: 'down', data: output.RecordsRequestedVariance + ' †' };
-            } else {
-              sData = { sign: 'up', data: output.RecordsRequestedVariance + ' †' };
-            }
-            output.piDonutData = {
-              timeperiod: this.timeFrame,
-              donutData: {
-                centerNumber: this.common.nFormatter(result.MedicalRecordsRequested),
-                color: ['#3381FF', '#D7DCE1'],
-                gdata: ['card-inner', 'piCard'],
-                graphValues: [result.MedicalRecordsRequested, result.TotalClaimsSubmitted],
-                sdata: sData,
-                graphScreen: 'PI'
-              },
-              besideData: {
-                color: ['#3381FF', '#D7DCE1'],
-                labels: ['Pre-Payment Medical Records Requested', 'Claims Submitted']
-              }
-            };
+          let output: any;
+          const responseSanity = !_.isString(r) || r !== 'OK';
+          if (responseSanity && !r.status) {
+            output = this.integrityDataForNotOK(r);
             resolve(output);
           } else if (typeof r === 'string' || r === 'OK') {
             const temp = {
@@ -1422,13 +1344,10 @@ export class GettingReimbursedSharedService {
             };
             resolve(temp);
           } else if (r.status) {
-            if (r.status === 404) {
-              r.status = 501;
-            }
             const temp = {
               category: 'large-card',
               type: 'donutWithLabelBottom',
-              status: r.status,
+              status: r.status === 404 ? 501 : r.status,
               title: 'Claims Payment Integrity',
               MetricID: this.MetricidService.MetricIDs.ClaimsPaymentIntegrity,
               data: null,
@@ -1448,6 +1367,80 @@ export class GettingReimbursedSharedService {
     });
   }
 
+  integrityDataForNotOK(r) {
+    const paymentIntegrityData = r;
+    const result: any = r;
+    const output: any = {};
+    let returnedWidth = 4;
+    let notReturnedWidth = 4;
+
+    if (result.MedicalRecordsReturned > result.MedicalRecordsOutstanding) {
+      returnedWidth = 382;
+      if (result.MedicalRecordsOutstanding !== 0) {
+        notReturnedWidth = (result.MedicalRecordsOutstanding * 382) / result.MedicalRecordsReturned;
+      }
+    } else {
+      notReturnedWidth = 382;
+      if (result.MedicalRecordsReturned !== 0) {
+        returnedWidth = (result.MedicalRecordsReturned * 382) / result.MedicalRecordsOutstanding;
+      }
+    }
+
+    output.returnedWidth = returnedWidth;
+    output.notReturnedWidth = notReturnedWidth;
+    output.MedicalRecordsOutstanding = this.common.nFormatter(result.MedicalRecordsOutstanding);
+    output.MedicalRecordsRequested = this.common.nFormatter(result.MedicalRecordsRequested);
+    output.MedicalRecordsReturned = this.common.nFormatter(result.MedicalRecordsReturned);
+    output.OutStandingAmount = '$' + this.common.nFormatter(result.OutStandingAmount);
+
+    if (Math.round(result.OutStandingAmountVariance) > 0) {
+      output.OutStandingAmountVarianceColor = '#B10C00';
+      output.OutStandingAmountVariance = '+' + Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
+      output.OutStandingAmountVarianceIcon = 'up-red-trend-icon';
+    } else {
+      output.OutStandingAmountVarianceColor = '#007000';
+      output.OutStandingAmountVariance = Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
+      output.OutStandingAmountVarianceIcon = 'down-green-trend-icon';
+    }
+
+    output.RecordsRequestedVariance =
+      Math.round(result.RecordsRequestedVariance) > 0
+        ? '+' + Math.round(result.RecordsRequestedVariance * 10) / 10 + '%'
+        : Math.round(result.RecordsRequestedVariance * 10) / 10 + '%';
+    output.VarianceStartDate =
+      this.getMonthname(result.VarianceStartDate) + ' ' + this.getFullyear(result.VarianceStartDate);
+    output.VarianceEndDate = this.getMonthname(result.VarianceEndDate) + ' ' + this.getFullyear(result.VarianceEndDate);
+    const endDate = new Date(paymentIntegrityData.EndDate);
+    output.timeperiod =
+      this.common.dateFormat(paymentIntegrityData.StartDate + '-01') +
+      '&ndash;' +
+      this.common.dateFormat(
+        paymentIntegrityData.EndDate + '-' + this.daysInMonth(endDate.getMonth() + 1, endDate.getFullYear())
+      );
+    let sData: any = {};
+    if (result.RecordsRequestedVariance > 0) {
+      sData = { sign: 'down', data: output.RecordsRequestedVariance + ' †' };
+    } else {
+      sData = { sign: 'up', data: output.RecordsRequestedVariance + ' †' };
+    }
+    output.piDonutData = {
+      timeperiod: this.timeFrame,
+      donutData: {
+        centerNumber: this.common.nFormatter(result.MedicalRecordsRequested),
+        color: ['#3381FF', '#D7DCE1'],
+        gdata: ['card-inner', 'piCard'],
+        graphValues: [result.MedicalRecordsRequested, result.TotalClaimsSubmitted],
+        sdata: sData,
+        graphScreen: 'PI'
+      },
+      besideData: {
+        color: ['#3381FF', '#D7DCE1'],
+        labels: ['Pre-Payment Medical Records Requested', 'Claims Submitted']
+      }
+    };
+    return output;
+  }
+
   getParameterCategories(param) {
     let parameters = [];
     this.providerKey = this.session.providerKeyData();
@@ -1455,6 +1448,9 @@ export class GettingReimbursedSharedService {
     return parameters;
   }
 
+  daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate();
+  }
   public sentenceCase(str) {
     return str.replace(/\w\S*/g, function(txt) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();

@@ -89,12 +89,10 @@ export class HealthSystemDetailsComponent implements OnInit {
       currentUser[0].ProviderKey === this.groupPremiumDesignationService.data.ProviderKey
     ) {
       this.GroupPremiumDesignation = this.groupPremiumDesignationService.data.HppIndicator;
-      console.log(' this.GroupPremiumDesignation', this.GroupPremiumDesignation);
     }
     this.groupPremiumDesignationService.gppObservable.subscribe(value => {
       const data = JSON.parse(JSON.stringify(value));
       this.GroupPremiumDesignation = data['HppIndicator'];
-      console.log(' this.GroupPremiumDesignation', this.GroupPremiumDesignation);
     });
   }
 

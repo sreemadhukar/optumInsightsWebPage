@@ -1,5 +1,4 @@
 //Main table css
-
 .table {
   &-container {
     position: relative;
@@ -31,7 +30,6 @@
     text-indent: 12px;
     padding: 0;
   }
-
   &-input-query-g {
     // display: block;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
@@ -46,7 +44,6 @@
     text-indent: 12px;
     padding: 0;
   }
-
   &-head-text {
     font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     color: #2d2d39;
@@ -59,6 +56,7 @@
     }
   }
 }
+
 .search-icon {
   position: absolute;
   color: #757588;
@@ -98,8 +96,9 @@
 
 //input custom width
 .tin-input-width {
-  width: 173px;
+  width: 100%;
 }
+
 .tinname-input-width {
   width: 230px;
   border: none;
@@ -112,14 +111,14 @@
 //table column widths
 .rlp-table {
   &-tin {
-    flex: 0.6;
+    flex: 0.5;
     padding-right: 16px;
   }
   &-group {
     flex: 0.97;
   }
   &-bar {
-    flex: 1.65;
+    flex: 1.75;
     padding-left: 10px;
     display: inline-flex;
     cursor: pointer;
@@ -137,6 +136,7 @@
   width: 960px;
   border: 1px solid #e0e0e0;
 }
+
 .table-items {
   padding: 0 16px 32px 16px;
 }
@@ -221,9 +221,9 @@
     font-size: 14px;
   }
 }
+
 .table-show-count {
   margin: 0 8px 8px 0;
-
   .table-show-text {
     font-size: 14px;
     line-height: 18px;
@@ -242,6 +242,7 @@
   padding: 8px 0 8px 2px;
   text-indent: 12px;
 }
+
 //Input place holder css for IE
 :-ms-input-placeholder {
   /* Internet Explorer 10-11 */
@@ -314,6 +315,7 @@
   font-size: 16px;
   line-height: 22px;
 }
+
 //sorting icon classes
 .nav-menu-icons {
   margin: 0px 12px;
@@ -324,7 +326,6 @@
     height: 16px;
     width: 16px;
   }
-
   &-down-arrow-reverse {
     transform: rotate(180deg);
     margin-top: -1px;
@@ -332,6 +333,7 @@
     width: 16px;
   }
 }
+
 .icon mat-icon {
   visibility: hidden;
 }

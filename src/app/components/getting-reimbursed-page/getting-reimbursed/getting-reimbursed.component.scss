@@ -95,7 +95,7 @@
   /* tabs css starts here*/
   .container--tabs {
     clear: left;
-    width: 97%;
+    width: 98.5%;
     line-height: 25px;
     /*margin-bottom: 24px;*/
     margin-bottom: 20px;
@@ -133,6 +133,7 @@
           border-left: 0;
           border-right: 0;
           color: $black-rock;
+          background: transparent;
         }
 
         .nav-values {

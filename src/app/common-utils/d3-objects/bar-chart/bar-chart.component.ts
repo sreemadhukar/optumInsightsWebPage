@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 import { Router } from '@angular/router';
+import { CommonUtilsService } from '../../../shared/common-utils.service';
 @Component({
   selector: 'app-bar-chart',
   templateUrl: './bar-chart.component.html',
@@ -16,7 +17,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   public chartPCOR;
   @Input() chartOptions: any = {};
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private common: CommonUtilsService) {}
 
   @HostListener('window:resize', ['$event'])
   onResize(_event) {
@@ -34,18 +35,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   doBarChart(chartOptions: any, _transition: number) {
-    function formatDy(dy: number): string {
-      if (dy === 0) {
-        return '0.0M';
-      } else if (dy < 999) {
-        return dy.toFixed(0);
-      } else if (dy < 999999) {
-        return (dy / 1000).toFixed(1) + 'K';
-      } else if (dy) {
-        return (dy / 1000000).toFixed(1) + 'M';
-      }
-    }
-
     function getTextWidth(text, fontSize, fontFace) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
@@ -255,10 +244,13 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         const label = d3.select('#' + uniqueText).selectAll('*');
 
         let tooltipLabelAdjustor = 120;
-        if (tspanArray.length === 3) {
-          tooltipLabelAdjustor = 80;
-        } else if (tspanArray.length === 8) {
-          tooltipLabelAdjustor = 160;
+        switch (tspanArray.length) {
+          case 3:
+            tooltipLabelAdjustor = 80;
+            break;
+          case 8:
+            tooltipLabelAdjustor = 160;
+            break;
         }
 
         label
@@ -290,7 +282,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('y', (barHeight + 8) / 2)
         .attr('class', 'PA-text-style')
 
-        .text(formatDy(chartOptions.barData));
+        .text(this.common.nFormatter(chartOptions.barData));
     }
   }
 }

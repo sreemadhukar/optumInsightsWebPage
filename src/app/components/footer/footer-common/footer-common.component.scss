@@ -32,6 +32,10 @@
     cursor: pointer;
   }
 
+  .anchor-color :hover {
+    text-decoration: red($color: #000000);
+  }
+
   .anchor-color-one {
     color: #ffffff;
     text-decoration-line: none;
@@ -53,4 +57,8 @@
 
 .print-footer-bg {
   background: #ffffff;
+}
+
+a.anchor-color:hover {
+  text-decoration: underline;
 }

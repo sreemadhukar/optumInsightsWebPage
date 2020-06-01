@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
+
 @Component({
   selector: 'app-med-bar-chart',
   templateUrl: './med-bar-chart.component.html',
@@ -35,7 +36,11 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       context.font = fontSize + 'px ' + fontFace;
       return context.measureText(text).width;
     }
-
+    function getModifiedXscale(base, addition = 0) {
+      if (typeof chartOptions.graphValues[0] !== 'undefined') {
+        return base + addition;
+      }
+    }
     function wrap(textObject, pixelWidth, uniqueID, fontSize) {
       textObject.each(function() {
         let word,
@@ -139,7 +144,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
         .append('g')
-        .attr('transform', 'translate(' + 10 + ',' + 0 + ')');
+        .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
     }
     let totalSum = 0;
 
@@ -188,22 +193,14 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .attr('x', 10)
           .attr('y', -25)
           .attr('id', 'paymentIntegrityRect' + chartOptions.graphValues[1])
-          .attr('width', function() {
-            if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return xScale(chartOptions.graphValues[0]);
-            }
-          })
+          .attr('width', getModifiedXscale(xScale(chartOptions.graphValues[0]), 0))
           .attr('height', 48)
           .style('padding-bottom', 16)
           .attr('fill', chartOptions.color[0]);
 
         chart
           .append('rect')
-          .attr('x', function() {
-            if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return 10 + xScale(chartOptions.graphValues[0]);
-            }
-          })
+          .attr('x', getModifiedXscale(xScale(chartOptions.graphValues[0]), 10))
           .attr('y', -25)
           .attr('width', 2)
           .attr('height', 48)
@@ -211,19 +208,11 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
 
         chart
           .append('rect')
-          .attr('x', function() {
-            if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return 12 + xScale(chartOptions.graphValues[0]);
-            }
-          })
+          .attr('x', getModifiedXscale(xScale(chartOptions.graphValues[0]), 12))
           .attr('y', -25)
           .attr('rx', 2)
           .attr('ry', 2)
-          .attr('width', function() {
-            if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return xScale(chartOptions.graphValues[1]) + 1;
-            }
-          })
+          .attr('width', getModifiedXscale(xScale(chartOptions.graphValues[1]), 1))
           .attr('height', 48)
           .attr('fill', chartOptions.color[2]);
       }
@@ -232,22 +221,14 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .append('rect')
         .attr('x', 10)
         .attr('y', 20)
-        .attr('width', function() {
-          if (typeof chartOptions.graphValues[0] !== 'undefined') {
-            return xScale(chartOptions.graphValues[0]);
-          }
-        })
+        .attr('width', getModifiedXscale(xScale(chartOptions.graphValues[0]), 0))
         .attr('height', 24)
         .style('padding-bottom', 16)
         .attr('fill', chartOptions.color[0]);
 
       chart
         .append('rect')
-        .attr('x', function() {
-          if (typeof chartOptions.graphValues[0] !== 'undefined') {
-            return 10 + xScale(chartOptions.graphValues[0]);
-          }
-        })
+        .attr('x', getModifiedXscale(xScale(chartOptions.graphValues[0]), 10))
         .attr('y', 20)
         .attr('width', 2)
         .attr('height', 24)
@@ -255,19 +236,11 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
 
       chart
         .append('rect')
-        .attr('x', function() {
-          if (typeof chartOptions.graphValues[0] !== 'undefined') {
-            return 12 + xScale(chartOptions.graphValues[0]);
-          }
-        })
+        .attr('x', getModifiedXscale(xScale(chartOptions.graphValues[0]), 12))
         .attr('y', 20)
         .attr('rx', 2)
         .attr('ry', 2)
-        .attr('width', function() {
-          if (typeof chartOptions.graphValues[0] !== 'undefined') {
-            return xScale(chartOptions.graphValues[1]) + 1;
-          }
-        })
+        .attr('width', getModifiedXscale(xScale(chartOptions.graphValues[1]), 1))
         .attr('height', 24)
         .attr('fill', chartOptions.color[2]);
     }
@@ -304,16 +277,20 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .call(wrap, 250, tspanID, 16);
     }
     // where we should enable the hover object to exist
+    function assignTspan(tspanArray) {
+      const temp = [];
+      for (let i = 0; i < tspanArray.length; i++) {
+        temp.push(tspanArray[i].id);
+      }
+      return temp;
+    }
     if (textWithHover.selectAll('tspan').size() > 1) {
       d3.select('#' + uniqueText).attr('cursor', 'pointer');
       const tspanArray = textWithHover.selectAll('tspan').nodes();
-      const tspanArrayIDs = [];
       const replacementtspan = tspanArray[0];
       d3.select(replacementtspan).text(replacementtspan.textContent + '...');
 
-      for (let i = 0; i < tspanArray.length; i++) {
-        tspanArrayIDs.push(tspanArray[i].id);
-      }
+      const tspanArrayIDs = assignTspan(tspanArray);
       for (let i = tspanArrayIDs.length - 1; i > 0; i--) {
         d3.select('#' + tspanArrayIDs[i]).remove();
       }
@@ -372,11 +349,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       /// madhukar
       d3.select('#paymentIntegrityRect' + chartOptions.graphValues[1]).attr('cursor', 'pointer');
       const tspanArray = textWithHover.selectAll('tspan').nodes();
-      const tspanArrayIDs = [];
-
-      for (let i = 0; i < tspanArray.length; i++) {
-        tspanArrayIDs.push(tspanArray[i].id);
-      }
+      const tspanArrayIDs = assignTspan(tspanArray);
       for (let i = tspanArrayIDs.length - 1; i > 0; i--) {
         d3.select('#' + tspanArrayIDs[i]).remove();
       }
@@ -444,7 +417,6 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .style('opacity', 0);
         });
     }
-    const graphTextData = 'Accounts Receivable Opportunity';
     if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
       if (chartOptions.type === 'large bar chart') {
         chart
@@ -471,132 +443,6 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .style('font-size', '16px')
           .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'");
 
-        if (chartOptions.trendValue.includes('+')) {
-          d3.select(this.renderChart)
-            .append('div')
-            .style('position', 'absolute')
-            .style('top', '30px')
-            .style('right', '155px')
-            .attr('fill', '#2D2D39')
-            .attr('font-size', '20px')
-            .attr('text-anchor', 'start')
-            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
-            .text(graphTextData)
-            .append('div')
-            .style('text-align', 'right')
-            .text(chartOptions.AccountsReceivableOpportunity)
-            .attr('class', 'trend-text')
-            .append('svg')
-            .attr('class', 'trend-SVG-style')
-            .append('g')
-            .insert('svg:image')
-            .attr('width', '24px')
-            .attr('height', '24px')
-            .attr('xlink:href', 'src/assets/images/trend-down.svg')
-            .select(function() {
-              return this.parentNode;
-            })
-            .select(function() {
-              return this.parentNode;
-            })
-            .select(function() {
-              return this.parentNode;
-            })
-            .append('span')
-            .text(chartOptions.trendValue)
-            .attr('class', ' trend-value');
-        } else if (chartOptions.trendValue.includes('-')) {
-          d3.select(this.renderChart)
-            .append('div')
-            .style('position', 'absolute')
-            .style('top', '30px')
-            .style('right', '155px')
-            .attr('fill', '#2D2D39')
-            .attr('font-size', '20px')
-            .attr('text-anchor', 'start')
-            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
-            .text(graphTextData)
-            .append('div')
-            .style('text-align', 'right')
-            .text(chartOptions.AccountsReceivableOpportunity)
-            .style('line-height', '22px')
-            .style('font-size', '20px')
-            .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-            .append('svg')
-            .style('margin-top', '8px')
-            .style('margin-bottom', '-5px')
-            .style('padding-left', '3px')
-            .style('transform', 'scaleY(-1)')
-            .attr('width', '24px')
-            .attr('height', '24px')
-            .append('g')
-            .insert('svg:image')
-            .attr('width', '24px')
-            .attr('height', '24px')
-            .attr('xlink:href', 'src/assets/images/trend-up.svg')
-            .select(function() {
-              return this.parentNode;
-            })
-            .select(function() {
-              return this.parentNode;
-            })
-            .select(function() {
-              return this.parentNode;
-            })
-            .append('span')
-            .text(chartOptions.trendValue)
-            .style('font-size', '14px')
-            .style('line-height', '18px')
-            .style('letter-spacing', '0.2px')
-            .style('color', '#007000')
-            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
-            .style('padding-left', '5px');
-        } else {
-          d3.select(this.renderChart)
-            .append('div')
-            .style('position', 'absolute')
-            .style('top', '30px')
-            .style('right', '155px')
-            .attr('fill', '#2D2D39')
-            .attr('font-size', '20px')
-            .attr('text-anchor', 'start')
-            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
-            .text(graphTextData)
-            .append('div')
-            .style('text-align', 'right')
-            .text(chartOptions.AccountsReceivableOpportunity)
-            .style('line-height', '22px')
-            .style('font-size', '20px')
-            .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-            .append('svg')
-            .style('margin-top', '8px')
-            .style('margin-bottom', '-5px')
-            .style('padding-left', '5px')
-            .style('transform', 'scaleY(-1)')
-            .attr('width', '24px')
-            .attr('height', '24px')
-            .append('g')
-            .insert('svg:image')
-            .attr('width', '18px')
-            .attr('height', '21px')
-            .attr('xlink:href', 'src/assets/images/flat-no-change.svg')
-            .select(function() {
-              return this.parentNode;
-            })
-            .select(function() {
-              return this.parentNode;
-            })
-            .select(function() {
-              return this.parentNode;
-            })
-            .append('span')
-            .text(chartOptions.trendValue)
-            .style('font-size', '14px')
-            .style('line-height', '18px')
-            .style('letter-spacing', '0.2px')
-            .style('color', '#007000')
-            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'");
-        }
         d3.select(this.renderChart)
           .append('div')
           .text('Target ' + chartOptions.target + '%')
@@ -643,17 +489,9 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       } else {
         chart
           .append('line')
-          .attr('x1', function() {
-            if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return xScale(chartOptions.target) + 8;
-            }
-          })
+          .attr('x1', getModifiedXscale(xScale(chartOptions.target), 8))
           .attr('y1', -29)
-          .attr('x2', function() {
-            if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return xScale(chartOptions.target) + 8;
-            }
-          })
+          .attr('x2', getModifiedXscale(xScale(chartOptions.target), 8))
           .attr('y2', 33)
           .style('stroke-dasharray', '6,6')
           .style('stroke', 'black')
