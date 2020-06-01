@@ -105,61 +105,7 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.Utilizations.hasOwnProperty('OverallLinkAdoptionRate') &&
         providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate !== null
       ) {
-        let selfServiceTime;
-        if (
-          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
-          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
-        ) {
-          try {
-            const startDate: string = this.common.dateFormat(
-              providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
-            );
-            const endDate: string = this.common.dateFormat(
-              providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
-            );
-            selfServiceTime = startDate + '&ndash;' + endDate;
-          } catch (Error) {
-            selfServiceTime = null;
-            console.log('Error in Overview | Self Service TimePeriod', Error);
-          }
-        } else {
-          selfServiceTime = null;
-        }
-        try {
-          cSelfService = {
-            category: 'small-card',
-            type: 'donut',
-            title: 'Self Service Adoption Rate',
-            MetricID: this.MetricidService.MetricIDs.SelfServiceAdoptionRate,
-            toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
-            data: {
-              graphValues: [
-                providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate,
-                1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate
-              ],
-              centerNumber:
-                providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100 < 1 &&
-                providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100 > 0
-                  ? '< 1%'
-                  : (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) +
-                    '%',
-              color: ['#3381FF', '#D7DCE1'],
-              gdata: ['card-inner', 'selfServiceCardD3Donut']
-            },
-            sdata: null,
-            timeperiod: selfServiceTime
-          };
-        } catch (Error) {
-          console.log('Overview page Error | Self Service Adoption Rate', Error);
-          cSelfService = {
-            category: 'small-card',
-            type: 'donut',
-            title: null,
-            data: null,
-            sdata: null,
-            timeperiod: null
-          };
-        }
+        cSelfService = this.getcSelfServiceObject(providerSystems);
       } else {
         cSelfService = {
           category: 'small-card',
@@ -172,6 +118,63 @@ export class OverviewSharedService {
       }
       resolve(cSelfService);
     });
+  }
+
+  getcSelfServiceObject(providerSystems) {
+    let selfServiceTime, cSelfService;
+    if (
+      providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
+      providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
+    ) {
+      try {
+        const startDate: string = this.common.dateFormat(
+          providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
+        );
+        const endDate: string = this.common.dateFormat(providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate);
+        selfServiceTime = startDate + '&ndash;' + endDate;
+      } catch (Error) {
+        selfServiceTime = null;
+        console.log('Error in Overview | Self Service TimePeriod', Error);
+      }
+    } else {
+      selfServiceTime = null;
+    }
+    try {
+      cSelfService = {
+        category: 'small-card',
+        type: 'donut',
+        title: 'Self Service Adoption Rate',
+        MetricID: this.MetricidService.MetricIDs.SelfServiceAdoptionRate,
+        toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
+        data: {
+          graphValues: [
+            providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate,
+            1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate
+          ],
+          centerNumber:
+            providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100 < 1 &&
+            providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100 > 0
+              ? '< 1%'
+              : (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
+          color: ['#3381FF', '#D7DCE1'],
+          gdata: ['card-inner', 'selfServiceCardD3Donut']
+        },
+        sdata: null,
+        timeperiod: selfServiceTime
+      };
+    } catch (Error) {
+      console.log('Overview page Error | Self Service Adoption Rate', Error);
+      cSelfService = {
+        category: 'small-card',
+        type: 'donut',
+        title: null,
+        data: null,
+        sdata: null,
+        timeperiod: null
+      };
+    }
+
+    return cSelfService;
   }
   /* function to create PCOR Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createPCORObject(providerSystems) {
