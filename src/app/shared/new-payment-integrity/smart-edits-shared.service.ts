@@ -143,9 +143,8 @@ export class SmartEditsSharedService {
       const parameters = this.getParameterCategories(param);
       this.smartEditsService.getSmartEditTopReasons(parameters).subscribe(smartEditReasonData => {
         const topReasonsData = smartEditReasonData;
-
-        if (smartEditReasonData !== null && smartEditReasonData !== undefined && smartEditReasonData.Data !== null) {
-          const ReasonsData = topReasonsData.Data;
+        const ReasonsData = topReasonsData.Data;
+        if (topReasonsData !== null && topReasonsData !== undefined && ReasonsData !== null) {
           const reasonsCode = [{}];
           const reasonsPercentageVal1 = [{}];
           const reasonsDesc = [{}];

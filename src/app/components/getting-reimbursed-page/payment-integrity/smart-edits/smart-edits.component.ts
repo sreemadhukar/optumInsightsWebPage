@@ -168,7 +168,6 @@ export class SmartEditsComponent implements OnInit {
       .then((smartEditsTopReasonsData: any) => {
         this.topReasonsData = smartEditsTopReasonsData;
         this.seReasonsLoading = false;
-        console.log('this.TopReasonsData191', this.topReasonsData);
         if (this.topReasonsData !== null && this.topReasonsData.Data !== null) {
           this.reasonDataAvailable = true;
           this.seReasonsLoading = false;
