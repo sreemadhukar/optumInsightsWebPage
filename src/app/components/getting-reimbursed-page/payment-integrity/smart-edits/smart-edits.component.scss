@@ -4,13 +4,16 @@
 
 ::ng-deep .smart-edits .even .app-card-structure {
   margin: 15px 12px 15px 12px !important;
+  width: 464px;
 }
 ::ng-deep .smart-edits .odd .app-card-structure {
   margin: 15px 12px 15px 12px !important;
+  width: 464px;
 }
 
 ::ng-deep .smart-edits .smat-card-space .app-card-structure {
   margin: 15px 12px 15px 0 !important;
+  width: 464px;
 }
 .time-period {
   box-sizing: border-box;
@@ -165,7 +168,7 @@
 .smartedit-reason-block {
   margin: 12px 0;
   // height: 464px !important;
-  width: 468px;
+  width: 464px;
   border-radius: 2px;
   background-color: $white;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
