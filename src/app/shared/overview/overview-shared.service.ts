@@ -540,86 +540,7 @@ export class OverviewSharedService {
         claims.All.hasOwnProperty('ClaimsLobSummary')
       ) {
         if (claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
-          const paidData = [];
-          if (claims.hasOwnProperty('Mr') && claims.Mr != null) {
-            if (
-              claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
-              claims.Mr.ClaimsLobSummary.length &&
-              claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-            ) {
-              paidData.push(claims.Mr.ClaimsLobSummary[0].AmountPaid);
-            }
-          }
-          if (claims.hasOwnProperty('Cs') && claims.Cs != null) {
-            if (
-              claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
-              claims.Cs.ClaimsLobSummary.length &&
-              claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-            ) {
-              paidData.push(claims.Cs.ClaimsLobSummary[0].AmountPaid);
-            }
-          }
-          if (claims.hasOwnProperty('Ei') && claims.Ei != null) {
-            if (
-              claims.Ei.hasOwnProperty('ClaimsLobSummary') &&
-              claims.Ei.ClaimsLobSummary.length &&
-              claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-            ) {
-              paidData.push(claims.Ei.ClaimsLobSummary[0].AmountPaid);
-            }
-          }
-          if (claims.hasOwnProperty('Un') && claims.Un != null) {
-            if (
-              claims.Un.hasOwnProperty('ClaimsLobSummary') &&
-              claims.Un.ClaimsLobSummary.length &&
-              claims.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-            ) {
-              paidData.push(claims.Un.ClaimsLobSummary[0].AmountPaid);
-            }
-          }
-          claimsPaid = {
-            category: 'small-card',
-            type: 'donut',
-            title: 'Claims Paid*',
-            MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
-            toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
-            data: {
-              graphValues: paidData,
-              centerNumber:
-                this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
-                this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
-                  ? '< $1'
-                  : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
-              centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
-              color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-              gdata: ['card-inner', 'claimsPaidCardD3Donut'],
-              labels: [lobName.mAndRMedicare, lobName.cAndSMedicaid, lobName.eAndICommerCial, lobName.unCategorized],
-              hover: true
-            },
-            timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
-          };
-          // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
-          if (!paidData) {
-            claimsPaid = {
-              category: 'small-card',
-              type: 'donut',
-              title: 'Claims Paid*',
-              MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
-              toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
-              data: {
-                graphValues: [0, 100],
-                centerNumber:
-                  this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
-                  this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
-                    ? '< $1'
-                    : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
-                centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
-                color: ['#D7DCE1', '#D7DCE1'],
-                gdata: ['card-inner', 'claimsPaidCardD3Donut']
-              },
-              timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
-            };
-          }
+          claimsPaid = this.getClaimPaidObject(claims);
         } else {
           claimsPaid = {
             category: 'small-card',
@@ -642,6 +563,92 @@ export class OverviewSharedService {
       }
       resolve(claimsPaid);
     });
+  }
+
+  getClaimPaidObject(claims) {
+    const paidData = [];
+    let claimsPaid: any;
+    if (claims.hasOwnProperty('Mr') && claims.Mr != null) {
+      if (
+        claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
+        claims.Mr.ClaimsLobSummary.length &&
+        claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+      ) {
+        paidData.push(claims.Mr.ClaimsLobSummary[0].AmountPaid);
+      }
+    }
+    if (claims.hasOwnProperty('Cs') && claims.Cs != null) {
+      if (
+        claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
+        claims.Cs.ClaimsLobSummary.length &&
+        claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+      ) {
+        paidData.push(claims.Cs.ClaimsLobSummary[0].AmountPaid);
+      }
+    }
+    if (claims.hasOwnProperty('Ei') && claims.Ei != null) {
+      if (
+        claims.Ei.hasOwnProperty('ClaimsLobSummary') &&
+        claims.Ei.ClaimsLobSummary.length &&
+        claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+      ) {
+        paidData.push(claims.Ei.ClaimsLobSummary[0].AmountPaid);
+      }
+    }
+    if (claims.hasOwnProperty('Un') && claims.Un != null) {
+      if (
+        claims.Un.hasOwnProperty('ClaimsLobSummary') &&
+        claims.Un.ClaimsLobSummary.length &&
+        claims.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+      ) {
+        paidData.push(claims.Un.ClaimsLobSummary[0].AmountPaid);
+      }
+    }
+    claimsPaid = {
+      category: 'small-card',
+      type: 'donut',
+      title: 'Claims Paid*',
+      MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
+      toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
+      data: {
+        graphValues: paidData,
+        centerNumber:
+          this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
+          this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
+            ? '< $1'
+            : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
+        centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
+        color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+        gdata: ['card-inner', 'claimsPaidCardD3Donut'],
+        labels: [lobName.mAndRMedicare, lobName.cAndSMedicaid, lobName.eAndICommerCial, lobName.unCategorized],
+        hover: true
+      },
+      timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
+    };
+    // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
+    if (!paidData) {
+      claimsPaid = {
+        category: 'small-card',
+        type: 'donut',
+        title: 'Claims Paid*',
+        MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
+        toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
+        data: {
+          graphValues: [0, 100],
+          centerNumber:
+            this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
+            this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
+              ? '< $1'
+              : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
+          centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
+          color: ['#D7DCE1', '#D7DCE1'],
+          gdata: ['card-inner', 'claimsPaidCardD3Donut']
+        },
+        timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
+      };
+    }
+
+    return claimsPaid;
   }
   /* function to create Claims Yield Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createClaimsYieldObject(claims) {
