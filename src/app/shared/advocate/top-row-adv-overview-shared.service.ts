@@ -645,113 +645,8 @@ export class TopRowAdvOverviewSharedService {
                 claimsData[lobData].ClaimsLobSummary.length &&
                 claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
               ) {
-                const paidData = [];
-
-                if (
-                  claimsData.hasOwnProperty('Mr') &&
-                  claimsData.Mr != null &&
-                  claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
-                  claimsData.Mr.ClaimsLobSummary.length &&
-                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                  (lobData === 'All' || lobData === 'Mr')
-                ) {
-                  paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
-                }
-
-                if (
-                  claimsData.hasOwnProperty('Cs') &&
-                  claimsData.Cs != null &&
-                  claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
-                  claimsData.Cs.ClaimsLobSummary.length &&
-                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                  (lobData === 'All' || lobData === 'Cs')
-                ) {
-                  paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
-                }
-
-                if (
-                  claimsData.hasOwnProperty('Ei') &&
-                  claimsData.Ei != null &&
-                  claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
-                  claimsData.Ei.ClaimsLobSummary.length &&
-                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                  (lobData === 'All' || lobData === 'Ei')
-                ) {
-                  paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
-                }
-
-                if (
-                  claimsData.hasOwnProperty('Un') &&
-                  claimsData.Un != null &&
-                  claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
-                  claimsData.Un.ClaimsLobSummary.length &&
-                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                  (lobData === 'All' || lobData === 'Un')
-                ) {
-                  paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
-                }
-
-                if (lobData !== 'All') {
-                  paidData.push(
-                    claimsData.All.ClaimsLobSummary[0].AmountPaid - claimsData[lobData].ClaimsLobSummary[0].AmountPaid
-                  );
-                }
-                claimsPaid = {
-                  category: 'small-card',
-                  type: 'donutWithLabel',
-                  title: 'Claims Paid',
-                  toggle: this.toggle.setToggles('Claims Paid', 'TopRow', 'OverviewAdvocate', false),
-                  MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
-                  data: {
-                    graphValues: paidData,
-                    centerNumber:
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) < 1 &&
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
-                        ? '< $1'
-                        : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                    centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
-                    color: this.common.returnLobColor(claimsData, lobData), // colorcodes,
-                    gdata: ['card-inner', 'claimsPaid'],
-                    labels: this.common.returnHoverLabels(claimsData, lobData),
-                    hover: true,
-                    besideData: {
-                      labels: [
-                        lobName.mAndRMedicare,
-                        lobName.cAndSMedicaid,
-                        lobName.eAndICommerCial,
-                        lobName.unCategorized
-                      ],
-                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-                    }
-                  },
-                  sdata: {
-                    sign: '',
-                    data: ''
-                  },
-                  timeperiod:
-                    this.common.dateFormat(claimsData.Startdate) +
-                    '&ndash;' +
-                    this.common.dateFormat(claimsData.Enddate)
-                };
-                // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
-                if (!paidData[0] && !paidData[1] && !paidData[2] && !paidData[3]) {
-                  claimsPaid = {
-                    category: 'small-card',
-                    type: 'donutWithLabel',
-                    title: 'Claims Paid',
-                    toggle: this.toggle.setToggles('Claims Paid', 'TopRow', 'OverviewAdvocate', false),
-                    MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
-                    data: { ...this.setClaimsPaidDataForNoColor(claimsData, lobData) },
-                    sdata: {
-                      sign: 'down',
-                      data: '-2.8%'
-                    },
-                    timeperiod:
-                      this.common.dateFormat(claimsData.Startdate) +
-                      '&ndash;' +
-                      this.common.dateFormat(claimsData.Enddate)
-                  };
-                } // Date : 31/5/2019
+                claimsPaid = this.setDataForLOBSumary(claimsData, lobData);
+                // Date : 31/5/2019
               } else {
                 claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
               }
@@ -762,94 +657,7 @@ export class TopRowAdvOverviewSharedService {
                 claimsData[lobData].ClaimsLobSummary.length &&
                 claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
               ) {
-                const paidData = [];
-                const paidLOBBoolean = [false, false, false, false];
-
-                if (
-                  claimsData.hasOwnProperty('Mr') &&
-                  claimsData.Mr != null &&
-                  claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
-                  claimsData.Mr.ClaimsLobSummary.length &&
-                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                  (lobData === 'All' || lobData === 'Mr')
-                ) {
-                  paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
-                  paidLOBBoolean[0] = true;
-                }
-
-                if (
-                  claimsData.hasOwnProperty('Cs') &&
-                  claimsData.Cs != null &&
-                  claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
-                  claimsData.Cs.ClaimsLobSummary.length &&
-                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                  (lobData === 'All' || lobData === 'Cs')
-                ) {
-                  paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
-                  paidLOBBoolean[1] = true;
-                }
-
-                if (
-                  claimsData.hasOwnProperty('Ei') &&
-                  claimsData.Ei != null &&
-                  claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
-                  claimsData.Ei.ClaimsLobSummary.length &&
-                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                  (lobData === 'All' || lobData === 'Ei')
-                ) {
-                  paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
-                  paidLOBBoolean[2] = true;
-                }
-
-                if (
-                  claimsData.hasOwnProperty('Un') &&
-                  claimsData.Un != null &&
-                  claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
-                  claimsData.Un.ClaimsLobSummary.length &&
-                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                  (lobData === 'All' || lobData === 'Un')
-                ) {
-                  paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
-                  paidLOBBoolean[3] = true;
-                }
-
-                if (lobData !== 'All') {
-                  paidData.push(
-                    claimsData.All.ClaimsLobSummary[0].AmountPaid - claimsData[lobData].ClaimsLobSummary[0].AmountPaid
-                  );
-                }
-                claimsPaid = {
-                  category: 'small-card',
-                  type: 'donutWithLabel',
-                  title: 'Claims Paid',
-                  toggle: this.toggle.setToggles('Claims Paid', 'TopRow', 'OverviewAdvocate', false),
-                  MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
-                  data: {
-                    graphValues: paidData,
-                    centerNumber:
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) < 1 &&
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
-                        ? '< $1'
-                        : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                    centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
-                    color: this.common.returnLobColor(claimsData, lobData),
-                    gdata: ['card-inner', 'claimsPaid'],
-                    labels: this.common.returnHoverLabels(claimsData, lobData),
-                    hover: true,
-                    besideData: {
-                      labels: this.common.LOBSideLabels(lobData, paidLOBBoolean),
-                      color: this.common.LOBSideLabelColors(lobData, paidLOBBoolean)
-                    }
-                  },
-                  sdata: {
-                    sign: '',
-                    data: ''
-                  },
-                  timeperiod:
-                    this.common.dateFormat(claimsData.Startdate) +
-                    '&ndash;' +
-                    this.common.dateFormat(claimsData.Enddate)
-                };
+                claimsPaid = this.setClaimsPaidDataForLOBSummary(claimsData, lobData);
               } else {
                 claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
               }
@@ -926,6 +734,195 @@ export class TopRowAdvOverviewSharedService {
         }
       );
     });
+  }
+
+  setClaimsPaidDataForLOBSummary(claimsData, lobData) {
+    const paidData = [];
+    const paidLOBBoolean = [false, false, false, false];
+
+    if (
+      claimsData.hasOwnProperty('Mr') &&
+      claimsData.Mr != null &&
+      claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
+      claimsData.Mr.ClaimsLobSummary.length &&
+      claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+      (lobData === 'All' || lobData === 'Mr')
+    ) {
+      paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+      paidLOBBoolean[0] = true;
+    }
+
+    if (
+      claimsData.hasOwnProperty('Cs') &&
+      claimsData.Cs != null &&
+      claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
+      claimsData.Cs.ClaimsLobSummary.length &&
+      claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+      (lobData === 'All' || lobData === 'Cs')
+    ) {
+      paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+      paidLOBBoolean[1] = true;
+    }
+
+    if (
+      claimsData.hasOwnProperty('Ei') &&
+      claimsData.Ei != null &&
+      claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
+      claimsData.Ei.ClaimsLobSummary.length &&
+      claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+      (lobData === 'All' || lobData === 'Ei')
+    ) {
+      paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+      paidLOBBoolean[2] = true;
+    }
+
+    if (
+      claimsData.hasOwnProperty('Un') &&
+      claimsData.Un != null &&
+      claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
+      claimsData.Un.ClaimsLobSummary.length &&
+      claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+      (lobData === 'All' || lobData === 'Un')
+    ) {
+      paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+      paidLOBBoolean[3] = true;
+    }
+
+    if (lobData !== 'All') {
+      paidData.push(claimsData.All.ClaimsLobSummary[0].AmountPaid - claimsData[lobData].ClaimsLobSummary[0].AmountPaid);
+    }
+    const claimsPaid = {
+      category: 'small-card',
+      type: 'donutWithLabel',
+      title: 'Claims Paid',
+      toggle: this.toggle.setToggles('Claims Paid', 'TopRow', 'OverviewAdvocate', false),
+      MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
+      data: {
+        graphValues: paidData,
+        centerNumber:
+          this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) < 1 &&
+          this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
+            ? '< $1'
+            : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
+        centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
+        color: this.common.returnLobColor(claimsData, lobData),
+        gdata: ['card-inner', 'claimsPaid'],
+        labels: this.common.returnHoverLabels(claimsData, lobData),
+        hover: true,
+        besideData: {
+          labels: this.common.LOBSideLabels(lobData, paidLOBBoolean),
+          color: this.common.LOBSideLabelColors(lobData, paidLOBBoolean)
+        }
+      },
+      sdata: {
+        sign: '',
+        data: ''
+      },
+      timeperiod: this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate)
+    };
+
+    return claimsPaid;
+  }
+
+  setDataForLOBSumary(claimsData, lobData) {
+    const paidData = [];
+    let claimsPaid: any;
+
+    if (
+      claimsData.hasOwnProperty('Mr') &&
+      claimsData.Mr != null &&
+      claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
+      claimsData.Mr.ClaimsLobSummary.length &&
+      claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+      (lobData === 'All' || lobData === 'Mr')
+    ) {
+      paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+    }
+
+    if (
+      claimsData.hasOwnProperty('Cs') &&
+      claimsData.Cs != null &&
+      claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
+      claimsData.Cs.ClaimsLobSummary.length &&
+      claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+      (lobData === 'All' || lobData === 'Cs')
+    ) {
+      paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+    }
+
+    if (
+      claimsData.hasOwnProperty('Ei') &&
+      claimsData.Ei != null &&
+      claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
+      claimsData.Ei.ClaimsLobSummary.length &&
+      claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+      (lobData === 'All' || lobData === 'Ei')
+    ) {
+      paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+    }
+
+    if (
+      claimsData.hasOwnProperty('Un') &&
+      claimsData.Un != null &&
+      claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
+      claimsData.Un.ClaimsLobSummary.length &&
+      claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+      (lobData === 'All' || lobData === 'Un')
+    ) {
+      paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+    }
+
+    if (lobData !== 'All') {
+      paidData.push(claimsData.All.ClaimsLobSummary[0].AmountPaid - claimsData[lobData].ClaimsLobSummary[0].AmountPaid);
+    }
+    claimsPaid = {
+      category: 'small-card',
+      type: 'donutWithLabel',
+      title: 'Claims Paid',
+      toggle: this.toggle.setToggles('Claims Paid', 'TopRow', 'OverviewAdvocate', false),
+      MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
+      data: {
+        graphValues: paidData,
+        centerNumber:
+          this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) < 1 &&
+          this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
+            ? '< $1'
+            : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
+        centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
+        color: this.common.returnLobColor(claimsData, lobData), // colorcodes,
+        gdata: ['card-inner', 'claimsPaid'],
+        labels: this.common.returnHoverLabels(claimsData, lobData),
+        hover: true,
+        besideData: {
+          labels: [lobName.mAndRMedicare, lobName.cAndSMedicaid, lobName.eAndICommerCial, lobName.unCategorized],
+          color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+        }
+      },
+      sdata: {
+        sign: '',
+        data: ''
+      },
+      timeperiod: this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate)
+    };
+    // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
+    if (!paidData[0] && !paidData[1] && !paidData[2] && !paidData[3]) {
+      claimsPaid = {
+        category: 'small-card',
+        type: 'donutWithLabel',
+        title: 'Claims Paid',
+        toggle: this.toggle.setToggles('Claims Paid', 'TopRow', 'OverviewAdvocate', false),
+        MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
+        data: { ...this.setClaimsPaidDataForNoColor(claimsData, lobData) },
+        sdata: {
+          sign: 'down',
+          data: '-2.8%'
+        },
+        timeperiod:
+          this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate)
+      };
+    }
+
+    return claimsPaid;
   }
 
   setDataForEmptyPaymentDataCard() {
