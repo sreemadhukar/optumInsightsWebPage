@@ -107,9 +107,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         {
           name: 'Payment Integrity',
           children: [
-            { name: 'Medical Records Coding Review', path: '/GettingReimbursed/PaymentIntegrity' }
+            { name: 'Medical Records Coding Review', path: '/GettingReimbursed/PaymentIntegrity' },
             // Uncomment Next Line when data is available for Smart Edits
-            // { name: 'Smart Edits', path: '/GettingReimbursed/SmartEdits' }
+            { name: 'Smart Edits', path: '/GettingReimbursed/SmartEdits' }
           ]
         }
       ],
