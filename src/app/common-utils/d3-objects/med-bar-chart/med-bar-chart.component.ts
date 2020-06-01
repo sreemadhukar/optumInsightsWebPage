@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
-import * as _ from 'lodash';
+
 @Component({
   selector: 'app-med-bar-chart',
   templateUrl: './med-bar-chart.component.html',
@@ -156,7 +156,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       .domain([0, totalSum])
       .range([0, 248]);
 
-    if (_.get(chartOptions, 'cdata') === 'paymentintegrity') {
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
       if (chartOptions.type === 'large bar chart') {
         chart
           .append('rect')
@@ -247,7 +247,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     const uniqueText = 'reasonText' + this.renderChart.slice(1);
     const tspanID = uniqueText + 'tspan';
     let textWithHover;
-    if (_.get(chartOptions, 'cdata') === 'paymentintegrity') {
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
       if (chartOptions.type === 'bar chart') {
         textWithHover = chart
           .append('text')
@@ -345,7 +345,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .duration(10)
             .style('opacity', 0);
         });
-    } else if (_.get(chartOptions, 'cdata') === 'paymentintegrity') {
+    } else if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
       /// madhukar
       d3.select('#paymentIntegrityRect' + chartOptions.graphValues[1]).attr('cursor', 'pointer');
       const tspanArray = textWithHover.selectAll('tspan').nodes();
@@ -417,7 +417,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .style('opacity', 0);
         });
     }
-    if (_.get(chartOptions, 'cdata') === 'paymentintegrity') {
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
       if (chartOptions.type === 'large bar chart') {
         chart
           .append('line')
