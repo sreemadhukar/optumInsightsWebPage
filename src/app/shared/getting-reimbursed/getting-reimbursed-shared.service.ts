@@ -1325,79 +1325,10 @@ export class GettingReimbursedSharedService {
 
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(
         r => {
+          let output: any;
           const responseSanity = !_.isString(r) || r !== 'OK';
           if (responseSanity && !r.status) {
-            const paymentIntegrityData = r;
-            const result: any = r;
-            const output: any = {};
-            let returnedWidth = 4;
-            let notReturnedWidth = 4;
-
-            if (result.MedicalRecordsReturned > result.MedicalRecordsOutstanding) {
-              returnedWidth = 382;
-              if (result.MedicalRecordsOutstanding !== 0) {
-                notReturnedWidth = (result.MedicalRecordsOutstanding * 382) / result.MedicalRecordsReturned;
-              }
-            } else {
-              notReturnedWidth = 382;
-              if (result.MedicalRecordsReturned !== 0) {
-                returnedWidth = (result.MedicalRecordsReturned * 382) / result.MedicalRecordsOutstanding;
-              }
-            }
-
-            output.returnedWidth = returnedWidth;
-            output.notReturnedWidth = notReturnedWidth;
-            output.MedicalRecordsOutstanding = this.common.nFormatter(result.MedicalRecordsOutstanding);
-            output.MedicalRecordsRequested = this.common.nFormatter(result.MedicalRecordsRequested);
-            output.MedicalRecordsReturned = this.common.nFormatter(result.MedicalRecordsReturned);
-            output.OutStandingAmount = '$' + this.common.nFormatter(result.OutStandingAmount);
-
-            if (Math.round(result.OutStandingAmountVariance) > 0) {
-              output.OutStandingAmountVarianceColor = '#B10C00';
-              output.OutStandingAmountVariance = '+' + Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
-              output.OutStandingAmountVarianceIcon = 'up-red-trend-icon';
-            } else {
-              output.OutStandingAmountVarianceColor = '#007000';
-              output.OutStandingAmountVariance = Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
-              output.OutStandingAmountVarianceIcon = 'down-green-trend-icon';
-            }
-
-            output.RecordsRequestedVariance =
-              Math.round(result.RecordsRequestedVariance) > 0
-                ? '+' + Math.round(result.RecordsRequestedVariance * 10) / 10 + '%'
-                : Math.round(result.RecordsRequestedVariance * 10) / 10 + '%';
-            output.VarianceStartDate =
-              this.getMonthname(result.VarianceStartDate) + ' ' + this.getFullyear(result.VarianceStartDate);
-            output.VarianceEndDate =
-              this.getMonthname(result.VarianceEndDate) + ' ' + this.getFullyear(result.VarianceEndDate);
-            const endDate = new Date(paymentIntegrityData.EndDate);
-            output.timeperiod =
-              this.common.dateFormat(paymentIntegrityData.StartDate + '-01') +
-              '&ndash;' +
-              this.common.dateFormat(
-                paymentIntegrityData.EndDate + '-' + this.daysInMonth(endDate.getMonth() + 1, endDate.getFullYear())
-              );
-            let sData: any = {};
-            if (result.RecordsRequestedVariance > 0) {
-              sData = { sign: 'down', data: output.RecordsRequestedVariance + ' †' };
-            } else {
-              sData = { sign: 'up', data: output.RecordsRequestedVariance + ' †' };
-            }
-            output.piDonutData = {
-              timeperiod: this.timeFrame,
-              donutData: {
-                centerNumber: this.common.nFormatter(result.MedicalRecordsRequested),
-                color: ['#3381FF', '#D7DCE1'],
-                gdata: ['card-inner', 'piCard'],
-                graphValues: [result.MedicalRecordsRequested, result.TotalClaimsSubmitted],
-                sdata: sData,
-                graphScreen: 'PI'
-              },
-              besideData: {
-                color: ['#3381FF', '#D7DCE1'],
-                labels: ['Pre-Payment Medical Records Requested', 'Claims Submitted']
-              }
-            };
+            output = this.integrityDataForNotOK(r);
             resolve(output);
           } else if (typeof r === 'string' || r === 'OK') {
             const temp = {
@@ -1434,6 +1365,80 @@ export class GettingReimbursedSharedService {
         }
       );
     });
+  }
+
+  integrityDataForNotOK(r) {
+    const paymentIntegrityData = r;
+    const result: any = r;
+    const output: any = {};
+    let returnedWidth = 4;
+    let notReturnedWidth = 4;
+
+    if (result.MedicalRecordsReturned > result.MedicalRecordsOutstanding) {
+      returnedWidth = 382;
+      if (result.MedicalRecordsOutstanding !== 0) {
+        notReturnedWidth = (result.MedicalRecordsOutstanding * 382) / result.MedicalRecordsReturned;
+      }
+    } else {
+      notReturnedWidth = 382;
+      if (result.MedicalRecordsReturned !== 0) {
+        returnedWidth = (result.MedicalRecordsReturned * 382) / result.MedicalRecordsOutstanding;
+      }
+    }
+
+    output.returnedWidth = returnedWidth;
+    output.notReturnedWidth = notReturnedWidth;
+    output.MedicalRecordsOutstanding = this.common.nFormatter(result.MedicalRecordsOutstanding);
+    output.MedicalRecordsRequested = this.common.nFormatter(result.MedicalRecordsRequested);
+    output.MedicalRecordsReturned = this.common.nFormatter(result.MedicalRecordsReturned);
+    output.OutStandingAmount = '$' + this.common.nFormatter(result.OutStandingAmount);
+
+    if (Math.round(result.OutStandingAmountVariance) > 0) {
+      output.OutStandingAmountVarianceColor = '#B10C00';
+      output.OutStandingAmountVariance = '+' + Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
+      output.OutStandingAmountVarianceIcon = 'up-red-trend-icon';
+    } else {
+      output.OutStandingAmountVarianceColor = '#007000';
+      output.OutStandingAmountVariance = Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
+      output.OutStandingAmountVarianceIcon = 'down-green-trend-icon';
+    }
+
+    output.RecordsRequestedVariance =
+      Math.round(result.RecordsRequestedVariance) > 0
+        ? '+' + Math.round(result.RecordsRequestedVariance * 10) / 10 + '%'
+        : Math.round(result.RecordsRequestedVariance * 10) / 10 + '%';
+    output.VarianceStartDate =
+      this.getMonthname(result.VarianceStartDate) + ' ' + this.getFullyear(result.VarianceStartDate);
+    output.VarianceEndDate = this.getMonthname(result.VarianceEndDate) + ' ' + this.getFullyear(result.VarianceEndDate);
+    const endDate = new Date(paymentIntegrityData.EndDate);
+    output.timeperiod =
+      this.common.dateFormat(paymentIntegrityData.StartDate + '-01') +
+      '&ndash;' +
+      this.common.dateFormat(
+        paymentIntegrityData.EndDate + '-' + this.daysInMonth(endDate.getMonth() + 1, endDate.getFullYear())
+      );
+    let sData: any = {};
+    if (result.RecordsRequestedVariance > 0) {
+      sData = { sign: 'down', data: output.RecordsRequestedVariance + ' †' };
+    } else {
+      sData = { sign: 'up', data: output.RecordsRequestedVariance + ' †' };
+    }
+    output.piDonutData = {
+      timeperiod: this.timeFrame,
+      donutData: {
+        centerNumber: this.common.nFormatter(result.MedicalRecordsRequested),
+        color: ['#3381FF', '#D7DCE1'],
+        gdata: ['card-inner', 'piCard'],
+        graphValues: [result.MedicalRecordsRequested, result.TotalClaimsSubmitted],
+        sdata: sData,
+        graphScreen: 'PI'
+      },
+      besideData: {
+        color: ['#3381FF', '#D7DCE1'],
+        labels: ['Pre-Payment Medical Records Requested', 'Claims Submitted']
+      }
+    };
+    return output;
   }
 
   getParameterCategories(param) {
