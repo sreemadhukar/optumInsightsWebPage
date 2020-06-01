@@ -56,7 +56,6 @@ export class SmartEditsComponent implements OnInit {
     private router: Router,
     private session: SessionService,
     private checkStorage: StorageService,
-    private filtermatch: CommonUtilsService,
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>,
     private common: CommonUtilsService,
@@ -83,26 +82,12 @@ export class SmartEditsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'smartEditsPage' });
     this.checkStorage.emitEvent('smartEditsPage');
     //  this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
-
+    //  this.timePeriod = this.session.filterObjValue.timeFrame;
     this.reasonDataAvailable = true;
     this.smartEditReturnedData();
     this.SmartEditReturneddTopReasons();
     this.timePeriod = this.session.filterObjValue.timeFrame;
     this.smartEditRepairedResubmittedData();
-    //  this.timePeriod = this.session.filterObjValue.timeFrame;
-    if (this.session.filterObjValue.lob !== 'All') {
-      this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
-    } else {
-      this.lob = '';
-    }
-    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
-      this.taxID = this.session.filterObjValue.tax;
-      if (this.taxID.length > 3) {
-        this.taxID = [this.taxID.length + ' Selected'];
-      }
-    } else {
-      this.taxID = [];
-    }
   }
   // modal poup function
   public handleClick() {
@@ -177,11 +162,10 @@ export class SmartEditsComponent implements OnInit {
   // **** Smart Edits Claims Top Reasons Starts here**** //
   SmartEditReturneddTopReasons() {
     this.smartEditsSharedService
-      .getSmartEditSharedTopReasons()
+      .getSmartEditSharedTopReasons(this.createPayloadService.payload)
       .then((smartEditsTopReasonsData: any) => {
         this.topReasonsData = smartEditsTopReasonsData;
         console.log('this.TopReasonsData191', this.topReasonsData);
-
         if (this.topReasonsData !== null && this.topReasonsData.Data !== null) {
           this.reasonDataAvailable = true;
           this.loading = false;

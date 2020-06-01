@@ -53,10 +53,11 @@ export class SmartEditsSharedService {
                 smartEditsData.Data.All.ResubmittedWithoutChanges,
                 smartEditsData.Data.All.NoActionTaken
               ],
+              cdata: 'smartEditsReturnedShared',
               hover: true,
               labels: ['Repaired & Resubmitted', 'Resubmitted Without Changes', 'No Action Taken']
             },
-            //  timeperiod: this.session.filterObjValue.timeFrame,
+            // timeperiod: this.session.filterObjValue.timeFrame,
             timeperiod:
               this.common.dateFormat(smartEditsData.Data.PeriodStart) +
               '&ndash;' +
@@ -132,53 +133,59 @@ export class SmartEditsSharedService {
   //     console.log('shared', data);
   //   });
   // }
-  public getSmartEditSharedTopReasons() {
+
+  public getSmartEditSharedTopReasons(param) {
     const reason = [];
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
+    this.lob = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
+
     return new Promise(resolve => {
-      this.smartEditsService.getSmartEditTopReasons().subscribe(smartEditReasonData => {
+      const parameters = this.getParameterCategories(param);
+      this.smartEditsService.getSmartEditTopReasons(parameters).subscribe(smartEditReasonData => {
         const topReasonsData = smartEditReasonData;
 
-        const ReasonsData = topReasonsData.Data;
+        if (smartEditReasonData !== null && smartEditReasonData !== undefined && smartEditReasonData.Data !== null) {
+          const ReasonsData = topReasonsData.Data;
+          const reasonsCode = [{}];
+          const reasonsPercentageVal1 = [{}];
+          const reasonsDesc = [{}];
+          const reasonsPercentageVal2 = [{}];
+          const barVal = [{}];
 
-        if (topReasonsData !== null) {
-          if (topReasonsData == null && topReasonsData.hasOwnProperty('Status')) {
-            reason.push({
-              category: 'app-card',
-              type: 'donut',
-              status: 404,
-              title: 'Top Claims Appeals Overturn Reasons',
-              MetricID: this.MetricidService.MetricIDs.TopClaimSmartEditOverturnReasons,
-              data: null,
-              timeperiod: null
-            });
-          } else {
-            const reasonsCode = [{}];
-            const reasonsPercentageVal1 = [{}];
-            const reasonsDesc = [{}];
-            const reasonsPercentageVal2 = [{}];
-            const barVal = [{}];
-
-            for (let a = 0; a < ReasonsData.Reasons.length; a++) {
-              reasonsCode[a] = ReasonsData.Reasons[a].Code;
-              reasonsDesc[a] = ReasonsData.Reasons[a].Description;
-              reasonsPercentageVal1[a] = ReasonsData.Reasons[a].Percentage;
-              reasonsPercentageVal2[a] = 100 - Number(reasonsPercentageVal1[a]);
-              barVal[a] = reasonsPercentageVal1[a] + '%';
-            }
-
-            for (let i = 0; i < ReasonsData.Reasons.length; i++) {
-              reason.push({
-                type: 'bar chart',
-                graphValues: [reasonsPercentageVal1[i], reasonsPercentageVal2[i]],
-                barText1: reasonsCode[i],
-                barDescp: reasonsDesc[i],
-                barValue: [barVal[i]],
-                color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
-                gdata: ['app-card-structure', 'smartEditClaimsOverturnReason' + i]
-              });
-            }
+          for (let a = 0; a < ReasonsData.Reasons.length; a++) {
+            reasonsCode[a] = ReasonsData.Reasons[a].Code;
+            reasonsDesc[a] = ReasonsData.Reasons[a].Description;
+            reasonsPercentageVal1[a] = ReasonsData.Reasons[a].Percentage;
+            reasonsPercentageVal2[a] = 100 - Number(reasonsPercentageVal1[a]);
+            barVal[a] = reasonsPercentageVal1[a] + '%';
           }
-        } // null
+          for (let i = 0; i < ReasonsData.Reasons.length; i++) {
+            reason.push({
+              type: 'bar chart',
+              cdata: 'smartedit',
+              graphValues: [reasonsPercentageVal1[i], reasonsPercentageVal2[i]],
+              barText: reasonsCode[i] + ' - ' + reasonsDesc[i],
+              barDescp: reasonsDesc[i],
+              barValue: [barVal[i]],
+              color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
+              gdata: ['app-card-structure', 'smartEditClaimsOverturnReason' + i],
+              timeperiod:
+                this.common.dateFormat(ReasonsData.PeriodStart) +
+                '&ndash;' +
+                this.common.dateFormat(ReasonsData.PeriodEnd)
+            });
+          }
+        } else {
+          reason.push({
+            category: 'app-card',
+            type: 'donut',
+            status: 404,
+            title: 'Smart Edits Returned Claims Top Reasons',
+            MetricID: this.MetricidService.MetricIDs.TopClaimSmartEditOverturnReasons,
+            data: null,
+            timeperiod: null
+          });
+        }
       });
       const r = reason;
       resolve(r);
