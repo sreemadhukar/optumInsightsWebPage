@@ -37,10 +37,12 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       return context.measureText(text).width;
     }
     function getModifiedXscale(base, addition = 0) {
-      if (typeof chartOptions.graphValues[0] !== 'undefined') {
-        return base + addition;
-      }
+      return typeof chartOptions.graphValues[0] !== 'undefined' ? base + addition : null;
     }
+    function getGraphValue(s) {
+      return typeof chartOptions.graphValues[0] !== 'undefined' ? s.toString() + '%' : null;
+    }
+
     function wrap(textObject, pixelWidth, uniqueID, fontSize) {
       textObject.each(function() {
         let word,
@@ -101,7 +103,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     const width = preWidth - margin.left - margin.right;
     const height = 50 - margin.top - margin.bottom;
     let chart;
-    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+    function paymentInt() {
       if (chartOptions.type === 'large bar chart') {
         d3.select(this.renderChart)
           .style('display', 'flex')
@@ -137,6 +139,9 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .append('g')
           .attr('transform', 'translate(' + 10 + ',' + 50 + ')');
       }
+    }
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+      paymentInt();
     } else {
       chart = d3
         .select(this.renderChart)
@@ -161,30 +166,17 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         chart
           .append('rect')
           .attr('id', 'paymentIntegrityRect' + chartOptions.graphValues[1])
-          .attr('width', function() {
-            if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return chartOptions.graphValues[0].toString() + '%';
-            }
-          })
+          .attr('width', getGraphValue(chartOptions.graphValues[0]))
           .attr('height', 64)
           .style('padding-bottom', 16)
           .attr('fill', chartOptions.color[0]);
-
         chart
           .append('rect')
-          .attr('x', function() {
-            if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return (0 + chartOptions.graphValues[0]).toString() + '%';
-            }
-          })
+          .attr('x', getGraphValue(chartOptions.graphValues[0]))
           // .attr('y', -25)
           .attr('rx', 2)
           .attr('ry', 0)
-          .attr('width', function() {
-            if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return chartOptions.graphValues[1].toString() + '%';
-            }
-          })
+          .attr('width', getGraphValue(chartOptions.graphValues[1]))
           .attr('height', 64)
           .attr('fill', chartOptions.color[2]);
       } else {
@@ -247,7 +239,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     const uniqueText = 'reasonText' + this.renderChart.slice(1);
     const tspanID = uniqueText + 'tspan';
     let textWithHover;
-    if (_.get(chartOptions, 'cdata') === 'paymentintegrity') {
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
       if (chartOptions.type === 'bar chart') {
         textWithHover = chart
           .append('text')
@@ -417,7 +409,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .style('opacity', 0);
         });
     }
-    if (_.get(chartOptions, 'cdata') === 'paymentintegrity') {
+    function paymentInt2() {
       if (chartOptions.type === 'large bar chart') {
         chart
           .append('line')
@@ -551,6 +543,9 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .text(chartOptions.targetValue);
         }
       }
+    }
+    if (_.get(chartOptions, 'cdata') === 'paymentintegrity') {
+      paymentInt2();
     } else {
       chart
         .append('text')
