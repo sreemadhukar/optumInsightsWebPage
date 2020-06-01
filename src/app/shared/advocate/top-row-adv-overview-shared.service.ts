@@ -548,6 +548,13 @@ export class TopRowAdvOverviewSharedService {
   }
 
   public getPaymentsData(parameters) {
+    const MASTER_DATA = {
+      Mr: 'MedicareAndRetirement',
+      Cs: 'CommunityAndState',
+      Ei: 'EmployerAndIndividual',
+      Un: 'UNKNOWN'
+    };
+
     return new Promise(resolve => {
       let claimsPaid: object;
       this.topRowService.getPaymentsData(parameters).subscribe(
@@ -557,26 +564,8 @@ export class TopRowAdvOverviewSharedService {
             lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'ALL';
             if (!claimsData || !claimsData.hasOwnProperty('LineOfBusiness')) {
               claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
-            } else if (claimsData != null) {
-              if (lobData === 'Mr') {
-                lobData = 'MedicareAndRetirement';
-              } else if (lobData === 'Cs') {
-                lobData = 'CommunityAndState';
-              } else if (lobData === 'Ei') {
-                lobData = 'EmployerAndIndividual';
-              } else if (lobData === 'Un') {
-                lobData = 'UNKNOWN';
-              }
-              if (
-                claimsData.LineOfBusiness.hasOwnProperty(lobData) &&
-                claimsData.LineOfBusiness[lobData] != null &&
-                claimsData.LineOfBusiness[lobData].hasOwnProperty('ClaimFinancialMetrics') &&
-                claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics != null &&
-                claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount')
-              ) {
-              } else {
-                claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
-              }
+            } else if (claimsData != null && MASTER_DATA[lobData]) {
+              lobData = MASTER_DATA[lobData];
             } else {
               claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
             }
@@ -585,13 +574,7 @@ export class TopRowAdvOverviewSharedService {
             if (!claimsData || !claimsData.hasOwnProperty(lobData)) {
               claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
             } else if (claimsData != null) {
-              if (
-                claimsData.hasOwnProperty(lobData) &&
-                claimsData[lobData] != null &&
-                claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
-                claimsData[lobData].ClaimsLobSummary.length &&
-                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-              ) {
+              if (_.get(claimsData, ['lobData', 'ClaimsLobSummary', '0', 'AmountPaid']) !== undefined) {
                 claimsPaid = this.setDataForLOBSumary(claimsData, lobData);
                 // Date : 31/5/2019
               } else {
