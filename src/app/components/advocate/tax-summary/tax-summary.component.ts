@@ -197,26 +197,28 @@ export class TaxSummaryComponent implements OnInit {
       this.taxSummaryData.paginator.firstPage();
     }
     if (filterValue.length === 0) {
-      if (this.checkedCount()) {
-        for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
-          if (this.taxSummaryData.filteredData[i].checked) {
-            this.taxSummaryData.filteredData.unshift(
-              this.taxSummaryData.filteredData.splice(this.taxSummaryData.filteredData[i].id - 1, 1)[0]
-            );
-          }
-        }
-      }
-
-      this.taxSummaryData = new MatTableDataSource(this.data.All);
-      this.taxSummaryData.sort = this.sort;
-      const sortState2: Sort = { active: 'TinCheckBox', direction: 'asc' };
-      this.sort.active = sortState2.active;
-      this.sort.direction = sortState2.direction;
-      this.sort.sortChange.emit(sortState2);
-      this.taxSummaryData.paginator = this.paginator;
+      this.checkFilterValue();
     }
   }
+  checkFilterValue() {
+    if (this.checkedCount()) {
+      for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
+        if (this.taxSummaryData.filteredData[i].checked) {
+          this.taxSummaryData.filteredData.unshift(
+            this.taxSummaryData.filteredData.splice(this.taxSummaryData.filteredData[i].id - 1, 1)[0]
+          );
+        }
+      }
+    }
 
+    this.taxSummaryData = new MatTableDataSource(this.data.All);
+    this.taxSummaryData.sort = this.sort;
+    const sortState2: Sort = { active: 'TinCheckBox', direction: 'asc' };
+    this.sort.active = sortState2.active;
+    this.sort.direction = sortState2.direction;
+    this.sort.sortChange.emit(sortState2);
+    this.taxSummaryData.paginator = this.paginator;
+  }
   customPaginator() {
     this.paginator._intl.itemsPerPageLabel = 'Display';
     this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
