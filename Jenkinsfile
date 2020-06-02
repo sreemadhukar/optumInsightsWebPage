@@ -35,7 +35,7 @@ pipeline {
   stages{
     stage('Run Sonar Scan for UI') {
             agent {
-                label 'docker-nodejs-slave'
+                label 'docker-kitchensink-slave'
             }
             steps {
                     command """
