@@ -92,7 +92,7 @@
                   class="tin-search-icon close-cursor"
                   matSuffix
                   svgIcon="close"
-                  (click)="clearValue('tinNameSearch')"
+                  (click)="searchTaxId('', 'TinName'); clearValue('tinNameSearch')"
                   (keypress)="clearValue('tinNameSearch')"
                   *ngIf="tinNameSearch"
                 ></mat-icon>
