@@ -40,6 +40,18 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     }
     return temp;
   }
+  checkColorLength(xScaleBarStartingPointConstant, width, barHeight) {
+    if (this.chartOptions.color.length === 2) {
+      this.chartPA
+        .append('rect')
+        .attr('x', xScaleBarStartingPointConstant)
+        .attr('y', 0)
+        .attr('width', width)
+        .attr('height', barHeight)
+        .attr('fill', this.chartOptions.color[1].color2);
+    }
+  }
+
   getTooltipAdjustor(len) {
     if (len === 3) {
       return 80;
@@ -126,16 +138,13 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     const height = barHeight * 1.5 - margin.top - margin.bottom;
     const svg = d3.select(this.renderChart);
 
-    let xScaleConstant;
+    const xScaleConstant = width - 231; // For PCOR graph width should be 703
 
     /** Following 2 variable are for Prior Auth Bar Grpah */
-    let xScaleBarWidthConstant;
-    let xScaleBarStartingPointConstant;
+    const xScaleBarWidthConstant = width / 1.79; // 522    when width is 554 , it will touch the border of the the card
+    const xScaleBarStartingPointConstant = width / 2.43; // 384;
     /** Following 2 variable are for Prior Auth Bar Grpah */
-
     if (chartOptions.starObject) {
-      xScaleConstant = width - 231; // For PCOR graph width should be 703
-
       this.chartPCOR = svg
         .append('svg')
         .attr('width', xScaleConstant)
@@ -144,8 +153,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('class', 'transfrom-style');
     } else {
       /** Following 2 variable are for Prior Auth Bar Grpah */
-      xScaleBarWidthConstant = width / 1.79; // 522    when width is 554 , it will touch the border of the the card
-      xScaleBarStartingPointConstant = width / 2.43; // 384
       const paddingVertical = (height + margin.top + margin.bottom - barHeight) / 2;
       this.chartPA = svg
         .append('svg')
@@ -191,15 +198,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('height', barHeight)
         .attr('fill', chartOptions.color[0].color1);
 
-      if (chartOptions.color.length === 2) {
-        this.chartPA
-          .append('rect')
-          .attr('x', xScaleBarStartingPointConstant)
-          .attr('y', 0)
-          .attr('width', xScaleBarWidth(chartOptions.barSummation) - xScaleBarWidth(chartOptions.barData))
-          .attr('height', barHeight)
-          .attr('fill', chartOptions.color[1].color2);
-      }
+      this.checkColorLength(
+        xScaleBarStartingPointConstant,
+        xScaleBarWidth(chartOptions.barSummation) - xScaleBarWidth(chartOptions.barData),
+        barHeight
+      );
 
       const uniqueText = 'reasonText' + this.renderChart.slice(1);
       const tspanID = uniqueText + 'tspan';
