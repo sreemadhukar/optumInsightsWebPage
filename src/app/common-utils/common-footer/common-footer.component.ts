@@ -85,7 +85,7 @@ export class CommonFooterComponent {
   }
 
   getMonths(str) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     let m1, m2;
     for (let i = 0; i < months.length; i++) {
       if (str.indexOf(months[i]) !== -1) {

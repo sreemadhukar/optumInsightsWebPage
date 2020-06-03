@@ -38,6 +38,7 @@ export class SmartEditsService {
     const smartEditParams = {
       TimeFilter: parameters[1].TimeFilter
     };
+
     const smartEditClaimsurl = this.APP_URL + this.SMART_EDITS_Claims_SERVICE_PATH + parameters[0];
     return this.http.post(smartEditClaimsurl, smartEditParams).pipe(
       map(res => JSON.parse(JSON.stringify(res))),

@@ -22,7 +22,7 @@ import { ModalPopupService } from 'src/app/common-utils/modal-popup/modal-popup.
 })
 export class SmartEditsComponent implements OnInit {
   @Input() printStyle;
-  topReasonsData: any;
+  // topReasonsData: any;
   loading: boolean;
   reportLink: string;
   pageTitle: String = '';
@@ -44,6 +44,7 @@ export class SmartEditsComponent implements OnInit {
   reasonDataAvailable: boolean;
   reason: any = [];
   seRepairedLoading: boolean;
+  seReasonsLoading = true;
   smartEditClaimsRepairedResubmitted: any;
   returnMockCards: any;
   repairMockCards: any;
@@ -75,6 +76,10 @@ export class SmartEditsComponent implements OnInit {
     this.iconRegistry.addSvgIcon(
       'external-link',
       this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/open_in_new-24px.svg')
+    );
+    this.iconRegistry.addSvgIcon(
+      'filter',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
   }
 
@@ -161,23 +166,27 @@ export class SmartEditsComponent implements OnInit {
 
   // **** Smart Edits Claims Top Reasons Starts here**** //
   SmartEditReturneddTopReasons() {
+    this.seReasonsLoading = true;
     this.smartEditsSharedService
       .getSmartEditSharedTopReasons(this.createPayloadService.payload)
       .then((smartEditsTopReasonsData: any) => {
-        this.topReasonsData = smartEditsTopReasonsData;
-        console.log('this.TopReasonsData191', this.topReasonsData);
-        if (this.topReasonsData !== null && this.topReasonsData.Data !== null) {
+        let topReasonsData: any;
+        topReasonsData = smartEditsTopReasonsData;
+
+        console.log('this.topReasonsData', topReasonsData);
+        if (topReasonsData && topReasonsData.lenth > 0) {
           this.reasonDataAvailable = true;
-          this.loading = false;
+          this.seReasonsLoading = false;
         } else {
           this.reasonDataAvailable = false;
-          this.loading = false;
+          this.seReasonsLoading = false;
         }
-        this.reason = this.topReasonsData;
+        this.reason = topReasonsData;
+        console.log('reasons', this.reason);
       })
       .catch(err => {
         console.log('Error', err);
-        this.loading = false;
+        this.seReasonsLoading = false;
       });
   }
   // **** Ends here *** //

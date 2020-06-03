@@ -22,12 +22,17 @@
     <div class="odd ">
       <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
       <app-error-card
-        *ngIf="smartEditClaimsReturned.data == null && smartEditClaimsReturned.status != null && !seReturnedLoading"
+        *ngIf="
+          smartEditClaimsReturned &&
+          smartEditClaimsReturned.data == null &&
+          smartEditClaimsReturned.status != null &&
+          !seReturnedLoading
+        "
         class="cards"
         [data]="smartEditClaimsReturned"
       ></app-error-card>
       <app-card
-        *ngIf="smartEditClaimsReturned.data != null && !seReturnedLoading"
+        *ngIf="smartEditClaimsReturned && smartEditClaimsReturned.data != null && !seReturnedLoading"
         class="cards"
         [chartData]="smartEditClaimsReturned"
       ></app-card>
@@ -35,10 +40,11 @@
 
     <!-- Smart Edits Claims Returned Card Ends here -->
     <!-- Smart Edits Repaired & Resubmitted Response Time Card Starts here -->
-    <div class="even">
+    <div class="even top-padd">
       <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
       <app-error-card
         *ngIf="
+          smartEditClaimsRepairedResubmitted &&
           smartEditClaimsRepairedResubmitted.data == null &&
           smartEditClaimsRepairedResubmitted.status != null &&
           !seReturnedLoading
@@ -49,6 +55,7 @@
       <div
         class="repaired-block"
         *ngIf="
+          smartEditClaimsRepairedResubmitted &&
           smartEditClaimsRepairedResubmitted[0] != null &&
           smartEditClaimsRepairedResubmitted[1] != null &&
           !seReturnedLoading
@@ -91,8 +98,10 @@
   <!-- Smart Edits Claims Top Reasons STARTS HERE -->
 
   <div class="odd">
+    <app-card class="cards" [skeleton]="seReasonsLoading" *ngIf="seReasonsLoading"> </app-card>
+
     <div
-      *ngIf="!reason[0].status"
+      *ngIf="reason[0] && !reason[0].status && !seReasonsLoading"
       class="smartedit-reason-block"
       [ngClass]="{ 'print-overturn-reason-block': printStyle === true }"
     >
@@ -108,19 +117,7 @@
       <div class="full-width-block">
         <div class="smart-edit-outerspace">
           <div *ngFor="let r of reason; let i = index">
-            <!-- <div *ngIf="r.barDescp == 'No description found on edit code file'">
-
-        <div class="reason-code">{{ r.barText1 }} -</div>
-        <div (click)="handleClick()" class="reason-reference">See Reference Guide</div>
-      </div>
-
-      <div *ngIf="r.barDescp != 'No description found on edit code file'">
-        <div class="reason-code " data-title="fgfgf gfgffgfgfg">{{ r.barText1 }} - {{ (r.barDescp).substring(0,220) }}</div>
-
-      </div> -->
             <app-med-bar-chart-two [chartOptions]="r"></app-med-bar-chart-two>
-
-            <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
           </div>
         </div>
       </div>
@@ -130,7 +127,7 @@
     </div>
   </div>
   <app-error-card
-    *ngIf="reason[0] && reason[0].status"
+    *ngIf="reason[0] && reason[0].status && !seReasonsLoading"
     class="cards smat-card-space"
     [data]="reason[0]"
   ></app-error-card>
