@@ -49,6 +49,12 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       return 120;
     }
   }
+  getBarHeight() {
+    if (this.chartOptions.barHeight) {
+      return this.chartOptions.barHeight; // bar height to be 48
+    }
+    return 48;
+  }
 
   doBarChart(chartOptions: any, _transition: number) {
     function getTextWidth(text, fontSize, fontFace) {
@@ -114,11 +120,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .selectAll('*')
       .remove();
 
-    let barHeight = 48;
-    if (chartOptions.barHeight) {
-      barHeight = chartOptions.barHeight; // bar height to be 48
-    }
-
+    const barHeight = this.getBarHeight();
     const margin = { top: 16, right: 10, bottom: 16, left: 10 };
     const width = preWidth - margin.left - margin.right;
     const height = barHeight * 1.5 - margin.top - margin.bottom;
