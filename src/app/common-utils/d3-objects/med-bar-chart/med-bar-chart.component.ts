@@ -166,17 +166,29 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         chart
           .append('rect')
           .attr('id', 'paymentIntegrityRect' + chartOptions.graphValues[1])
-          .attr('width', getGraphValue(chartOptions.graphValues[0]))
+          .attr('width', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return chartOptions.graphValues[0].toString() + '%';
+            }
+          })
           .attr('height', 64)
           .style('padding-bottom', 16)
           .attr('fill', chartOptions.color[0]);
         chart
           .append('rect')
-          .attr('x', getGraphValue(chartOptions.graphValues[0]))
+          .attr('x', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return (0 + chartOptions.graphValues[0]).toString() + '%';
+            }
+          })
           // .attr('y', -25)
           .attr('rx', 2)
           .attr('ry', 0)
-          .attr('width', getGraphValue(chartOptions.graphValues[1]))
+          .attr('width', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return chartOptions.graphValues[1].toString() + '%';
+            }
+          })
           .attr('height', 64)
           .attr('fill', chartOptions.color[2]);
       } else {
