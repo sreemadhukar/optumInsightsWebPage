@@ -14,3 +14,6 @@
     font-style: $style;
   }
 }
+@mixin text-color($text-color) {
+  color: $text-color;
+}

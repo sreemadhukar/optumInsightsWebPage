@@ -170,8 +170,7 @@ export class SmartEditsComponent implements OnInit {
     this.smartEditsSharedService
       .getSmartEditSharedTopReasons(this.createPayloadService.payload)
       .then((smartEditsTopReasonsData: any) => {
-        let topReasonsData: any;
-        topReasonsData = smartEditsTopReasonsData;
+        const topReasonsData = smartEditsTopReasonsData;
 
         console.log('this.topReasonsData', topReasonsData);
         if (topReasonsData && topReasonsData.lenth > 0) {

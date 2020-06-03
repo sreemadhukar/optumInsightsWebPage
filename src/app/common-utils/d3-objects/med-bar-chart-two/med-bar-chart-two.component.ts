@@ -176,10 +176,7 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
         .attr('id', uniqueText)
         .attr('x', 10)
         .attr('y', 12)
-        .attr('fill', '#2D2D39')
-        .attr('font-size', '16')
-        .attr('text-anchor', 'start')
-        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('class', 'reasons-text-medium')
         .attr('margin-bottom', '8')
         .text(reasonDescp[0] + ' -');
       chart
@@ -187,9 +184,7 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
         .attr('x', 75)
         .attr('y', 12)
         .attr('fill', '#196ecf')
-        .attr('font-size', '16')
-        .attr('text-anchor', 'start')
-        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('class', 'reasons-text-medium')
         .attr('cursor', 'pointer')
         .text('See Reference Guide')
         .attr('margin-bottom', '8px')
@@ -206,10 +201,7 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
         .attr('id', uniqueText)
         .attr('x', 10)
         .attr('y', 12)
-        .attr('fill', '#2D2D39')
-        .attr('font-size', '16')
-        .attr('text-anchor', 'start')
-        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('class', 'reasons-text-medium')
         .text(barTextValue)
         .call(wrap, 250, tspanID, 16);
     }
@@ -246,10 +238,8 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
         .append('text')
         .attr('id', uniqueText + 'hover')
         .attr('y', (height + 10) / 2)
-        .attr('fill', '#2D2D39')
+        .attr('class', 'reasons-text-semibold')
         .attr('font-size', '14')
-        .attr('text-anchor', 'start')
-        .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
         .text(chartOptions.barText)
         // .call(wrap, 250, tspanID, 16);
         .call(wrap, 250, tspanID + 'hover', 14);
@@ -284,10 +274,8 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
       .append('text')
       .attr('x', 270)
       .attr('y', 42)
-      .attr('fill', '#2D2D39')
       .attr('font-size', '16')
-      .attr('text-anchor', 'start')
-      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .attr('class', 'reasons-text-semibold')
       .text(chartOptions.barValue);
   }
   public handleClick() {
