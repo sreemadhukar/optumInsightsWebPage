@@ -194,11 +194,10 @@ export class TaxSummaryComponent implements OnInit {
     };
     this.taxSummaryData.filter = filterValue === 'All' ? '' : filterValue.trim().toLowerCase();
     if (filterValue.length === 0) {
-      this.noInputValue();
+      this.checkFilterValue();
     }
   }
-
-  noInputValue() {
+  checkFilterValue() {
     if (this.checkedCount()) {
       for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
         if (this.taxSummaryData.filteredData[i].checked) {
@@ -208,6 +207,7 @@ export class TaxSummaryComponent implements OnInit {
         }
       }
     }
+
     this.taxSummaryData = new MatTableDataSource(this.data.All);
     this.taxSummaryData.sort = this.sort;
     const sortState2: Sort = { active: 'TinCheckBox', direction: 'asc' };
@@ -216,7 +216,6 @@ export class TaxSummaryComponent implements OnInit {
     this.sort.sortChange.emit(sortState2);
     this.taxSummaryData.paginator = this.paginator;
   }
-
   customPaginator() {
     this.paginator._intl.itemsPerPageLabel = 'Display';
     this.paginator._intl.getRangeLabel = function(page, pageSize, length) {

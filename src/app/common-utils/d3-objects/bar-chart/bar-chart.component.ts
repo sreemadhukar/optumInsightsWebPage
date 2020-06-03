@@ -33,6 +33,40 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.doBarChart(this.chartOptions, this.transition);
   }
+  getTspanArray(tspanArray) {
+    const temp = [];
+    for (let i = 0; i < tspanArray.length; i++) {
+      temp.push(tspanArray[i].id);
+    }
+    return temp;
+  }
+  checkColorLength(xScaleBarStartingPointConstant, width, barHeight) {
+    if (this.chartOptions.color.length === 2) {
+      this.chartPA
+        .append('rect')
+        .attr('x', xScaleBarStartingPointConstant)
+        .attr('y', 0)
+        .attr('width', width)
+        .attr('height', barHeight)
+        .attr('fill', this.chartOptions.color[1].color2);
+    }
+  }
+
+  getTooltipAdjustor(len) {
+    if (len === 3) {
+      return 80;
+    } else if (len === 8) {
+      return 160;
+    } else {
+      return 120;
+    }
+  }
+  getBarHeight() {
+    if (this.chartOptions.barHeight) {
+      return this.chartOptions.barHeight; // bar height to be 48
+    }
+    return 48;
+  }
 
   doBarChart(chartOptions: any, _transition: number) {
     function getTextWidth(text, fontSize, fontFace) {
@@ -98,26 +132,19 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .selectAll('*')
       .remove();
 
-    let barHeight = 48;
-    if (chartOptions.barHeight) {
-      barHeight = chartOptions.barHeight; // bar height to be 48
-    }
-
+    const barHeight = this.getBarHeight();
     const margin = { top: 16, right: 10, bottom: 16, left: 10 };
     const width = preWidth - margin.left - margin.right;
     const height = barHeight * 1.5 - margin.top - margin.bottom;
     const svg = d3.select(this.renderChart);
 
-    let xScaleConstant;
+    const xScaleConstant = width - 231; // For PCOR graph width should be 703
 
     /** Following 2 variable are for Prior Auth Bar Grpah */
-    let xScaleBarWidthConstant;
-    let xScaleBarStartingPointConstant;
+    const xScaleBarWidthConstant = width / 1.79; // 522    when width is 554 , it will touch the border of the the card
+    const xScaleBarStartingPointConstant = width / 2.43; // 384;
     /** Following 2 variable are for Prior Auth Bar Grpah */
-
     if (chartOptions.starObject) {
-      xScaleConstant = width - 231; // For PCOR graph width should be 703
-
       this.chartPCOR = svg
         .append('svg')
         .attr('width', xScaleConstant)
@@ -126,8 +153,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('class', 'transfrom-style');
     } else {
       /** Following 2 variable are for Prior Auth Bar Grpah */
-      xScaleBarWidthConstant = width / 1.79; // 522    when width is 554 , it will touch the border of the the card
-      xScaleBarStartingPointConstant = width / 2.43; // 384
       const paddingVertical = (height + margin.top + margin.bottom - barHeight) / 2;
       this.chartPA = svg
         .append('svg')
@@ -173,15 +198,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('height', barHeight)
         .attr('fill', chartOptions.color[0].color1);
 
-      if (chartOptions.color.length === 2) {
-        this.chartPA
-          .append('rect')
-          .attr('x', xScaleBarStartingPointConstant)
-          .attr('y', 0)
-          .attr('width', xScaleBarWidth(chartOptions.barSummation) - xScaleBarWidth(chartOptions.barData))
-          .attr('height', barHeight)
-          .attr('fill', chartOptions.color[1].color2);
-      }
+      this.checkColorLength(
+        xScaleBarStartingPointConstant,
+        xScaleBarWidth(chartOptions.barSummation) - xScaleBarWidth(chartOptions.barData),
+        barHeight
+      );
 
       const uniqueText = 'reasonText' + this.renderChart.slice(1);
       const tspanID = uniqueText + 'tspan';
@@ -194,87 +215,9 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .text(chartOptions.barText)
         .call(wrap, 250, tspanID, 16);
 
-      // Shift text object up for 2+ line reasons
-      if (textWithHover.selectAll('tspan').size() > 1) {
-        d3.select('#' + uniqueText)
-          .attr('transform', 'translate(' + 0 + ',' + -7.5 + ')')
-          .attr('cursor', 'pointer');
-      }
-
       // where we should enable the hover object to exist
-      if (textWithHover.selectAll('tspan').size() > 2) {
-        const tspanArray = textWithHover.selectAll('tspan').nodes();
-        const tspanArrayIDs = [];
-        const replacementtspan = tspanArray[1];
-        for (let i = 0; i < tspanArray.length; i++) {
-          tspanArrayIDs.push(tspanArray[i].id);
-        }
+      this.enableHover(textWithHover, uniqueText, height, chartOptions, wrap, tspanID);
 
-        for (let i = tspanArrayIDs.length - 1; i > 0; i--) {
-          d3.select('#' + tspanArrayIDs[i]).remove();
-        }
-
-        d3.select('#' + uniqueText)
-          .append('tspan')
-          .attr('x', replacementtspan.getAttribute('x'))
-          .attr('y', replacementtspan.getAttribute('y'))
-          .attr('dy', replacementtspan.getAttribute('dy'))
-          .attr('id', replacementtspan.id + 'new')
-          .text(replacementtspan.textContent + '...');
-
-        const div = d3
-          .select(this.renderChart)
-          .append('div')
-          .attr('class', 'tooltip');
-
-        const svg2 = div
-          .append('svg')
-          .attr('height', 20 * tspanArray.length + 'px')
-          .attr('width', '438px');
-
-        // need to make id clean
-        svg2
-          .append('text')
-          .attr('id', uniqueText + 'hover')
-          .attr('y', (height + 10) / 2)
-          .attr('class', 'PA-text-style2')
-          .text(chartOptions.barText)
-          .call(wrap, 420, tspanID + 'hover', 14);
-
-        const label = d3.select('#' + uniqueText).selectAll('*');
-
-        let tooltipLabelAdjustor = 120;
-        switch (tspanArray.length) {
-          case 3:
-            tooltipLabelAdjustor = 80;
-            break;
-          case 8:
-            tooltipLabelAdjustor = 160;
-            break;
-        }
-
-        label
-          .on('mouseenter', function() {
-            div
-              .transition()
-              .duration(10)
-              .style('opacity', 1);
-            div.style('left', d3.event.layerX - 38 + 'px').style('top', d3.event.layerY - tooltipLabelAdjustor + 'px');
-          })
-          .on('mousemove', function() {
-            div
-              .transition()
-              .duration(10)
-              .style('opacity', 1);
-            div.style('left', d3.event.layerX - 38 + 'px').style('top', d3.event.layerY - tooltipLabelAdjustor + 'px');
-          })
-          .on('mouseleave', function() {
-            div
-              .transition()
-              .duration(10)
-              .style('opacity', 0);
-          });
-      }
       // This if for Prior Auth
       this.chartPA
         .append('text')
@@ -283,6 +226,77 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('class', 'PA-text-style')
 
         .text(this.common.nFormatter(chartOptions.barData));
+    }
+  }
+  enableHover(textWithHover, uniqueText, height, chartOptions, wrap, tspanID) {
+    // Shift text object up for 2+ line reasons
+    if (textWithHover.selectAll('tspan').size() > 1) {
+      d3.select('#' + uniqueText)
+        .attr('transform', 'translate(' + 0 + ',' + -7.5 + ')')
+        .attr('cursor', 'pointer');
+    }
+
+    if (textWithHover.selectAll('tspan').size() > 2) {
+      const tspanArray = textWithHover.selectAll('tspan').nodes();
+      let tspanArrayIDs = [];
+      const replacementtspan = tspanArray[1];
+      tspanArrayIDs = this.getTspanArray(tspanArray);
+      for (let i = tspanArrayIDs.length - 1; i > 0; i--) {
+        d3.select('#' + tspanArrayIDs[i]).remove();
+      }
+
+      d3.select('#' + uniqueText)
+        .append('tspan')
+        .attr('x', replacementtspan.getAttribute('x'))
+        .attr('y', replacementtspan.getAttribute('y'))
+        .attr('dy', replacementtspan.getAttribute('dy'))
+        .attr('id', replacementtspan.id + 'new')
+        .text(replacementtspan.textContent + '...');
+
+      const div = d3
+        .select(this.renderChart)
+        .append('div')
+        .attr('class', 'tooltip');
+
+      const svg2 = div
+        .append('svg')
+        .attr('height', 20 * tspanArray.length + 'px')
+        .attr('width', '438px');
+
+      // need to make id clean
+      svg2
+        .append('text')
+        .attr('id', uniqueText + 'hover')
+        .attr('y', (height + 10) / 2)
+        .attr('class', 'PA-text-style2')
+        .text(chartOptions.barText)
+        .call(wrap, 420, tspanID + 'hover', 14);
+
+      const label = d3.select('#' + uniqueText).selectAll('*');
+
+      const tooltipLabelAdjustor = this.getTooltipAdjustor(tspanArray.length);
+
+      label
+        .on('mouseenter', function() {
+          div
+            .transition()
+            .duration(10)
+            .style('opacity', 1);
+          div.style('left', d3.event.layerX - 38 + 'px').style('top', d3.event.layerY - tooltipLabelAdjustor + 'px');
+        })
+        .on('mousemove', function() {
+          div
+            .transition()
+            .duration(10)
+            .style('opacity', 1);
+          div.style('left', d3.event.layerX - 38 + 'px').style('top', d3.event.layerY - tooltipLabelAdjustor + 'px');
+        })
+        .on('mouseleave', function() {
+          div
+            .transition()
+            .duration(10)
+            .style('opacity', 0);
+        });
     }
   }
 }
