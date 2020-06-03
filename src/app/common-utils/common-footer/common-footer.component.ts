@@ -72,10 +72,10 @@ export class CommonFooterComponent {
 
   replaceTwoDigitToOne(startDate, endDate, textData) {
     if (startDate === endDate) {
-      const regex = new RegExp(`${startDate}`, 'g');
-      return textData.replace(regex, `${+startDate}`);
+      const regex = new RegExp(` ${startDate}`, 'g');
+      return textData.replace(regex, ` ${+startDate}`);
     }
-    return textData.replace(startDate, `${+startDate}`).replace(endDate, `${+endDate}`);
+    return textData.replace(` ${startDate}`, ` ${+startDate}`).replace(` ${endDate}`, ` ${+endDate}`);
   }
 
   decodeHtml(htmlEntity) {
@@ -85,7 +85,7 @@ export class CommonFooterComponent {
   }
 
   getMonths(str) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     let m1, m2;
     for (let i = 0; i < months.length; i++) {
       if (str.indexOf(months[i]) !== -1) {
