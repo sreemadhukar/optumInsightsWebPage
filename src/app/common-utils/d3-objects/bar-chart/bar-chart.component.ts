@@ -215,13 +215,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .text(chartOptions.barText)
         .call(wrap, 250, tspanID, 16);
 
-      // Shift text object up for 2+ line reasons
-      if (textWithHover.selectAll('tspan').size() > 1) {
-        d3.select('#' + uniqueText)
-          .attr('transform', 'translate(' + 0 + ',' + -7.5 + ')')
-          .attr('cursor', 'pointer');
-      }
-
       // where we should enable the hover object to exist
       this.enableHover(textWithHover, uniqueText, height, chartOptions, wrap, tspanID);
 
@@ -236,6 +229,13 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     }
   }
   enableHover(textWithHover, uniqueText, height, chartOptions, wrap, tspanID) {
+    // Shift text object up for 2+ line reasons
+    if (textWithHover.selectAll('tspan').size() > 1) {
+      d3.select('#' + uniqueText)
+        .attr('transform', 'translate(' + 0 + ',' + -7.5 + ')')
+        .attr('cursor', 'pointer');
+    }
+
     if (textWithHover.selectAll('tspan').size() > 2) {
       const tspanArray = textWithHover.selectAll('tspan').nodes();
       let tspanArrayIDs = [];
