@@ -58,13 +58,6 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       context.font = fontSize + 'px ' + fontFace;
       return context.measureText(text).width;
     }
-    function mouseIn(div) {
-      div
-        .transition()
-        .duration(10)
-        .style('opacity', 1);
-      div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
-    }
 
     function wrap(textObject, pixelWidth, uniqueID, fontSize) {
       textObject.each(function() {
@@ -258,7 +251,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     const uniqueText = 'reasonText' + this.renderChart.slice(1);
     const tspanID = uniqueText + 'tspan';
     let textWithHover;
-    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+    if (_.get(chartOptions, 'cdata') === 'paymentintegrity') {
       if (chartOptions.type === 'bar chart') {
         textWithHover = chart
           .append('text')
@@ -398,8 +391,22 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       const label = d3.select('#paymentIntegrityRect' + chartOptions.graphValues[1]);
 
       label
-        .on('mouseenter', mouseIn(div))
-        .on('mousemove', mouseIn(div))
+        .on('mouseenter', function() {
+          div
+            .transition()
+            .duration(10)
+            .style('opacity', 1);
+          div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
+          // div.style('left', '100px').style('bottom', '70px');
+        })
+        .on('mousemove', function() {
+          div
+            .transition()
+            .duration(10)
+            .style('opacity', 1);
+          div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
+          // div.style('left', '100px').style('bottom', '70px');
+        })
         .on('mouseleave', function() {
           div
             .transition()
