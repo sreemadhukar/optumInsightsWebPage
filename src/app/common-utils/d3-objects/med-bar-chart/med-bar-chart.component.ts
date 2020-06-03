@@ -29,6 +29,28 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     this.doMedBarChart(this.chartOptions, this.transition);
   }
 
+  getTotalSum() {
+    let tSum = 0;
+    for (let i = 0; i < this.chartOptions.graphValues.length; i++) {
+      tSum = tSum + Number(this.chartOptions.graphValues[i]);
+    }
+    return tSum;
+  }
+  assignTspan(tspanArray) {
+    const temp = [];
+    for (let i = 0; i < tspanArray.length; i++) {
+      temp.push(tspanArray[i].id);
+    }
+    return temp;
+  }
+
+  getGraphValue(s) {
+    return typeof this.chartOptions.graphValues[0] !== 'undefined' ? s.toString() + '%' : null;
+  }
+  getModifiedXscale(base, addition = 0) {
+    return typeof this.chartOptions.graphValues[0] !== 'undefined' ? base + addition : null;
+  }
+
   doMedBarChart(chartOptions: any, _transition: number) {
     function getTextWidth(text, fontSize, fontFace) {
       const canvas = document.createElement('canvas');
@@ -36,11 +58,12 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       context.font = fontSize + 'px ' + fontFace;
       return context.measureText(text).width;
     }
-    function getModifiedXscale(base, addition = 0) {
-      return typeof chartOptions.graphValues[0] !== 'undefined' ? base + addition : null;
-    }
-    function getGraphValue(s) {
-      return typeof chartOptions.graphValues[0] !== 'undefined' ? s.toString() + '%' : null;
+    function mouseIn(div) {
+      div
+        .transition()
+        .duration(10)
+        .style('opacity', 1);
+      div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
     }
 
     function wrap(textObject, pixelWidth, uniqueID, fontSize) {
@@ -140,7 +163,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .attr('transform', 'translate(' + 10 + ',' + 50 + ')');
       }
     }
-    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+    if (_.get(chartOptions, 'cdata') === 'paymentintegrity') {
       paymentInt();
     } else {
       chart = d3
@@ -151,11 +174,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .append('g')
         .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
     }
-    let totalSum = 0;
-
-    for (let i = 0; i < chartOptions.graphValues.length; i++) {
-      totalSum = totalSum + Number(chartOptions.graphValues[i]);
-    }
+    const totalSum = this.getTotalSum();
     const xScale = d3
       .scaleLinear()
       .domain([0, totalSum])
@@ -166,17 +185,17 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         chart
           .append('rect')
           .attr('id', 'paymentIntegrityRect' + chartOptions.graphValues[1])
-          .attr('width', getGraphValue(chartOptions.graphValues[0]))
+          .attr('width', this.getGraphValue(chartOptions.graphValues[0]))
           .attr('height', 64)
           .style('padding-bottom', 16)
           .attr('fill', chartOptions.color[0]);
         chart
           .append('rect')
-          .attr('x', getGraphValue(chartOptions.graphValues[0]))
+          .attr('x', this.getGraphValue(chartOptions.graphValues[0]))
           // .attr('y', -25)
           .attr('rx', 2)
           .attr('ry', 0)
-          .attr('width', getGraphValue(chartOptions.graphValues[1]))
+          .attr('width', this.getGraphValue(chartOptions.graphValues[1]))
           .attr('height', 64)
           .attr('fill', chartOptions.color[2]);
       } else {
@@ -185,14 +204,14 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .attr('x', 10)
           .attr('y', -25)
           .attr('id', 'paymentIntegrityRect' + chartOptions.graphValues[1])
-          .attr('width', getModifiedXscale(xScale(chartOptions.graphValues[0]), 0))
+          .attr('width', this.getModifiedXscale(xScale(chartOptions.graphValues[0]), 0))
           .attr('height', 48)
           .style('padding-bottom', 16)
           .attr('fill', chartOptions.color[0]);
 
         chart
           .append('rect')
-          .attr('x', getModifiedXscale(xScale(chartOptions.graphValues[0]), 10))
+          .attr('x', this.getModifiedXscale(xScale(chartOptions.graphValues[0]), 10))
           .attr('y', -25)
           .attr('width', 2)
           .attr('height', 48)
@@ -200,11 +219,11 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
 
         chart
           .append('rect')
-          .attr('x', getModifiedXscale(xScale(chartOptions.graphValues[0]), 12))
+          .attr('x', this.getModifiedXscale(xScale(chartOptions.graphValues[0]), 12))
           .attr('y', -25)
           .attr('rx', 2)
           .attr('ry', 2)
-          .attr('width', getModifiedXscale(xScale(chartOptions.graphValues[1]), 1))
+          .attr('width', this.getModifiedXscale(xScale(chartOptions.graphValues[1]), 1))
           .attr('height', 48)
           .attr('fill', chartOptions.color[2]);
       }
@@ -213,14 +232,14 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .append('rect')
         .attr('x', 10)
         .attr('y', 20)
-        .attr('width', getModifiedXscale(xScale(chartOptions.graphValues[0]), 0))
+        .attr('width', this.getModifiedXscale(xScale(chartOptions.graphValues[0]), 0))
         .attr('height', 24)
         .style('padding-bottom', 16)
         .attr('fill', chartOptions.color[0]);
 
       chart
         .append('rect')
-        .attr('x', getModifiedXscale(xScale(chartOptions.graphValues[0]), 10))
+        .attr('x', this.getModifiedXscale(xScale(chartOptions.graphValues[0]), 10))
         .attr('y', 20)
         .attr('width', 2)
         .attr('height', 24)
@@ -228,11 +247,11 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
 
       chart
         .append('rect')
-        .attr('x', getModifiedXscale(xScale(chartOptions.graphValues[0]), 12))
+        .attr('x', this.getModifiedXscale(xScale(chartOptions.graphValues[0]), 12))
         .attr('y', 20)
         .attr('rx', 2)
         .attr('ry', 2)
-        .attr('width', getModifiedXscale(xScale(chartOptions.graphValues[1]), 1))
+        .attr('width', this.getModifiedXscale(xScale(chartOptions.graphValues[1]), 1))
         .attr('height', 24)
         .attr('fill', chartOptions.color[2]);
     }
@@ -269,20 +288,13 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .call(wrap, 250, tspanID, 16);
     }
     // where we should enable the hover object to exist
-    function assignTspan(tspanArray) {
-      const temp = [];
-      for (let i = 0; i < tspanArray.length; i++) {
-        temp.push(tspanArray[i].id);
-      }
-      return temp;
-    }
     if (textWithHover.selectAll('tspan').size() > 1) {
       d3.select('#' + uniqueText).attr('cursor', 'pointer');
       const tspanArray = textWithHover.selectAll('tspan').nodes();
       const replacementtspan = tspanArray[0];
       d3.select(replacementtspan).text(replacementtspan.textContent + '...');
 
-      const tspanArrayIDs = assignTspan(tspanArray);
+      const tspanArrayIDs = this.assignTspan(tspanArray);
       for (let i = tspanArrayIDs.length - 1; i > 0; i--) {
         d3.select('#' + tspanArrayIDs[i]).remove();
       }
@@ -341,7 +353,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       /// madhukar
       d3.select('#paymentIntegrityRect' + chartOptions.graphValues[1]).attr('cursor', 'pointer');
       const tspanArray = textWithHover.selectAll('tspan').nodes();
-      const tspanArrayIDs = assignTspan(tspanArray);
+      const tspanArrayIDs = this.assignTspan(tspanArray);
       for (let i = tspanArrayIDs.length - 1; i > 0; i--) {
         d3.select('#' + tspanArrayIDs[i]).remove();
       }
@@ -386,22 +398,8 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       const label = d3.select('#paymentIntegrityRect' + chartOptions.graphValues[1]);
 
       label
-        .on('mouseenter', function() {
-          div
-            .transition()
-            .duration(10)
-            .style('opacity', 1);
-          div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
-          // div.style('left', '100px').style('bottom', '70px');
-        })
-        .on('mousemove', function() {
-          div
-            .transition()
-            .duration(10)
-            .style('opacity', 1);
-          div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
-          // div.style('left', '100px').style('bottom', '70px');
-        })
+        .on('mouseenter', mouseIn(div))
+        .on('mousemove', mouseIn(div))
         .on('mouseleave', function() {
           div
             .transition()
@@ -481,9 +479,9 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       } else {
         chart
           .append('line')
-          .attr('x1', getModifiedXscale(xScale(chartOptions.target), 8))
+          .attr('x1', this.getModifiedXscale(xScale(chartOptions.target), 8))
           .attr('y1', -29)
-          .attr('x2', getModifiedXscale(xScale(chartOptions.target), 8))
+          .attr('x2', this.getModifiedXscale(xScale(chartOptions.target), 8))
           .attr('y2', 33)
           .style('stroke-dasharray', '6,6')
           .style('stroke', 'black')

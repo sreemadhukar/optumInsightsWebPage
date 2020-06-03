@@ -15,6 +15,7 @@ import * as _ from 'lodash';
 export class TaxSummaryComponent implements OnInit {
   @Input() inputData;
   @Output() tinValues = new EventEmitter();
+  @Output() showAllTins = new EventEmitter();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @Input() selectedTaxId;
@@ -25,6 +26,7 @@ export class TaxSummaryComponent implements OnInit {
   numberOfTins: number;
   taxSummaryColumns: string[] = ['TinCheckBox', 'Tin', 'TinName', 'TaxIdType', 'TaxIdOwnership'];
   pageSize = 25;
+  pageIndex = 0;
   pageNumber = 0;
   filterObj = {};
   tinOwnershipSelected = 'Owned';
@@ -68,6 +70,7 @@ export class TaxSummaryComponent implements OnInit {
           }
         });
       }
+      this.showAllTins.emit(false);
     }
   }
 
@@ -108,6 +111,7 @@ export class TaxSummaryComponent implements OnInit {
     } else if (!row.checked) {
       this.swap(originalIndex, this.checkedCount());
     }
+    this.selectedTaxId.length === this.data.All.length ? this.showAllTins.emit(true) : this.showAllTins.emit(false);
     this.taxSummaryData.sort = this.sort;
     const sortState3: Sort = { active: 'TinCheckBox', direction: 'asc' };
     this.sort.active = sortState3.active;
@@ -131,8 +135,7 @@ export class TaxSummaryComponent implements OnInit {
           Tinname: this.taxSummaryData.filteredData[i].TinName
         });
       }
-      this.selectedTaxId =
-        this.selectedTaxId.length === this.data.All.length ? [{ Tin: 'All', Tinname: 'All' }] : this.selectedTaxId;
+      this.selectedTaxId.length === this.data.All.length ? this.showAllTins.emit(true) : this.showAllTins.emit(false);
       this.tinValues.emit(this.selectedTaxId);
     } else {
       for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
@@ -146,6 +149,7 @@ export class TaxSummaryComponent implements OnInit {
 
   getPageSize(event) {
     this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
   }
 
   getTaxSummaryData() {
@@ -176,26 +180,19 @@ export class TaxSummaryComponent implements OnInit {
 
   searchTaxId(filterValue: string, id: string) {
     this.allChecked = false;
-    if (id === 'TinCheckBox') {
+    if (id === 'TinCheckBox' || id === 'Tin') {
       if (filterValue.length > 2 && filterValue.length < 4 && filterValue.search('-') === -1) {
         filterValue = filterValue.slice(0, 2) + '-' + filterValue.slice(2);
       }
       this.taxIdSearch = filterValue;
-    }
-    if (id === 'TinName') {
+    } else if (id === 'TinName') {
       this.tinNameSearch = filterValue;
-    }
-    if (id === 'Tin') {
-      this.taxIdSearch = filterValue;
     }
     this.filterObj = {
       value: filterValue.trim().toLowerCase(),
       key: id
     };
     this.taxSummaryData.filter = filterValue === 'All' ? '' : filterValue.trim().toLowerCase();
-    if (this.taxSummaryData.paginator) {
-      this.taxSummaryData.paginator.firstPage();
-    }
     if (filterValue.length === 0) {
       this.checkFilterValue();
     }
