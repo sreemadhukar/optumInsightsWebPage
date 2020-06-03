@@ -97,22 +97,12 @@ export class SmartEditsSharedService {
           this.repairedResubmittedData[0] = smartEditsData.Data.All.ResubmittedTimeLessThanEqualToFiveDays;
           this.repairedResubmittedData[1] = smartEditsData.Data.All.ResubmittedTimeGreaterThanFiveDays;
 
-          let lessThan5Width = 4;
-          let greaterThan5Width = 4;
-
-          if (this.repairedResubmittedData[0] > this.repairedResubmittedData[1]) {
-            lessThan5Width = 342;
-            if (this.repairedResubmittedData[1] !== 0) {
-              greaterThan5Width = (this.repairedResubmittedData[1] * 342) / this.repairedResubmittedData[0];
-            }
-          } else {
-            greaterThan5Width = 342;
-            if (this.repairedResubmittedData[0] !== 0) {
-              lessThan5Width = (this.repairedResubmittedData[0] * 342) / this.repairedResubmittedData[1];
-            }
-          }
-          this.repairedResubmittedData[2] = lessThan5Width;
-          this.repairedResubmittedData[3] = greaterThan5Width;
+          const widthMap = this.widthFunctionForRepairBars(
+            this.repairedResubmittedData[0],
+            this.repairedResubmittedData[1]
+          );
+          this.repairedResubmittedData[2] = widthMap[0];
+          this.repairedResubmittedData[3] = widthMap[1];
           resolve(this.repairedResubmittedData);
         } else {
           this.repairedResubmittedData = {
@@ -128,11 +118,27 @@ export class SmartEditsSharedService {
       });
     });
   }
-  // public getSmartEditSharedTopReasons() {
-  //   this.smartEditsService.getSmartEditTopReasons().subscribe(data => {
-  //     console.log('shared', data);
-  //   });
-  // }
+
+  widthFunctionForRepairBars(a, b) {
+    const widthMap = [];
+    let lessThan5Width = 4;
+    let greaterThan5Width = 4;
+
+    if (a > b) {
+      lessThan5Width = 342;
+      if (b !== 0) {
+        greaterThan5Width = (b * 342) / a;
+      }
+    } else {
+      greaterThan5Width = 342;
+      if (a !== 0) {
+        lessThan5Width = (a * 342) / b;
+      }
+    }
+    widthMap.push(lessThan5Width);
+    widthMap.push(greaterThan5Width);
+    return widthMap;
+  }
 
   public getSmartEditSharedTopReasons(param) {
     const reason = [];
