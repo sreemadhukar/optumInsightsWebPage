@@ -72,10 +72,10 @@ export class CommonFooterComponent {
 
   replaceTwoDigitToOne(startDate, endDate, textData) {
     if (startDate === endDate) {
-      const regex = new RegExp(`${startDate}`, 'g');
-      return textData.replace(regex, `${+startDate}`);
+      const regex = new RegExp(` ${startDate}`, 'g');
+      return textData.replace(regex, ` ${+startDate}`);
     }
-    return textData.replace(startDate, `${+startDate}`).replace(endDate, `${+endDate}`);
+    return textData.replace(` ${startDate}`, ` ${+startDate}`).replace(` ${endDate}`, ` ${+endDate}`);
   }
 
   decodeHtml(htmlEntity) {
