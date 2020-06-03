@@ -82,10 +82,11 @@ export class GlossaryComponent implements OnInit, DoCheck {
       this.title = 'Medicare Average Star Rating';
     }
     this.getGlossarySelected();
+    this.sortGlossaryList();
     this.getGlossaryList();
   }
 
-  getGlossaryList() {
+  sortGlossaryList() {
     this.glossaryData = this.glossaryList.sort(function(a, b) {
       if (a.Metric.toLowerCase() < b.Metric.toLowerCase()) {
         return -1;
@@ -95,7 +96,9 @@ export class GlossaryComponent implements OnInit, DoCheck {
         return 0;
       }
     });
+  }
 
+  getGlossaryList() {
     for (let i = 0; i < this.glossaryList.length; i++) {
       this.options.push(this.glossaryList[i].Metric);
     }
