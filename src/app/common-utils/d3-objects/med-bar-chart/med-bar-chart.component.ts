@@ -29,6 +29,13 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     this.doMedBarChart(this.chartOptions, this.transition);
   }
 
+  getTotalSum(cOptions) {
+    tSum = 0;
+    for (let i = 0; i < cOptions.graphValues.length; i++) {
+      tSum = tSum + Number(cOptions.graphValues[i]);
+    }
+    return tSum;
+  }
   doMedBarChart(chartOptions: any, _transition: number) {
     function getTextWidth(text, fontSize, fontFace) {
       const canvas = document.createElement('canvas');
@@ -140,7 +147,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .attr('transform', 'translate(' + 10 + ',' + 50 + ')');
       }
     }
-    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+    if (_.get(chartOptions, 'cdata') === 'paymentintegrity') {
       paymentInt();
     } else {
       chart = d3
@@ -151,11 +158,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .append('g')
         .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
     }
-    let totalSum = 0;
-
-    for (let i = 0; i < chartOptions.graphValues.length; i++) {
-      totalSum = totalSum + Number(chartOptions.graphValues[i]);
-    }
+    const totalSum = this.getTotalSum(chartOptions);
     const xScale = d3
       .scaleLinear()
       .domain([0, totalSum])
