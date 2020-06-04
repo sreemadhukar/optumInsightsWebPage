@@ -13,7 +13,7 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../../store/filter/actions';
 import { IAppState } from '../../../../store/store';
 import { SmartEditsSharedService } from '../../../../shared/new-payment-integrity/smart-edits-shared.service';
-import { ModalPopupService } from 'src/app/common-utils/modal-popup/modal-popup.service';
+import { ModalPopupService } from '../../../../common-utils/modal-popup/modal-popup.service';
 
 @Component({
   selector: 'app-smart-edits',

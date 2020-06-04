@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SessionService } from 'src/app/shared/session.service';
+import { SessionService } from '../../shared/session.service';
 import { CommonUtilsService } from './../../shared/common-utils.service';
 import { SmartEditsService } from '../../rest/new-payment-integrity/smart-edits.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
