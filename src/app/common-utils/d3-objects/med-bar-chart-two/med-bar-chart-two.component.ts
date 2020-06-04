@@ -46,8 +46,6 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
             .text()
             .split(/\s+/)
             .reverse(),
-          // lineNumber = 0,
-          // lineHeight = 1.1, // ems
           y = text.attr('y'),
           dy = parseFloat(text.attr('dy'));
         let tspan = text
@@ -165,11 +163,8 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
 
     const barvalue = chartOptions.barText;
     const reasonDescp = barvalue.split('-');
-    // const reasonDescpValue = reasonDescp[reasonDescp.length - 1];
-    let barTextValue = chartOptions.barText;
-
+    const barTextValue = chartOptions.barText;
     if (chartOptions.barDescp === 'No description found on edit code file') {
-      barTextValue = reasonDescp[0] + ' - ' + 'See Reference Guide';
       textWithHover = chart
 
         .append('text')
@@ -241,7 +236,7 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
         .attr('class', 'reasons-text-semibold')
         .attr('font-size', '14')
         .text(chartOptions.barText)
-        // .call(wrap, 250, tspanID, 16);
+
         .call(wrap, 250, tspanID + 'hover', 14);
 
       const label = d3.select('#' + uniqueText).selectAll('*');
@@ -253,7 +248,6 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
             .duration(10)
             .style('opacity', 1);
           div.style('left', d3.event.layerX - 25 + 'px').style('top', d3.event.layerY - 85 + 'px');
-          // div.style('left', '100px').style('bottom', '70px');
         })
         .on('mousemove', function() {
           div
@@ -261,7 +255,6 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
             .duration(10)
             .style('opacity', 1);
           div.style('left', d3.event.layerX - 25 + 'px').style('top', d3.event.layerY - 85 + 'px');
-          // div.style('left', '100px').style('bottom', '70px');
         })
         .on('mouseleave', function() {
           div
