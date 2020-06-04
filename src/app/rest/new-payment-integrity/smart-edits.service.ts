@@ -8,24 +8,16 @@ import { of } from 'rxjs';
   providedIn: 'root'
 })
 export class SmartEditsService {
-  private APP_URL: string = environment.apiProxyUrl;
-  private SMART_EDITS_SERVICE_PATH: string = environment.apiUrls.SmartEdits;
-  private SMART_EDITS_Claims_SERVICE_PATH: string = environment.apiUrls.SmartEditsTopClaims;
+  private readonly APP_URL: string = environment.apiProxyUrl;
+  private readonly SMART_EDITS_SERVICE_PATH: string = environment.apiUrls.SmartEdits;
+  private readonly SMART_EDITS_Claims_SERVICE_PATH: string = environment.apiUrls.SmartEditsTopClaims;
 
-  constructor(private http: HttpClient) {
-    // this.getSmartEditTopReasons().subscribe(data => {
-    //   console.log('17data', data);
-    // });
-  }
+  constructor(private readonly http: HttpClient) {}
 
   public smartEditReturned(parameters) {
-    //  const smartEditParams = parameters[1].TimeFilter;
-
     const smartEditParams = {
       TimeFilter: parameters[1].TimeFilter
     };
-    // const params = new HttpParams();
-    // const smartEditParams = params.append('TimeFilter', parameters[1].TimeFilter);
 
     const smartEditURL = this.APP_URL + this.SMART_EDITS_SERVICE_PATH + parameters[0];
     return this.http.post(smartEditURL, smartEditParams).pipe(

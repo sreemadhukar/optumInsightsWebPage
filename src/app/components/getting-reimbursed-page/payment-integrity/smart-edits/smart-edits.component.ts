@@ -57,12 +57,12 @@ export class SmartEditsComponent implements OnInit {
     private router: Router,
     private session: SessionService,
     private checkStorage: StorageService,
-    private createPayloadService: CreatePayloadService,
-    private ngRedux: NgRedux<IAppState>,
-    private common: CommonUtilsService,
-    private smartEditsSharedService: SmartEditsSharedService,
-    private dialogService: ModalPopupService,
-    private iconRegistry: MatIconRegistry,
+    private readonly createPayloadService: CreatePayloadService,
+    private readonly ngRedux: NgRedux<IAppState>,
+    private readonly common: CommonUtilsService,
+    private readonly smartEditsSharedService: SmartEditsSharedService,
+    private readonly dialogService: ModalPopupService,
+    private readonly iconRegistry: MatIconRegistry,
     private readonly sanitizer: DomSanitizer
   ) {
     this.pageTitle = 'Smart Edits';
@@ -86,8 +86,7 @@ export class SmartEditsComponent implements OnInit {
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'smartEditsPage' });
     this.checkStorage.emitEvent('smartEditsPage');
-    //  this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
-    //  this.timePeriod = this.session.filterObjValue.timeFrame;
+
     this.reasonDataAvailable = true;
     this.smartEditReturnedData();
     this.SmartEditReturneddTopReasons();

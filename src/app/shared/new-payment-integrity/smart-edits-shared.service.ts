@@ -4,7 +4,7 @@ import { CommonUtilsService } from './../../shared/common-utils.service';
 import { SmartEditsService } from '../../rest/new-payment-integrity/smart-edits.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 import { GlossaryMetricidService } from '../../shared/glossary-metricid.service';
-// import * as _ from 'lodash';
+
 import * as _ from 'lodash';
 
 @Injectable({
@@ -18,10 +18,10 @@ export class SmartEditsSharedService {
   public repairedResubmittedData: any;
 
   constructor(
-    private common: CommonUtilsService,
-    private session: SessionService,
-    private smartEditsService: SmartEditsService,
-    private MetricidService: GlossaryMetricidService
+    private readonly common: CommonUtilsService,
+    private readonly session: SessionService,
+    private readonly smartEditsService: SmartEditsService,
+    private readonly MetricidService: GlossaryMetricidService
   ) {}
 
   getParameterCategories(param) {
@@ -37,7 +37,7 @@ export class SmartEditsSharedService {
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.smartEditsService.smartEditReturned(parameters).subscribe(smartEditsData => {
-        if (smartEditsData != null && smartEditsData != undefined && smartEditsData.Data != null) {
+        if (smartEditsData !== null && smartEditsData !== undefined && smartEditsData.Data !== null) {
           const totalReturned =
             smartEditsData.Data.All.RepairedResubmitted +
             smartEditsData.Data.All.ResubmittedWithoutChanges +
@@ -93,7 +93,7 @@ export class SmartEditsSharedService {
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.smartEditsService.smartEditReturned(parameters).subscribe(smartEditsData => {
-        if (smartEditsData != null && smartEditsData != undefined && smartEditsData.Data != null) {
+        if (smartEditsData !== null && smartEditsData !== undefined && smartEditsData.Data !== null) {
           this.repairedResubmittedData[0] = smartEditsData.Data.All.ResubmittedTimeLessThanEqualToFiveDays;
           this.repairedResubmittedData[1] = smartEditsData.Data.All.ResubmittedTimeGreaterThanFiveDays;
 
