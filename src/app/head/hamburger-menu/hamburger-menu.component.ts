@@ -131,7 +131,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       icon: 'service-interaction',
       name: 'Service Interaction',
       children: [
-        { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
+        {
+          name: 'Self Service',
+          children: [
+            { name: 'Summary', path: '/ServiceInteraction/SelfService' },
+            { name: 'EDI', path: '/ServiceInteraction/EDI' }
+          ]
+        },
         { name: 'Calls', path: '/ServiceInteraction/Calls' }
       ],
       disabled: false

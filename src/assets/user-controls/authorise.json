@@ -98,14 +98,19 @@
   },
   "Service Interaction": {
     "Self Service": {
-      "navLink": true,
-      "Self-Service Adoption Rate": true,
-      "Link and EDI to Call Ratio": true,
-      "Paperless Delivery": true,
-      "Reduce Calls and Operating Costs by:": true,
-      "Save Your Staff's Time by:": true,
-      "Reduce Claim Processing Time by:": true,
-      "Reduce Reconsideration Processing by:": true
+      "Summary": {
+        "navLink": true,
+        "Self-Service Adoption Rate": true,
+        "Link and EDI to Call Ratio": true,
+        "Paperless Delivery": true,
+        "Reduce Calls and Operating Costs by:": true,
+        "Save Your Staff's Time by:": true,
+        "Reduce Claim Processing Time by:": true,
+        "Reduce Reconsideration Processing by:": true
+      },
+      "EDI": {
+        "navLink": true
+      }
     },
     "Calls": {
       "navLink": true,

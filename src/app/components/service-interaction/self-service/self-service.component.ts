@@ -38,7 +38,7 @@ export class SelfServiceComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService
   ) {
-    this.pageTitle = 'Self Service';
+    this.pageTitle = 'Self Service Summary';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
 
@@ -54,7 +54,7 @@ export class SelfServiceComponent implements OnInit {
     this.selfServiceMiniCards = [];
     this.loading = true;
     if (this.printStyle) {
-      this.pageSubTitle = 'Service Interaction - Self Service';
+      this.pageSubTitle = 'Service Interaction - Self Service Summary';
       this.pageTitle = this.session.getHealthCareOrgName();
     }
     this.selfServiceSrc
