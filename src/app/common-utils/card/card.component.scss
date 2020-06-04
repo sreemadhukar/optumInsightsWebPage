@@ -1,7 +1,4 @@
 @import '~src/scss/variables.scss';
-.app-card-structure-for-smart-edits-claims-returned {
-  height: 494px !important;
-}
 
 .app-card-structure {
   position: relative;
@@ -217,11 +214,14 @@
   }
   .smart-edits-claims-returned {
     float: left;
-    padding: 100px 24px 88px 52px;
+    // padding: 100px 24px 88px 52px;
+    padding: 18px 0px 32px 32px;
   }
   .smart-edits-claims-returned-beside-data-block {
     float: left;
-    padding-top: 145px;
+    // padding-top: 145px;
+    // float: right;
+    padding: 63px 34px 34px 24px;
   }
 
   .smart-edits-claims-labels {

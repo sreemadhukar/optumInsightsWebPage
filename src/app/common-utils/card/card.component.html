@@ -9,7 +9,8 @@
     chartData.title === 'Claims Appeals Overturned' ||
     chartData.title === 'Claims Appeals Overturned Rate' ||
     chartData.title === 'Medicare Annual Care Visits Completion Rate' ||
-    chartData.title === 'Medicare Average Star Rating'
+    chartData.title === 'Medicare Average Star Rating' ||
+    chartData.title === 'Smart Edits Returned Claims Top Reasons'
   "
   [class.app-card-structure-for-smart-edits-claims-returned]="chartData.title == 'Smart Edits Claims Returned'"
 >
@@ -120,9 +121,9 @@
             [class.smart-edits-claims-labels]="chartData.title == 'Smart Edits Claims Returned'"
           >
             <li *ngFor="let c of chartData.besideData.labels; let i = index">
-              {{ chartData.data.labels[i] | temporaryTextFormatter }} ({{
+              {{ setLabels(chartData.data, c, i) | temporaryTextFormatter }} ({{
                 chartData.title === 'Claims Paid' || chartData.title === 'Claims Not Paid' ? '$' : ''
-              }}{{ chartData.data.graphValues[i] | currencyFormatter }})
+              }}{{ setValues(chartData.data, c, i) | currencyFormatter }})
             </li>
           </ul>
         </div>
