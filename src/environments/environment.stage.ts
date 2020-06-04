@@ -4,10 +4,11 @@
  * Base Environment Configuration Instance
  * MAINTAIN ALPHABETIC ORDER
  */
-export const environment: any = {
-  //apiProxyUrl: 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/',
-  apiProxyUrl: '/uhci/stage/',
 
+//apiProxyUrl: 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/',
+export const environment: any = {
+  apiProxyUrl: '/uhci/stage/',
+  
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
