@@ -3,12 +3,18 @@
 @import '~src/scss/my-custom-theme';
 
 ::ng-deep .smart-edits .even .app-card-structure {
-  margin: 15px 15px 15px 0px !important;
+  margin: 15px 12px 15px 12px !important;
+  width: 464px;
 }
 ::ng-deep .smart-edits .odd .app-card-structure {
-  margin: 15px 0 15px 15px !important;
+  margin: 15px 12px 15px 12px !important;
+  width: 464px;
 }
 
+::ng-deep .smart-edits .smat-card-space .app-card-structure {
+  margin: 15px 12px 15px 0 !important;
+  width: 464px;
+}
 .time-period {
   box-sizing: border-box;
   height: 33px;
@@ -80,10 +86,14 @@
   }
 }
 
+.top-padd {
+  padding-top: 3px;
+}
+
 .smart-edits-bar-chart-block {
   float: left;
   // padding: 81px 40px 117px 40px;
-  padding: 14px 0px 48px 32px;
+  padding: 12px 40px 43.5px 40px;
 }
 .less-than-five-days-block {
   float: left;
@@ -112,7 +122,6 @@
   float: left;
   display: flex;
   flex-flow: column;
-  padding-top: 6px;
 }
 .pi-numbers-block {
   float: left;
@@ -126,7 +135,7 @@
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 20px;
   line-height: 22px;
-  margin-top: 43px;
+  margin-top: 52px;
   /*float: left;*/
 }
 .mr-returned-bar-block {
@@ -143,23 +152,31 @@
   letter-spacing: 0.2px;
   line-height: 22px;
   float: left;
+  padding-bottom: 8px;
 }
 .full-display {
+  float: left;
+  width: 100%;
+}
+.full-width-block {
   float: left;
   width: 100%;
 }
 .width-100 {
   width: 100%;
 }
-.overturn-reason-block {
-  margin: 12px;
-  height: 494px;
-  width: 468px;
+.smartedit-reason-block {
+  margin: 12px 0;
+  // height: 464px !important;
+  width: 464px;
   border-radius: 2px;
   background-color: $white;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   float: left;
   position: relative;
+  line-height: 75px;
+  font-size: 30px;
+  overflow: hidden;
 }
 
 .repaired-block {
@@ -188,11 +205,12 @@
   // margin-top: 319px;
   border-top: 1px solid #efefef;
 }
-.smartEdit-overturned-bar-chart {
-  padding-bottom: 16px;
-  padding-left: 73px; // centre aligned to card
-}
 
+.smart-edit-outerspace {
+  padding: 23px 90px 18px 73px;
+  float: left;
+  width: 289px;
+}
 .top-reason-one {
   margin-top: 80px;
 }
@@ -253,4 +271,8 @@
   line-height: 22px;
   cursor: hand;
   display: inline-block;
+}
+
+.margin-left-0 {
+  margin-left: 0;
 }
