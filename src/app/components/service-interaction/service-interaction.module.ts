@@ -8,11 +8,12 @@ import { SelfSharedService } from '../../shared/service-interaction/self-shared.
 import { CallsComponent } from './calls/calls.component';
 import { CallsSharedService } from '../../shared/service-interaction/calls-shared.service';
 import { HeadMaterialModule } from 'src/app/head/head.material.module';
+import { EdiSubmissionComponent } from './self-service/edi-submission/edi-submission.component';
 @NgModule({
   imports: [CommonModule, ServiceInteractionRoutingModule, HeadMaterialModule, CommonUtilsModule],
   providers: [SelfSharedService, SelfServiceService, CallsSharedService],
-  declarations: [SelfServiceComponent, CallsComponent],
-  exports: [SelfServiceComponent, CallsComponent]
+  declarations: [SelfServiceComponent, CallsComponent, EdiSubmissionComponent],
+  exports: [SelfServiceComponent, CallsComponent, EdiSubmissionComponent]
 })
 export class ServiceInteractionModule {
   constructor() {}
