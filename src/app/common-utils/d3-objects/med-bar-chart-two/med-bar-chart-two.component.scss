@@ -1,3 +1,7 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+
 .bar-div {
   position: relative;
 }
@@ -79,4 +83,19 @@
   line-height: 22px;
   cursor: hand;
   display: inline-block;
+}
+.reasons-text {
+  @include font-size(16);
+  @include text-color(#2d2d39);
+  text-anchor: 'start';
+}
+.reasons-text-medium {
+  @extend .reasons-text;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+}
+
+.reasons-text-semibold {
+  @include text-color(#2d2d39);
+  text-anchor: 'start';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
 }

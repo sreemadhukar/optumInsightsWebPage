@@ -9,7 +9,7 @@ import { map, take } from 'rxjs/operators';
 })
 export class ModalPopupService {
   dialogRef: MatDialogRef<ModalPopupComponent>;
-  constructor(private dialog: MatDialog) {}
+  constructor(private readonly dialog: MatDialog) {}
 
   public open(options) {
     this.dialogRef = this.dialog.open(ModalPopupComponent, {

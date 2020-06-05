@@ -13,7 +13,7 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../../store/filter/actions';
 import { IAppState } from '../../../../store/store';
 import { SmartEditsSharedService } from '../../../../shared/new-payment-integrity/smart-edits-shared.service';
-import { ModalPopupService } from 'src/app/common-utils/modal-popup/modal-popup.service';
+import { ModalPopupService } from '../../../../common-utils/modal-popup/modal-popup.service';
 
 @Component({
   selector: 'app-smart-edits',
@@ -57,12 +57,12 @@ export class SmartEditsComponent implements OnInit {
     private router: Router,
     private session: SessionService,
     private checkStorage: StorageService,
-    private createPayloadService: CreatePayloadService,
-    private ngRedux: NgRedux<IAppState>,
-    private common: CommonUtilsService,
-    private smartEditsSharedService: SmartEditsSharedService,
-    private dialogService: ModalPopupService,
-    private iconRegistry: MatIconRegistry,
+    private readonly createPayloadService: CreatePayloadService,
+    private readonly ngRedux: NgRedux<IAppState>,
+    private readonly common: CommonUtilsService,
+    private readonly smartEditsSharedService: SmartEditsSharedService,
+    private readonly dialogService: ModalPopupService,
+    private readonly iconRegistry: MatIconRegistry,
     private readonly sanitizer: DomSanitizer
   ) {
     this.pageTitle = 'Smart Edits';
@@ -86,8 +86,7 @@ export class SmartEditsComponent implements OnInit {
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'smartEditsPage' });
     this.checkStorage.emitEvent('smartEditsPage');
-    //  this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
-    //  this.timePeriod = this.session.filterObjValue.timeFrame;
+
     this.reasonDataAvailable = true;
     this.smartEditReturnedData();
     this.SmartEditReturneddTopReasons();
@@ -170,8 +169,7 @@ export class SmartEditsComponent implements OnInit {
     this.smartEditsSharedService
       .getSmartEditSharedTopReasons(this.createPayloadService.payload)
       .then((smartEditsTopReasonsData: any) => {
-        let topReasonsData: any;
-        topReasonsData = smartEditsTopReasonsData;
+        const topReasonsData = smartEditsTopReasonsData;
 
         console.log('this.topReasonsData', topReasonsData);
         if (topReasonsData && topReasonsData.lenth > 0) {
