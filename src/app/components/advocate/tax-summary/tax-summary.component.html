@@ -1,10 +1,10 @@
 <div class="tax-summary-content">
   <div class="tax-summary-head">
-    <span class="tax-summary-title">Tax ID Summary</span>
     <span class="tax-summary-count">
       Showing {{ taxSummaryData.filteredData.length > 24 ? pageSize : taxSummaryData.filteredData.length }} of
       {{ numberOfTins }}
     </span>
+    <span class="tax-summary-count" *ngIf="checkedCount()"> | {{ checkedCount() }} Selected </span>
   </div>
   <div class="tax-summary-body">
     <div class="tax-summary-table-block mat-elevation-z8">
