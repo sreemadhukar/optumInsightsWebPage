@@ -181,38 +181,26 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .append('text')
           .attr('text-anchor', 'middle')
           .attr('y', 8)
-          .style('font-size', '41px')
-          .style('fill', '#2d2d39')
-          .style('font-family', this.UHC_MEDUIM_FONT)
-          .style('vertical-align', 'middle');
+          .attr('class', 'middle-text-align');
       } else {
         if (this.chartOptions.centerData) {
           text = chart
             .append('text')
             .attr('text-anchor', 'middle')
             .attr('y', -15)
-            .style('font-size', '41px')
-            .style('fill', '#2d2d39')
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('vertical-align', 'middle');
+            .attr('class', 'middle-text-align');
           chart
             .append('text')
             .attr('text-anchor', 'middle')
             .attr('y', 10)
-            .style('font-size', '14px')
-            .style('fill', '#2d2d39')
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('vertical-align', 'middle')
+            .attr('class', 'middle-font')
             .text(this.chartOptions.centerData);
         } else {
           text = chart
             .append('text')
             .attr('text-anchor', 'middle')
             .attr('y', height / height)
-            .style('font-size', '41px')
-            .style('fill', '#2d2d39')
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('vertical-align', 'middle');
+            .attr('class', 'middle-text-align');
         }
       }
     } else if (this.donutType === 'small-card') {
@@ -220,9 +208,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .append('text')
         .attr('text-anchor', 'middle')
         .attr('y', height / heightDivider)
-        .style('font-size', '22px')
-        .style('fill', '#2d2d39')
-        .style('font-family', this.UHC_MEDUIM_FONT);
+        .attr('class', 'small-card-font');
     }
 
     if (
@@ -254,10 +240,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .style('font-size', '14px')
-            .style('fill', '#007000') // green color
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('text-anchor', 'start')
+            .attr('class', 'green-font')
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -288,10 +271,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .style('font-size', '14px')
-            .style('fill', '#007000') // green color
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('text-anchor', 'start')
+            .attr('class', 'green-font')
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'down') {
@@ -314,10 +294,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .style('font-size', '14px')
-            .style('fill', '#b10c00') // red color
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('text-anchor', 'start')
+            .attr('class', 'red-font')
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -349,10 +326,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .style('font-size', '14px')
-            .style('fill', '#b10c00')
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('text-anchor', 'start')
+            .attr('class', 'red-font')
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'up-red') {
@@ -375,10 +349,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .style('font-size', '14px')
-            .style('fill', '#b10c00') // red color
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('text-anchor', 'start')
+            .attr('class', 'red-font')
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -409,10 +380,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .style('font-size', '14px')
-            .style('fill', '#b10c00') // red color
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('text-anchor', 'start')
+            .attr('class', 'red-font')
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'down-green') {
@@ -435,10 +403,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .style('font-size', '14px')
-            .style('fill', '#007000') // green color
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('text-anchor', 'start')
+            .attr('class', 'green-font')
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -471,10 +436,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .style('font-size', '14px')
-            .style('fill', '#007000') // green color
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('text-anchor', 'start')
+            .attr('class', 'green-font')
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'neutral') {
@@ -497,10 +459,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .style('font-size', '14px')
-            .style('fill', '#2d2d39')
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('text-anchor', 'start')
+            .attr('class', 'start-font')
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -532,10 +491,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .style('font-size', '14px')
-            .style('fill', '#2d2d39')
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('text-anchor', 'start')
+            .attr('class', 'start-font')
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'pi-trend-neutral') {
@@ -593,10 +549,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .style('font-size', '14px')
-            .style('fill', '#2d2d39')
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('text-anchor', 'start')
+            .attr('class', 'start-font')
             .text(chartOptions.sdata.data);
         }
       }
@@ -606,18 +559,13 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .append('text')
           .attr('text-anchor', 'middle')
           .attr('y', 14)
-          .style('font-size', '41px')
-          .style('fill', '#2d2d39')
-          .style('font-family', this.UHC_MEDUIM_FONT)
-          .style('vertical-align', 'middle');
+          .attr('class', 'middle-text-align');
       } else if (this.donutType === 'small-card') {
         text = chart
           .append('text')
           .attr('text-anchor', 'middle')
           .attr('y', 8)
-          .style('font-size', '22px')
-          .style('fill', '#2d2d39')
-          .style('font-family', this.UHC_MEDUIM_FONT);
+          .attr('class', 'small-card-font');
       }
     }
 
