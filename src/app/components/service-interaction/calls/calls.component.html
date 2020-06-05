@@ -10,17 +10,19 @@
     </div>
     <app-filters-applied></app-filters-applied>
   </div>
-  <div
-    *ngFor="let data of mockCards; let i = index; let odd = odd; let even = even"
-    [ngClass]="{ odd: odd, even: even }"
-  >
-    <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
-  </div>
-  <div
-    *ngFor="let item of callsItems; let i = index; let odd = odd; let even = even"
-    [ngClass]="{ odd: odd, even: even }"
-  >
-    <app-card *ngIf="item != null && item.data != null" class="cards" [chartData]="item"> </app-card>
-    <app-error-card *ngIf="item != null && item.status != null" class="cards" [data]="item"></app-error-card>
+  <div class="container-flex">
+    <div
+      *ngFor="let data of mockCards; let i = index; let odd = odd; let even = even"
+      [ngClass]="{ odd: odd, even: even }"
+    >
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
+    </div>
+    <div
+      *ngFor="let item of callsItems; let i = index; let odd = odd; let even = even"
+      [ngClass]="{ odd: odd, even: even }"
+    >
+      <app-card *ngIf="item != null && item.data != null" class="cards" [chartData]="item"> </app-card>
+      <app-error-card *ngIf="item != null && item.status != null" class="cards" [data]="item"></app-error-card>
+    </div>
   </div>
 </app-layoutcontainer>
