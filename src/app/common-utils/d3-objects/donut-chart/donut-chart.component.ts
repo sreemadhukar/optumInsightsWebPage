@@ -62,12 +62,17 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   }
 
   doDonutChart(chartOptions: any, transition: number) {
+    // Assign CSS class names for reusablity
     const middleTextAlign = 'middle-text-align',
       smallCardFont = 'small-card-font',
       greenFont = 'green-font',
       redFont = 'red-font',
       middleFont = 'middle-font',
-      startFont = 'start-font';
+      startFont = 'start-font',
+      normalFont = 'normal-font',
+      regularUhcFont = 'regular-uhc-font',
+      greyStartFont = 'grey-start-font';
+
     function getTextWidth(txt, fontSize, fontFace) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
@@ -520,10 +525,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .style('font-size', '14px')
-            .style('fill', '#757588')
-            .style('font-family', this.UHC_MEDUIM_FONT)
-            .style('text-anchor', 'start')
+            .attr('class', greyStartFont)
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -685,9 +687,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('text-anchor', 'start')
           .attr('x', '12.5px')
           .attr('y', textLineOneY /*'25px'*/)
-          .style('font-size', '14px')
-          .style('fill', '#2D2D39')
-          .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+          .attr('class', normalFont)
           .text(d.data.label)
           .call(wrap, textWidth, tspanID, 14);
 
@@ -696,9 +696,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('text-anchor', 'start')
           .attr('x', '12.5px')
           .attr('y', textLineTwoY /*'47px'*/)
-          .style('font-size', '14px')
-          .style('fill', '#757588')
-          .style('font-family', 'UHCSans-Regular')
+          .attr('class', regularUhcFont)
           .text(this.textOnHover);
       })
         .on('mousemove', function() {
