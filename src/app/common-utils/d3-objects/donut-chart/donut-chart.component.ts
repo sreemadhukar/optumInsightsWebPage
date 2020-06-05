@@ -13,6 +13,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   public noTransition = 0;
   public renderChart: string;
   public printStyle: boolean;
+  public XLINK_HREF_PROP_NAME = 'xlink:href';
+  public FLAT_NO_CHANGE_SVG = 'src/assets/images/flat-no-change.svg';
 
   @Input() chartOptions: any = {};
   @Input() donutType: string;
@@ -244,7 +246,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .attr('y', 30)
             .attr('width', '20px')
             .attr('height', '20px')
-            .attr('xlink:href', sdataLink);
+            .attr(this.XLINK_HREF_PROP_NAME, sdataLink);
           chart
             .append('text')
             .attr('x', 0)
@@ -269,7 +271,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/down-positive-no-circle.svg');
           } else {
             chart
               .append('svg:image')
@@ -277,7 +279,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/trend-up.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/trend-up.svg');
           }
           chart
             .append('text')
@@ -304,7 +306,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .attr('y', 30)
             .attr('width', '20px')
             .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/trend-down.svg');
+            .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/trend-down.svg');
           chart
             .append('text')
             .attr('x', 0)
@@ -329,7 +331,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/up-negative-no-circle.svg');
           } else {
             chart
               .append('svg:image')
@@ -337,7 +339,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/trend-down.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/trend-down.svg');
           }
 
           chart
@@ -365,7 +367,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .attr('y', 30)
             .attr('width', '20px')
             .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+            .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/up-negative-no-circle.svg');
           chart
             .append('text')
             .attr('x', 0)
@@ -390,7 +392,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/up-negative-no-circle.svg');
           } else {
             chart
               .append('svg:image')
@@ -398,7 +400,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/up-negative-no-circle.svg');
           }
           chart
             .append('text')
@@ -425,7 +427,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .attr('y', 30)
             .attr('width', '20px')
             .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
+            .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/down-positive-no-circle.svg');
           chart
             .append('text')
             .attr('x', 0)
@@ -450,7 +452,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/down-positive-no-circle.svg');
           } else {
             chart
               .append('svg:image')
@@ -459,7 +461,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('width', '20px')
               .attr('height', '20px')
               .attr('fill', '#ffe6f0')
-              .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/down-positive-no-circle.svg');
           }
 
           chart
@@ -487,7 +489,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .attr('y', 30)
             .attr('width', '20px')
             .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
+            .attr(this.XLINK_HREF_PROP_NAME, FLAT_NO_CHANGE_SVG);
           chart
             .append('text')
             .attr('x', 0)
@@ -512,7 +514,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/up-negative-no-circle.svg');
           } else {
             chart
               .append('svg:image')
@@ -520,7 +522,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, FLAT_NO_CHANGE_SVG);
           }
 
           chart
@@ -548,7 +550,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .attr('y', 30)
             .attr('width', '20px')
             .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
+            .attr(this.XLINK_HREF_PROP_NAME, FLAT_NO_CHANGE_SVG);
           chart
             .append('text')
             .attr('x', 0)
@@ -573,7 +575,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/up-negative-no-circle.svg');
           } else {
             chart
               .append('svg:image')
@@ -581,7 +583,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, FLAT_NO_CHANGE_SVG);
           }
 
           chart
