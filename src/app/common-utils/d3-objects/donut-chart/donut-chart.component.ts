@@ -62,6 +62,12 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   }
 
   doDonutChart(chartOptions: any, transition: number) {
+    const middleTextAlign = 'middle-text-align',
+      smallCardFont = 'small-card-font',
+      greenFont = 'green-font',
+      redFont = 'red-font',
+      middleFont = 'middle-font',
+      startFont = 'start-font';
     function getTextWidth(txt, fontSize, fontFace) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
@@ -181,26 +187,26 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .append('text')
           .attr('text-anchor', 'middle')
           .attr('y', 8)
-          .attr('class', 'middle-text-align');
+          .attr('class', middleTextAlign);
       } else {
         if (this.chartOptions.centerData) {
           text = chart
             .append('text')
             .attr('text-anchor', 'middle')
             .attr('y', -15)
-            .attr('class', 'middle-text-align');
+            .attr('class', middleTextAlign);
           chart
             .append('text')
             .attr('text-anchor', 'middle')
             .attr('y', 10)
-            .attr('class', 'middle-font')
+            .attr('class', middleFont)
             .text(this.chartOptions.centerData);
         } else {
           text = chart
             .append('text')
             .attr('text-anchor', 'middle')
             .attr('y', height / height)
-            .attr('class', 'middle-text-align');
+            .attr('class', middleTextAlign);
         }
       }
     } else if (this.donutType === 'small-card') {
@@ -208,7 +214,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .append('text')
         .attr('text-anchor', 'middle')
         .attr('y', height / heightDivider)
-        .attr('class', 'small-card-font');
+        .attr('class', smallCardFont);
     }
 
     if (
@@ -240,7 +246,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .attr('class', 'green-font')
+            .attr('class', greenFont)
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -271,7 +277,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .attr('class', 'green-font')
+            .attr('class', greenFont)
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'down') {
@@ -294,7 +300,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .attr('class', 'red-font')
+            .attr('class', redFont)
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -326,7 +332,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .attr('class', 'red-font')
+            .attr('class', redFont)
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'up-red') {
@@ -349,7 +355,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .attr('class', 'red-font')
+            .attr('class', redFont)
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -380,7 +386,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .attr('class', 'red-font')
+            .attr('class', redFont)
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'down-green') {
@@ -403,7 +409,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .attr('class', 'green-font')
+            .attr('class', greenFont)
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -436,7 +442,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .attr('class', 'green-font')
+            .attr('class', greenFont)
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'neutral') {
@@ -459,7 +465,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .attr('class', 'start-font')
+            .attr('class', startFont)
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -491,7 +497,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .attr('class', 'start-font')
+            .attr('class', startFont)
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'pi-trend-neutral') {
@@ -549,7 +555,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .attr('class', 'start-font')
+            .attr('class', startFont)
             .text(chartOptions.sdata.data);
         }
       }
@@ -559,13 +565,13 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .append('text')
           .attr('text-anchor', 'middle')
           .attr('y', 14)
-          .attr('class', 'middle-text-align');
+          .attr('class', middleTextAlign);
       } else if (this.donutType === 'small-card') {
         text = chart
           .append('text')
           .attr('text-anchor', 'middle')
           .attr('y', 8)
-          .attr('class', 'small-card-font');
+          .attr('class', smallCardFont);
       }
     }
 
