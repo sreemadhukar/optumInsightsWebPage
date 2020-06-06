@@ -19,7 +19,7 @@ export class ModalPopupComponent {
       title: string;
     },
 
-    private mdDialogRef: MatDialogRef<ModalPopupComponent>
+    private readonly mdDialogRef: MatDialogRef<ModalPopupComponent>
   ) {}
   public cancel() {
     this.close(false);

@@ -105,61 +105,7 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.Utilizations.hasOwnProperty('OverallLinkAdoptionRate') &&
         providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate !== null
       ) {
-        let selfServiceTime;
-        if (
-          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
-          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
-        ) {
-          try {
-            const startDate: string = this.common.dateFormat(
-              providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
-            );
-            const endDate: string = this.common.dateFormat(
-              providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
-            );
-            selfServiceTime = startDate + '&ndash;' + endDate;
-          } catch (Error) {
-            selfServiceTime = null;
-            console.log('Error in Overview | Self Service TimePeriod', Error);
-          }
-        } else {
-          selfServiceTime = null;
-        }
-        try {
-          cSelfService = {
-            category: 'small-card',
-            type: 'donut',
-            title: 'Self Service Adoption Rate',
-            MetricID: this.MetricidService.MetricIDs.SelfServiceAdoptionRate,
-            toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
-            data: {
-              graphValues: [
-                providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate,
-                1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate
-              ],
-              centerNumber:
-                providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100 < 1 &&
-                providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100 > 0
-                  ? '< 1%'
-                  : (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) +
-                    '%',
-              color: ['#3381FF', '#D7DCE1'],
-              gdata: ['card-inner', 'selfServiceCardD3Donut']
-            },
-            sdata: null,
-            timeperiod: selfServiceTime
-          };
-        } catch (Error) {
-          console.log('Overview page Error | Self Service Adoption Rate', Error);
-          cSelfService = {
-            category: 'small-card',
-            type: 'donut',
-            title: null,
-            data: null,
-            sdata: null,
-            timeperiod: null
-          };
-        }
+        cSelfService = this.getcSelfServiceObject(providerSystems);
       } else {
         cSelfService = {
           category: 'small-card',
@@ -172,6 +118,63 @@ export class OverviewSharedService {
       }
       resolve(cSelfService);
     });
+  }
+
+  getcSelfServiceObject(providerSystems) {
+    let selfServiceTime, cSelfService;
+    if (
+      providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
+      providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
+    ) {
+      try {
+        const startDate: string = this.common.dateFormat(
+          providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
+        );
+        const endDate: string = this.common.dateFormat(providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate);
+        selfServiceTime = startDate + '&ndash;' + endDate;
+      } catch (Error) {
+        selfServiceTime = null;
+        console.log('Error in Overview | Self Service TimePeriod', Error);
+      }
+    } else {
+      selfServiceTime = null;
+    }
+    try {
+      cSelfService = {
+        category: 'small-card',
+        type: 'donut',
+        title: 'Self Service Adoption Rate',
+        MetricID: this.MetricidService.MetricIDs.SelfServiceAdoptionRate,
+        toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
+        data: {
+          graphValues: [
+            providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate,
+            1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate
+          ],
+          centerNumber:
+            providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100 < 1 &&
+            providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100 > 0
+              ? '< 1%'
+              : (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
+          color: ['#3381FF', '#D7DCE1'],
+          gdata: ['card-inner', 'selfServiceCardD3Donut']
+        },
+        sdata: null,
+        timeperiod: selfServiceTime
+      };
+    } catch (Error) {
+      console.log('Overview page Error | Self Service Adoption Rate', Error);
+      cSelfService = {
+        category: 'small-card',
+        type: 'donut',
+        title: null,
+        data: null,
+        sdata: null,
+        timeperiod: null
+      };
+    }
+
+    return cSelfService;
   }
   /* function to create PCOR Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createPCORObject(providerSystems) {
@@ -537,86 +540,7 @@ export class OverviewSharedService {
         claims.All.hasOwnProperty('ClaimsLobSummary')
       ) {
         if (claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
-          const paidData = [];
-          if (claims.hasOwnProperty('Mr') && claims.Mr != null) {
-            if (
-              claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
-              claims.Mr.ClaimsLobSummary.length &&
-              claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-            ) {
-              paidData.push(claims.Mr.ClaimsLobSummary[0].AmountPaid);
-            }
-          }
-          if (claims.hasOwnProperty('Cs') && claims.Cs != null) {
-            if (
-              claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
-              claims.Cs.ClaimsLobSummary.length &&
-              claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-            ) {
-              paidData.push(claims.Cs.ClaimsLobSummary[0].AmountPaid);
-            }
-          }
-          if (claims.hasOwnProperty('Ei') && claims.Ei != null) {
-            if (
-              claims.Ei.hasOwnProperty('ClaimsLobSummary') &&
-              claims.Ei.ClaimsLobSummary.length &&
-              claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-            ) {
-              paidData.push(claims.Ei.ClaimsLobSummary[0].AmountPaid);
-            }
-          }
-          if (claims.hasOwnProperty('Un') && claims.Un != null) {
-            if (
-              claims.Un.hasOwnProperty('ClaimsLobSummary') &&
-              claims.Un.ClaimsLobSummary.length &&
-              claims.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-            ) {
-              paidData.push(claims.Un.ClaimsLobSummary[0].AmountPaid);
-            }
-          }
-          claimsPaid = {
-            category: 'small-card',
-            type: 'donut',
-            title: 'Claims Paid*',
-            MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
-            toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
-            data: {
-              graphValues: paidData,
-              centerNumber:
-                this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
-                this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
-                  ? '< $1'
-                  : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
-              centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
-              color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-              gdata: ['card-inner', 'claimsPaidCardD3Donut'],
-              labels: [lobName.mAndRMedicare, lobName.cAndSMedicaid, lobName.eAndICommerCial, lobName.unCategorized],
-              hover: true
-            },
-            timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
-          };
-          // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
-          if (!paidData) {
-            claimsPaid = {
-              category: 'small-card',
-              type: 'donut',
-              title: 'Claims Paid*',
-              MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
-              toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
-              data: {
-                graphValues: [0, 100],
-                centerNumber:
-                  this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
-                  this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
-                    ? '< $1'
-                    : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
-                centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
-                color: ['#D7DCE1', '#D7DCE1'],
-                gdata: ['card-inner', 'claimsPaidCardD3Donut']
-              },
-              timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
-            };
-          }
+          claimsPaid = this.getClaimPaidObject(claims);
         } else {
           claimsPaid = {
             category: 'small-card',
@@ -639,6 +563,103 @@ export class OverviewSharedService {
       }
       resolve(claimsPaid);
     });
+  }
+
+  getClaimPaidObject(claims) {
+    const paidData = [];
+    let claimsPaid: any;
+    if (
+      claims.hasOwnProperty('Mr') &&
+      claims.Mr != null &&
+      claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
+      claims.Mr.ClaimsLobSummary.length &&
+      claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+    ) {
+      paidData.push(claims.Mr.ClaimsLobSummary[0].AmountPaid);
+    }
+    if (
+      claims.hasOwnProperty('Cs') &&
+      claims.Cs != null &&
+      claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
+      claims.Cs.ClaimsLobSummary.length &&
+      claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+    ) {
+      paidData.push(claims.Cs.ClaimsLobSummary[0].AmountPaid);
+    }
+
+    if (
+      claims.hasOwnProperty('Ei') &&
+      claims.Ei != null &&
+      claims.Ei.hasOwnProperty('ClaimsLobSummary') &&
+      claims.Ei.ClaimsLobSummary.length &&
+      claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+    ) {
+      paidData.push(claims.Ei.ClaimsLobSummary[0].AmountPaid);
+    }
+
+    if (
+      claims.hasOwnProperty('Un') &&
+      claims.Un != null &&
+      claims.Un.hasOwnProperty('ClaimsLobSummary') &&
+      claims.Un.ClaimsLobSummary.length &&
+      claims.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+    ) {
+      paidData.push(claims.Un.ClaimsLobSummary[0].AmountPaid);
+    }
+
+    claimsPaid = {
+      category: 'small-card',
+      type: 'donut',
+      title: 'Claims Paid*',
+      MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
+      toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
+      data: this.setClaimsDataSucess(paidData, claims),
+      timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
+    };
+    // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
+    if (!paidData) {
+      claimsPaid = {
+        category: 'small-card',
+        type: 'donut',
+        title: 'Claims Paid*',
+        MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
+        toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
+        data: this.setClaimsDataError(claims),
+        timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
+      };
+    }
+
+    return claimsPaid;
+  }
+
+  setClaimsDataSucess(paidData, claims) {
+    return {
+      graphValues: paidData,
+      centerNumber:
+        this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
+        this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
+          ? '< $1'
+          : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
+      centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
+      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+      gdata: ['card-inner', 'claimsPaidCardD3Donut'],
+      labels: [lobName.mAndRMedicare, lobName.cAndSMedicaid, lobName.eAndICommerCial, lobName.unCategorized],
+      hover: true
+    };
+  }
+
+  setClaimsDataError(claims) {
+    return {
+      graphValues: [0, 100],
+      centerNumber:
+        this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
+        this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
+          ? '< $1'
+          : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
+      centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
+      color: ['#D7DCE1', '#D7DCE1'],
+      gdata: ['card-inner', 'claimsPaidCardD3Donut']
+    };
   }
   /* function to create Claims Yield Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createClaimsYieldObject(claims) {
@@ -910,86 +931,7 @@ export class OverviewSharedService {
       let cIR: any;
       this.overviewService.getOverviewTotalCalls(parameters).subscribe(
         (response: ICallsResponse) => {
-          const calls = response.Data;
-          if (
-            calls &&
-            calls.hasOwnProperty('CallVolByQuesType') &&
-            calls.CallVolByQuesType.hasOwnProperty('Total') &&
-            calls.CallVolByQuesType.hasOwnProperty('Claims') &&
-            calls.CallVolByQuesType.hasOwnProperty('BenefitsEligibility') &&
-            calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
-            calls.CallVolByQuesType.hasOwnProperty('Others')
-          ) {
-            const startDate = calls.ReportStartDate;
-            const endDate = calls.ReportEndDate;
-            const timePeriodCalls: String =
-              this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
-            cIR = {
-              category: 'small-card',
-              type: 'donut',
-              title: 'Calls By Call Type',
-              MetricID: this.MetricidService.MetricIDs.CallsbyCallType,
-              toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
-              data: {
-                graphValues: [
-                  calls.CallVolByQuesType.Claims,
-                  calls.CallVolByQuesType.BenefitsEligibility,
-                  calls.CallVolByQuesType.PriorAuth,
-                  calls.CallVolByQuesType.Others
-                ],
-                centerNumber: this.common.nondecimalFormatter(calls.CallVolByQuesType.Total),
-                color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                gdata: ['card-inner', 'callsCardD3Donut'],
-                hover: true,
-                labels: ['Claims', 'Eligibilty and Benefits', 'Prior Authorizations', 'Others']
-              },
-              sdata: {
-                sign: '',
-                data: ''
-              },
-              timeperiod: timePeriodCalls
-            };
-            if (
-              trends != undefined &&
-              trends != null &&
-              trends.hasOwnProperty('TendingMtrics') &&
-              trends.TendingMtrics != null &&
-              trends.TendingMtrics.hasOwnProperty('CallsTrendByQuesType') &&
-              trends.TendingMtrics.CallsTrendByQuesType != null
-            ) {
-              const dataPoint = trends.TendingMtrics.CallsTrendByQuesType.toFixed(1) + '%';
-              if (trends.TendingMtrics.CallsTrendByQuesType >= 1) {
-                cIR.sdata = {
-                  sign: 'up-red',
-                  data: dataPoint
-                };
-              } else if (
-                trends.TendingMtrics.CallsTrendByQuesType < 1 &&
-                trends.TendingMtrics.CallsTrendByQuesType >= 0
-              ) {
-                cIR.sdata = {
-                  sign: 'neutral',
-                  data: 'No Change'
-                };
-              } else {
-                cIR.sdata = {
-                  sign: 'down-green',
-                  data: dataPoint
-                };
-              }
-            } else {
-              cIR.sdata = null;
-            }
-          } else {
-            cIR = {
-              category: 'small-card',
-              type: 'donut',
-              title: null,
-              data: null,
-              sdata: null,
-              timeperiod: null
-            };
-          }
+          cIR = this.getTotalCallsDataObject(response, trends);
           resolve(cIR);
         },
         err => {
@@ -1006,6 +948,87 @@ export class OverviewSharedService {
         }
       );
     });
+  }
+
+  getTotalCallsDataObject(response, trends) {
+    const calls = response.Data;
+    let cIR;
+    if (
+      calls &&
+      calls.hasOwnProperty('CallVolByQuesType') &&
+      calls.CallVolByQuesType.hasOwnProperty('Total') &&
+      calls.CallVolByQuesType.hasOwnProperty('Claims') &&
+      calls.CallVolByQuesType.hasOwnProperty('BenefitsEligibility') &&
+      calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
+      calls.CallVolByQuesType.hasOwnProperty('Others')
+    ) {
+      const startDate = calls.ReportStartDate;
+      const endDate = calls.ReportEndDate;
+      const timePeriodCalls: String = this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
+      cIR = {
+        category: 'small-card',
+        type: 'donut',
+        title: 'Calls By Call Type',
+        MetricID: this.MetricidService.MetricIDs.CallsbyCallType,
+        toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
+        data: {
+          graphValues: [
+            calls.CallVolByQuesType.Claims,
+            calls.CallVolByQuesType.BenefitsEligibility,
+            calls.CallVolByQuesType.PriorAuth,
+            calls.CallVolByQuesType.Others
+          ],
+          centerNumber: this.common.nondecimalFormatter(calls.CallVolByQuesType.Total),
+          color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+          gdata: ['card-inner', 'callsCardD3Donut'],
+          hover: true,
+          labels: ['Claims', 'Eligibilty and Benefits', 'Prior Authorizations', 'Others']
+        },
+        sdata: {
+          sign: '',
+          data: ''
+        },
+        timeperiod: timePeriodCalls
+      };
+      if (
+        trends != undefined &&
+        trends != null &&
+        trends.hasOwnProperty('TendingMtrics') &&
+        trends.TendingMtrics != null &&
+        trends.TendingMtrics.hasOwnProperty('CallsTrendByQuesType') &&
+        trends.TendingMtrics.CallsTrendByQuesType != null
+      ) {
+        const dataPoint = trends.TendingMtrics.CallsTrendByQuesType.toFixed(1) + '%';
+        if (trends.TendingMtrics.CallsTrendByQuesType >= 1) {
+          cIR.sdata = {
+            sign: 'up-red',
+            data: dataPoint
+          };
+        } else if (trends.TendingMtrics.CallsTrendByQuesType < 1 && trends.TendingMtrics.CallsTrendByQuesType >= 0) {
+          cIR.sdata = {
+            sign: 'neutral',
+            data: 'No Change'
+          };
+        } else {
+          cIR.sdata = {
+            sign: 'down-green',
+            data: dataPoint
+          };
+        }
+      } else {
+        cIR.sdata = null;
+      }
+    } else {
+      cIR = {
+        category: 'small-card',
+        type: 'donut',
+        title: null,
+        data: null,
+        sdata: null,
+        timeperiod: null
+      };
+    }
+    return cIR;
   }
 
   getAllTrends() {

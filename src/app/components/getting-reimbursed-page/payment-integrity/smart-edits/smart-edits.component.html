@@ -8,7 +8,7 @@
     <div class="page-subtitle">
       <div class="page-subtitle-header">View more in-depth details for Smart Edits.</div>
       &nbsp;
-      <div class="subtitle-reportLink" (click)="handleClick()">
+      <div class="subtitle-reportLink" (click)="handleClick()" (keypress)="handleClick()">
         {{ reportLink }}
         <mat-icon class="page-subtitle-icon" svgIcon="external-link"></mat-icon>
       </div>
@@ -19,15 +19,20 @@
   <!--CARDS GO HERE-->
   <div class="container-flex">
     <!-- Smart Edits Claims Returned Card Starts here -->
-    <div>
+    <div class="odd ">
       <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
       <app-error-card
-        *ngIf="smartEditClaimsReturned.data == null && smartEditClaimsReturned.status != null"
+        *ngIf="
+          smartEditClaimsReturned &&
+          smartEditClaimsReturned.data == null &&
+          smartEditClaimsReturned.status != null &&
+          !seReturnedLoading
+        "
         class="cards"
         [data]="smartEditClaimsReturned"
       ></app-error-card>
       <app-card
-        *ngIf="smartEditClaimsReturned.data != null && !seReturnedLoading"
+        *ngIf="smartEditClaimsReturned && smartEditClaimsReturned.data != null && !seReturnedLoading"
         class="cards"
         [chartData]="smartEditClaimsReturned"
       ></app-card>
@@ -35,23 +40,33 @@
 
     <!-- Smart Edits Claims Returned Card Ends here -->
     <!-- Smart Edits Repaired & Resubmitted Response Time Card Starts here -->
-    <div>
+    <div class="even top-padd">
       <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
       <app-error-card
-        *ngIf="smartEditClaimsRepairedResubmitted.data == null && smartEditClaimsRepairedResubmitted.status != null"
+        *ngIf="
+          smartEditClaimsRepairedResubmitted &&
+          smartEditClaimsRepairedResubmitted.data == null &&
+          smartEditClaimsRepairedResubmitted.status != null &&
+          !seReturnedLoading
+        "
         class="cards"
         [data]="smartEditClaimsRepairedResubmitted"
       ></app-error-card>
       <div
         class="repaired-block"
-        *ngIf="smartEditClaimsRepairedResubmitted[0] != null && smartEditClaimsRepairedResubmitted[1] != null"
+        *ngIf="
+          smartEditClaimsRepairedResubmitted &&
+          smartEditClaimsRepairedResubmitted[0] != null &&
+          smartEditClaimsRepairedResubmitted[1] != null &&
+          !seReturnedLoading
+        "
       >
         <app-common-header
           [title]="smartEditsRepairedAndResubmittedTitle"
           class="full-display"
           (helpIconClicked)="helpIconClick($event)"
         ></app-common-header>
-        <div class="smart-edits-bar-chart-block">
+        <div class="smart-edits-bar-chart-block full-width-block">
           <div class="pi-numbers-block">
             <p class="mr-returned-number">{{ smartEditClaimsRepairedResubmitted[0] }}</p>
             <p class="mr-not-returned-number mr-returned-number">{{ smartEditClaimsRepairedResubmitted[1] }}</p>
@@ -82,40 +97,39 @@
 
   <!-- Smart Edits Claims Top Reasons STARTS HERE -->
 
-  <div
-    [hidden]="reasonDataAvailable"
-    class="overturn-reason-block"
-    [ngClass]="{ 'print-overturn-reason-block': printStyle === true }"
-  >
-    <app-common-header
-      [title]="smartEditsReasonTitle"
-      class="full-display"
-      [class.one-reason]="reason.length == 1"
-      [class.two-reason]="reason.length == 2"
-      [class.three-reason]="reason.length == 3"
-      [class.four-reason]="reason.length == 4"
-      [class.five-reason]="reason.length >= 5"
-      (helpIconClicked)="helpIconClick($event)"
-    ></app-common-header>
-    <div *ngFor="let r of reason; let i = index" class="smartEdit-overturned-bar-chart">
-      <div *ngIf="r.barDescp == null">
-        <div class="reason-code">{{ r.barText1 }} -</div>
-        <div (click)="handleClick()" class="reason-reference">See Reference Guide</div>
-      </div>
+  <div class="odd">
+    <app-card class="cards" [skeleton]="seReasonsLoading" *ngIf="seReasonsLoading"> </app-card>
 
-      <div *ngIf="r.barDescp != null">
-        <div class="reason-code">{{ r.barText1 }} - {{ r.barDescp }}</div>
+    <div
+      *ngIf="reason[0] && !reason[0].status && !seReasonsLoading"
+      class="smartedit-reason-block"
+      [ngClass]="{ 'print-overturn-reason-block': printStyle === true }"
+    >
+      <app-common-header
+        [title]="smartEditsReasonTitle"
+        class="full-width-block"
+        [class.one-reason]="reason.length == 1"
+        [class.two-reason]="reason.length == 2"
+        [class.three-reason]="reason.length == 3"
+        [class.four-reason]="reason.length == 4"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <div class="full-width-block">
+        <div class="smart-edit-outerspace">
+          <div *ngFor="let r of reason; let i = index">
+            <app-med-bar-chart-two [chartOptions]="r"></app-med-bar-chart-two>
+          </div>
+        </div>
       </div>
-      <app-med-bar-chart [chartOptions]="r"></app-med-bar-chart>
-
-      <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
-    </div>
-    <div class="common-footer">
-      <app-common-footer [timePeriod]="timePeriod"></app-common-footer>
-    </div>
-    <div *ngIf="!reasonDataAvailable && !loading" class="overturn-margin">
-      <app-error-card *ngIf="reason[0] && reason[0].status" class="cards" [data]="reason[0]"></app-error-card>
+      <div class="full-width-block">
+        <app-common-footer [timePeriod]="timePeriod"></app-common-footer>
+      </div>
     </div>
   </div>
+  <app-error-card
+    *ngIf="reason[0] && reason[0].status && !seReasonsLoading"
+    class="cards smat-card-space"
+    [data]="reason[0]"
+  ></app-error-card>
   <!-- Smart Edits Claims Top Reasons ENDS HERE -->
 </app-layoutcontainer>

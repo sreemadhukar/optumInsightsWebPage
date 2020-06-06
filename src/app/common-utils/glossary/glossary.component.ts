@@ -81,25 +81,12 @@ export class GlossaryComponent implements OnInit, DoCheck {
     if (this.title === 'Medicare Star Rating') {
       this.title = 'Medicare Average Star Rating';
     }
+    this.getGlossarySelected();
+    this.sortGlossaryList();
+    this.getGlossaryList();
+  }
 
-    this.glossarySelected = this.glossaryList.filter((glossaryItem: any) => {
-      const { MetricID, Metric } = glossaryItem;
-
-      let metricIdExists = false;
-      if (this.MetricID) {
-        const metricIds = this.MetricID.split(',');
-        metricIdExists = metricIds.filter((metricId: string) => {
-          return metricId.toString() === MetricID.toString();
-        })[0]
-          ? true
-          : false;
-      }
-
-      const metricName = this.title;
-      const metricNameExists = Metric.toUpperCase().includes(metricName.toUpperCase());
-      return metricNameExists || metricIdExists ? true : false;
-    });
-
+  sortGlossaryList() {
     this.glossaryData = this.glossaryList.sort(function(a, b) {
       if (a.Metric.toLowerCase() < b.Metric.toLowerCase()) {
         return -1;
@@ -109,7 +96,9 @@ export class GlossaryComponent implements OnInit, DoCheck {
         return 0;
       }
     });
+  }
 
+  getGlossaryList() {
     for (let i = 0; i < this.glossaryList.length; i++) {
       this.options.push(this.glossaryList[i].Metric);
     }
@@ -141,6 +130,26 @@ export class GlossaryComponent implements OnInit, DoCheck {
       if (mdata.length > 0) {
         this.metricDataList.push({ key: key, value: results[key], rdata: mdata });
       }
+    });
+  }
+
+  getGlossarySelected() {
+    this.glossarySelected = this.glossaryList.filter((glossaryItem: any) => {
+      const { MetricID, Metric } = glossaryItem;
+
+      let metricIdExists = false;
+      if (this.MetricID) {
+        const metricIds = this.MetricID.split(',');
+        metricIdExists = metricIds.filter((metricId: string) => {
+          return metricId.toString() === MetricID.toString();
+        })[0]
+          ? true
+          : false;
+      }
+
+      const metricName = this.title;
+      const metricNameExists = Metric.toUpperCase().includes(metricName.toUpperCase());
+      return metricNameExists || metricIdExists;
     });
   }
 

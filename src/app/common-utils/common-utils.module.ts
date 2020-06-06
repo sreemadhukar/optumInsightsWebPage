@@ -60,6 +60,7 @@ import { LayoutContainerComponent } from './_layouts/layout_container/layoutcont
 import { LayoutSeparatorComponent } from './_layouts/layout_seperator/layout_seperator.component';
 import { PageHeaderComponent } from './_headers/page_header/page_header.component';
 import { ModalPopupComponent } from './modal-popup/modal-popup.component';
+import { MedBarChartTwoComponent } from './d3-objects/med-bar-chart-two/med-bar-chart-two.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -114,7 +115,8 @@ import { ModalPopupComponent } from './modal-popup/modal-popup.component';
     UhcKopFilterComponent,
     StackedBarChartComponent,
     ClickElsewhereDirective,
-    RlpLongCardComponent
+    RlpLongCardComponent,
+    MedBarChartTwoComponent
   ],
   declarations: [
     LayoutContainerComponent,
@@ -168,7 +170,8 @@ import { ModalPopupComponent } from './modal-popup/modal-popup.component';
     UhcKopFilterComponent,
     ClickElsewhereDirective,
     RlpLongCardComponent,
-    ModalPopupComponent
+    ModalPopupComponent,
+    MedBarChartTwoComponent
   ],
   entryComponents: [ProviderSearchComponent, ModalPopupComponent],
   providers: [ModalPopupService]

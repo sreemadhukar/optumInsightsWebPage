@@ -13,6 +13,11 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   public noTransition = 0;
   public renderChart: string;
   public printStyle: boolean;
+  public XLINK_HREF_PROP_NAME = 'xlink:href';
+  public FLAT_NO_CHANGE_SVG = 'src/assets/images/flat-no-change.svg';
+  public DOWN_POSITIVE_NO_IMG = 'src/assets/images/down-positive-no-circle.svg';
+  public UP_NEGATIVE_NO_SVG = 'src/assets/images/up-negative-no-circle.svg';
+  public UHC_MEDUIM_FONT = "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'";
 
   @Input() chartOptions: any = {};
   @Input() donutType: string;
@@ -57,6 +62,17 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   }
 
   doDonutChart(chartOptions: any, transition: number) {
+    // Assign CSS class names for reusablity
+    const middleTextAlign = 'middle-text-align',
+      smallCardFont = 'small-card-font',
+      greenFont = 'green-font',
+      redFont = 'red-font',
+      middleFont = 'middle-font',
+      startFont = 'start-font',
+      normalFont = 'normal-font',
+      regularUhcFont = 'regular-uhc-font',
+      greyStartFont = 'grey-start-font';
+
     function getTextWidth(txt, fontSize, fontFace) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
@@ -176,38 +192,26 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .append('text')
           .attr('text-anchor', 'middle')
           .attr('y', 8)
-          .style('font-size', '41px')
-          .style('fill', '#2d2d39')
-          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-          .style('vertical-align', 'middle');
+          .attr('class', middleTextAlign);
       } else {
         if (this.chartOptions.centerData) {
           text = chart
             .append('text')
             .attr('text-anchor', 'middle')
             .attr('y', -15)
-            .style('font-size', '41px')
-            .style('fill', '#2d2d39')
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('vertical-align', 'middle');
+            .attr('class', middleTextAlign);
           chart
             .append('text')
             .attr('text-anchor', 'middle')
             .attr('y', 10)
-            .style('font-size', '14px')
-            .style('fill', '#2d2d39')
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('vertical-align', 'middle')
+            .attr('class', middleFont)
             .text(this.chartOptions.centerData);
         } else {
           text = chart
             .append('text')
             .attr('text-anchor', 'middle')
             .attr('y', height / height)
-            .style('font-size', '41px')
-            .style('fill', '#2d2d39')
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('vertical-align', 'middle');
+            .attr('class', middleTextAlign);
         }
       }
     } else if (this.donutType === 'small-card') {
@@ -215,9 +219,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .append('text')
         .attr('text-anchor', 'middle')
         .attr('y', height / heightDivider)
-        .style('font-size', '22px')
-        .style('fill', '#2d2d39')
-        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'");
+        .attr('class', smallCardFont);
     }
 
     if (
@@ -244,15 +246,12 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .attr('y', 30)
             .attr('width', '20px')
             .attr('height', '20px')
-            .attr('xlink:href', sdataLink);
+            .attr(this.XLINK_HREF_PROP_NAME, sdataLink);
           chart
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .style('font-size', '14px')
-            .style('fill', '#007000') // green color
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('text-anchor', 'start')
+            .attr('class', greenFont)
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -269,7 +268,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, this.DOWN_POSITIVE_NO_IMG);
           } else {
             chart
               .append('svg:image')
@@ -277,16 +276,13 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/trend-up.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/trend-up.svg');
           }
           chart
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .style('font-size', '14px')
-            .style('fill', '#007000') // green color
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('text-anchor', 'start')
+            .attr('class', greenFont)
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'down') {
@@ -304,15 +300,12 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .attr('y', 30)
             .attr('width', '20px')
             .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/trend-down.svg');
+            .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/trend-down.svg');
           chart
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .style('font-size', '14px')
-            .style('fill', '#b10c00') // red color
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('text-anchor', 'start')
+            .attr('class', redFont)
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -329,7 +322,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, this.UP_NEGATIVE_NO_SVG);
           } else {
             chart
               .append('svg:image')
@@ -337,17 +330,14 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/trend-down.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/trend-down.svg');
           }
 
           chart
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .style('font-size', '14px')
-            .style('fill', '#b10c00')
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('text-anchor', 'start')
+            .attr('class', redFont)
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'up-red') {
@@ -365,15 +355,12 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .attr('y', 30)
             .attr('width', '20px')
             .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+            .attr(this.XLINK_HREF_PROP_NAME, this.UP_NEGATIVE_NO_SVG);
           chart
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .style('font-size', '14px')
-            .style('fill', '#b10c00') // red color
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('text-anchor', 'start')
+            .attr('class', redFont)
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -390,7 +377,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, this.UP_NEGATIVE_NO_SVG);
           } else {
             chart
               .append('svg:image')
@@ -398,16 +385,13 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, this.UP_NEGATIVE_NO_SVG);
           }
           chart
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .style('font-size', '14px')
-            .style('fill', '#b10c00') // red color
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('text-anchor', 'start')
+            .attr('class', redFont)
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'down-green') {
@@ -425,15 +409,12 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .attr('y', 30)
             .attr('width', '20px')
             .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
+            .attr(this.XLINK_HREF_PROP_NAME, this.DOWN_POSITIVE_NO_IMG);
           chart
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .style('font-size', '14px')
-            .style('fill', '#007000') // green color
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('text-anchor', 'start')
+            .attr('class', greenFont)
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -450,7 +431,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, this.DOWN_POSITIVE_NO_IMG);
           } else {
             chart
               .append('svg:image')
@@ -459,17 +440,14 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('width', '20px')
               .attr('height', '20px')
               .attr('fill', '#ffe6f0')
-              .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, this.DOWN_POSITIVE_NO_IMG);
           }
 
           chart
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .style('font-size', '14px')
-            .style('fill', '#007000') // green color
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('text-anchor', 'start')
+            .attr('class', greenFont)
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'neutral') {
@@ -487,15 +465,12 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .attr('y', 30)
             .attr('width', '20px')
             .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
+            .attr(this.XLINK_HREF_PROP_NAME, this.FLAT_NO_CHANGE_SVG);
           chart
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .style('font-size', '14px')
-            .style('fill', '#2d2d39')
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('text-anchor', 'start')
+            .attr('class', startFont)
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -512,7 +487,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, this.UP_NEGATIVE_NO_SVG);
           } else {
             chart
               .append('svg:image')
@@ -520,17 +495,14 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, this.FLAT_NO_CHANGE_SVG);
           }
 
           chart
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .style('font-size', '14px')
-            .style('fill', '#2d2d39')
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('text-anchor', 'start')
+            .attr('class', startFont)
             .text(chartOptions.sdata.data);
         }
       } else if (chartOptions.sdata.sign === 'pi-trend-neutral') {
@@ -548,15 +520,12 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .attr('y', 30)
             .attr('width', '20px')
             .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
+            .attr(this.XLINK_HREF_PROP_NAME, this.FLAT_NO_CHANGE_SVG);
           chart
             .append('text')
             .attr('x', 0)
             .attr('y', 45)
-            .style('font-size', '14px')
-            .style('fill', '#757588')
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('text-anchor', 'start')
+            .attr('class', greyStartFont)
             .text(chartOptions.sdata.data);
         } else {
           chart
@@ -573,7 +542,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, this.UP_NEGATIVE_NO_SVG);
           } else {
             chart
               .append('svg:image')
@@ -581,17 +550,14 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
               .attr('y', 19)
               .attr('width', '20px')
               .attr('height', '20px')
-              .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
+              .attr(this.XLINK_HREF_PROP_NAME, this.FLAT_NO_CHANGE_SVG);
           }
 
           chart
             .append('text')
             .attr('x', 0)
             .attr('y', 32)
-            .style('font-size', '14px')
-            .style('fill', '#2d2d39')
-            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-            .style('text-anchor', 'start')
+            .attr('class', startFont)
             .text(chartOptions.sdata.data);
         }
       }
@@ -601,18 +567,13 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .append('text')
           .attr('text-anchor', 'middle')
           .attr('y', 14)
-          .style('font-size', '41px')
-          .style('fill', '#2d2d39')
-          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-          .style('vertical-align', 'middle');
+          .attr('class', middleTextAlign);
       } else if (this.donutType === 'small-card') {
         text = chart
           .append('text')
           .attr('text-anchor', 'middle')
           .attr('y', 8)
-          .style('font-size', '22px')
-          .style('fill', '#2d2d39')
-          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'");
+          .attr('class', smallCardFont);
       }
     }
 
@@ -726,9 +687,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('text-anchor', 'start')
           .attr('x', '12.5px')
           .attr('y', textLineOneY /*'25px'*/)
-          .style('font-size', '14px')
-          .style('fill', '#2D2D39')
-          .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+          .attr('class', normalFont)
           .text(d.data.label)
           .call(wrap, textWidth, tspanID, 14);
 
@@ -737,9 +696,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('text-anchor', 'start')
           .attr('x', '12.5px')
           .attr('y', textLineTwoY /*'47px'*/)
-          .style('font-size', '14px')
-          .style('fill', '#757588')
-          .style('font-family', 'UHCSans-Regular')
+          .attr('class', regularUhcFont)
           .text(this.textOnHover);
       })
         .on('mousemove', function() {

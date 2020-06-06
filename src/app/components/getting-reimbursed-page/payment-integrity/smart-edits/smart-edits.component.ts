@@ -13,7 +13,7 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../../store/filter/actions';
 import { IAppState } from '../../../../store/store';
 import { SmartEditsSharedService } from '../../../../shared/new-payment-integrity/smart-edits-shared.service';
-import { ModalPopupService } from 'src/app/common-utils/modal-popup/modal-popup.service';
+import { ModalPopupService } from '../../../../common-utils/modal-popup/modal-popup.service';
 
 @Component({
   selector: 'app-smart-edits',
@@ -22,7 +22,7 @@ import { ModalPopupService } from 'src/app/common-utils/modal-popup/modal-popup.
 })
 export class SmartEditsComponent implements OnInit {
   @Input() printStyle;
-  topReasonsData: any;
+  // topReasonsData: any;
   loading: boolean;
   reportLink: string;
   pageTitle: String = '';
@@ -39,11 +39,12 @@ export class SmartEditsComponent implements OnInit {
   subscription: any;
   showSmartEdits = false;
   smartEditsData: any;
+  seReturnedLoading = true;
   smartEditsTopReasonsData: any;
   reasonDataAvailable: boolean;
   reason: any = [];
-  seReturnedLoading: boolean;
   seRepairedLoading: boolean;
+  seReasonsLoading = true;
   smartEditClaimsRepairedResubmitted: any;
   returnMockCards: any;
   repairMockCards: any;
@@ -56,13 +57,12 @@ export class SmartEditsComponent implements OnInit {
     private router: Router,
     private session: SessionService,
     private checkStorage: StorageService,
-    private filtermatch: CommonUtilsService,
-    private createPayloadService: CreatePayloadService,
-    private ngRedux: NgRedux<IAppState>,
-    private common: CommonUtilsService,
-    private smartEditsSharedService: SmartEditsSharedService,
-    private dialogService: ModalPopupService,
-    private iconRegistry: MatIconRegistry,
+    private readonly createPayloadService: CreatePayloadService,
+    private readonly ngRedux: NgRedux<IAppState>,
+    private readonly common: CommonUtilsService,
+    private readonly smartEditsSharedService: SmartEditsSharedService,
+    private readonly dialogService: ModalPopupService,
+    private readonly iconRegistry: MatIconRegistry,
     private readonly sanitizer: DomSanitizer
   ) {
     this.pageTitle = 'Smart Edits';
@@ -77,32 +77,21 @@ export class SmartEditsComponent implements OnInit {
       'external-link',
       this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/open_in_new-24px.svg')
     );
+    this.iconRegistry.addSvgIcon(
+      'filter',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+    );
   }
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'smartEditsPage' });
     this.checkStorage.emitEvent('smartEditsPage');
-    //  this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
 
     this.reasonDataAvailable = true;
     this.smartEditReturnedData();
     this.SmartEditReturneddTopReasons();
     this.timePeriod = this.session.filterObjValue.timeFrame;
     this.smartEditRepairedResubmittedData();
-    //  this.timePeriod = this.session.filterObjValue.timeFrame;
-    if (this.session.filterObjValue.lob !== 'All') {
-      this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
-    } else {
-      this.lob = '';
-    }
-    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
-      this.taxID = this.session.filterObjValue.tax;
-      if (this.taxID.length > 3) {
-        this.taxID = [this.taxID.length + ' Selected'];
-      }
-    } else {
-      this.taxID = [];
-    }
   }
   // modal poup function
   public handleClick() {
@@ -133,11 +122,12 @@ export class SmartEditsComponent implements OnInit {
   }
   // **** Smart Edits Claims Returned Starts here**** //
   smartEditReturnedData() {
+    this.seReturnedLoading = true;
     this.smartEditsSharedService
       .getSmartEditsReturnedShared(this.createPayloadService.payload)
       .then((smartEditsData: any) => {
-        this.seReturnedLoading = false;
         this.smartEditClaimsReturned = smartEditsData;
+        this.seReturnedLoading = false;
         this.timePeriod = this.smartEditClaimsReturned.timeperiod;
       })
       .catch(reason => {
@@ -175,24 +165,26 @@ export class SmartEditsComponent implements OnInit {
 
   // **** Smart Edits Claims Top Reasons Starts here**** //
   SmartEditReturneddTopReasons() {
+    this.seReasonsLoading = true;
     this.smartEditsSharedService
-      .getSmartEditSharedTopReasons()
+      .getSmartEditSharedTopReasons(this.createPayloadService.payload)
       .then((smartEditsTopReasonsData: any) => {
-        this.topReasonsData = smartEditsTopReasonsData;
-        console.log('this.TopReasonsData191', this.topReasonsData);
+        const topReasonsData = smartEditsTopReasonsData;
 
-        if (this.topReasonsData !== null && this.topReasonsData.Data !== null) {
+        console.log('this.topReasonsData', topReasonsData);
+        if (topReasonsData && topReasonsData.lenth > 0) {
           this.reasonDataAvailable = true;
-          this.loading = false;
+          this.seReasonsLoading = false;
         } else {
           this.reasonDataAvailable = false;
-          this.loading = false;
+          this.seReasonsLoading = false;
         }
-        this.reason = this.topReasonsData;
+        this.reason = topReasonsData;
+        console.log('reasons', this.reason);
       })
       .catch(err => {
         console.log('Error', err);
-        this.loading = false;
+        this.seReasonsLoading = false;
       });
   }
   // **** Ends here *** //
