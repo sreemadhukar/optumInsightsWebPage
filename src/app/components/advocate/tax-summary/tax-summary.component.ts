@@ -187,9 +187,6 @@ export class TaxSummaryComponent implements OnInit {
       });
       this.pageNumber = page;
       (document.getElementById('page-number') as HTMLInputElement).value = (page + 1).toString();
-      // d3.select('#page-number').text(function() {
-      //   return page + 1;
-      // });
       return ' of ' + Math.floor(length / pageSize + 1);
     };
 
