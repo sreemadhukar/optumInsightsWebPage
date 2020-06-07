@@ -201,7 +201,9 @@ export class TaxSummaryComponent implements OnInit {
       key: id
     };
     this.taxSummaryData.filter = filterValue === 'All' ? '' : filterValue.trim().toLowerCase();
-    this.unShiftCheckedRow();
+    if (!filterValue || !filterValue.length) {
+      this.unShiftCheckedRow();
+    }
   }
   customPaginator() {
     this.paginator._intl.itemsPerPageLabel = 'Display';
