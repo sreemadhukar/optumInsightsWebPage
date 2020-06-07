@@ -181,7 +181,7 @@ export class TaxSummaryComponent implements OnInit {
       key: id
     };
     this.taxSummaryData.filter = filterValue === 'All' ? '' : filterValue.trim().toLowerCase();
-    if (filterValue.length === 0) {
+    if (!filterValue || filterValue === '' || filterValue.length === 0) {
       this.noInputValue();
     }
   }
@@ -250,5 +250,9 @@ export class TaxSummaryComponent implements OnInit {
     if (value === 'tinNameSearch') {
       this.tinNameSearch = '';
     }
+    for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
+      this.taxSummaryData.filteredData[i].id = i + 1;
+    }
+    this.noInputValue();
   }
 }
