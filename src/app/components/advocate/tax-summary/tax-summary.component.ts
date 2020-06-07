@@ -210,9 +210,7 @@ export class TaxSummaryComponent implements OnInit {
         return 'Page ';
       });
       this.pageNumber = page;
-      d3.select('#page-number').text(function() {
-        return page + 1;
-      });
+      (document.getElementById('page-number') as HTMLInputElement).value = (page + 1).toString();
       return ' of ' + Math.floor(length / pageSize + 1);
     };
 
@@ -223,14 +221,35 @@ export class TaxSummaryComponent implements OnInit {
       .lower();
 
     d3.select('.mat-paginator-range-label')
-      .insert('div')
+      .insert('input')
+      .attr('type', 'text')
+      .attr('value', 1)
+      .style('width', '28px')
       .style('border', 'solid 1px')
       .style('border-radius', '2px')
-      .style('float', 'left')
+      .style('text-align', 'center')
       .style('margin', '-13px 5px 0px 5px')
-      .style('padding', '10px 20px 10px 20px')
+      .style('padding', '10px')
       .attr('id', 'page-number')
       .lower();
+    d3.select('#page-number').on(
+      'keyup',
+      function() {
+        let sel = (document.getElementById('page-number') as HTMLInputElement).value;
+        if (parseInt(sel).toString() !== 'NaN' && sel !== '') {
+          (document.getElementById('page-number') as HTMLInputElement).value = parseInt(sel).toString();
+          sel = parseInt(sel).toString();
+          if (Number(sel) > this.paginator.pageSize + 1 || Number(sel) === 0) {
+            (document.getElementById('page-number') as HTMLInputElement).value = this.paginator.pageIndex + 1;
+          } else {
+            this.paginator._pageIndex = Number(sel) - 1;
+            this.paginator._changePageSize(this.paginator.pageSize);
+          }
+        } else {
+          (document.getElementById('page-number') as HTMLInputElement).value = '';
+        }
+      }.bind(this)
+    );
 
     d3.select('.mat-paginator-range-label')
       .insert('span')
