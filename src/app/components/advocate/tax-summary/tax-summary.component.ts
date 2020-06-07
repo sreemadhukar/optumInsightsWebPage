@@ -201,9 +201,7 @@ export class TaxSummaryComponent implements OnInit {
       key: id
     };
     this.taxSummaryData.filter = filterValue === 'All' ? '' : filterValue.trim().toLowerCase();
-    if (!filterValue || !filterValue.length) {
-      this.unShiftCheckedRow();
-    }
+    this.taxSummaryData.paginator = this.paginator;
   }
   customPaginator() {
     this.paginator._intl.itemsPerPageLabel = 'Display';
@@ -248,5 +246,8 @@ export class TaxSummaryComponent implements OnInit {
     if (value === 'tinNameSearch') {
       this.tinNameSearch = '';
     }
+    this.unShiftCheckedRow();
+    this.doSort();
+    this.taxSummaryData = new MatTableDataSource(this.taxSummaryData.data);
   }
 }
