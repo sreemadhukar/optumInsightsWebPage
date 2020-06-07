@@ -201,9 +201,10 @@ export class TaxSummaryComponent implements OnInit {
       key: id
     };
     this.taxSummaryData.filter = filterValue === 'All' ? '' : filterValue.trim().toLowerCase();
-    if (!filterValue || !filterValue.length) {
+    if (filterValue === null || filterValue === undefined || filterValue === '' || filterValue.trim() === '') {
       this.unShiftCheckedRow();
     }
+    this.taxSummaryData.paginator = this.paginator;
   }
   customPaginator() {
     this.paginator._intl.itemsPerPageLabel = 'Display';
@@ -248,5 +249,7 @@ export class TaxSummaryComponent implements OnInit {
     if (value === 'tinNameSearch') {
       this.tinNameSearch = '';
     }
+    this.unShiftCheckedRow();
+    this.doSort();
   }
 }
