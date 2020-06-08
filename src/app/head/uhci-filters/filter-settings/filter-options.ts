@@ -1,7 +1,25 @@
 import { lobName } from '../../../modals/lob-name';
 
-export const TimePeriod = [
+export interface FilterOption {
+  name: string;
+  value: string;
+  disable?: boolean;
+  default?: boolean;
+}
+
+export const PageDefaultTimePeriodMap: any = {
+  smartEditsPage: 'Rolling3Months',
+  default: 'Last6Months'
+};
+
+export const PageTimeFrameMap = {
+  smartEditsPage: { include: ['Rolling3Months', 'Last30Days'], exclude: [] },
+  default: { include: [], exclude: ['Rolling3Months'] }
+};
+
+export const TimePeriod: FilterOption[] = [
   { name: 'Last30Days', value: 'Last 30 Days', disable: false },
+  { name: 'Rolling3Months', value: 'Rolling 3 Months', disable: false },
   { name: 'Last3Months', value: 'Last 3 Months', disable: false },
   { name: 'Last6Months', value: 'Last 6 Months', disable: false },
   { name: 'Last12Months', value: 'Last 12 Months', disable: false },
@@ -132,10 +150,4 @@ export const filterToggles = {
 export interface TaxId {
   Tin: string;
   Tinname: string;
-}
-
-export interface MetricPropType {
-  name: string;
-  value: string;
-  disable?: boolean;
 }
