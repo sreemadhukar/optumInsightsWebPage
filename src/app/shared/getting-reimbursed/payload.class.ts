@@ -18,6 +18,7 @@ export class GettingReimbursedPayload {
       param.timePeriod === 'Last12Months' ||
       param.timePeriod === 'Last6Months' ||
       param.timePeriod === 'Last3Months' ||
+      param.timePeriod === 'Rolling3Months' ||
       param.timePeriod === 'Last30Days' ||
       param.timePeriod === 'YTD'
     ) {
