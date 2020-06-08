@@ -13,7 +13,15 @@
 
 // Patch CSS. Will be removed later once cards are standardized
 
-::ng-deep .overview .card-inner {
-  margin: 0px 20px 15px 0px !important;
-  width: 300px !important;
+::ng-deep .cards_container app-small-card:nth-of-type(3n + 1) .card-inner {
+  margin-left: 0px !important;
+}
+::ng-deep .cards_container app-small-card:nth-of-type(3n) .card-inner {
+  margin-right: 0px !important;
+}
+::ng-deep .cards_container app-mini-tile:nth-of-type(4n + 1) .card-inner {
+  margin-left: 0px !important;
+}
+::ng-deep .cards_container app-mini-tile:nth-of-type(4n) .card-inner {
+  margin-right: 0px !important;
 }
