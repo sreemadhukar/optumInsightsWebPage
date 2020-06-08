@@ -3,10 +3,10 @@
 
 // Patch for cards
 ::ng-deep .pcor .left .app-card-structure {
-  margin: 15px 15px 15px 0px !important;
+  margin-left: 0px !important;
 }
 ::ng-deep .pcor .right .app-card-structure {
-  margin: 15px 0 15px 15px !important;
+  margin-right: 0px !important;
 }
 
 .cust-width-title {

@@ -22,10 +22,11 @@
   }
 }
 
-.qulity-measure-star-block {
+.quality-measure-star-block {
   display: inline-block;
   width: 100%;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  margin: 12px 0;
   .white-bg {
     background: $white;
     border-radius: 2px;
