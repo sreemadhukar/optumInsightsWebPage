@@ -30,6 +30,7 @@ export class SmartEditsComponent implements OnInit {
   lob: string;
   taxID: Array<string>;
   timePeriod: string;
+  timePeriodr: string;
   smartEditClaimsReturned: any;
   smartEditsRepairedAndResubmittedTitle = 'Smart Edits Repaired & Resubmitted Response Time';
   smartEditsReasonTitle = 'Smart Edits Returned Claims Top Reasons';
@@ -128,7 +129,7 @@ export class SmartEditsComponent implements OnInit {
       .then((smartEditsData: any) => {
         this.smartEditClaimsReturned = smartEditsData;
         this.seReturnedLoading = false;
-        this.timePeriod = this.smartEditClaimsReturned.timeperiod;
+        this.timePeriodr = this.smartEditClaimsReturned.timeperiod;
       })
       .catch(reason => {
         console.log('Error in Smart Edits', reason);
