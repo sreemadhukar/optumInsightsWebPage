@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from '../../store/store';
 import { Router } from '@angular/router';
@@ -19,13 +19,14 @@ import { TaxId } from '../../head/uhci-filters/filter-settings/filter-options';
 import { APPLY_FILTER, REMOVE_FILTER } from '../../store/filter/actions';
 import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
+import { GetFilterOptionsByPage } from 'src/app/head/uhci-filters/filter-settings/filter-methods';
 
 @Component({
   selector: 'app-filters-applied',
   templateUrl: './filters-applied.component.html',
   styleUrls: ['./filters-applied.component.scss']
 })
-export class FiltersAppliedComponent implements OnInit {
+export class FiltersAppliedComponent implements OnInit, OnDestroy {
   @select(['uhc', 'currentPage']) currentPage;
   @select(['uhc', 'timePeriod']) timePeriod;
   @select(['uhc', 'taxId']) taxId;
@@ -41,6 +42,7 @@ export class FiltersAppliedComponent implements OnInit {
   @select(['uhc', 'viewClaimsByFilter']) viewClaimsByFilter;
   @Input() flag;
   @Input() tabName;
+  currenPageSubscription: any;
   selectedPage: any;
   timeFrames = TimePeriod;
   selectedTimePeriod: any;
@@ -83,10 +85,13 @@ export class FiltersAppliedComponent implements OnInit {
 
   ngOnInit() {
     this.printStyle = this.route.url.includes('print-');
-    this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
-    this.timePeriod.subscribe(
-      timePeriod => (this.selectedTimePeriod = this.timeFrames.find(val => val.name === timePeriod))
-    );
+    this.currenPageSubscription = this.currentPage.subscribe(currentPage => {
+      this.timeFrames = GetFilterOptionsByPage(currentPage, 'timeperiod');
+      this.selectedPage = currentPage;
+    });
+    this.timePeriod.subscribe(timePeriod => {
+      this.selectedTimePeriod = timePeriod;
+    });
     this.taxId.subscribe(taxId => (this.selectedTaxIds = taxId));
     this.lineOfBusiness.subscribe(
       lineOfBusiness => (this.selectedLob = this.lobs.find(val => val.name === lineOfBusiness))
@@ -188,5 +193,8 @@ export class FiltersAppliedComponent implements OnInit {
     }
     this.createPayloadService.emitFilterEvent(this.selectedPage);
     this.common.urlResuseStrategy();
+  }
+  ngOnDestroy() {
+    this.currenPageSubscription.unsubscribe();
   }
 }
