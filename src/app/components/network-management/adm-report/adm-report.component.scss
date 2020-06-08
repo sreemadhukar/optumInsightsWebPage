@@ -1,0 +1,22 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+
+::ng-deep .adm-report .even .app-card-structure {
+  margin: 15px 12px 15px 12px !important;
+  width: 464px;
+}
+::ng-deep .adm-report .odd .app-card-structure {
+  margin: 15px 12px 15px 12px !important;
+  width: 464px;
+}
+
+.cust-width-title {
+  .page-title {
+    flex-basis: 100%;
+    font-size: 36px;
+    @include padding(16px, 0, 8px, 0);
+    color: $black-rock;
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+  }
+}
