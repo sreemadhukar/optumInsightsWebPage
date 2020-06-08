@@ -1,4 +1,6 @@
 import { CURRENT_PAGE, APPLY_FILTER, RESET_FILTER, REMOVE_FILTER } from './actions';
+import { GetCurrentFilterOptionByPage } from 'src/app/head/uhci-filters/filter-settings/filter-methods';
+
 import { IAppState } from '../store';
 
 export const INITIAL_STATE: IAppState = {
@@ -28,12 +30,12 @@ export function FilterReducer(state = loadState(), action) {
       return {
         ...state,
         currentPage: action.currentPage,
-        timePeriod: switchTimePeriodValues(state.timePeriod)
+        timePeriod: switchTimePeriodValues(state.timePeriod, action.currentPage)
       };
     case APPLY_FILTER:
       return {
         ...state,
-        timePeriod: action.filterData.timePeriod,
+        timePeriod: switchTimePeriodValues(action.filterData.timePeriod, action.currentPage || state.currentPage),
         taxId: action.filterData.taxId,
         lineOfBusiness: action.filterData.lineOfBusiness,
         commercial: action.filterData.commercial,
@@ -49,6 +51,7 @@ export function FilterReducer(state = loadState(), action) {
     case REMOVE_FILTER:
       return {
         ...state,
+        timePeriod: switchTimePeriodValues(state.timePeriod, action.currentPage || state.currentPage),
         lineOfBusiness: action.filterData.lineOfBusiness ? INITIAL_STATE.lineOfBusiness : state.lineOfBusiness,
         commercial: action.filterData.commercial ? INITIAL_STATE.commercial : state.commercial,
         serviceSetting: action.filterData.serviceSetting ? INITIAL_STATE.serviceSetting : state.serviceSetting,
@@ -64,7 +67,7 @@ export function FilterReducer(state = loadState(), action) {
     case RESET_FILTER:
       return {
         ...state,
-        timePeriod: INITIAL_STATE.timePeriod,
+        timePeriod: switchTimePeriodValues(INITIAL_STATE.timePeriod, action.currentPage || state.currentPage),
         taxId: INITIAL_STATE.taxId,
         lineOfBusiness: INITIAL_STATE.lineOfBusiness,
         commercial: INITIAL_STATE.commercial,
@@ -82,10 +85,11 @@ export function FilterReducer(state = loadState(), action) {
   }
 }
 
-function switchTimePeriodValues(timePeriod) {
-  const serializedState = JSON.parse(sessionStorage.getItem('state'));
-  if (serializedState && serializedState.timePeriod) {
-    timePeriod = serializedState.timePeriod;
-  }
-  return timePeriod;
+function switchTimePeriodValues(timePeriod: string, currentPage: string) {
+  const state = loadState();
+  timePeriod = state.timePeriod;
+  const timePeriodObj = GetCurrentFilterOptionByPage(currentPage, 'timeperiod', timePeriod);
+  state.timePeriod = timePeriodObj.name;
+  sessionStorage.setItem('state', JSON.stringify(state));
+  return timePeriodObj;
 }

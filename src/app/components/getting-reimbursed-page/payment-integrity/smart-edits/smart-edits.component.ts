@@ -3,8 +3,6 @@ import { MatIconRegistry } from '@angular/material';
 import { Component, OnInit, Input } from '@angular/core';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
-import { Router } from '@angular/router';
-import { FilterExpandService } from '../../../../shared/filter-expand.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { CommonUtilsService } from '../../../../shared/common-utils.service';
 import { StorageService } from '../../../../shared/storage-service.service';
@@ -54,8 +52,6 @@ export class SmartEditsComponent implements OnInit {
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     public MetricidService: GlossaryMetricidService,
-    private filterExpandService: FilterExpandService,
-    private router: Router,
     private session: SessionService,
     private checkStorage: StorageService,
     private readonly createPayloadService: CreatePayloadService,
@@ -191,25 +187,5 @@ export class SmartEditsComponent implements OnInit {
   // **** Ends here *** //
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title, this.metricId);
-  }
-  openFilter() {
-    this.filterExpandService.setURL(this.router.url);
-  }
-  removeFilter(type, value) {
-    if (type === 'lob') {
-      this.lob = '';
-      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
-    } else if (type === 'tax' && !value.includes('Selected')) {
-      this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
-      if (this.taxID.length > 0) {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
-      } else {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-        this.taxID = [];
-      }
-    } else if (type === 'tax' && value.includes('Selected')) {
-      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-      this.taxID = [];
-    }
   }
 }
