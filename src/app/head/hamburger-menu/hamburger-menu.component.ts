@@ -115,6 +115,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       ],
       disabled: false
     },
+    {
+      icon: 'network-management',
+      name: 'Network Management',
+      children: [
+        { name: 'Appropriate Decision Monitoring (ADM)', path: '/NetworkManagement/ADMReport', disabled: false }
+      ],
+      disabled: false
+    },
     // {
     //   icon: 'care-delivery',
     //   name: 'Care Delivery',
@@ -844,6 +852,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         }
       } else if (path === '/ServiceInteraction/SelfService' || path === '/ServiceInteraction/Calls') {
         if (element.id === 'cdk-accordion-child-2') {
+          element.open();
+        } else {
+          element.close();
+        }
+      } else if (path === '/NetworkManagement/ADMReport') {
+        if (element.id === 'cdk-accordion-child-4') {
           element.open();
         } else {
           element.close();

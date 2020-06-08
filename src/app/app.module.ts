@@ -24,6 +24,7 @@ import { RavenErrorHandler } from './components/error-handler/error-handler';
 import { saveState } from './store/filter/localStorage';
 import { combineReducers, createStore, Store, applyMiddleware } from 'redux';
 import { KopFilterReducer } from './store/kopFilter/reducer';
+// import { AdmReportComponent } from './components/network-management/adm-report/adm-report.component';
 
 @NgModule({
   declarations: [AppComponent],

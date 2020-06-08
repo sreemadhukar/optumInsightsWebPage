@@ -123,6 +123,16 @@ const routes: Routes = [
     }
   },
   {
+    path: 'NetworkManagement',
+    loadChildren: '../components/network-management/network-management.module#NetworkManagementModule',
+    canActivate: [AuthGuard],
+    data: {
+      breadcrumb: 'Network Management',
+      preload: false,
+      delay: false
+    }
+  },
+  {
     path: 'AdminSummaryTrends',
     loadChildren: '../components/summary-trends/summary-trends.module#SummaryTrendsModule',
     canActivate: [AuthGuard],
