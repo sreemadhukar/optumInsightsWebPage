@@ -21,3 +21,91 @@
     height: 40px;
   }
 }
+.custom-filter {
+  width: 845px;
+  float: left;
+  margin: 40px 0 24px 0;
+  .YOY-div {
+    display: inline-block;
+    margin-right: 16px;
+    width: 250px;
+  }
+  .lob-div {
+    display: inline-block;
+    margin-right: 16px;
+
+    width: 250px;
+  }
+  .state-div {
+    display: inline-block;
+    margin-right: 16px;
+    width: 250px;
+  }
+
+  .dropdown {
+    height: 38px;
+    width: calc(100% - 2px);
+    border: 1px solid $heather;
+    border-radius: 2px;
+    background: $white;
+    .mat-select {
+      height: 100%;
+      width: calc(100% - 30px);
+      font-family: 'UHCSans-SemiBold';
+      font-size: 16px;
+      line-height: 22px;
+      color: $black-rock;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 15px;
+      height: 40px;
+    }
+
+    -webkit-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  .dropdown-option {
+    font-family: 'UHCSans-Medium';
+    height: 40px !important;
+    width: 385px;
+    line-height: 40px;
+    color: $black-rock;
+    font-size: 16px !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  .dropdown-option:hover {
+    color: $black-rock !important;
+    background-color: $pattens-blue !important;
+  }
+}
+
+::ng-deep .dropdown .mat-select .mat-select-arrow {
+  border: solid $strom-grey;
+  border-width: 0 1.8px 1.8px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+::ng-deep .mat-select-panel {
+  width: auto !important;
+  max-width: unset !important;
+  .mat-option.mat-selected:not(.mat-option-multiple) {
+    background: $darker-alice-blue;
+    color: $blue;
+  }
+}
+
+::ng-deep .mat-select-panel-wrap {
+  width: 100% !important;
+  margin-left: unset !important;
+  border-radius: 2px;
+  margin-top: 30px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+}

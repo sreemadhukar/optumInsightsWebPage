@@ -1,0 +1,50 @@
+{
+  "Status": "OK",
+  "StatusCode": 200,
+  "Message": "Successfully Data Retrieved",
+  "Data": {
+    "Tin": null,
+    "ProviderKey": 956,
+    "PeriodStart": "2020-02-21",
+    "PeriodEnd": "2020-05-21",
+    "HealthOrganizations": [
+      {
+        "Genesis": [
+          {
+            "id": 0,
+            "stateName": "Genesis Health "
+          }
+        ],
+        "Novant": [
+          {
+            "id": 0,
+            "stateName": "Novant Health "
+          },
+          {
+            "id": 1,
+            "stateName": "Novant Health 2 "
+          },
+          {
+            "id": 2,
+            "stateName": "Novant Health 3 "
+          }
+        ],
+        "NYU": [
+          {
+            "id": 0,
+            "stateName": "Novant Health Charlotte Orthopedic Hospital "
+          },
+          {
+            "id": 1,
+            "stateName": "Novant Health Forsyth Medical Center "
+          },
+          {
+            "id": 2,
+            "stateName": "Novant Health Mint Hill Medical Center "
+          }
+        ]
+      }
+    ]
+  },
+  "TimeStamp": "2020-05-21T07:02:48.625+0000"
+}

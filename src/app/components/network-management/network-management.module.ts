@@ -4,8 +4,9 @@ import { CommonUtilsModule } from './../../common-utils/common-utils.module';
 import { NetworkManagementRoutingModule } from './network-management-routing.module';
 import { AdmReportComponent } from './adm-report/adm-report.component';
 
+import { HeadMaterialModule } from 'src/app/head/head.material.module';
 @NgModule({
-  imports: [CommonModule, NetworkManagementRoutingModule, CommonUtilsModule],
+  imports: [CommonModule, NetworkManagementRoutingModule, CommonUtilsModule, HeadMaterialModule],
   providers: [],
   declarations: [AdmReportComponent]
 })

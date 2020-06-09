@@ -9,9 +9,14 @@ export class AdmReportComponent implements OnInit {
   @Input() printStyle;
   pageTitle: String = '';
 
+  LOBData = ['Commercial', 'Medicare', 'Medicaid'];
   constructor() {}
 
   ngOnInit() {
     this.pageTitle = 'Appropriate Decision Monitoring (ADM)';
+  }
+
+  getLOBValue(data) {
+    alert('selected --->' + data);
   }
 }
