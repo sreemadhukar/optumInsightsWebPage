@@ -3,10 +3,10 @@
 @import '~src/scss/my-custom-theme';
 
 ::ng-deep .calls .even .app-card-structure {
-  margin: 15px 15px 15px 0px !important;
+  margin-left: 0px !important;
 }
 ::ng-deep .calls .odd .app-card-structure {
-  margin: 15px 0 15px 15px !important;
+  margin-right: 0px !important;
 }
 
 .container-flex {

@@ -16,7 +16,7 @@
 
 ::ng-deep .getting-reimbursed-cards .app-card-structure {
   display: inline-block;
-  margin: 15px 16px 15px 0px !important;
+  margin: 12px 24px 12px 0px !important;
 }
 .height1Separator {
   height: 0;
@@ -49,7 +49,7 @@
     flex-direction: row;
     position: relative;
     justify-content: space-between;
-    width: 98.5%;
+    width: 100%;
     .page-subtitle-heading {
       margin-right: 100px;
       margin-top: 4px;
@@ -95,7 +95,7 @@
   /* tabs css starts here*/
   .container--tabs {
     clear: left;
-    width: 98.5%;
+    width: 100%;
     line-height: 25px;
     /*margin-bottom: 24px;*/
     margin-bottom: 20px;
