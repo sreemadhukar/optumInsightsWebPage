@@ -141,6 +141,7 @@ export class SmartEditsComponent implements OnInit {
         const maxValue = Math.max(smartEditsData[2], smartEditsData[3]);
         this.lessThan5DaysBarData = {};
         this.lessThan5DaysBarData['id'] = 'lessThan5';
+        this.lessThan5DaysBarData['height'] = '48px';
         this.lessThan5DaysBarData['title'] = 'Less Than 5 Days';
         this.lessThan5DaysBarData['numeric'] = smartEditsData[2];
         this.lessThan5DaysBarData['maxValue'] = maxValue;
@@ -148,6 +149,7 @@ export class SmartEditsComponent implements OnInit {
 
         this.greaterThan5DaysBarData = {};
         this.greaterThan5DaysBarData['id'] = 'greaterThan5';
+        this.greaterThan5DaysBarData['height'] = '48px';
         this.greaterThan5DaysBarData['title'] = 'Greater Than 5 Days';
         this.greaterThan5DaysBarData['numeric'] = smartEditsData[3];
         this.greaterThan5DaysBarData['maxValue'] = maxValue;

@@ -15,6 +15,7 @@
   margin: 15px 12px 15px 0 !important;
   width: 464px;
 }
+
 .time-period {
   box-sizing: border-box;
   height: 33px;
@@ -93,7 +94,7 @@
 .smart-edits-bar-chart-block {
   float: left;
   // padding: 81px 40px 117px 40px;
-  padding: 12px 40px 43.5px 40px;
+  padding: 16px 40px 32px 40px;
 }
 .less-than-five-days-block {
   float: left;
@@ -144,6 +145,9 @@
   display: flex;
   flex-flow: column;
   -ms-flex-flow: column;
+  .widget {
+    line-height: 48px !important;
+  }
 }
 .mr-returned-text {
   color: $black-rock;
@@ -179,15 +183,16 @@
   overflow: hidden;
 }
 
-.repaired-block {
-  margin: 12px;
-  height: 356px;
-  width: 468px;
-  border-radius: 2px;
-  background-color: $white;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  float: left;
+.app-card-structure {
   position: relative;
+  background-color: $white;
+  width: 468px;
+  height: 356px;
+  margin: 12px;
+  font-size: 30px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  float: left;
 }
 .reason-time {
   width: 468px;
@@ -239,21 +244,6 @@
   color: $black-rock;
 }
 
-.one-reason {
-  padding-bottom: 132.5px;
-}
-.two-reason {
-  padding-bottom: 107.5px;
-}
-.three-reason {
-  padding-bottom: 82.5px;
-}
-.four-reason {
-  padding-bottom: 57.5px;
-}
-.five-reason {
-  padding-bottom: 32.5px;
-}
 .reason-code {
   color: #2d2d39;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
