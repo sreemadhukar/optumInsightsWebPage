@@ -43,11 +43,10 @@ export class CreatePayloadService {
   constructor() {
     this.currentPage.subscribe(value => {
       this.initialState.currentPage = value;
-      // this.initialState = this.getPayloadForGettingReimbursed(this.initialState);
       this.changePayloadOnInit(this.getPayloadForGettingReimbursed(this.initialState));
     });
     this.timePeriod.subscribe(value => {
-      this.initialState.timePeriod = value;
+      this.initialState.timePeriod = value.name;
     });
     this.taxId.subscribe(taxId => (this.initialState.taxId = taxId));
     this.lineOfBusiness.subscribe(lineOfBusiness => (this.initialState.lineOfBusiness = lineOfBusiness));
@@ -64,98 +63,27 @@ export class CreatePayloadService {
     this.viewClaimsByFilter.subscribe(viewClaimsBy => (this.initialState.viewClaimsByFilter = viewClaimsBy));
   }
 
-  changePayloadOnInit(appliedPage) {
-    switch (appliedPage) {
-      case 'gettingReimbursedSummary':
-        this.payload = this.getPayload(this.initialState);
-        break;
-      case 'nonPaymentsPage':
-        this.payload = this.getPayload(this.initialState);
-        break;
-      case 'paymentsPage':
-        this.payload = this.getPayload(this.initialState);
-        break;
-      case 'appealsPage':
-        this.payload = this.getPayload(this.initialState);
-        break;
-      case 'priorAuthPage':
-        this.payload = this.getPayloadForPriorAuth(this.initialState);
-        break;
-      case 'overviewAdvocatePage':
-        this.payload = this.getPayload(this.initialState);
-        break;
-      case 'callsPage':
-        this.payload = this.getPayloadForCalls(this.initialState);
-        break;
-      case 'viewTopClaimsPage':
-        this.payload = this.getPayloadForCalls(this.initialState);
-        break;
-      case 'smartEditsPage':
-        this.payload = this.getPayload(this.initialState);
-        break;
-      case 'otherPages':
-        this.payload = this.getPayload(this.initialState);
-        break;
-    }
+  changePayloadOnInit(appliedPage: string) {
+    this.payload = this.getPayload(this.initialState, appliedPage);
   }
 
-  resetTinNumber(appliedPage) {
+  resetTinNumber(appliedPage: string) {
     this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }];
     if (appliedPage) {
-      if (appliedPage === 'priorAuthPage') {
-        this.payload = this.getPayloadForPriorAuth(this.initialState);
-      } else {
-        this.payload = this.getPayload(this.initialState);
-      }
+      this.changePayloadOnInit(appliedPage);
     }
   }
 
   emitFilterEvent(appliedPage) {
-    switch (appliedPage) {
-      case 'gettingReimbursedSummary':
-        this.payload = this.getPayload(this.initialState);
-        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
-        break;
-      case 'nonPaymentsPage':
-        this.payload = this.getPayload(this.initialState);
-        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
-        break;
-      case 'paymentsPage':
-        this.payload = this.getPayload(this.initialState);
-        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
-        break;
-      case 'appealsPage':
-        this.payload = this.getPayload(this.initialState);
-        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
-        break;
-      case 'priorAuthPage':
-        this.payload = this.getPayloadForPriorAuth(this.initialState);
-        this.payloadEmit.next({ value: this.getPayloadForPriorAuth(this.initialState) });
-        break;
-      case 'viewTopClaimsPage':
-        this.payload = this.getPayloadForPriorAuth(this.initialState);
-        this.payloadEmit.next({ value: this.getPayloadForPriorAuth(this.initialState) });
-        break;
-      case 'overviewAdvocatePage':
-        this.payload = this.getPayload(this.initialState);
-        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
-        break;
-      case 'smartEditsPage':
-        this.payload = this.getPayload(this.initialState);
-        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
-        break;
-      case 'callsPage':
-        this.payload = this.getPayloadForCalls(this.initialState);
-        this.payloadEmit.next({ value: this.getPayloadForCalls(this.initialState) });
-        break;
-    }
+    this.changePayloadOnInit(appliedPage);
+    this.payloadEmit.next({ value: this.payload });
   }
 
   getEvent(): Observable<any> {
     return this.payloadEmit.asObservable();
   }
 
-  getPayloadForGettingReimbursed(temporaryState) {
+  getPayloadForGettingReimbursed(temporaryState: IAppState) {
     const serializedState = JSON.parse(sessionStorage.getItem('state'));
     if (serializedState && serializedState.timePeriod) {
       temporaryState.timePeriod = serializedState.timePeriod;
@@ -163,38 +91,36 @@ export class CreatePayloadService {
     return temporaryState.currentPage;
   }
 
-  getPayloadForPriorAuth(payload) {
-    const data = _.omit(payload, ['trendMetric', 'trendDate', 'currentPage']);
-    return this.createTaxIdArrayForPA(data);
-  }
-
-  getPayload(payload) {
-    const data = _.omit(payload, [
-      'serviceSetting',
-      'priorAuthType',
-      'trendMetric',
-      'trendDate',
-      'serviceCategory',
-      'currentPage'
-    ]);
-    return this.omitValuesContainAll(data);
-  }
-
-  getPayloadForCalls(payload) {
-    const data = _.omit(payload, [
-      'taxId',
-      'lineOfBusiness',
-      'serviceSetting',
-      'priorAuthType',
-      'trendMetric',
-      'trendDate',
-      'serviceCategory',
-      'currentPage',
-      'claimsFilter',
-      'AppealsFilter',
-      'viewClaimsByFilter'
-    ]);
-    return data;
+  getPayload(payload: any, currentPage?: string) {
+    if (currentPage === 'priorAuthPage' || currentPage === 'viewTopClaimsPage') {
+      const data = _.omit(payload, ['trendMetric', 'trendDate', 'currentPage']);
+      return this.createTaxIdArrayForPA(data);
+    } else if (currentPage === 'callsPage') {
+      const data = _.omit(payload, [
+        'taxId',
+        'lineOfBusiness',
+        'serviceSetting',
+        'priorAuthType',
+        'trendMetric',
+        'trendDate',
+        'serviceCategory',
+        'currentPage',
+        'claimsFilter',
+        'AppealsFilter',
+        'viewClaimsByFilter'
+      ]);
+      return data;
+    } else {
+      const data = _.omit(payload, [
+        'serviceSetting',
+        'priorAuthType',
+        'trendMetric',
+        'trendDate',
+        'serviceCategory',
+        'currentPage'
+      ]);
+      return this.omitValuesContainAll(data);
+    }
   }
 
   createTaxIdArrayForPA(param) {

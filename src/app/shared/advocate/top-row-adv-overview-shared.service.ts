@@ -586,7 +586,6 @@ export class TopRowAdvOverviewSharedService {
     if (!claimsData || !claimsData.hasOwnProperty(lobData)) {
       claimsPaid = { ...this.setDataForEmptyPaymentDataCard() };
     } else if (claimsData != null) {
-      console.log('CLaimsData', claimsData, 'lobData', lobData);
       if (_.get(claimsData, ['lobData', 'ClaimsLobSummary', '0', 'AmountPaid']) !== undefined) {
         claimsPaid = this.setDataForLOBSumary(claimsData, lobData);
         // Date : 31/5/2019
