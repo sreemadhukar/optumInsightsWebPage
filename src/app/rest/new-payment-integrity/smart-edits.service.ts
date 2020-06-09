@@ -14,25 +14,17 @@ export class SmartEditsService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public smartEditReturned(parameters) {
-    const smartEditParams = {
-      TimeFilter: parameters[1].TimeFilter
-    };
-
+  public smartEditReturned(parameters: any) {
     const smartEditURL = this.APP_URL + this.SMART_EDITS_SERVICE_PATH + parameters[0];
-    return this.http.post(smartEditURL, smartEditParams).pipe(
+    return this.http.post(smartEditURL, parameters[1]).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
 
-  public getSmartEditTopReasons(parameters) {
-    const smartEditParams = {
-      TimeFilter: parameters[1].TimeFilter
-    };
-
+  public getSmartEditTopReasons(parameters: any) {
     const smartEditClaimsurl = this.APP_URL + this.SMART_EDITS_Claims_SERVICE_PATH + parameters[0];
-    return this.http.post(smartEditClaimsurl, smartEditParams).pipe(
+    return this.http.post(smartEditClaimsurl, parameters[1]).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
