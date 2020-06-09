@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 //@Library("com.optum.jenkins.pipeline.library@master") _
-@Library("com.optum.jenkins.pipeline.library@v0.1.24") _
+@Library("com.optum.jenkins.pipeline.library@v0.3.0") _
 
 String dockerHost = 'docker.optum.com'
 String webRepo = 'pedweb_prd'
@@ -29,7 +29,7 @@ pipeline {
         steps { 
         glFortifyScan fortifyBuildName:"MyInsightsUI",
                         scarCredentialsId:"$env.SONAR_CREDENTIALS_ID",
-                        scarUploadToken:"ec8aa844-2824-4cbd-8ece-136504c2cca7",
+                        scarUploadToken:"63a50a08-1564-46c9-8da3-1505e524701c",
                         scarProjectName:"ProviderExternalDashboard_UHGWM110-019413",
                         scarProjectVersion:18606,
                         criticalThreshold:15,
