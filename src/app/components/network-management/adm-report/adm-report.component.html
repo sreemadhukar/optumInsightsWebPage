@@ -2,5 +2,9 @@
   <div class="cards cust-width-title">
     <app-breadcrumbs></app-breadcrumbs>
     <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">{{ pageTitle }}</div>
+    <div class="timeperiod-field">
+      <mat-icon class="calender-icon" svgIcon="calender"></mat-icon>
+      <span class="year-field">Year over Year (2017-2019)</span>
+    </div>
   </div>
 </app-layoutcontainer>

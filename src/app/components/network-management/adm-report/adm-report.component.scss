@@ -15,9 +15,38 @@
   .page-title {
     flex-basis: 100%;
     font-size: 36px;
-    @include padding(16px, 0, 8px, 0);
+    @include padding(16px, 0, 40px, 0);
     color: $black-rock;
     font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
     height: 40px;
+  }
+
+  .timeperiod-field {
+    box-sizing: border-box;
+    height: 40px;
+    width: 250px;
+    border: 1px solid #b3babc;
+    border-radius: 2px;
+    background-color: #f1f4f7;
+
+    .calender-icon {
+      padding-left: 12px;
+      padding-top: 12px;
+      padding-right: 8px;
+      height: 16px;
+      width: 16px;
+      display: inline-block;
+    }
+
+    .year-field {
+      padding-top: 11px;
+      padding-bottom: 11px;
+      height: 18px;
+      width: 168px;
+      color: #2d2d39;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      display: inline-block;
+    }
   }
 }

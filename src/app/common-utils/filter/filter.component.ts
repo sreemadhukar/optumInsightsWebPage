@@ -52,6 +52,7 @@ export class FilterComponent implements OnInit {
   public timeframes = [
     'Last 30 Days',
     'Last 3 Months',
+    'Rolling 3 Months',
     'Last 6 Months',
     'Last 12 Months',
     'Year to Date',
