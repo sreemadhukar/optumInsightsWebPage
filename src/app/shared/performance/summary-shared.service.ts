@@ -67,15 +67,17 @@ export class SummarySharedService {
                 toggle: this.toggle.setToggles(getStaticData.title, pageName, 'Performance', false),
                 MetricID: this.MetricidService.MetricIDs[getStaticData.title.replace(/ +/g, '')],
                 data: {
-                  gdata: {
-                    count:
-                      this.numberFormatting(response[0].Numerator.toFixed(0)) +
-                      '/' +
-                      this.numberFormatting(response[0].Denominator.toFixed(0)) +
-                      ' ' +
-                      getStaticData.suffix,
-                    percentage: response[0].RateWithPercentage
-                  }
+                  gdata: [
+                    {
+                      count:
+                        this.numberFormatting(response[0].Numerator.toFixed(0)) +
+                        '/' +
+                        this.numberFormatting(response[0].Denominator.toFixed(0)) +
+                        ' ' +
+                        getStaticData.suffix,
+                      percentage: response[0].RateWithPercentage
+                    }
+                  ]
                 },
                 timeperiod:
                   'YTD (' +
