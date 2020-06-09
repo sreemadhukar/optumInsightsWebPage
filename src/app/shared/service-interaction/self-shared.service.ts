@@ -151,7 +151,7 @@ export class SelfSharedService {
                   MetricID: this.MetricidService.MetricIDs.LinkEDItoCallRatio,
                   status: 500,
                   toggle: this.toggle.setToggles(
-                    'Link & EDI to Call Ratio',
+                    'Link and EDI to Call Ratio',
                     'Self Service',
                     'Service Interaction',
                     false
@@ -168,7 +168,7 @@ export class SelfSharedService {
                 MetricID: this.MetricidService.MetricIDs.LinkEDItoCallRatio,
                 status: 500,
                 toggle: this.toggle.setToggles(
-                  'Link & EDI to Call Ratio',
+                  'Link and EDI to Call Ratio',
                   'Self Service',
                   'Service Interaction',
                   false
