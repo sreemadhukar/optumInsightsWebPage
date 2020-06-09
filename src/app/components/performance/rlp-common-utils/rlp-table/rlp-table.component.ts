@@ -143,8 +143,8 @@ export class RlpTableComponent implements OnInit, OnDestroy {
    */
   sortTableData(asc: boolean = true) {
     return asc
-      ? this.tableData.sort((a, b) => a.graphData.data.gdata[0].percentage - b.graphData.data.gdata[0].percentage)
-      : this.tableData.sort((b, a) => a.graphData.data.gdata[0].percentage - b.graphData.data.gdata[0].percentage);
+      ? this.tableData.sort((a, b) => a.graphData.data.gdata.percentage[0] - b.graphData.data.gdata.percentage[0])
+      : this.tableData.sort((b, a) => a.graphData.data.gdata.percentage[0] - b.graphData.data.gdata.percentage[0]);
   }
 
   /**

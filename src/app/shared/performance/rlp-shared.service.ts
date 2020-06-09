@@ -39,15 +39,15 @@ export class RlpSharedService {
                   category: 'app-table-card',
                   type: 'rlp-table-bar',
                   data: {
-                    gdata: [
-                      {
-                        count:
-                          this.numberFormatting(item.Numerator.toFixed(0)) +
-                          '/' +
-                          this.numberFormatting(item.Denominator.toFixed(0)),
-                        percentage: item.RateWithPercentage
-                      }
-                    ]
+                    gdata: {
+                      count:
+                        this.numberFormatting(item.Numerator.toFixed(0)) +
+                        '/' +
+                        this.numberFormatting(item.Denominator.toFixed(0)),
+                      percentage: [item.RateWithPercentage],
+                      color: ['#3381FF', '#E0E0E0'],
+                      baseLine: 0
+                    }
                   }
                 }
               };
