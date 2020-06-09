@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-adm-report',
@@ -9,7 +11,12 @@ export class AdmReportComponent implements OnInit {
   @Input() printStyle;
   pageTitle: String = '';
 
-  constructor() {}
+  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+    this.iconRegistry.addSvgIcon(
+      'calender',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/calender.svg')
+    );
+  }
 
   ngOnInit() {
     this.pageTitle = 'Appropriate Decision Monitoring (ADM)';

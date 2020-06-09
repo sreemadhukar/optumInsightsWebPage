@@ -850,14 +850,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         } else {
           element.close();
         }
-      } else if (path === '/ServiceInteraction/SelfService' || path === '/ServiceInteraction/Calls') {
+      } else if (path === '/NetworkManagement/ADMReport') {
         if (element.id === 'cdk-accordion-child-2') {
           element.open();
         } else {
           element.close();
         }
-      } else if (path === '/NetworkManagement/ADMReport') {
-        if (element.id === 'cdk-accordion-child-4') {
+      } else if (path === '/ServiceInteraction/SelfService' || path === '/ServiceInteraction/Calls') {
+        if (element.id === 'cdk-accordion-child-3') {
           element.open();
         } else {
           element.close();
@@ -868,7 +868,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         path === '/Performance/Labs' ||
         path === '/Performance/Prescriptions'
       ) {
-        if (element.id === 'cdk-accordion-child-3') {
+        if (element.id === 'cdk-accordion-child-4') {
           element.open();
         } else {
           element.close();
