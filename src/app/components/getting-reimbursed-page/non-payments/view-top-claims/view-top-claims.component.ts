@@ -411,11 +411,17 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     d3.select('#page-number').on(
       'keyup',
       function() {
+        let pageSizeHolder = 0;
+        if (this.paginator.length % this.paginator.pageSize === 0) {
+          pageSizeHolder = Math.floor(this.paginator.length / this.paginator.pageSize);
+        } else {
+          pageSizeHolder = Math.floor(this.paginator.length / this.paginator.pageSize + 1);
+        }
         let sel = (document.getElementById('page-number') as HTMLInputElement).value;
         if (parseInt(sel).toString() !== 'NaN' && sel !== '') {
           (document.getElementById('page-number') as HTMLInputElement).value = parseInt(sel).toString();
           sel = parseInt(sel).toString();
-          if (Number(sel) > this.paginator.pageSize + 1 || Number(sel) === 0) {
+          if (Number(sel) > pageSizeHolder || Number(sel) === 0) {
             (document.getElementById('page-number') as HTMLInputElement).value = this.paginator.pageIndex + 1;
           } else {
             this.paginator._pageIndex = Number(sel) - 1;
