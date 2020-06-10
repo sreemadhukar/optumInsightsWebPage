@@ -19,7 +19,7 @@ export class CommonBarComponent implements OnInit, AfterViewInit {
     this.bar();
   }
   bar() {
-    const remainingPercentage = 100;
+    let remainingPercentage = 100;
     const whiteGapWidth = (1.5 / parseInt(this.config.width)) * 100; // 1.5 is the practical px size of the gap now it is 1.5px
 
     const barBody = d3
