@@ -89,5 +89,6 @@ export const environment: any = {
   internalAccess: true,
   toggleTrendingSummary: false,
   internalIntAccess: false,
+  pocaService: true,
   sentryKey: 'https://c0d9c99fbff94d57a8401686f8de809b@sentry-ped-internal.ocp-ctc-core.optum.com/4'
 };

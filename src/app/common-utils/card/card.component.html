@@ -422,6 +422,18 @@
         <img src="src/assets/images/icons/Content/round-insert_chart-24px - Copy.svg" />
         <div class="in-progress-caption">Metric in development</div>
       </div>
+      <!-- PocaService card -->
+      <div *ngIf="chartData.type == 'pocaServiceStatus'" class="full-width-block activationStatus">
+        <img
+          [src]="
+            chartData.data ? 'src/assets/images/icons/Alert/success.svg' : 'src/assets/images/icons/Alert/NoPOCa.svg'
+          "
+        />
+        <div *ngIf="chartData.data" class="activationStatus-caption">
+          Yes, at least one POCa Service has been activated.
+        </div>
+        <div *ngIf="!chartData.data" class="activationStatus-caption">POCa Service has not been activated.</div>
+      </div>
 
       <!--Network lever-->
       <div

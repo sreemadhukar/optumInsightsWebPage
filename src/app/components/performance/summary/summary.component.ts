@@ -19,12 +19,15 @@ export class SummaryComponent implements OnInit, OnDestroy {
   public referralsLoading;
   public labsLoading;
   public prescriptionLoading;
+  public pocaServiceLoading;
   public referralMockCards;
   public labsMockCards;
   public prescriptionMockCards;
+  public pocaServiceMockCards;
   public referralCard;
   public prescriptionCard;
   public labsCard;
+  public pocaSerivceCard;
   public subscription: any;
   public countHCOnull: number;
   timeFilterValueResolved: string;
@@ -46,6 +49,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.referralsData();
     this.labsData();
     this.prescriptionData();
+    this.pocaService();
   }
   ngOnDestroy() {
     this.summarySharedService.unGetHCOdata();
@@ -114,5 +118,14 @@ export class SummaryComponent implements OnInit, OnDestroy {
         this.prescriptionLoading = false;
         console.log('Error Payment Submission Adovate Overview page Payment', reason);
       });
+  }
+
+  pocaService() {
+    this.pocaServiceLoading = true;
+    this.pocaServiceMockCards = [{}];
+    this.pocaSerivceCard = this.summarySharedService.getPocaService();
+    if (this.pocaSerivceCard) {
+      this.pocaServiceLoading = false;
+    }
   }
 }

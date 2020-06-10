@@ -6,6 +6,7 @@ import { PerformanceRestService } from '../../rest/performance/performance-rest.
 import { rlpPageName, rlpCardType, rlpBarType } from '../../modals/rlp-data';
 import { CommonUtilsService } from '../common-utils.service';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export const getCategoryAndType = [
   { category: rlpCardType.longCard, type: rlpBarType.longCard },
@@ -34,6 +35,7 @@ export const pageMapApiEndpoint = [
 export class SummarySharedService {
   public requestBody: Object;
   public hcoData$: Subscription;
+  private pocaServiceflag: boolean = environment.pocaService;
   constructor(
     private readonly MetricidService: GlossaryMetricidService,
     private session: SessionService,
@@ -92,6 +94,19 @@ export class SummarySharedService {
           }
         );
     });
+  }
+  public getPocaService() {
+    const pocaServiceData = {
+      category: 'app-card',
+      type: 'pocaServiceStatus',
+      title: 'POCa Service Activated',
+      MetricID: this.MetricidService.MetricIDs.POCaServiceActivated,
+      data: this.pocaServiceflag,
+      besideData: null,
+      bottomData: null,
+      timeperiod: ''
+    };
+    return pocaServiceData;
   }
 
   public unGetHCOdata() {
