@@ -20,6 +20,7 @@ export class SmartEditsComponent implements OnInit {
   @Input() printStyle;
   reportLink: string;
   pageTitle: String = '';
+  pagesubTitle: String = '';
   subscription: any;
   seReturnedLoading = true;
   seRepairedLoading = true;
@@ -40,8 +41,6 @@ export class SmartEditsComponent implements OnInit {
     private readonly iconRegistry: MatIconRegistry,
     private readonly sanitizer: DomSanitizer
   ) {
-    this.pageTitle = 'Smart Edits';
-    this.reportLink = 'View Smart Edits Reference Guide';
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.common.urlResuseStrategy();
@@ -59,6 +58,13 @@ export class SmartEditsComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.printStyle) {
+      this.pageTitle = this.session.getHealthCareOrgName();
+      this.pagesubTitle = 'Getting Reimbursed - Payment Integrity - Smart Edits';
+    } else {
+      this.pageTitle = 'Smart Edits';
+      this.reportLink = 'View Smart Edits Reference Guide';
+    }
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'smartEditsPage' });
     this.checkStorage.emitEvent('smartEditsPage');
     this.smartEditReturnedData();

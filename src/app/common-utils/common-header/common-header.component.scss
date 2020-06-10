@@ -16,6 +16,7 @@
     &-box {
       height: 100%;
     }
+    max-width: calc(100% - 44px - 32px);
   }
   .sub-header-padding {
     padding-bottom: 0;

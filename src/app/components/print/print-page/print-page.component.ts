@@ -16,18 +16,6 @@ export class PrintPageComponent implements OnInit {
   data: any;
   constructor(private _location: Location, private _router: Router) {
     this.printStyle = true;
-    // this.data = [
-    //   { page: 'overviewPage', load: 7000 },
-    //   { page: 'gettingReimbursedSummary', load: 7000 },
-    //   { page: 'paymentsPage', load: 6000 },
-    //   { page: 'appealsPage', load: 6000 },
-    //   { page: 'nonPaymentsPage', load: 6000 },
-    //   { page: 'paymentIntegrityPage', load: 5000 },
-    //   { page: 'priorAuthPage', load: 10000 },
-    //   { page: 'pcorPage', load: 6000 },
-    //   { page: 'callsPage', load: 4000 },
-    //   { page: 'selfServicePage', load: 4000 }
-    // ];
   }
 
   ngOnInit() {
@@ -44,7 +32,6 @@ export class PrintPageComponent implements OnInit {
     const id = setInterval(() => {
       console.log(window.matchMedia('print'));
       if (this._router.url === '/print-page') {
-        console.log('I am In');
         this._location.back();
         clearInterval(id);
       }

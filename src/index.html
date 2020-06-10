@@ -58,6 +58,7 @@
 
   <body>
     <script>
+      console.log = function() {};
       // Function to make IE9+ support forEach:
       (function() {
         if (typeof NodeList.prototype.forEach === 'function') return false;
