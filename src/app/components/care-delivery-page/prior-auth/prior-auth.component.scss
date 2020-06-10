@@ -3,13 +3,13 @@
 
 // Patch for cards
 ::ng-deep .priorauth .even .app-card-structure {
-  margin: 15px 15px 15px 0px !important;
+  margin-left: 0px !important;
 }
 ::ng-deep .priorauth .odd .app-card-structure {
-  margin: 15px 0 15px 15px !important;
+  margin-right: 0px !important;
 }
 ::ng-deep .priorauth .card-structure {
-  margin: 20px 0 !important;
+  margin: 12px 0 !important;
 }
 .container-flex {
   display: flex;

@@ -19,10 +19,13 @@
 ::ng-deep .overviewadvocate .small-card-structure .card-inner {
   margin: unset !important;
 }
+::ng-deep .overviewadvocate app-large-card .card-structure {
+  margin-left: 0px !important;
+}
 .container-flex {
   display: flex;
   justify-content: space-between;
-  margin: 15px 0;
+  margin: 12px 0;
 }
 
 .card-block {
@@ -30,7 +33,7 @@
   border-radius: 2px;
   background-color: #ffffff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  margin: 15px 0;
+  margin: 12px 0;
   float: left;
   position: relative;
 }
