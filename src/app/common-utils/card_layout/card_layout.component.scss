@@ -1,0 +1,39 @@
+@import '~src/scss/variables.scss';
+
+.card-container {
+  background-color: $white;
+  width: 468px;
+  min-height: 356px;
+  margin: 12px;
+  font-size: 30px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
+  .icon {
+    width: auto;
+  }
+  .title {
+    color: $black-rock;
+    font-family: 'UHCSans-SemiBold';
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+  }
+  .description {
+    color: $black-rock;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+    text-align: center;
+  }
+}

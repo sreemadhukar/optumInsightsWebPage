@@ -32,10 +32,10 @@
       </div>
     </div>
     <div class="oppurtunity-cards">
-      <div *ngFor="let item of selfServiceMiniCards; let i = index">
+      <ng-container *ngFor="let item of selfServiceMiniCards; let i = index">
         <app-mini-tile *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-mini-tile>
         <app-error-card *ngIf="item.status != null && item.toggle" [data]="item"></app-error-card>
-      </div>
+      </ng-container>
     </div>
   </div>
   <!-- ends Opportunities here-->
