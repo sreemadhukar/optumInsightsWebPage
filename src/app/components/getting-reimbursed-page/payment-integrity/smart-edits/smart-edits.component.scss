@@ -26,11 +26,12 @@
   align-items: center;
   width: 100%;
   &-box {
-    margin-right: 40px;
-    margin-left: 32px;
-    margin-bottom: 74px;
+    width: 300px;
+    margin-top: 8px;
+    margin-bottom: 12px;
   }
 }
+
 .smart-edit-reasons-resubmitted {
   display: flex;
   flex-direction: column;
@@ -39,34 +40,36 @@
   width: 100%;
   min-height: 238px;
 
-  .right-block {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: flex-end;
-    width: 388px;
-    height: 90px;
-    color: $black-rock;
-
-    &-part-right {
-      width: 340px;
-      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-      font-size: 16px;
-      letter-spacing: 0.2px;
-      line-height: 22px;
+  &-container {
+    &-block {
+      width: 100%;
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-    &-part-left {
-      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-      font-size: 20px;
-      line-height: 22px;
-      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
       align-items: flex-end;
-      padding-bottom: 5px;
-      width: 32px;
+      width: 388px;
+      height: 90px;
+      color: $black-rock;
+
+      &-part-right {
+        width: 340px;
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        letter-spacing: 0.2px;
+        line-height: 22px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+      &-part-left {
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        font-size: 20px;
+        line-height: 22px;
+        display: flex;
+        align-items: flex-end;
+        padding-bottom: 15px;
+        width: 32px;
+      }
     }
   }
 }
@@ -83,6 +86,7 @@
     padding-bottom: 0px;
   }
   .page-subtitle {
+    margin-bottom: 20px;
     .page-subtitle-header {
       color: $strom-grey;
       font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
