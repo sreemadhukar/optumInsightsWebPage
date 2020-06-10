@@ -19,6 +19,9 @@
 ::ng-deep .overviewadvocate .small-card-structure .card-inner {
   margin: unset !important;
 }
+::ng-deep .overviewadvocate app-large-card .card-structure {
+  margin-left: 0px !important;
+}
 .container-flex {
   display: flex;
   justify-content: space-between;
