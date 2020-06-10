@@ -4,14 +4,14 @@
     <div class="small-bar-head">{{ data.data.gdata.count }}</div>
     <div class="small-bar-body">
       <app-common-bar [config]="config.smallCard"></app-common-bar>
-      <div class="small-card-percentage">{{ config.smallCard.percentage }}</div>
+      <div class="small-card-percentage">{{ data.data.gdata.percentage[0] }}%</div>
     </div>
   </div>
   <div class="large-bar" *ngIf="data.type == 'rlp-large-bar'">
     <div class="large-bar-head">{{ data.data.gdata.count }}</div>
     <div class="large-bar-body">
       <app-common-bar [config]="config.largeCard"></app-common-bar>
-      <div class="large-card-percentage">{{ config.largeCard.percentage }}</div>
+      <div class="large-card-percentage">{{ data.data.gdata.percentage[0] }}%</div>
     </div>
   </div>
   <div class="table-bar" *ngIf="data.type == 'rlp-table-bar'">
@@ -19,6 +19,6 @@
     <div class="table-bar-body">
       <app-common-bar [config]="config.tableCard"></app-common-bar>
     </div>
-    <div class="table-bar-percentage ">{{ config.tableCard.percentage }}</div>
+    <div class="table-bar-percentage ">{{ data.data.gdata.percentage[0] }}%</div>
   </div>
 </div>

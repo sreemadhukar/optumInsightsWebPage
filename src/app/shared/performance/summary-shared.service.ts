@@ -74,7 +74,9 @@ export class SummarySharedService {
                       this.numberFormatting(response[0].Denominator.toFixed(0)) +
                       ' ' +
                       getStaticData.suffix,
-                    percentage: response[0].RateWithPercentage
+                    percentage: [response[0].RateWithPercentage],
+                    color: ['#3381FF', '#E0E0E0'],
+                    baseLine: 0
                   }
                 },
                 timeperiod:
