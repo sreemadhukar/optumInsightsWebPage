@@ -78,7 +78,15 @@ export class SmartEditsSharedService {
   }
 
   public getSmartEditsRepairedResubmittedShared(param) {
-    let repairedResubmittedData: any = [];
+    const repairedResubmittedData: any = [];
+    const result = {
+      category: 'app-card',
+      status: null,
+      title: 'Smart Edits Repaired & Resubmitted Response Time',
+      data: null,
+      MetricID: this.MetricidService.MetricIDs.SmartEditsResubmitted,
+      timeperiod: null
+    };
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.smartEditsService.smartEditReturned(parameters).subscribe(smartEditsData => {
@@ -89,17 +97,31 @@ export class SmartEditsSharedService {
           const widthMap = this.widthFunctionForRepairBars(repairedResubmittedData[0], repairedResubmittedData[1]);
           repairedResubmittedData[2] = widthMap[0];
           repairedResubmittedData[3] = widthMap[1];
-          resolve(repairedResubmittedData);
+
+          const maxValue = Math.max(repairedResubmittedData[2], repairedResubmittedData[3]);
+
+          const lessThan5DaysBarData = {};
+          lessThan5DaysBarData['id'] = 'lessThan5';
+          lessThan5DaysBarData['height'] = '48px';
+          lessThan5DaysBarData['title'] = 'Less Than 5 Days';
+          lessThan5DaysBarData['numeric'] = repairedResubmittedData[2];
+          lessThan5DaysBarData['maxValue'] = maxValue;
+          lessThan5DaysBarData['color'] = '#3381ff';
+
+          const greaterThan5DaysBarData = {};
+          greaterThan5DaysBarData['id'] = 'greaterThan5';
+          greaterThan5DaysBarData['height'] = '48px';
+          greaterThan5DaysBarData['title'] = 'Greater Than 5 Days';
+          greaterThan5DaysBarData['numeric'] = repairedResubmittedData[3];
+          greaterThan5DaysBarData['maxValue'] = maxValue;
+          greaterThan5DaysBarData['color'] = '#fc6431';
+          result.data = { content: repairedResubmittedData, list: [lessThan5DaysBarData, greaterThan5DaysBarData] };
+          result.timeperiod = this.getTimePeriod(smartEditsData.Data);
+
+          resolve(result);
         } else {
-          repairedResubmittedData = {
-            category: 'app-card',
-            type: 'donutWithLabel',
-            status: 404,
-            title: 'Smart Edits Repaired & Resubmitted Response Time',
-            data: null,
-            timeperiod: null
-          };
-          resolve(repairedResubmittedData);
+          result.status = 404;
+          resolve(result);
         }
       });
     });
@@ -127,12 +149,19 @@ export class SmartEditsSharedService {
   }
 
   public getSmartEditSharedTopReasons(param) {
-    const reason = [];
+    const result = {
+      category: 'app-card',
+      title: 'Smart Edits Returned Claims Top Reasons',
+      MetricID: this.MetricidService.MetricIDs.SmartEditsReturnedReasons,
+      data: [],
+      timeperiod: null,
+      status: null
+    };
 
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.smartEditsService.getSmartEditTopReasons(parameters).subscribe(smartEditReasonData => {
-        if (smartEditReasonData != null && smartEditReasonData.Data != null) {
+        if (smartEditReasonData !== null && smartEditReasonData.Data != null) {
           const reasonsCode = [{}];
           const reasonsPercentageVal1 = [{}];
           const reasonsDesc = [{}];
@@ -146,8 +175,9 @@ export class SmartEditsSharedService {
             reasonsPercentageVal2[a] = 100 - Number(reasonsPercentageVal1[a]);
             barVal[a] = reasonsPercentageVal1[a] + '%';
           }
+          const reasons = [];
           for (let i = 0; i < smartEditReasonData.Data.Reasons.length; i++) {
-            reason.push({
+            reasons.push({
               type: 'bar chart',
               cdata: 'smartedit',
               graphValues: [reasonsPercentageVal1[i], reasonsPercentageVal2[i]],
@@ -155,27 +185,21 @@ export class SmartEditsSharedService {
               barDescp: reasonsDesc[i],
               barValue: [barVal[i]],
               color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
-              gdata: ['app-card-structure', 'smartEditClaimsOverturnReason' + i],
-              timeperiod:
-                this.common.dateFormat(smartEditReasonData.Data.PeriodStart) +
-                '&ndash;' +
-                this.common.dateFormat(smartEditReasonData.Data.PeriodEnd)
+              gdata: ['app-card-structure', 'smartEditClaimsOverturnReason' + i]
             });
           }
+          result.data = reasons;
+          result.timeperiod = this.getTimePeriod(smartEditReasonData.Data);
         } else {
-          reason.push({
-            category: 'app-card',
-            type: 'donut',
-            status: 404,
-            title: 'Smart Edits Returned Claims Top Reasons',
-            MetricID: this.MetricidService.MetricIDs.SmartEditsReturnedReasons,
-            data: null,
-            timeperiod: null
-          });
-        } // promise
-        const r = reason;
-        resolve(r);
-      }); // function end
+          result.status = 404;
+        }
+        resolve(result);
+      });
     });
+  }
+
+  private getTimePeriod(dataObject: any) {
+    const { PeriodStart = new Date(), PeriodEnd = new Date() } = dataObject;
+    return this.common.dateFormat(PeriodStart) + '&ndash;' + this.common.dateFormat(PeriodEnd);
   }
 }

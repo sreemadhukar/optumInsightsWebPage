@@ -91,7 +91,7 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
       .selectAll('*')
       .remove();
 
-    const margin = { top: 12, right: 0, bottom: 10, left: 0 };
+    const margin = { top: 12, right: 40, bottom: 10, left: 32 };
     const width = preWidth - margin.left - margin.right;
     const height = 50 - margin.top - margin.bottom;
     let chart;
@@ -99,7 +99,7 @@ export class MedBarChartTwoComponent implements OnInit, AfterViewInit {
     chart = d3
       .select(this.renderChart)
       .append('svg')
-      .attr('width', width + margin.left + margin.right)
+      .attr('width', width)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
       .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
