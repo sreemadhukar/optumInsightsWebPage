@@ -98,7 +98,11 @@
           </div>
         </div>
         <div class="line-graph-padding">
-          <app-multi-line-graph *ngIf="!callsLoading && callsTrendLineGraph" [chartOptions]="callsTrendLineGraph">
+          <app-multi-line-graph
+            *ngIf="!callsLoading && callsTrendLineGraph"
+            [chartOptions]="callsTrendLineGraph"
+            [timePeriodFilter]="timePeriod"
+          >
           </app-multi-line-graph>
         </div>
       </div>

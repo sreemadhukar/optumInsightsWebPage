@@ -19,28 +19,51 @@ export class CommonBarComponent implements OnInit, AfterViewInit {
     this.bar();
   }
   bar() {
-    const barBody = d3.select('#' + this.id);
-    const bar = barBody
-      .append('div')
-      .style('width', this.config.width)
-      .style('height', this.config.height)
-      .style('display', 'flex')
-      .style('border-radius', '0 2px 2px 0');
+    let remainingPercentage = 100;
+    const whiteGapWidth = (1.5 / parseInt(this.config.width)) * 100; // 1.5 is the practical px size of the gap now it is 1.5px
+
+    const barBody = d3
+      .select('#' + this.id)
+      .append('svg')
+      .attr('height', this.config.height)
+      .attr('width', this.config.width)
+      .style('overflow', 'visible')
+      .append('g');
+    const bar = barBody;
+    for (let i = 0; i < this.config.percentage.length; i++) {
+      if (this.config.percentage[i] > 0) {
+        bar
+          .append('rect')
+          .attr('x', 100 - remainingPercentage + '%')
+          .attr('width', this.config.percentage[i] - whiteGapWidth + '%')
+          .attr('height', '100%')
+          .attr('fill', this.config.color[i]);
+        bar
+          .append('rect')
+          .attr('x', 100 - remainingPercentage + this.config.percentage[i] - whiteGapWidth + '%')
+          .attr('width', whiteGapWidth + '%')
+          .attr('height', '100%')
+          .attr('fill', 'white');
+        remainingPercentage = remainingPercentage - this.config.percentage[i];
+      }
+    }
     bar
-      .append('div')
-      .style('width', this.config.percentage)
+      .append('rect')
+      .attr('x', 100 - remainingPercentage + '%')
+      .attr('width', remainingPercentage + '%')
       .style('height', '100%')
-      .style('background-color', this.config.color[0]);
-    bar
-      .append('div')
-      .style('width', '1px')
-      .style('height', '100%')
-      .style('background-color', 'white');
-    bar
-      .append('div')
-      .style('flex-grow', '1')
-      .style('height', '100%')
-      .style('background-color', this.config.color[1])
-      .style('border-radius', '0 2px 2px 0');
+      .attr('fill', this.config.color[this.config.color.length - 1]);
+
+    if (this.config.baseLine) {
+      bar
+        .append('line')
+        .attr('x1', this.config.baseLine + '%')
+        .attr('y1', -5)
+        .attr('x2', this.config.baseLine + '%')
+        .attr('y2', parseInt(this.config.height) + 5)
+        .style('stroke-dasharray', '7,3')
+        .style('stroke', 'black')
+        .style('stroke-width', '2px');
+    }
   }
 }

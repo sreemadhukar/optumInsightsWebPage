@@ -14,9 +14,10 @@
 }
 
 ::ng-deep .payments .card-structure {
+  margin-left: 0px !important;
   width: 100%;
   .card-inner-large {
-    margin: unset;
+    margin-left: 0px;
     width: 100%;
   }
 }
@@ -65,6 +66,7 @@
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   display: inline-block;
   height: 525px;
+  margin: 12px 0;
   .claims-header {
     color: $strom-grey;
   }

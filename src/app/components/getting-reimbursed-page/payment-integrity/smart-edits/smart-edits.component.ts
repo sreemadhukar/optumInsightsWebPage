@@ -1,8 +1,6 @@
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 import { Component, OnInit, Input } from '@angular/core';
-import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
-import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { CommonUtilsService } from '../../../../shared/common-utils.service';
 import { StorageService } from '../../../../shared/storage-service.service';
@@ -20,38 +18,19 @@ import { ModalPopupService } from '../../../../common-utils/modal-popup/modal-po
 })
 export class SmartEditsComponent implements OnInit {
   @Input() printStyle;
-  // topReasonsData: any;
-  loading: boolean;
   reportLink: string;
   pageTitle: String = '';
-  metricId = 'NA';
-  lob: string;
-  taxID: Array<string>;
-  timePeriod: string;
-  timePeriodr: string;
-  smartEditClaimsReturned: any;
-  smartEditsRepairedAndResubmittedTitle = 'Smart Edits Repaired & Resubmitted Response Time';
-  smartEditsReasonTitle = 'Smart Edits Returned Claims Top Reasons';
-  claimsTopReason = [];
-  claimsInfoTopReason = [];
-  smartEditsInformationalTitle = 'Smart Edits Top Informational Reasons';
+  pagesubTitle: String = '';
   subscription: any;
-  showSmartEdits = false;
-  smartEditsData: any;
   seReturnedLoading = true;
-  smartEditsTopReasonsData: any;
-  reasonDataAvailable: boolean;
-  reason: any = [];
-  seRepairedLoading: boolean;
+  seRepairedLoading = true;
   seReasonsLoading = true;
-  smartEditClaimsRepairedResubmitted: any;
-  returnMockCards: any;
-  repairMockCards: any;
-  lessThan5DaysBarData: any;
-  greaterThan5DaysBarData: any;
+
+  smartEditClaimsReturned: any = {};
+  smartEditClaimsRepairedResubmitted: any = {};
+  reasonsData: any = {};
+
   constructor(
-    private glossaryExpandService: GlossaryExpandService,
-    public MetricidService: GlossaryMetricidService,
     private session: SessionService,
     private checkStorage: StorageService,
     private readonly createPayloadService: CreatePayloadService,
@@ -62,8 +41,6 @@ export class SmartEditsComponent implements OnInit {
     private readonly iconRegistry: MatIconRegistry,
     private readonly sanitizer: DomSanitizer
   ) {
-    this.pageTitle = 'Smart Edits';
-    this.reportLink = 'View Smart Edits Reference Guide';
     this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.common.urlResuseStrategy();
@@ -81,13 +58,17 @@ export class SmartEditsComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.printStyle) {
+      this.pageTitle = this.session.getHealthCareOrgName();
+      this.pagesubTitle = 'Getting Reimbursed - Payment Integrity - Smart Edits';
+    } else {
+      this.pageTitle = 'Smart Edits';
+      this.reportLink = 'View Smart Edits Reference Guide';
+    }
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'smartEditsPage' });
     this.checkStorage.emitEvent('smartEditsPage');
-
-    this.reasonDataAvailable = true;
     this.smartEditReturnedData();
     this.SmartEditReturneddTopReasons();
-    this.timePeriod = this.session.filterObjValue.timeFrame;
     this.smartEditRepairedResubmittedData();
   }
   // modal poup function
@@ -117,7 +98,8 @@ export class SmartEditsComponent implements OnInit {
   saveData() {
     window.open('https://www.uhcprovider.com/content/dam/provider/docs/public/resources/edi/EDI-ACE-Smart-Edits.pdf');
   }
-  // **** Smart Edits Claims Returned Starts here**** //
+
+  // Section 1
   smartEditReturnedData() {
     this.seReturnedLoading = true;
     this.smartEditsSharedService
@@ -125,67 +107,26 @@ export class SmartEditsComponent implements OnInit {
       .then((smartEditsData: any) => {
         this.smartEditClaimsReturned = smartEditsData;
         this.seReturnedLoading = false;
-        this.timePeriodr = this.smartEditClaimsReturned.timeperiod;
-      })
-      .catch(reason => {
-        console.log('Error in Smart Edits', reason);
-        this.seReturnedLoading = false;
-      });
-  } // **** Ends here *** //
-
-  // **** Smart Edits Repaired & Resubmitted Response Time Starts here**** //
-  smartEditRepairedResubmittedData() {
-    this.smartEditsSharedService
-      .getSmartEditsRepairedResubmittedShared(this.createPayloadService.payload)
-      .then((smartEditsData: any) => {
-        const maxValue = Math.max(smartEditsData[2], smartEditsData[3]);
-        this.lessThan5DaysBarData = {};
-        this.lessThan5DaysBarData['id'] = 'lessThan5';
-        this.lessThan5DaysBarData['title'] = 'Less Than 5 Days';
-        this.lessThan5DaysBarData['numeric'] = smartEditsData[2];
-        this.lessThan5DaysBarData['maxValue'] = maxValue;
-        this.lessThan5DaysBarData['color'] = '#3381ff';
-
-        this.greaterThan5DaysBarData = {};
-        this.greaterThan5DaysBarData['id'] = 'greaterThan5';
-        this.greaterThan5DaysBarData['title'] = 'Greater Than 5 Days';
-        this.greaterThan5DaysBarData['numeric'] = smartEditsData[3];
-        this.greaterThan5DaysBarData['maxValue'] = maxValue;
-        this.greaterThan5DaysBarData['color'] = '#fc6431';
-
-        this.smartEditClaimsRepairedResubmitted = smartEditsData;
-      })
-      .catch(reason => {
-        console.log('Error in Smart Edits', reason);
-      });
-  } // **** Ends here *** //
-
-  // **** Smart Edits Claims Top Reasons Starts here**** //
-  SmartEditReturneddTopReasons() {
-    this.seReasonsLoading = true;
-    this.smartEditsSharedService
-      .getSmartEditSharedTopReasons(this.createPayloadService.payload)
-      .then((smartEditsTopReasonsData: any) => {
-        const topReasonsData = smartEditsTopReasonsData;
-
-        console.log('this.topReasonsData', topReasonsData);
-        if (topReasonsData && topReasonsData.lenth > 0) {
-          this.reasonDataAvailable = true;
-          this.seReasonsLoading = false;
-        } else {
-          this.reasonDataAvailable = false;
-          this.seReasonsLoading = false;
-        }
-        this.reason = topReasonsData;
-        console.log('reasons', this.reason);
-      })
-      .catch(err => {
-        console.log('Error', err);
-        this.seReasonsLoading = false;
       });
   }
-  // **** Ends here *** //
-  helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title, this.metricId);
+
+  // Section 2
+  smartEditRepairedResubmittedData() {
+    this.seRepairedLoading = true;
+    this.smartEditsSharedService
+      .getSmartEditsRepairedResubmittedShared(this.createPayloadService.payload)
+      .then((result: any) => {
+        this.smartEditClaimsRepairedResubmitted = result;
+        this.seRepairedLoading = false;
+      });
+  }
+
+  // Section 3
+  SmartEditReturneddTopReasons() {
+    this.seReasonsLoading = true;
+    this.smartEditsSharedService.getSmartEditSharedTopReasons(this.createPayloadService.payload).then((result: any) => {
+      this.reasonsData = result;
+      this.seReasonsLoading = false;
+    });
   }
 }

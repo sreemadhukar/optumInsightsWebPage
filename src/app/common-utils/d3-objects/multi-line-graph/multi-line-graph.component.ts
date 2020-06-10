@@ -34,6 +34,7 @@ export class MultiLineGraphComponent implements OnInit {
   @Input() tooltipBool;
   @Input() _changeTimeFrame: string;
   @Input() denialLineGraph;
+  @Input() timePeriodFilter;
   set changeTimeFrame(value: string) {
     this.selectYear = value;
     if (this.count !== 1) {
@@ -279,10 +280,12 @@ export class MultiLineGraphComponent implements OnInit {
       })
     );
 
-    const lengthOfData = chartData.length;
-    const lengthOfData1 = chartData1.length;
-    const lengthOfData2 = chartData2.length;
-    const lengthOfData3 = chartData3.length;
+    const lengthOfData = chartData.length,
+      lengthOfData1 = chartData1.length,
+      lengthOfData2 = chartData2.length,
+      lengthOfData3 = chartData3.length,
+      timePeriodFilter = this.timePeriodFilter,
+      cardTitle = this.chartOptions.chartId;
     const xScale = d3
       .scaleLinear()
       .domain([0, lengthOfData - 1]) // input
@@ -314,6 +317,13 @@ export class MultiLineGraphComponent implements OnInit {
           .axisBottom(xScale3)
           .tickSize(0, 0, 0)
           .tickSizeOuter([0])
+          .tickFormat(function(d) {
+            if (cardTitle === 'calls-trend-block' && timePeriodFilter === 'Last 3 Months') {
+              return d.indexOf('01') !== -1 ? d.replace('0', '') : d.replace('0', '').slice(4, 6);
+            } else {
+              return d;
+            }
+          })
       );
 
     chart
@@ -487,6 +497,10 @@ export class MultiLineGraphComponent implements OnInit {
             }
           });
         }
+        if (this.monthValue.indexOf('0') !== -1) {
+          this.monthValue = this.monthValue.replace('0', '');
+        }
+        this.monthValue = this.monthValue.replace(/[^0-9](?=[0-9])/g, '$& ');
         if (d3.event.layerX + 213 < width + margin.left + margin.right) {
           tooltipVar
             .html(

@@ -4,6 +4,7 @@
   position: relative;
   float: left;
   width: 100%;
+  margin: 12px;
 
   .card-inner-large {
     background-color: $white;
@@ -30,7 +31,6 @@
     position: relative;
     overflow: hidden;
     font-size: 30px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
     border-radius: 2px;
   }
   .full-width-block {

@@ -1,30 +1,24 @@
 <div class="page2" *ngIf="selectedPage === 'overviewPage'">
   <app-overview [printStyle]="printStyle"></app-overview>
 </div>
-<div class="page1" *ngIf="selectedPage === 'gettingReimbursedSummary'">
-  <app-getting-reimbursed [printStyle]="printStyle"></app-getting-reimbursed>
-</div>
-<div class="page1" *ngIf="selectedPage === 'paymentsPage'">
-  <app-payments [printStyle]="printStyle"></app-payments>
-</div>
-<div class="page1" *ngIf="selectedPage === 'appealsPage'">
-  <app-appeals [printStyle]="printStyle"></app-appeals>
-</div>
-<div class="page1" *ngIf="selectedPage === 'nonPaymentsPage'">
-  <app-non-payments [printStyle]="printStyle"></app-non-payments>
-</div>
-<div class="page1" *ngIf="selectedPage === 'paymentIntegrityPage'">
-  <app-payment-integrity [printStyle]="printStyle"></app-payment-integrity>
-</div>
-<div class="page1" *ngIf="selectedPage === 'priorAuthPage'">
-  <app-prior-auth [printStyle]="printStyle"></app-prior-auth>
-</div>
-<div class="page1" *ngIf="selectedPage === 'pcorPage'">
-  <app-patient-care-opportunity [printStyle]="printStyle"></app-patient-care-opportunity>
-</div>
-<div class="page1" *ngIf="selectedPage === 'callsPage'">
-  <app-calls [printStyle]="printStyle"></app-calls>
-</div>
-<div class="page1" *ngIf="selectedPage === 'selfServicePage'">
-  <app-self-service [printStyle]="printStyle"></app-self-service>
+<div class="page1">
+  <app-getting-reimbursed
+    *ngIf="selectedPage === 'gettingReimbursedSummary'"
+    [printStyle]="printStyle"
+  ></app-getting-reimbursed>
+  <app-payments *ngIf="selectedPage === 'paymentsPage'" [printStyle]="printStyle"></app-payments>
+  <app-appeals *ngIf="selectedPage === 'appealsPage'" [printStyle]="printStyle"></app-appeals>
+  <app-non-payments *ngIf="selectedPage === 'nonPaymentsPage'" [printStyle]="printStyle"></app-non-payments>
+  <app-payment-integrity
+    *ngIf="selectedPage === 'paymentIntegrityPage'"
+    [printStyle]="printStyle"
+  ></app-payment-integrity>
+  <app-prior-auth *ngIf="selectedPage === 'priorAuthPage'" [printStyle]="printStyle"></app-prior-auth>
+  <app-patient-care-opportunity
+    *ngIf="selectedPage === 'pcorPage'"
+    [printStyle]="printStyle"
+  ></app-patient-care-opportunity>
+  <app-calls *ngIf="selectedPage === 'callsPage'" [printStyle]="printStyle"></app-calls>
+  <app-self-service *ngIf="selectedPage === 'selfServicePage'" [printStyle]="printStyle"></app-self-service>
+  <app-smart-edits *ngIf="selectedPage === 'smartEditsPage'" [printStyle]="printStyle"></app-smart-edits>
 </div>
