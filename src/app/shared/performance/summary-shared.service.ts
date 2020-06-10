@@ -37,7 +37,7 @@ export class SummarySharedService {
   constructor(
     private readonly MetricidService: GlossaryMetricidService,
     private readonly session: SessionService,
-    private toggle: AuthorizationService,
+    private readonly toggle: AuthorizationService,
     private performanceRestService: PerformanceRestService,
     private common: CommonUtilsService
   ) {

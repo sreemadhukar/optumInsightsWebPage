@@ -28,6 +28,7 @@
     border: 1px solid #b3babc;
     border-radius: 2px;
     background-color: #f1f4f7;
+    display: inline-flex;
 
     .calender-icon {
       padding-left: 12px;
@@ -35,18 +36,16 @@
       padding-right: 8px;
       height: 16px;
       width: 16px;
-      display: inline-block;
     }
 
     .year-field {
-      padding-top: 11px;
+      padding-top: 14px;
       padding-bottom: 11px;
       height: 18px;
       width: 168px;
       color: #2d2d39;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       font-size: 14px;
-      display: inline-block;
     }
   }
 }

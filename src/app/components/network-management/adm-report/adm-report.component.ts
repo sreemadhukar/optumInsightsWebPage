@@ -10,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class AdmReportComponent implements OnInit {
   @Input() printStyle;
   pageTitle: string;
+  year: string;
 
   constructor(private readonly iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
@@ -20,5 +21,6 @@ export class AdmReportComponent implements OnInit {
 
   ngOnInit() {
     this.pageTitle = 'Appropriate Decision Monitoring (ADM)';
+    this.year = 'Year over Year (2017-2019)';
   }
 }
