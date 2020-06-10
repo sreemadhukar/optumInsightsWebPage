@@ -29,9 +29,9 @@ export class SummaryComponent implements OnInit, OnDestroy {
   public countHCOnull: number;
   timeFilterValueResolved: string;
   constructor(
-    private ngRedux: NgRedux<IAppState>,
-    private summarySharedService: SummarySharedService,
-    private checkStorage: StorageService,
+    private readonly ngRedux: NgRedux<IAppState>,
+    private readonly summarySharedService: SummarySharedService,
+    private readonly checkStorage: StorageService,
     private filtermatch: CommonUtilsService,
     private route: Router
   ) {
@@ -72,7 +72,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       })
       .catch(reason => {
         this.referralsLoading = false;
-        console.log('Error Payment Submission Adovate Overview page Payment', reason);
+        console.log('Error in referrals', reason);
       });
   }
 
@@ -92,7 +92,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       })
       .catch(reason => {
         this.labsLoading = false;
-        console.log('Error Payment Submission Adovate Overview page Payment', reason);
+        console.log('Error in labs', reason);
       });
   }
 
@@ -112,7 +112,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       })
       .catch(reason => {
         this.prescriptionLoading = false;
-        console.log('Error Payment Submission Adovate Overview page Payment', reason);
+        console.log('Error in prescription', reason);
       });
   }
 }

@@ -36,7 +36,7 @@ export class SummarySharedService {
   public hcoData$: Subscription;
   constructor(
     private readonly MetricidService: GlossaryMetricidService,
-    private session: SessionService,
+    private readonly session: SessionService,
     private toggle: AuthorizationService,
     private performanceRestService: PerformanceRestService,
     private common: CommonUtilsService

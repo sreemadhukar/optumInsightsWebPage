@@ -9,9 +9,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class AdmReportComponent implements OnInit {
   @Input() printStyle;
-  pageTitle: String = '';
+  pageTitle: string;
 
-  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+  constructor(private readonly iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer) {
     this.iconRegistry.addSvgIcon(
       'calender',
       this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/calender.svg')

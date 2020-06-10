@@ -338,11 +338,11 @@
   visibility: hidden;
 }
 
-.icon:hover mat-icon {
+.active mat-icon {
   visibility: visible;
 }
 
-.active mat-icon {
+.icon:hover mat-icon {
   visibility: visible;
 }
 

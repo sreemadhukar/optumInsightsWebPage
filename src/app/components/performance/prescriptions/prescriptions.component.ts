@@ -29,8 +29,8 @@ export class PrescriptionsComponent implements OnInit, OnDestroy {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private tableTinShared: RlpSharedService,
-    private summarySharedService: SummarySharedService,
-    private checkStorage: StorageService,
+    private readonly summarySharedService: SummarySharedService,
+    private readonly checkStorage: StorageService,
     private filtermatch: CommonUtilsService,
     private route: Router
   ) {

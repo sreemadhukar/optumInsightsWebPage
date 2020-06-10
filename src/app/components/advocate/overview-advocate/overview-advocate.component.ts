@@ -247,7 +247,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   }
 
   totalCallsTrendLineData() {
-    // this.callsLineGraphLoading = true;
     this.overviewAdvocateSharedService
       .getTotalCallsTrendLineShared(this.createPayloadService.payload)
       .then(totalCallsTrendData => {
@@ -258,7 +257,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
             totalCallsTrendData['CLAIMS'].length === 0 &&
             totalCallsTrendData['Other'].length === 0)
         ) {
-          // this.callsLineGraphLoading = false;
           this.callsData = null;
           this.callsLineGraphData = {
             category: 'large-card',
@@ -270,8 +268,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
             timeperiod: null
           };
         } else {
-          // this.callsLineGraphLoading = false;
-          // let callsTrendData;
           const callsTrendData = { ...totalCallsTrendData };
           this.callsTrendLineGraph = new CallsTrendData(callsTrendData, CallsGeneralData, 'calls-trend-block');
           this.callsData = [];
