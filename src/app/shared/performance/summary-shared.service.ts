@@ -5,8 +5,10 @@ import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { PerformanceRestService } from '../../rest/performance/performance-rest.service';
 import { rlpPageName, rlpCardType, rlpBarType } from '../../modals/rlp-data';
 import { CommonUtilsService } from '../common-utils.service';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { map, catchError } from 'rxjs/operators';
 
 export const getCategoryAndType = [
   { category: rlpCardType.longCard, type: rlpBarType.longCard },
@@ -35,13 +37,15 @@ export const pageMapApiEndpoint = [
 export class SummarySharedService {
   public requestBody: Object;
   public hcoData$: Subscription;
-  private pocaServiceflag: boolean = environment.pocaService;
+  private APP_URL: string = environment.apiProxyUrl;
+  private POCA_PATH: string = environment.apiUrls.PocaStatus;
   constructor(
     private readonly MetricidService: GlossaryMetricidService,
     private session: SessionService,
     private toggle: AuthorizationService,
     private performanceRestService: PerformanceRestService,
-    private common: CommonUtilsService
+    private common: CommonUtilsService,
+    private http: HttpClient
   ) {
     this.requestBody = { timeFilter: 'YTD' };
   }
@@ -96,17 +100,34 @@ export class SummarySharedService {
     });
   }
   public getPocaService() {
-    const pocaServiceData = {
-      category: 'app-card',
-      type: 'pocaServiceStatus',
-      title: 'POCa Service Activated',
-      MetricID: this.MetricidService.MetricIDs.POCaServiceActivated,
-      data: this.pocaServiceflag,
-      besideData: null,
-      bottomData: null,
-      timeperiod: ''
-    };
-    return pocaServiceData;
+    return new Promise(resolve => {
+      let pocaServiceData;
+      this.getPocaRestCall().subscribe((pocaData: any) => {
+        try {
+          pocaServiceData = {
+            category: 'app-card',
+            type: 'pocaServiceStatus',
+            title: 'POCa Service Activated',
+            MetricID: this.MetricidService.MetricIDs.POCaServiceActivated,
+            data: pocaData['Data'].PocaIndicator,
+            besideData: null,
+            bottomData: null,
+            timeperiod: ''
+          };
+          resolve(pocaServiceData);
+        } catch (Error) {
+          console.log(Error);
+        }
+      });
+    });
+  }
+  public getPocaRestCall() {
+    const providersKey = this.session.providerKeyData();
+    const pocaURL = this.APP_URL + this.POCA_PATH + providersKey;
+    return this.http.get(pocaURL).pipe(
+      map(res => res),
+      catchError(err => of(err))
+    );
   }
 
   public unGetHCOdata() {

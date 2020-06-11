@@ -123,9 +123,15 @@ export class SummaryComponent implements OnInit, OnDestroy {
   pocaService() {
     this.pocaServiceLoading = true;
     this.pocaServiceMockCards = [{}];
-    this.pocaSerivceCard = this.summarySharedService.getPocaService();
-    if (this.pocaSerivceCard) {
-      this.pocaServiceLoading = false;
-    }
+    this.summarySharedService
+      .getPocaService()
+      .then((data: any) => {
+        this.pocaSerivceCard = data;
+        this.pocaServiceLoading = false;
+      })
+      .catch(reason => {
+        this.pocaServiceLoading = false;
+        console.log('Error POCa Service Activated', reason);
+      });
   }
 }

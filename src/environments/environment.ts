@@ -72,6 +72,7 @@ export const environment: any = {
     AppealsFHIR: 'claims-appeals-metrics/',
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
+    PocaStatus: 'poca-status/',
     RefreshToken: 'getRefreshToken/',
     HealthSystemDetails: 'providerInfo/',
     KOPBusinessGlossary: 'business-glossaries-kop/',
@@ -110,7 +111,6 @@ export const environment: any = {
   internalAccess: true,
   toggleTrendingSummary: false,
   internalIntAccess: false,
-  pocaService: true,
   sentryKey: 'https://238b4f0a54d44e6186fb9eeab3bb0f20@sentry-ped-internal.ocp-ctc-core.optum.com/2',
   noSentry: true
 };

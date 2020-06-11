@@ -426,13 +426,15 @@
       <div *ngIf="chartData.type == 'pocaServiceStatus'" class="full-width-block activationStatus">
         <img
           [src]="
-            chartData.data ? 'src/assets/images/icons/Alert/success.svg' : 'src/assets/images/icons/Alert/NoPOCa.svg'
+            chartData.data === 'Y'
+              ? 'src/assets/images/icons/Alert/success.svg'
+              : 'src/assets/images/icons/Alert/NoPOCa.svg'
           "
         />
-        <div *ngIf="chartData.data" class="activationStatus-caption">
+        <div *ngIf="chartData.data === 'Y'" class="activationStatus-caption">
           Yes, at least one POCa Service has been activated.
         </div>
-        <div *ngIf="!chartData.data" class="activationStatus-caption">POCa Service has not been activated.</div>
+        <div *ngIf="chartData.data === 'N'" class="activationStatus-caption">POCa Service has not been activated.</div>
       </div>
 
       <!--Network lever-->
