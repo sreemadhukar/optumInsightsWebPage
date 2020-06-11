@@ -63,8 +63,7 @@
       <app-claims-paid-bar-graph [chartOptions]="cData[0]"></app-claims-paid-bar-graph>
 
       <div class="timeperiod-block">
-        <hr class="footer-border" />
-        <p class="timeperiod-text">{{ timePeriod }}</p>
+        <app-common-footer [timePeriod]="timePeriod"></app-common-footer>
       </div>
     </div>
     <!--Claims Paid Breakdown Graph Ends here -->

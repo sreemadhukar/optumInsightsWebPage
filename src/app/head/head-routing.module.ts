@@ -64,6 +64,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'AdminSummaryTrends',
+    loadChildren: '../components/summary-trends/summary-trends.module#SummaryTrendsModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'TermsofUse',
     component: TermsOfUseComponent
   },

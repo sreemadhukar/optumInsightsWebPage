@@ -297,8 +297,7 @@ export class TopRowAdvOverviewSharedService {
   public claimsPaidMethod(paymentData): Object {
     let claimsPaid: Object;
     if (
-      paymentData.hasOwnProperty('All') &&
-      paymentData.All != null &&
+      (paymentData || {}).All &&
       paymentData.All.hasOwnProperty('ClaimsLobSummary') &&
       paymentData.All.ClaimsLobSummary.length &&
       paymentData.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
@@ -386,8 +385,7 @@ export class TopRowAdvOverviewSharedService {
   public claimsNotPaidMethod(paymentData): Object {
     let claimsNotPaid: Object;
     if (
-      paymentData.hasOwnProperty('All') &&
-      paymentData.All != null &&
+      (paymentData || {}).All &&
       paymentData.All.hasOwnProperty('ClaimsLobSummary') &&
       paymentData.All.ClaimsLobSummary.length &&
       paymentData.All.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')

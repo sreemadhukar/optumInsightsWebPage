@@ -53,5 +53,26 @@
         [data]="item"
       ></app-error-card>
     </div>
+    <!-- Claims Non - Payment Trend  Starts Here -->
+    <app-error-card
+      *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
+      class="cards"
+      [data]="monthlyLineGraph"
+    ></app-error-card>
+    <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
+      <app-common-header
+        [title]="trendTitle"
+        class="full-display bottom-margin-block"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <div class="full-display">
+        <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
+        <!--div class="timeperiod-block">
+            <p class="timeperiod-text">{{ timePeriod }}</p>
+          </div-->
+      </div>
+      <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
+    </div>
+    <!-- Claims Non - Payment Trend Ends Here -->
   </div>
 </div>

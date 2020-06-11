@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from '../../../shared/storage-service.service';
-import { PriorAuthSharedService } from '../../../shared/prior-authorization/prior-auth.service';
+import { PriorAuthSharedService } from '../../../shared/care-delivery/prior-auth-shared.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';

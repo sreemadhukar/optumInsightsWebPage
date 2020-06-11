@@ -123,7 +123,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'rotateWithLabel',
               status: null,
-              title: 'Average Days for Claims Processing',
+              title: 'Average Claims Turn Around Time',
               MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
               data: null,
               besideData: null,
@@ -227,7 +227,7 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Average Days for Claims Processing',
+                title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 data: {
                   centerNumber: 0 + ' days', // claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
@@ -256,7 +256,7 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Average Days for Claims Processing',
+                title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 data: null,
                 status: null,
@@ -827,7 +827,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'rotateWithLabel',
               status: null,
-              title: 'Average Days for Claims Processing',
+              title: 'Average Claims Turn Around Time',
               MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
               data: null,
               besideData: null,
@@ -940,10 +940,10 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Average Days for Claims Processing',
+                title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 toggle: this.toggle.setToggles(
-                  'Average Days for Claims Processing',
+                  'Average Claims Turn Around Time',
                   'Claims Submissions',
                   'Getting Reimbursed',
                   true
@@ -975,7 +975,7 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Average Days for Claims Processing',
+                title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 status: null,
                 data: {
