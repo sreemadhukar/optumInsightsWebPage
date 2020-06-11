@@ -705,7 +705,7 @@ export class PaymentsSharedService {
           } else {
             summaryData = [[claimsPaid], claimsData];
           }
-
+          console.log('summaryData', summaryData);
           if (summaryData.length) {
             resolve(summaryData);
           }

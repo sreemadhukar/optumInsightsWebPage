@@ -64,18 +64,19 @@ export class TaxSummaryComponent implements OnInit {
           const selectedValue = _.find(this.taxSummaryData.data, { Tin: val.Tin });
           if (this.taxSummaryData.data.indexOf(selectedValue) > -1) {
             selectedValue.checked = true;
-            this.taxSummaryData.filteredData.unshift(
-              this.taxSummaryData.filteredData.splice(selectedValue.id - 1, 1)[0]
-            );
           }
         });
       }
+      for (let i = 0; i < this.taxSummaryData.filteredData.length; i++) {
+        this.taxSummaryData.filteredData[i].id = i + 1;
+      }
+      this.noInputValue();
       this.showAllTins.emit(false);
     }
   }
 
   checkedCount() {
-    return _.filter(this.taxSummaryData.filteredData, 'checked').length;
+    return _.filter(this.taxSummaryData.data, 'checked').length;
   }
   checkAllSelected() {
     return _.some(this.taxSummaryData.filteredData, function(e) {

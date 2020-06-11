@@ -1,0 +1,13 @@
+<div class="card-container">
+  <app-common-header [title]="data.title" (helpIconClicked)="helpIconClick($event)"></app-common-header>
+  <ng-content></ng-content>
+  <div *ngIf="data.status" class="error-container">
+    <div class="icon-container">
+      <img class="icon" src="/src/assets/images/warning-icon.svg" />
+    </div>
+    <div class="title">Data Not Available</div>
+    <div class="description">Sorry. Please change your filter settings</div>
+  </div>
+
+  <app-common-footer *ngIf="!data.status" [timePeriod]="data.timeperiod"></app-common-footer>
+</div>

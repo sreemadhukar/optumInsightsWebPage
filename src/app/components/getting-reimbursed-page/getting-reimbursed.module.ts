@@ -55,7 +55,8 @@ import { NewPaymentIntegrityComponent } from './payment-integrity/new-payment-in
     NonPaymentsComponent,
     ViewTopClaimsComponent,
     AppealsComponent,
-    PaymentIntegrityComponent
+    PaymentIntegrityComponent,
+    SmartEditsComponent
   ]
 })
 export class GettingReimbursedModule {

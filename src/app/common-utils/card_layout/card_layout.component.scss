@@ -1,0 +1,52 @@
+@import '~src/scss/variables.scss';
+
+.card-container {
+  background-color: $white;
+  width: 468px;
+  min-height: 356px;
+  margin: 12px;
+  font-size: 30px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
+  .icon-container {
+    width: auto;
+    box-sizing: border-box;
+    height: 97px;
+    width: 97px;
+    border: 1px solid #bb880a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 48px;
+    background-color: $yellow-light;
+    margin-bottom: 20px;
+    .icon {
+      height: 48px;
+    }
+  }
+  .title {
+    color: $black-rock;
+    font-family: 'UHCSans-SemiBold';
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+  }
+  .description {
+    color: $black-rock;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+    text-align: center;
+  }
+}

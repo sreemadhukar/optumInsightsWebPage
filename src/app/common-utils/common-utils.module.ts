@@ -61,6 +61,7 @@ import { LayoutSeparatorComponent } from './_layouts/layout_seperator/layout_sep
 import { PageHeaderComponent } from './_headers/page_header/page_header.component';
 import { ModalPopupComponent } from './modal-popup/modal-popup.component';
 import { MedBarChartTwoComponent } from './d3-objects/med-bar-chart-two/med-bar-chart-two.component';
+import { CardLayoutComponent } from './card_layout/card_layout.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -73,6 +74,7 @@ import { MedBarChartTwoComponent } from './d3-objects/med-bar-chart-two/med-bar-
     RlpCommonUtilsModule
   ],
   exports: [
+    CardLayoutComponent,
     LayoutContainerComponent,
     LayoutSeparatorComponent,
     PageHeaderComponent,
@@ -119,6 +121,7 @@ import { MedBarChartTwoComponent } from './d3-objects/med-bar-chart-two/med-bar-
     MedBarChartTwoComponent
   ],
   declarations: [
+    CardLayoutComponent,
     LayoutContainerComponent,
     LayoutSeparatorComponent,
     PageHeaderComponent,
