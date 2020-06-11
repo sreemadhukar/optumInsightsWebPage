@@ -1,0 +1,206 @@
+{
+  "ClaimsNonPaymentMetrics": [
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "58-1728803",
+      "ProviderName": "fff Jorgenson",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "NOVANT MEDICAL GROUP",
+      "TinNumber": "58-3428803",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "PRESBYTERIAN HOSPITAL",
+      "TinNumber": "56-0554230",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$650K",
+      "BilledAmount": "$750K",
+      "DateOfProcessing": "06/12/2019",
+      "ClaimNumber": "5675675675"
+    },
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "58-1728803",
+
+      "ProviderName": "Colleen Brady",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "26-0599536",
+      "ProviderName": "Theodore Popodopolous",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "PRESBYTERIAN MEDICAL CARE CORP",
+      "TinNumber": "26-0599536",
+      "ProviderName": "Michael John Monroe",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "COMMUNITY GENERAL HEALTH PARTNERS",
+      "TinNumber": "26-0599536",
+      "ProviderName": "Michael John Monroe",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+
+    {
+      "TinName": "COMMUNITY GENERAL HEALTH PARTNERS",
+      "TinNumber": "56-0636250",
+      "ProviderName": "Michael John Monroe",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "58-1728803",
+      "ProviderName": "fff Jorgenson",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "NOVANT MEDICAL GROUP",
+      "TinNumber": "58-3428803",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "PRESBYTERIAN HOSPITAL",
+      "TinNumber": "56-0554230",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$650K",
+      "BilledAmount": "$750K",
+      "DateOfProcessing": "06/12/2019",
+      "ClaimNumber": "5675675675"
+    },
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "58-1728803",
+      "ProviderName": "fff Jorgenson",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "NOVANT MEDICAL GROUP",
+      "TinNumber": "58-3428803",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "PRESBYTERIAN HOSPITAL",
+      "TinNumber": "56-0554230",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$650K",
+      "BilledAmount": "$750K",
+      "DateOfProcessing": "06/12/2019",
+      "ClaimNumber": "5675675675"
+    },
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "58-1728803",
+
+      "ProviderName": "Colleen Brady",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "26-0599536",
+      "ProviderName": "Theodore Popodopolous",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "PRESBYTERIAN MEDICAL CARE CORP",
+      "TinNumber": "26-0599536",
+      "ProviderName": "Michael John Monroe",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "COMMUNITY GENERAL HEALTH PARTNERS",
+      "TinNumber": "26-0599536",
+      "ProviderName": "Michael John Monroe",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+
+    {
+      "TinName": "COMMUNITY GENERAL HEALTH PARTNERS",
+      "TinNumber": "56-0636250",
+      "ProviderName": "Michael John Monroe",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "58-1728803",
+      "ProviderName": "fff Jorgenson",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "NOVANT MEDICAL GROUP",
+      "TinNumber": "58-3428803",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "PRESBYTERIAN HOSPITAL",
+      "TinNumber": "56-0554230",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$650K",
+      "BilledAmount": "$750K",
+      "DateOfProcessing": "06/12/2019",
+      "ClaimNumber": "5675675675"
+    }
+  ]
+}

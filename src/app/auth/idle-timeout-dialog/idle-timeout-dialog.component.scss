@@ -1,0 +1,82 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+
+.session-warning-modal {
+  /*width: 550px;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.15);*/
+  padding: 24px 56px;
+}
+.session-warning-title {
+  width: 390px;
+  color: $black-rock;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 28px;
+  line-height: 32px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.session-warning-message {
+  width: 390px;
+  color: $black-rock;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  text-align: center;
+  margin-bottom: 21px;
+}
+.session-elapse-time {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 28px;
+}
+.button_container {
+  justify-content: space-between;
+}
+
+.uhci_button {
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  text-align: center;
+  box-sizing: border-box;
+  height: 40px;
+  width: 184.09px;
+  border: 1px solid $blue;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+}
+.button_1 {
+  color: #fff;
+  background: $blue;
+}
+.button_1:hover,
+.button_1:focus {
+  color: #fff;
+  background-color: $blue-base;
+}
+.button_1:active {
+  background-color: transparent;
+  color: $blue;
+}
+
+.button_3 {
+  color: $blue;
+  background: #fff;
+}
+.button_3:hover,
+.button_3:focus {
+  color: #fff;
+  background-color: $blue;
+}
+.button_3:active {
+  background-color: $blue-base;
+  color: #fff;
+}

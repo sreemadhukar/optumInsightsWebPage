@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, HostListener, EventEmitter, Input } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SessionService } from '../../shared/session.service';
@@ -6,7 +6,12 @@ import { Location } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { MatInput } from '@angular/material';
+import { lobName } from '../../modals/lob-name';
+
+export interface FilterData {
+  title: string;
+  selected: boolean;
+}
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
@@ -14,9 +19,14 @@ import { MatInput } from '@angular/material';
 })
 export class FilterComponent implements OnInit {
   public lobData: string;
+  public metricData: string;
+  public data_date: any;
+  public initial_data_date: any;
   public serviceSettingData: string;
   public priorAuthTypeData: string;
   public arrowmark: boolean;
+  public metricarrowmark: boolean;
+  public datearrowmark: boolean;
   public taxData: string;
   public tarrowmark: boolean;
   public tiarrowmark: boolean;
@@ -30,7 +40,7 @@ export class FilterComponent implements OnInit {
   public taxArrayData = [];
   public scArrayData = [];
   public timeframeData: any;
-  public filterData: any;
+  // public filterData: any;
   public scTypeData: string;
   public sctypearrowmark: boolean;
   filteredOptions: Observable<any[]>;
@@ -38,8 +48,26 @@ export class FilterComponent implements OnInit {
 
   @Output() filterFlag = new EventEmitter();
   @Input() filterurl;
-  public timeframes = ['Last 6 Months', 'Last 12 Months', 'Year to Date', '2018', '2017'];
-  public lobs = ['All', 'Community & State', 'Employer & Individual', 'Medicare & Retirement'];
+  @Input() filterData: FilterData[] = [];
+  public timeframes = [
+    'Last 30 Days',
+    'Last 3 Months',
+    'Rolling 3 Months',
+    'Last 6 Months',
+    'Last 12 Months',
+    'Year to Date',
+    '2019',
+    '2018'
+  ];
+
+  public lobs = [
+    lobName.all,
+    lobName.cAndSMedicaid,
+    lobName.eAndICommerCial,
+    lobName.mAndRMedicare,
+    lobName.unCategorized
+  ];
+  public metrics = ['GettingReimbursed', 'Appeals', 'IssueResolution', 'SelfService', 'PriorAuthorization'];
   public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
   public priorauthdecisiontype = ['All', 'Administrative', 'Clinical'];
   public priorauthservicecategory = [
@@ -89,7 +117,6 @@ export class FilterComponent implements OnInit {
     'Cardiac Rehabilitation',
     'Dialysis',
     'PAT Skilled Nursing',
-    'Mental Health',
     'Home and Community Based Services',
     'Ambulatory Surgical Center',
     'Facility Based Service',
@@ -98,12 +125,15 @@ export class FilterComponent implements OnInit {
   ];
   constructor(
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private session: SessionService,
     private location: Location
   ) {
     this.timeframeData = this.session.filterObjValue.timeFrame;
     this.lobData = this.session.filterObjValue.lob;
+    this.metricData = this.session.filterObjValue.metric;
+    this.data_date = this.session.filterObjValue.date;
+    this.initial_data_date = this.session.filterObjValue.date;
     this.arrowmark = false;
     if (this.session.filterObjValue.tax.length > 1) {
       this.taxData = this.session.filterObjValue.tax.join(', ');
@@ -123,13 +153,17 @@ export class FilterComponent implements OnInit {
     this.ssarrowmark = false;
     this.patypearrowmark = false;
     this.sctypearrowmark = false;
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'arrowdn',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        '/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg'
+      )
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'arrowup',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_up-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        '/src/assets/images/icons/Action/baseline-keyboard_arrow_up-24px.svg'
+      )
     );
   }
   public clickArrowMark(value) {
@@ -175,6 +209,12 @@ export class FilterComponent implements OnInit {
       this.arrowmark = false;
       this.tarrowmark = false;
       this.tiarrowmark = false;
+    } else if (value === 'metric') {
+      this.metricarrowmark = !this.metricarrowmark;
+      this.datearrowmark = false;
+    } else if (value === 'date') {
+      this.datearrowmark = !this.datearrowmark;
+      this.metricarrowmark = false;
     }
   }
   ngOnInit() {
@@ -190,22 +230,15 @@ export class FilterComponent implements OnInit {
       } else {
         this.priorAuthTypeData = this.priorauthdecisiontype[0];
       }
-      if (this.session.filterObjValue.priorAuthType) {
-        this.priorAuthTypeData = this.session.filterObjValue.priorAuthType;
-      } else {
-        this.priorAuthTypeData = this.priorauthdecisiontype[0];
-      }
-      if (this.session.filterObjValue.scType) {
-        this.scTypeData = this.session.filterObjValue.scType;
-      } else {
-        this.scTypeData = this.priorauthservicecategory[0];
-      }
-      if (this.priorauthservicecategory.length) {
-        this.filteredOptions = this.serviceCategoryCtrl.valueChanges.pipe(
-          startWith(''),
-          map(value => (value ? this._filter(value) : null))
-        );
-      }
+      // if (this.session.filterObjValue.scType) {
+      //   this.scTypeData = this.session.filterObjValue.scType;
+      // } else {
+      //   this.scTypeData = this.priorauthservicecategory[0];
+      // }
+      this.filteredOptions = this.serviceCategoryCtrl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
     } else {
       this.priorAuthorizationCustomFilterBool = false;
     }
@@ -223,21 +256,29 @@ export class FilterComponent implements OnInit {
 
   resetFilter() {
     this.session.filterObjValue.lob = this.lobData = this.lobs[0];
-    this.session.filterObjValue.timeFrame = this.timeframeData = this.timeframes[0];
+    this.session.filterObjValue.timeFrame = this.timeframeData = this.timeframes[2];
     this.session.filterObjValue.tax = ['All'];
     this.taxData = 'All';
     if (this.priorAuthorizationCustomFilterBool) {
       this.session.filterObjValue.serviceSetting = this.servicesettings[0];
       this.session.store({
-        timeFrame: this.timeframes[0],
+        timeFrame: this.timeframes[2],
         lob: this.lobs[0],
         tax: ['All'],
         serviceSetting: this.servicesettings[0],
         priorAuthType: this.priorauthdecisiontype[0],
-        scType: this.priorauthservicecategory[0]
+        scType: this.priorauthservicecategory[0],
+        date: new Date(),
+        metric: 'GettingReimbursed'
       });
     } else {
-      this.session.store({ timeFrame: this.timeframes[0], lob: this.lobs[0], tax: ['All'] });
+      this.session.store({
+        timeFrame: this.timeframes[2],
+        lob: this.lobs[0],
+        tax: ['All'],
+        date: new Date(),
+        metric: 'GettingReimbursed'
+      });
     }
     this.filterFlag.emit(false);
   }
@@ -251,10 +292,18 @@ export class FilterComponent implements OnInit {
           tax: this.taxArrayData,
           serviceSetting: this.serviceSettingData,
           priorAuthType: this.priorAuthTypeData,
-          scType: this.scTypeData
+          scType: this.scTypeData,
+          date: this.data_date,
+          metric: this.metricData
         });
       } else {
-        this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: this.taxArrayData });
+        this.session.store({
+          timeFrame: this.timeframeData,
+          lob: this.lobData,
+          tax: this.taxArrayData,
+          date: this.data_date,
+          metric: this.metricData
+        });
       }
     } else {
       // this.session.filterObjValue.tax = [this.taxData];
@@ -265,12 +314,21 @@ export class FilterComponent implements OnInit {
           tax: [this.taxData],
           serviceSetting: this.serviceSettingData,
           priorAuthType: this.priorAuthTypeData,
-          scType: this.scTypeData
+          scType: this.scTypeData,
+          date: this.data_date,
+          metric: this.metricData
         });
       } else {
-        this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });
+        this.session.store({
+          timeFrame: this.timeframeData,
+          lob: this.lobData,
+          tax: [this.taxData],
+          date: this.data_date,
+          metric: this.metricData
+        });
       }
     }
+
     this.session.filterObjSubject.complete();
     this.filterFlag.emit(false);
   }
@@ -281,7 +339,6 @@ export class FilterComponent implements OnInit {
     }
   }
   taxArrayFunction(data) {
-    alert(data);
     let tempArray = [];
     if (data) {
       this.taxData = data;
@@ -303,9 +360,19 @@ export class FilterComponent implements OnInit {
     tempArray = data.split(', ');
     this.scArrayData = tempArray.filter((el, i, a) => i === a.indexOf(el));
   }
-  private _filter(value: string): string[] {
+  _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.priorauthservicecategory.filter(servicecategory => servicecategory.toLowerCase().includes(filterValue));
+    return this.priorauthservicecategory.filter(
+      servicecategory => servicecategory.toLowerCase().indexOf(filterValue) === 0
+    );
+  }
+  @HostListener('document:keydown.escape', ['$event'])
+  handleKeyboardEvent(_event: KeyboardEvent) {
+    this.filterFlag.emit(false);
+  }
+
+  formattingText(text) {
+    return text.replace(/([a-z])([A-Z])/g, '$1 $2');
   }
 }

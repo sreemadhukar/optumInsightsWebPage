@@ -1,15 +1,151 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
-@import '../prior-auth/prior-auth.component.scss';
 
-.content-wrapper {
-  .main-content {
-    .cards {
-      .non-small-card-header-title {
-        color: #2d2d39 !important;
-        word-break: break-word;
-        width: 360px;
-      }
+// Patch for cards
+::ng-deep .pcor .left .app-card-structure {
+  margin-left: 0px !important;
+}
+::ng-deep .pcor .right .app-card-structure {
+  margin-right: 0px !important;
+}
+
+.cust-width-title {
+  width: 100%;
+  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+
+  .page-title {
+    flex-basis: 100%;
+    font-size: 36px;
+    @include padding(16px, 0, 10px, 0);
+    line-height: 40px;
+  }
+  .print-page-title {
+    padding-top: 30px;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    line-height: 30px;
+  }
+  .print-page-subtitle {
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+    line-height: 40px;
+    flex-basis: 100%;
+    font-size: 24px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    justify-content: space-between;
+  }
+}
+.cards {
+  .non-small-card-header-title {
+    color: #2d2d39 !important;
+    word-break: break-word;
+    width: 360px;
+  }
+}
+.page-subtitle1 {
+  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+  flex-basis: 100%;
+  font-size: 24px;
+  line-height: 40px;
+  @include padding(0, 0, 20px, 0);
+  color: $black-rock;
+}
+
+.print-page-subtitle-header {
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+}
+.page-subtitle {
+  display: flex;
+  align-items: center;
+  padding-bottom: 32px;
+  .page-subtitle-header {
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+  }
+  .subtitle-reportLink {
+    cursor: pointer;
+    color: $blue;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+  }
+  .page-subtitle-icon {
+    cursor: pointer;
+    color: $blue;
+  }
+}
+.print-page-main-title {
+  padding-top: 30px;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  line-height: 30px;
+  font-size: 36px;
+}
+
+.print-page-title1 {
+  padding-top: 30px;
+  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+  line-height: 30px;
+  font-size: 36px;
+}
+/*
+.print-page-subtitle {
+  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+  line-height: 40px;
+  flex-basis: 100%;
+  font-size: 24px;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  justify-content: space-between;
+  width: 98.5%;
+}*/
+.report-Tile {
+  box-sizing: border-box;
+  height: 79px;
+  width: 100%;
+  display: inline-block;
+  border: 1px solid #757588;
+  border-radius: 2px;
+  background-color: $alice-blue;
+  margin: 15px 0;
+  padding: 12px 16px;
+
+  .report-Title {
+    color: $black-rock;
+    font-family: 'UHCSans-SemiBold';
+    font-size: 18px;
+    line-height: 22px;
+  }
+  .report-Subtitle-region {
+    display: flex;
+    align-items: center;
+    padding-top: 6px;
+    .report-Subtitle {
+      color: $black-rock;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+    }
+    .report-Link {
+      cursor: pointer;
+      color: $blue;
+      letter-spacing: 0.2px;
+      font-size: 16px;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      line-height: 24px;
+    }
+    .report-icon {
+      cursor: pointer;
+      color: $blue;
     }
   }
 }

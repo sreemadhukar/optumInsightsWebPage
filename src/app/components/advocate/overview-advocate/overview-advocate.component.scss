@@ -1,0 +1,246 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+
+.container-box {
+  display: inline-block;
+}
+
+::ng-deep .overviewadvocate .card-structure {
+  display: block !important;
+  .card-inner-large {
+    margin: unset;
+    width: 100%;
+  }
+}
+::ng-deep .overviewadvocate .app-card-structure {
+  margin: 12px 12px 12px 0 !important;
+}
+::ng-deep .overviewadvocate .small-card-structure .card-inner {
+  margin: unset !important;
+}
+::ng-deep .overviewadvocate app-large-card .card-structure {
+  margin-left: 0px !important;
+}
+.container-flex {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+}
+
+.card-block {
+  width: 100%;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  margin: 12px 0;
+  float: left;
+  position: relative;
+}
+
+.height1Separator {
+  height: 0;
+  width: 100%;
+}
+.cards {
+  text-align: left;
+}
+.cust-width-title {
+  width: 100%;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  color: $black-rock;
+
+  .page-title {
+    flex-basis: 100%;
+    font-size: 36px;
+    @include padding(16px, 0, 20px, 0);
+    line-height: 40px;
+    height: 40px;
+    width: auto;
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+  }
+  .page-subtitle {
+    flex-basis: 100%;
+    font-size: 28px;
+    line-height: 35px;
+    width: auto;
+  }
+}
+
+.bottom-margin-block {
+  margin-bottom: 15px;
+}
+
+.time-period-trend {
+  float: left;
+  width: 100%;
+}
+
+.total-appeals {
+  // height: 150px;
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 41px;
+  padding-left: 32px;
+  line-height: 48px;
+}
+
+.appeal-set {
+  height: 44px;
+  width: 40px;
+  padding-bottom: 16px;
+  padding-top: 20px;
+}
+.sub-appeals {
+  padding-left: 12px;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  color: #757588;
+  font-size: 16px;
+  letter-spacing: 0.17px;
+}
+.sub-appeals-values {
+  padding-left: 12px;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  color: #2d2d39;
+  font-size: 18px;
+  padding-bottom: 10px;
+}
+.dash-bottom {
+  border-bottom: 1px solid #b3babc;
+  width: 50px;
+  margin-left: 10px;
+}
+
+.lob-values {
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  color: #2d2d39;
+  font-size: 14px;
+  padding-left: 12px;
+  padding-right: 30px;
+  display: inline-block;
+}
+
+#appeals-trend-block {
+  margin-top: 12px;
+}
+
+.mr-img {
+  box-sizing: border-box;
+  height: 1px;
+  width: 33px;
+  border: 2px solid #3381ff;
+  display: inline-block;
+}
+
+.cs-img {
+  box-sizing: border-box;
+  height: 1px;
+  width: 32px;
+  border: 2px dotted #66aeff;
+  display: inline-block;
+}
+
+.ei-img {
+  box-sizing: border-box;
+  height: 1px;
+  width: 32px;
+  border: 1.2px solid #0034ae;
+  display: inline-block;
+}
+
+.other-img {
+  box-sizing: border-box;
+  height: 1px;
+  width: 32px;
+  border: 2px dashed #00b8cc;
+  display: inline-block;
+}
+
+.line-graph-padding {
+  padding-left: 100px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.lob-set {
+  float: right;
+  padding-right: 60px;
+}
+
+.calls-grpah-set {
+  height: 14px;
+  float: right;
+  padding-right: 60px;
+  margin-bottom: 10px;
+}
+
+.total-calls {
+  height: 150px;
+  color: $black-rock;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 41px;
+  padding-left: 32px;
+  line-height: 48px;
+}
+
+.total-calls-sub-title,
+.total-appeals-sub-title {
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  color: $strom-grey;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.footer-border {
+  border-top: 1px solid #e0e0e0;
+  margin: 0;
+  padding: 0;
+  height: 1px;
+}
+.common-footer {
+  height: 40px;
+
+  .timePeriod {
+    padding: 11px 16px 11px 16px;
+    color: rgb(117, 117, 136);
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    text-align: right;
+    display: inline-block;
+  }
+}
+
+.calls-section {
+  display: inline-flex;
+}
+
+.warning-text {
+  font-family: 'UHCSans-Medium';
+}
+
+.warning-container {
+  padding: 10px;
+}
+
+.warning-icon-class {
+  margin-right: 12px;
+  height: 20px;
+  width: 20px;
+}
+
+.appeals-progress {
+  padding: 20px 280px 0;
+  height: 230px;
+  &-icon {
+    width: 96px;
+    height: 96px;
+  }
+  &-text {
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    color: $black-rock;
+    font-size: 14px;
+    text-align: center;
+  }
+}

@@ -1,0 +1,28 @@
+<app-card
+  *ngIf="claimsSubmitted != null && claimsSubmitted.data != null"
+  class="cards"
+  [chartData]="claimsSubmitted"
+></app-card>
+<app-error-card
+  *ngIf="claimsSubmitted != null && claimsSubmitted.status != null"
+  class="cards"
+  [data]="claimsSubmitted"
+></app-error-card>
+
+<app-card *ngIf="claimsPaid != null && claimsPaid.data != null" class="cards" [chartData]="claimsPaid"></app-card>
+<app-error-card
+  *ngIf="claimsPaid != null && claimsPaid.status != null"
+  class="cards"
+  [data]="claimsPaid"
+></app-error-card>
+
+<app-card
+  *ngIf="claimsNotPaid != null && claimsNotPaid.data != null"
+  class="cards"
+  [chartData]="claimsNotPaid"
+></app-card>
+<app-error-card
+  *ngIf="claimsNotPaid != null && claimsNotPaid.status != null"
+  class="cards"
+  [data]="claimsNotPaid"
+></app-error-card>

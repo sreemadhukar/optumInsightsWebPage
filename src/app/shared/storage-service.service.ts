@@ -1,7 +1,5 @@
 import { Injectable, OnDestroy, EventEmitter } from '@angular/core';
-import { Subject } from 'rxjs';
-import { share } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,15 +7,11 @@ import { Router } from '@angular/router';
 export class StorageService implements OnDestroy {
   providerChange: EventEmitter<any> = new EventEmitter();
   private onSubject = new Subject<{ key: string; value: any }>();
-  private changes = this.onSubject.asObservable().pipe(share());
+  private subject = new Subject<any>();
 
-  constructor(private route: Router) {
-    // this.start();
-  }
+  constructor() {}
 
-  ngOnDestroy() {
-    //  this.stop();
-  }
+  ngOnDestroy() {}
 
   public store(key: string, data: any): void {
     sessionStorage.setItem(key, JSON.stringify(data));
@@ -33,24 +27,10 @@ export class StorageService implements OnDestroy {
     return this.providerChange;
   }
 
-  // private start(): void {
-  //   window.addEventListener('storage', this.storageEventListener.bind(this));
-  // }
-
-  // private storageEventListener(event: StorageEvent) {
-  //   alert(1);
-  //   console.log(event);
-  //   if (event.storageArea === sessionStorage) {
-  //     console.log(event.newValue[0]);
-  //     if (event.newValue) {
-  //       alert('emitted');
-  //       this.emitChangeEvent();
-  //     }
-  //   }
-  // }
-
-  // private stop(): void {
-  //   window.removeEventListener('storage', this.storageEventListener.bind(this));
-  //   this.onSubject.complete();
-  // }
+  emitEvent(value: string) {
+    this.subject.next({ value: value });
+  }
+  getEvent(): Observable<any> {
+    return this.subject.asObservable();
+  }
 }

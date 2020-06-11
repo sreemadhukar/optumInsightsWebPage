@@ -1,3 +1,32 @@
+@import '~src/scss/variables.scss';
 .full-display {
   display: flex;
+}
+
+.arrow-triangle {
+  fill: $dodger-blue;
+  stroke: $dodger-blue;
+  stroke-width: 1;
+}
+
+.days-text {
+  color: $black-rock;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 41px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  line-height: 48px;
+  text-align: center;
+}
+
+.fill-polygon {
+  fill: $white;
+  stroke: $white;
+  stroke-width: 1;
+}
+
+.fill-blue-polygon {
+  fill: #3381ff;
+  stroke: #3381ff;
+  stroke-width: 1;
 }

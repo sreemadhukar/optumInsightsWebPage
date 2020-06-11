@@ -1,0 +1,8 @@
+apiVersion: v1
+metadata:
+  askId: UHGWM110-019413
+  caAgileId: poc
+  projectKey: com.optum.uhcinsights:UI
+  projectFriendlyName: UHCInsights-WebUI
+  componentType: code
+  targetQG: GATE_00

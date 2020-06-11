@@ -1,5 +1,5 @@
 <div *ngIf="data != null" class="card-structure">
-  <div class="card-inner">
+  <div class="card-inner" [class.print-card-inner]="printStyle">
     <div class="self-service-title">
       {{ data.title }}
     </div>
@@ -12,28 +12,28 @@
     </div>
     <ul class="list-labels">
       <li *ngIf="data.fdata.concatString == '$'">
-        <span class="labels1">{{ data.fdata.concatString + data.fdata.graphValues[0] }}</span>
+        <span>{{ data.fdata.concatString }} {{ data.fdata.graphValues[0] | zeroValueFormatter }}</span>
         {{ data.fdata.graphData1 }}
       </li>
       <li *ngIf="data.fdata.concatString == '$'">
-        <span style="font-family: UHCSans-Bold">{{ data.fdata.concatString + data.fdata.graphValues[1] }}</span>
+        <span>{{ data.fdata.concatString }} {{ data.fdata.graphValues[1] | zeroValueFormatter }}</span>
         {{ data.fdata.graphData2 }}
       </li>
 
       <li *ngIf="data.fdata.concatString != '$'">
-        <span style="font-family: UHCSans-Bold">{{ data.fdata.graphValues[0] + ' ' + data.fdata.concatString }}</span>
+        <span>{{ data.fdata.graphValues[0] | zeroValueFormatter }} {{ ' ' + data.fdata.concatString }}</span>
         {{ data.fdata.graphData1 }}
       </li>
       <li *ngIf="data.fdata.concatString != '$'">
-        <span style="font-family: UHCSans-Bold">{{ data.fdata.graphValues[1] + ' ' + data.fdata.concatString }}</span>
+        <span>{{ data.fdata.graphValues[1] | zeroValueFormatter }} {{ ' ' + data.fdata.concatString }}</span>
         {{ data.fdata.graphData2 }}
       </li>
     </ul>
   </div>
 </div>
 
-<div *ngIf="skeleton" class="card-structure">
-  <div class="card-inner">
+<div *ngIf="skeleton && !printStyle" class="card-structure">
+  <div class="card-inner" [class.print-card-inner]="printStyle">
     <div class="card-skeleton-mini-tile"></div>
   </div>
 </div>

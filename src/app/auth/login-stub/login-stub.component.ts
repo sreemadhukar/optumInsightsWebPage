@@ -1,16 +1,18 @@
 import { Component, OnInit, Inject, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 import { ExternalService } from '../_service/external.service';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../_service/authentication.service';
 import { InternalService } from '../_service/internal.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
+import { SessionService } from '../../shared/session.service';
 import { MatDialog, MatIconRegistry } from '@angular/material';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthorizationService } from '../_service/authorization.service';
 import { DOCUMENT } from '@angular/common';
+import { EncryptMsidService } from '../_service/encrypt-msid.service';
 
 @Component({
   selector: 'app-login-stub',
@@ -18,6 +20,7 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./login-stub.component.scss']
 })
 export class LoginStubComponent implements OnInit {
+  currentYear = new Date().getFullYear();
   isInternal: boolean = environment.internalAccess;
   loginForm: FormGroup;
   loading = false;
@@ -27,6 +30,14 @@ export class LoginStubComponent implements OnInit {
   blankScreen = false;
   id: any;
   token: string;
+  showWarning = false;
+  sessionTimedoutMessage: any = {
+    note: 'Due to inactivity, we have logged you out.',
+    message: 'To return to UHC Insights, please sign in below.'
+  };
+  public checkAdv;
+  public checkPro;
+  public checkExecutive;
   @ViewChild('errorDialog') errorDialog: TemplateRef<any>;
 
   constructor(
@@ -35,27 +46,36 @@ export class LoginStubComponent implements OnInit {
     private authService: AuthenticationService,
     private internalService: InternalService,
     private router: Router,
-    private providerSharedService: ProviderSharedService,
     private dialog: MatDialog,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     private authorise: AuthorizationService,
+    private cookieService: CookieService,
     private route: ActivatedRoute,
+    private sessionService: SessionService,
+    private readonly encryptMsidService: EncryptMsidService,
     @Inject(DOCUMENT) private document: any
   ) {
-    iconRegistry.addSvgIcon(
+    this.checkAdv = this.sessionService.checkAdvocateRole();
+    this.checkPro = this.sessionService.checkProjectRole();
+    this.checkExecutive = this.sessionService.checkExecutiveRole();
+    this.iconRegistry.addSvgIcon(
       'error',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
     );
   }
 
   ngOnInit() {
+    // to close all opened dialogbox at after logout at login page
+    this.dialog.closeAll();
+    sessionStorage.setItem('cache', JSON.stringify(false));
     if (!environment.production) {
       this.authService.getJwt().subscribe(data => {
         sessionStorage.setItem('token', JSON.stringify(data['token']));
         this.token = data['token'];
       });
     } else {
+      this.cookieService.deleteAll('/');
       this.token = 'isProd';
     }
     this.loading = true;
@@ -63,6 +83,15 @@ export class LoginStubComponent implements OnInit {
       this.loading = false;
       this.initLogin();
     }, 3000);
+
+    const queryParams = this.route.snapshot.queryParams;
+
+    // do something with the parameters
+    if (queryParams.sessionExpired) {
+      this.showWarning = true;
+    } else {
+      this.showWarning = false;
+    }
   }
 
   initLogin() {
@@ -73,28 +102,43 @@ export class LoginStubComponent implements OnInit {
 
     this.returnUrl = '/ProviderSearch';
     if (this.isInternal) {
-      if (this.authService.isLoggedIn()) {
-        this.router.navigate([this.returnUrl]);
-      } else {
+      this.blankScreen = false;
+      sessionStorage.clear();
+      sessionStorage.setItem('cache', JSON.stringify(false));
+
+      this.authService.getJwt().subscribe(data => {
+        sessionStorage.setItem('token', JSON.stringify(data['token']));
         this.internalService.getPublicKey();
-        this.authService.getJwt().subscribe(data => {
-          sessionStorage.setItem('token', JSON.stringify(data['token']));
-        });
-      }
+      });
     } else {
       if (this.route.queryParams) {
         this.route.queryParams.subscribe(params => {
+          if (params.emulatedUuid) {
+            sessionStorage.clear();
+            sessionStorage.setItem('cache', JSON.stringify(false));
+            sessionStorage.setItem('emulatedUuid', JSON.stringify(params.emulatedUuid));
+          }
           if (params.code && !this.authService.isLoggedIn()) {
             this.external
               .CheckExternal(params.code, this.token)
               .then(value => {
-                this.authorise.getToggles().subscribe(value1 => {});
-                this.router.navigate(['/OverviewPage']);
+                let response: any;
+                response = value;
+                this.authorise.getToggles('external-authorise').subscribe(value1 => {
+                  console.log(value1);
+                });
+                sessionStorage.setItem('cache', JSON.stringify(true));
+                if (response.Providers.length > 1) {
+                  this.router.navigate(['/ProviderSearch']);
+                } else {
+                  this.router.navigate(['/OverviewPage']);
+                }
               })
-              .catch(error => {
-                this.openErrorDialog();
+              .catch(() => {
+                this.router.navigate(['/AccessDenied']);
               });
           } else if (this.authService.isLoggedIn()) {
+            sessionStorage.setItem('cache', JSON.stringify(true));
             this.router.navigate(['/OverviewPage']);
           } else {
             this.document.location.href = environment.apiUrls.SsoRedirectUri;
@@ -123,18 +167,35 @@ export class LoginStubComponent implements OnInit {
       return;
     } else {
       this.internalService.login(this.f.username.value, this.f.password.value).subscribe(
-        () => {
+        user => {
           this.blankScreen = true;
           this.loading = false;
-          this.authorise.getToggles().subscribe(value => {
+          const msidValue = this.f.username.value.toLowerCase();
+          sessionStorage.setItem('MsId', this.encryptMsidService.encryptMsId(msidValue));
+          console.log('175', this.encryptMsidService.encryptMsId(msidValue));
+          this.authorise.getToggles('authorise').subscribe(value => {
             console.log(value);
           });
-          // this.openDialog();
-          this.router.navigate(['/ProviderSearch']);
+          if (environment.internalAccess) {
+            this.authorise.getTrendAccess(this.f.username.value).subscribe(value => {
+              console.log(value);
+            });
+          }
+          if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Executive'))) {
+            this.router.navigate(['/NationalExecutive']);
+          } else if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Project'))) {
+            this.router.navigate(['/NationalExecutive']);
+          } else if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Advocate'))) {
+            this.router.navigate(['/OverviewPageAdvocate/Home']);
+          } else {
+            this.router.navigate(['/ProviderSearch']);
+          }
         },
-        error => {
+        () => {
           this.error = true;
           this.loading = false;
+          this.blankScreen = false;
+          this.submitted = false;
         }
       );
     }
@@ -149,7 +210,7 @@ export class LoginStubComponent implements OnInit {
       panelClass: 'custom'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       if (!sessionStorage.getItem('currentUser')) {
         this.blankScreen = false;
       }
@@ -166,9 +227,9 @@ export class LoginStubComponent implements OnInit {
       panelClass: 'custom'
     });
 
-    dialogErrorRef.afterClosed().subscribe(result => {
+    dialogErrorRef.afterClosed().subscribe(() => {
       if (!environment.internalAccess) {
-        this.document.location.href = 'https://provider-stage.linkhealth.com/';
+        this.document.location.href = environment.apiUrls.linkLoginPage;
       }
     });
   }

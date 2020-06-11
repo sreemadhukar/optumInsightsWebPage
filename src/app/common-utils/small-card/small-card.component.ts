@@ -3,6 +3,8 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-small-card',
   templateUrl: './small-card.component.html',
@@ -11,7 +13,11 @@ import { Subscription } from 'rxjs';
 export class SmallCardComponent implements OnInit {
   @Input() data;
   @Input() skeleton;
+  @Input() options: any;
+  @Input() noHeaderClick;
   subscription: Subscription;
+  public printStyle: boolean;
+  public besideData: any;
   /*
   _card: Object = {};
   data: Object = {};
@@ -27,18 +33,22 @@ export class SmallCardComponent implements OnInit {
 */
   constructor(
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
-    private glossaryExpandService: GlossaryExpandService
+    private readonly sanitizer: DomSanitizer,
+    private glossaryExpandService: GlossaryExpandService,
+    private router: Router
   ) {
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'help',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
     );
   }
 
-  helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+  helpIconClick() {
+    this.glossaryExpandService.setMessage(this.data.title, this.data.MetricID);
   }
   ngOnInit() {}
 }

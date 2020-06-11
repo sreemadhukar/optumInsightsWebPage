@@ -1,0 +1,38 @@
+<app-layoutcontainer id="print-overview" class="performancesummary">
+  <div class="container-header">
+    <app-breadcrumbs></app-breadcrumbs>
+    <app-rlp-header
+      [rlpTitle]="titleForSummary"
+      [rlpSubTitle]="subTitleForSummary"
+      class="full-display bottom-margin-block"
+    ></app-rlp-header>
+  </div>
+  <div class="container-body">
+    <div *ngIf="referralsLoading || (!referralsLoading && referralCard.data != null)">
+      <app-card class="cards" [skeleton]="referralsLoading" *ngIf="referralsLoading"> </app-card>
+      <app-card
+        *ngIf="referralCard.toggle && referralCard.data != null && referralCard.category == 'app-card'"
+        class="cards"
+        [chartData]="referralCard"
+      ></app-card>
+    </div>
+
+    <div *ngIf="labsLoading || (!labsLoading && labsCard.data != null)">
+      <app-card class="cards" [skeleton]="labsLoading" *ngIf="labsLoading"> </app-card>
+      <app-card
+        *ngIf="labsCard.toggle && labsCard.data != null && labsCard.category == 'app-card'"
+        class="cards"
+        [chartData]="labsCard"
+      ></app-card>
+    </div>
+
+    <div *ngIf="prescriptionLoading || (!prescriptionLoading && prescriptionCard.data != null)">
+      <app-card class="cards" [skeleton]="prescriptionLoading" *ngIf="prescriptionLoading"> </app-card>
+      <app-card
+        *ngIf="prescriptionCard.toggle && prescriptionCard.data != null && prescriptionCard.category == 'app-card'"
+        class="cards"
+        [chartData]="prescriptionCard"
+      ></app-card>
+    </div>
+  </div>
+</app-layoutcontainer>

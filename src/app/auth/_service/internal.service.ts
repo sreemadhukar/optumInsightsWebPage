@@ -12,15 +12,14 @@ import { JSEncrypt } from 'jsencrypt';
 export class InternalService {
   private APP_URL: string = environment.apiProxyUrl;
   private SERVICE_PATH: string = environment.apiUrls.LDAPAuth;
+  private GET_PUBLIC_KEY: string = environment.apiUrls.getPublicKey;
   private sso: any;
   private tempUser: any;
-  private returnUrl: any;
 
   constructor(public http: HttpClient, public router: Router) {}
 
   login(userName, password) {
     if (sessionStorage.getItem('publicKey')) {
-      this.returnUrl = '/OverviewPage';
       const url = this.APP_URL + this.SERVICE_PATH;
       const token = JSON.parse(sessionStorage.getItem('token'));
       let params = new HttpParams();
@@ -37,14 +36,14 @@ export class InternalService {
               this.tempUser = user;
               this.sso = [];
               this.sso.push({
-                PedAccessToken: this.tempUser.PedAccessToken
+                PedAccessToken: this.tempUser.PedAccessToken,
+                RefreshToken: this.tempUser.RefreshToken
               });
               sessionStorage.setItem('currentUser', JSON.stringify(this.sso));
               sessionStorage.setItem('loggedUser', JSON.stringify(user));
               return user;
             } else {
               //    this.loader = false;
-              alert('please enter valid MS ID and Password');
               return false;
             }
           },
@@ -60,7 +59,7 @@ export class InternalService {
   }
 
   getPublicKey() {
-    const url = this.APP_URL + 'getPublicKey';
+    const url = this.APP_URL + this.GET_PUBLIC_KEY;
     const token = JSON.parse(sessionStorage.getItem('token'));
     const params = new HttpParams();
     const myHeader = new HttpHeaders({

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, HostListener, AfterViewInit, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -19,7 +19,7 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
   constructor() {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_event) {
     this.doDonutChart(this.chartOptions, this.noTransition);
   }
   ngOnInit() {
@@ -30,6 +30,9 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
     this.doDonutChart(this.chartOptions, this.transition);
   }
   ngOnChanges() {
+    if (this.renderChart === undefined) {
+      this.renderChart = '#' + this.chartOptions.gdata[1];
+    }
     this.doDonutChart(this.chartOptions, this.noTransition);
     this.renderChart = '#' + this.chartOptions.gdata[1];
   }
@@ -263,7 +266,7 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
           return donutColor(d.data.value);
         })
         .transition()
-        .delay(function(d, i) {
+        .delay(function(_d, i) {
           return i * 700;
         })
         .duration(1000)
@@ -284,7 +287,6 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
         });
 
       text.text(chartOptions.centerNumber);
-      text.text();
     }
 
     // chartOptions.hover
@@ -294,15 +296,13 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
         .append('div')
         .attr('class', 'tooltipDonut')
         .style('opacity', 0)
-        .style('border-radius', 0);
+        .style('border-radius', '2px');
 
       const svg2 = divHover.append('svg');
       const boxWidth = '109px';
       const boxHeight = '63px';
 
       g.on('mouseenter', function(d) {
-        const hoverTextLength = topFunctions.getTextWidth(d.data.label, 14, 'Arial');
-
         divHover.style('height', boxHeight).style('width', boxWidth);
 
         svg2.attr('height', boxHeight).attr('width', boxWidth);
@@ -333,14 +333,14 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
           .style('font-family', 'UHCSans-Regular')
           .text(topFunctions.nFormatter(d.value, 1));
       })
-        .on('mousemove', function(d) {
+        .on('mousemove', function() {
           divHover
             .transition()
             .duration(10)
             .style('opacity', 1);
           divHover.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
         })
-        .on('mouseleave', function(d) {
+        .on('mouseleave', function() {
           divHover
             .transition()
             .duration(10)

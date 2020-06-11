@@ -6,6 +6,10 @@
 //
 // Base styles
 //
+@import '~src/scss/mixins/_buttons';
+@import '~src/scss/mixins/_hover';
+@import '~src/scss/mixins/_box-shadows';
+@import '~src/scss/variables';
 
 .btn {
   display: inline-block;
@@ -79,7 +83,7 @@ fieldset:disabled a.btn {
 
   &:focus,
   &.focus {
-    text-decoration: $link-hover-decoration;
+    //text-decoration: $link-hover-decoration;
     border-color: transparent;
     box-shadow: none;
   }

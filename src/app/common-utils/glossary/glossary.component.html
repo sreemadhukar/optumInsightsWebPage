@@ -5,16 +5,10 @@
       <form class="business-glossary-form">
         <mat-form-field appearance="outline">
           <mat-label>What metrics can we help you with ?</mat-label>
-          <input
-            type="text"
-            matInput
-            [matAutocomplete]="auto"
-            [formControl]="glossaryCtrl"
-            [(ngModel)]="selectedmetric"
-          />
+          <input type="text" matInput [matAutocomplete]="auto" [formControl]="glossaryCtrl" />
           <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="filteredData($event.option.value)">
-            <mat-option *ngFor="let glossary of (filteredOptions | async)" [value]="glossary">
+            <mat-option *ngFor="let glossary of filteredOptions | async" [value]="glossary">
               <span class="highlight" [innerHTML]="glossary | highlight: toHighlight"></span>
             </mat-option>
             <mat-option
@@ -37,46 +31,46 @@
       >
         <div [ngClass]="{ 'each-metric-div': allmetrics }" id="each-metric-div{{ i }}">
           <div [ngClass]="{ 'all-metrics-glossary-title': allmetrics, 'glossary-title': !allmetrics }">
-            {{ glossary.BusinessGlossary.ProviderDashboardName.Metric }}
+            {{ glossary.Metric }}
           </div>
           <br />
           <div class="glossary-metric-content-div">
             <div class="glossary-definition">
-              <span *ngIf="allmetricsdefinitionShort[i] && allmetrics && this.readmoreFlag[i]"
-                >{{ allmetricsdefinitionShort[i] }}<br /></span
-              >{{ glossary.BusinessGlossary.ProviderDashboardName.Definition }}
+              <span
+                *ngIf="allmetricsdefinitionShort[i] && allmetrics && this.readmoreFlag[i]"
+                [innerHTML]="allmetricsdefinitionShort[i]"
+              ></span>
+              <div>
+                <span [innerHTML]="glossary.Definition"></span>
+                <a
+                  class="glossary-definition-tag"
+                  [href]="hyperlink"
+                  target="_blank"
+                  *ngIf="glossary.MetricID == 301"
+                  >{{ split }}</a
+                >
+              </div>
             </div>
             <!-- <div>
       <a class="go-to-metric-location">
         Go To Metric Location >
       </a>
-    </div> -->
-            <div
-              *ngIf="glossary.BusinessGlossary.ProviderDashboardName.Formula.trim().length != 0 && internal"
-              class="glossary-definition"
-            >
-              <br />
-              <div class="glossary-formula">{{ glossary.BusinessGlossary.ProviderDashboardName.Metric }} Formula</div>
-              <br />
-              <div class="glossary-metric-formula">{{ glossary.BusinessGlossary.ProviderDashboardName.Formula }}</div>
+                            </div> -->
+            <div *ngIf="glossary.Formula.trim().length != 0 && internal" class="glossary-definition">
+              <div class="glossary-formula">Data Calculation</div>
+              <div class="glossary-metric-formula" [innerHTML]="glossary.Formula"></div>
             </div>
-            <br />
-            <div
-              class="glossary-definition"
-              *ngIf="glossary.BusinessGlossary.ProviderDashboardName.DataSource && internal"
-            >
+            <div class="glossary-definition" *ngIf="glossary.DataSource && internal">
               <div class="glossary-formula">
                 Data Source
               </div>
-              <br />
-              {{ glossary.BusinessGlossary.ProviderDashboardName.DataSource }}
+              {{ glossary.DataSource }}
             </div>
-            <br />
           </div>
         </div>
         <div class="Read-More" *ngIf="allmetrics" (click)="readmore(i)">
           <div *ngIf="readmoreFlag[i]">Read More</div>
-          <div *ngIf="!readmoreFlag[i]">Read Less</div>
+          <div *ngIf="!readmoreFlag[i]" class="margin-top-5">Read Less</div>
         </div>
       </div>
     </div>
@@ -88,30 +82,23 @@
         </div>
         <br />
         <div class="glossary-definition">
-          No Data Available
+          Coming Soon
         </div>
-        <br />
         <div class="glossary-definition" *ngIf="internal">
-          <div class="glossary-formula">{{ title }} Formula</div>
-          <br />
-          No Data Available
+          <div class="glossary-formula">Data Calculation</div>
+          Coming Soon
         </div>
-        <br />
         <div class="glossary-definition" *ngIf="internal">
           <div class="glossary-formula">
             Data Source
           </div>
-          <br />
-          No Data Available
+          Coming Soon
         </div>
       </div>
     </div>
   </div>
 </div>
-<div
-  class="view-all-metrics-button-position-div"
-  [ngClass]="{ fixed: viewallmetricsbuttonposition, absolute: !viewallmetricsbuttonposition }"
->
+<div id="view-all-metrics-button-position-div" class="view-all-metrics-button-position-div">
   <div class="view-all-metrics-button-div" *ngIf="!allmetrics">
     <div class="view-all-metrics-button" (click)="filteredData('All')">
       <span class="view-all-metrics-button-text">View All Metrics</span>

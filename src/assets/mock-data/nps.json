@@ -1,0 +1,92 @@
+{
+  "title": "Provider NPS Summary",
+  "heading": "Quarter on Quarter (Q2 2019 v. Q2 2018)",
+  "quarters": [
+    {
+      "year": 2019,
+      "color": "color1",
+      "quarter": "Q2"
+    },
+    {
+      "year": 2018,
+      "color": "color2",
+      "quarter": "Q2"
+    }
+  ],
+  "all": {
+    "data": {
+      "quarter": "true",
+      "title": "Combined Total NPS",
+      "sdata": {
+        "sign": "up",
+        "data": "Positive Trending",
+        "trendStyleNPS": true
+      },
+      "cards": [
+        {
+          "highlightedValue": 25,
+          "highlightQuarter": true,
+          "currentQuarter": true,
+          "targetValue": 14,
+          "captionText": "2019 Target"
+        },
+        {
+          "highlightedValue": 18,
+          "targetValue": 14,
+          "prevQuarter": true,
+          "captionText": "2018 Target"
+        }
+      ]
+    }
+  },
+  "md": {
+    "data": {
+      "quarter": "true",
+      "title": "Physician NPS",
+      "sdata": {
+        "sign": "up",
+        "data": "Positive Trending",
+        "trendStyleNPS": true
+      },
+      "cards": [
+        {
+          "highlightedValue": 25,
+          "currentQuarter": true,
+          "targetValue": 14,
+          "captionText": "2019 Target"
+        },
+        {
+          "highlightedValue": 18,
+          "prevQuarter": true,
+          "targetValue": 14,
+          "captionText": "2018 Target"
+        }
+      ]
+    }
+  },
+  "pm": {
+    "data": {
+      "quarter": "true",
+      "title": "Practice Manager NPS",
+      "sdata": {
+        "sign": "up",
+        "data": "Positive Trending",
+        "trendStyleNPS": true
+      },
+      "cards": [
+        {
+          "highlightedValue": 25,
+          "currentQuarter": true,
+          "targetValue": 14,
+          "captionText": "2019 Target"
+        },
+        {
+          "highlightedValue": 18,
+          "prevQuarter": true,
+          "targetValue": 14,
+          "captionText": "2018 Target"
+        }
+      ]
+    }
+  }
+}

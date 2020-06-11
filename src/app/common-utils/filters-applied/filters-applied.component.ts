@@ -1,0 +1,200 @@
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { NgRedux, select } from '@angular-redux/store';
+import { IAppState } from '../../store/store';
+import { Router } from '@angular/router';
+import {
+  LineOfBusiness,
+  Commercial,
+  PriorAuthDecisionType,
+  ServiceCategory,
+  ServiceSetting,
+  TimePeriod,
+  TrendMetrics,
+  ClaimsFilter,
+  AppealsFilter,
+  ViewClaimsByFilter
+} from '../../head/uhci-filters/filter-settings/filter-options';
+import { FilterExpandService } from '../../shared/filter-expand.service';
+import { TaxId } from '../../head/uhci-filters/filter-settings/filter-options';
+import { APPLY_FILTER, REMOVE_FILTER } from '../../store/filter/actions';
+import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
+import { GetFilterOptionsByPage } from 'src/app/head/uhci-filters/filter-settings/filter-methods';
+
+@Component({
+  selector: 'app-filters-applied',
+  templateUrl: './filters-applied.component.html',
+  styleUrls: ['./filters-applied.component.scss']
+})
+export class FiltersAppliedComponent implements OnInit, OnDestroy {
+  @select(['uhc', 'currentPage']) currentPage;
+  @select(['uhc', 'timePeriod']) timePeriod;
+  @select(['uhc', 'taxId']) taxId;
+  @select(['uhc', 'lineOfBusiness']) lineOfBusiness;
+  @select(['uhc', 'commercial']) commercial;
+  @select(['uhc', 'serviceSetting']) serviceSetting;
+  @select(['uhc', 'serviceCategory']) serviceCategory;
+  @select(['uhc', 'priorAuthType']) priorAuthType;
+  @select(['uhc', 'trendMetric']) trendMetric;
+  @select(['uhc', 'trendDate']) trendDate;
+  @select(['uhc', 'claimsFilter']) claimsFilter;
+  @select(['uhc', 'appealsFilter']) appealsFilter;
+  @select(['uhc', 'viewClaimsByFilter']) viewClaimsByFilter;
+  @Input() flag;
+  @Input() tabName;
+  currenPageSubscription: any;
+  selectedPage: any;
+  timeFrames = TimePeriod;
+  selectedTimePeriod: any;
+  lobs = LineOfBusiness;
+  selectedLob: any;
+  commericalLob = Commercial;
+  selectedCommerical: any;
+  claims = ClaimsFilter;
+  appeals = AppealsFilter;
+  selectedClaims: any;
+  selectedAppeals: any;
+  viewclaims = ViewClaimsByFilter;
+  selectedViewClaimsBy: any;
+  serviceSettings = ServiceSetting;
+  selectedServiceSetting: any;
+  serviceCategories = ServiceCategory;
+  selectedServiceCategory: any;
+  priorAuthTypes = PriorAuthDecisionType;
+  selectedPriorAuthType: any;
+  selectedTaxIds: TaxId[];
+  trendMetricData = TrendMetrics;
+  selectedTrendMetric: any;
+  selectedDate: Date;
+  previousDate: any = new Date();
+  printStyle: boolean;
+  constructor(
+    private filterExpandService: FilterExpandService,
+    private createPayloadService: CreatePayloadService,
+    private ngRedux: NgRedux<IAppState>,
+    private route: Router,
+    private common: CommonUtilsService
+  ) {
+    // To disable open of Filter at Print page
+    // this.route.events.subscribe(event => {
+    //   if (event instanceof NavigationStart) {
+    //     this.printStyle = event.url.includes('print-');
+    //   }
+    // });
+  }
+
+  ngOnInit() {
+    this.printStyle = this.route.url.includes('print-');
+    this.currenPageSubscription = this.currentPage.subscribe(currentPage => {
+      this.timeFrames = GetFilterOptionsByPage(currentPage, 'timeperiod');
+      this.selectedPage = currentPage;
+    });
+    this.timePeriod.subscribe(timePeriod => {
+      this.selectedTimePeriod = timePeriod;
+    });
+    this.taxId.subscribe(taxId => (this.selectedTaxIds = taxId));
+    this.lineOfBusiness.subscribe(
+      lineOfBusiness => (this.selectedLob = this.lobs.find(val => val.name === lineOfBusiness))
+    );
+    this.commercial.subscribe(
+      commercial => (this.selectedCommerical = this.commericalLob.find(val => val.name === commercial))
+    );
+    this.claimsFilter.subscribe(
+      claimsFilter => (this.selectedClaims = this.claims.find(val => val.name === claimsFilter))
+    );
+    this.appealsFilter.subscribe(
+      appealsFilter => (this.selectedAppeals = this.appeals.find(val => val.value === appealsFilter))
+    );
+    this.viewClaimsByFilter.subscribe(
+      viewClaimsByFilter => (this.selectedViewClaimsBy = this.viewclaims.find(val => val.name === viewClaimsByFilter))
+    );
+    this.serviceSetting.subscribe(
+      serviceSetting => (this.selectedServiceSetting = this.serviceSettings.find(val => val.name === serviceSetting))
+    );
+
+    this.priorAuthType.subscribe(
+      priorAuthType => (this.selectedPriorAuthType = this.priorAuthTypes.find(val => val.name === priorAuthType))
+    );
+    this.serviceCategory.subscribe(
+      serviceCategory =>
+        (this.selectedServiceCategory = this.serviceCategories.find(val => val.name === serviceCategory))
+    );
+    this.trendMetric.subscribe(
+      trendMetric => (this.selectedTrendMetric = this.trendMetricData.find(val => val.name === trendMetric))
+    );
+    this.trendDate.subscribe(trendDate => {
+      this.selectedDate = new Date(trendDate);
+      this.previousDate = new Date(this.selectedDate.toString());
+      this.previousDate = this.previousDate.setDate(this.selectedDate.getDate() - 1);
+    });
+  }
+
+  openFilter() {
+    this.filterExpandService.setURL('');
+  }
+
+  removeAppliedFilter(filterType, taxId?) {
+    switch (filterType) {
+      case 'taxId':
+        if (taxId) {
+          const updatedTaxIds = this.selectedTaxIds.filter(item => {
+            return item.Tin !== taxId.Tin;
+          });
+          if (updatedTaxIds.length === 0) {
+            this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+          } else {
+            this.ngRedux.dispatch({
+              type: APPLY_FILTER,
+              filterData: {
+                timePeriod: this.selectedTimePeriod.name,
+                taxId: updatedTaxIds,
+                lineOfBusiness: this.selectedLob.name,
+                commercial: this.selectedCommerical.name,
+                serviceSetting: this.selectedServiceSetting.name,
+                serviceCategory: this.selectedServiceCategory.name,
+                priorAuthType: this.selectedPriorAuthType.name,
+                trendMetric: this.selectedTrendMetric.name,
+                trendDate: this.selectedDate,
+                claimsFilter: this.selectedClaims.name,
+                appealsFilter: this.selectedAppeals.name,
+                viewClaimsByFilter: this.selectedViewClaimsBy.name
+              }
+            });
+          }
+        } else {
+          this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+        }
+        break;
+      case 'lob':
+        this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { lineOfBusiness: true } });
+        this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { commercial: true } });
+        break;
+      case 'commerical':
+        this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { commercial: true } });
+        break;
+      case 'claims':
+        this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { claimsFilter: true } });
+        break;
+      case 'appeals':
+        this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { appealsFilter: true } });
+        break;
+      case 'viewClaimsBy':
+        this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { viewClaimsByFilter: true } });
+        break;
+      case 'serviceSetting':
+        this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { serviceSetting: true } });
+        break;
+      case 'serviceCategory':
+        this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { serviceCategory: true } });
+        break;
+      case 'priorAuthType':
+        this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { priorAuthType: true } });
+        break;
+    }
+    this.createPayloadService.emitFilterEvent(this.selectedPage);
+    this.common.urlResuseStrategy();
+  }
+  ngOnDestroy() {
+    this.currenPageSubscription.unsubscribe();
+  }
+}

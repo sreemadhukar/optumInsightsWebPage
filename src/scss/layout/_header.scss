@@ -1,0 +1,28 @@
+.container-widget {
+  @include padding(0, 0, 32px, 0);
+
+  .container-title {
+    flex-basis: 100%;
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+    color: $black-rock;
+    font-size: 36px;
+    line-height: 40px;
+    @include padding(16px, 0, 8px, 0);
+  }
+
+  .container-sub-title {
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 22px;
+  }
+}
+.container-body {
+  margin: 0;
+}
+
+.container-header {
+  width: 100%;
+  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+  color: rgb(45, 45, 57);
+}

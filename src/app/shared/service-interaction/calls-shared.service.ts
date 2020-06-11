@@ -1,207 +1,190 @@
 import { Injectable } from '@angular/core';
 import { CallsService } from '../../rest/service-interaction/calls.service';
-import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
 import { SessionService } from '../session.service';
 import { CommonUtilsService } from '../common-utils.service';
-import { CallsTrendService } from './calls-trend.service';
+import { AuthorizationService } from '../../auth/_service/authorization.service';
+import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
+import { ICallsShared } from '../../modals/i-calls-shared';
+import { ICallsResponse } from '../../modals/i-calls';
 
-@Injectable({ providedIn: ServiceInteractionModule })
+@Injectable({ providedIn: 'root' })
 export class CallsSharedService {
   public sdataQuestionType: object;
   public sdataTalkTime: object;
   public sdataTrend: any = null;
   private callsData: any;
-  private timeFrame: string;
   private providerKey: number;
 
   constructor(
     private callsService: CallsService,
     private session: SessionService,
     private common: CommonUtilsService,
-    private callsTrendService: CallsTrendService
+    private readonly toggle: AuthorizationService
   ) {}
 
-  public issueResolution(title: String, data: any, besideData: any, timeperiod?: String | null): Object {
-    const temp: Object = {
+  public issueResolution(
+    status: number,
+    title: string,
+    MetricID: string,
+    data: any,
+    toggle: boolean,
+    besideData: any,
+    timeperiod?: string | null
+  ): ICallsShared {
+    const temp: ICallsShared = {
       category: 'app-card',
       type: 'donutWithLabel',
+      status: status,
       title: title,
+      MetricID: MetricID,
       data: data,
+      toggle: toggle,
       besideData: besideData,
       timeperiod: timeperiod
     };
     return temp;
   }
 
-  public getCallsData() {
-    this.timeFrame = this.session.filterObjValue.timeFrame;
+  public getParameters(param) {
+    let parameters = [];
     this.providerKey = this.session.providerKeyData();
+    parameters = [this.providerKey, new GettingReimbursedPayload(param)];
+    return parameters;
+  }
+
+  public getCallsData(param) {
     return new Promise(resolve => {
-      let parameters;
-      if (
-        this.timeFrame === 'Last 12 Months' ||
-        this.timeFrame === 'Last 6 Months' ||
-        this.timeFrame === 'Year to Date'
-      ) {
-        if (this.timeFrame === 'Last 12 Months') {
-          parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
-        } else if (this.timeFrame === 'Last 6 Months') {
-          parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'YTD' }];
-        }
-      } else {
-        parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
-      }
-      this.sharedCallsData(parameters)
-        .then(data => {
-          this.callsData = data;
-          return this.sharedCallsTrend();
-        })
-        .then(data => {
-          this.callsData[0].data['sdata'] = data[0];
-          this.callsData[1].data['sdata'] = data[1];
-          resolve(this.callsData);
-        });
+      const params = this.getParameters(param);
+      this.sharedCallsData(params).then(data => {
+        this.callsData = data;
+        resolve(this.callsData);
+      });
     });
   }
-  sharedCallsTrend() {
-    this.timeFrame = this.session.filterObjValue.timeFrame;
 
-    return new Promise(resolve => {
-      /** Get Calls Trend Data */
-      this.callsTrendService
-        .getCallsTrendData()
-        .then(data => {
-          this.sdataTrend = data;
-          if (typeof this.sdataTrend[0] === null && typeof this.sdataTrend[1] === null) {
-            this.sdataTrend[0] = null;
-            this.sdataTrend[1] = null;
-          }
-          resolve(this.sdataTrend);
-        })
-        .catch(reason => {
-          this.sdataTrend[0] = null;
-          this.sdataTrend[1] = null;
-          console.log('Calls Service Error ', reason);
-        });
-      /** Ends Get Calls Trend Data */
-    });
-  }
-  sharedCallsData(parameters) {
-    this.timeFrame = this.session.filterObjValue.timeFrame;
+  public createCallsByCallType(totalCalls, timePeriodCalls) {
+    try {
+      const callsCounts = [totalCalls.BenefitsEligibility, totalCalls.Claims, totalCalls.PriorAuth, totalCalls.Others];
+      const callsLabels = ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'];
 
-    if (
-      this.timeFrame === 'Last 12 Months' ||
-      this.timeFrame === 'Last 6 Months' ||
-      this.timeFrame === 'Year to Date'
-    ) {
-      if (this.timeFrame === 'Last 12 Months') {
-        parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
-      } else if (this.timeFrame === 'Last 6 Months') {
-        parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
-      } else {
-        parameters = [this.providerKey, { TimeFilter: 'YTD' }];
-      }
-    } else {
-      parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
+      return this.issueResolution(
+        null,
+        'Calls By Call Type',
+        '303',
+        {
+          graphValueName: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+          graphValues: [totalCalls.BenefitsEligibility, totalCalls.Claims, totalCalls.PriorAuth, totalCalls.Others],
+          centerNumber:
+            this.common.nondecimalFormatter(totalCalls.Total) < 1
+              ? '< 1'
+              : this.common.nondecimalFormatter(totalCalls.Total),
+          color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+          gdata: ['card-inner', 'callsByCallType'],
+          labels: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+          hover: true
+          // sdata: this.sdataTrend[0]
+        },
+        this.toggle.setToggles('Calls by Call Type', 'Calls', 'Service Interaction', false),
+        {
+          labels: this.common.sideLabelWords(callsCounts, callsLabels),
+          color: this.common.sideLabelColor(callsCounts)
+        },
+        timePeriodCalls
+      );
+    } catch (Error) {
+      console.log('Error in Calls Page | Question Type By Call Type', Error);
+      return this.issueResolution(404, 'Calls by Call Type', null, null, null, null);
     }
-    let callsByCallType;
-    let talkTimeByCallType;
-    let tempArray: Array<object> = [];
+  }
+
+  public createCallTalkTimeByQuesType(totalTalkTime, timePeriodCalls) {
+    try {
+      const talkTimeCounts = [
+        totalTalkTime.BenefitsEligibility,
+        totalTalkTime.Claims,
+        totalTalkTime.PriorAuth,
+        totalTalkTime.Others
+      ];
+      const talkTimeLabels = ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'];
+      return this.issueResolution(
+        null,
+        'Talk Time By Call Type',
+        '304',
+        {
+          graphValueName: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+          graphValues: [
+            totalTalkTime.BenefitsEligibility,
+            totalTalkTime.Claims,
+            totalTalkTime.PriorAuth,
+            totalTalkTime.Others
+          ],
+          centerNumber:
+            this.common.nondecimalFormatter(totalTalkTime.Total) < 1
+              ? '< 1 Hrs'
+              : this.common.nondecimalFormatter(totalTalkTime.Total) + ' Hrs',
+          color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+          gdata: ['card-inner', 'talkTimeByCallType'],
+          labels: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+          hover: true
+          // sdata: this.sdataTrend[1]
+        },
+        this.toggle.setToggles('Talk Time By Call Type', 'Calls', 'Service Interaction', false),
+        {
+          labels: this.common.sideLabelWords(talkTimeCounts, talkTimeLabels),
+          color: this.common.sideLabelColor(talkTimeCounts)
+        },
+        timePeriodCalls
+      );
+    } catch (Error) {
+      console.log('Error in Calls Page | TalkTime By Call Type', Error);
+      return this.issueResolution(404, 'Talk Time By Call Type', null, null, null, null);
+    }
+  }
+
+  public sharedCallsData(parameters) {
+    let callsByCallType: ICallsShared;
+    let talkTimeByCallType: ICallsShared;
+    const tempArray: Array<object> = [];
     return new Promise(resolve => {
       this.callsService.getCallsData(...parameters).subscribe(
-        ([providerSystems]) => {
-          if (providerSystems != null) {
-            try {
-              if (
-                providerSystems.CallVolByQuesType != null &&
-                providerSystems.CallVolByQuesType != undefined &&
-                providerSystems.hasOwnProperty('CallVolByQuesType')
-              ) {
-                const totalCalls = providerSystems.CallVolByQuesType;
-                try {
-                  callsByCallType = this.issueResolution(
-                    'Calls By Call Type',
-                    {
-                      graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                      graphValues: [
-                        totalCalls.BenefitsEligibility,
-                        totalCalls.Claims,
-                        totalCalls.PriorAuth,
-                        totalCalls.Others
-                      ],
-                      centerNumber: this.common.nondecimalFormatter(totalCalls.Total),
-                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                      gdata: ['card-inner', 'callsByCallType'],
-                      labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                      hover: true
-                      // sdata: this.sdataTrend[0]
-                    },
-                    {
-                      labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-                    },
-                    this.timeFrame
-                  );
-                } catch (Error) {
-                  console.log('Error in Calls Page | Question Type By Call Type', Error);
-                  callsByCallType = this.issueResolution(null, null, null);
-                }
-              }
-            } catch (Error) {
-              console.log('Calls Page Error CallVolByQuesType', Error);
-              callsByCallType = this.issueResolution(null, null, null);
+        (response: ICallsResponse) => {
+          if (response.Data) {
+            const providerSystems = response.Data;
+            const startDate = providerSystems.ReportStartDate;
+            const endDate = providerSystems.ReportEndDate;
+            const timePeriodCalls: string =
+              this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
+            if (providerSystems.CallVolByQuesType) {
+              callsByCallType = this.createCallsByCallType(providerSystems.CallVolByQuesType, timePeriodCalls);
+            } else {
+              callsByCallType = this.issueResolution(404, 'Calls by Call Type', null, null, null, null);
             }
-            try {
-              if (
-                providerSystems.CallTalkTimeByQuesType != undefined &&
-                providerSystems.CallTalkTimeByQuesType != null &&
-                providerSystems.hasOwnProperty('CallTalkTimeByQuesType')
-              ) {
-                const totalCalls = providerSystems.CallTalkTimeByQuesType;
-                try {
-                  talkTimeByCallType = this.issueResolution(
-                    'Talk Time By Call Type',
-                    {
-                      graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                      graphValues: [
-                        totalCalls.BenefitsEligibility,
-                        totalCalls.Claims,
-                        totalCalls.PriorAuth,
-                        totalCalls.Others
-                      ],
-                      centerNumber: this.common.nondecimalFormatter(totalCalls.Total) + ' ' + ' Hrs',
-                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                      gdata: ['card-inner', 'talkTimeByCallType'],
-                      labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                      hover: true
-                      // sdata: this.sdataTrend[1]
-                    },
-                    {
-                      labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-                    },
-                    this.timeFrame
-                  );
-                } catch (Error) {
-                  console.log('Error in Calls Page | TalkTime By Call Type', Error);
-                  talkTimeByCallType = this.issueResolution(null, null, null);
-                }
-              } // end if else blocl
-            } catch (Error) {
-              console.log('Calls Page Error CallTalkTimeByQuesType', Error);
-              talkTimeByCallType = this.issueResolution(null, null, null);
+
+            if (providerSystems.CallTalkTimeByQuesType) {
+              talkTimeByCallType = this.createCallTalkTimeByQuesType(
+                providerSystems.CallTalkTimeByQuesType,
+                timePeriodCalls
+              );
+            } else {
+              talkTimeByCallType = this.issueResolution(404, 'Talk Time By Call Type', null, null, null, null);
             }
-            tempArray[0] = callsByCallType;
-            tempArray[1] = talkTimeByCallType;
           } else {
-            tempArray = null;
+            callsByCallType = this.issueResolution(404, 'Calls by Call Type', null, null, null, null);
+            talkTimeByCallType = this.issueResolution(404, 'Talk Time By Call Type', null, null, null, null);
           }
+
+          tempArray[0] = callsByCallType;
+          tempArray[1] = talkTimeByCallType;
           resolve(tempArray);
         },
         err => {
+          const respArray: Array<object> = [];
           console.log('Calls Error Data', err);
+          callsByCallType = this.issueResolution(404, 'Calls by Call Type', null, null, null, null);
+          talkTimeByCallType = this.issueResolution(404, 'Talk Time By Call Type', null, null, null, null);
+          respArray[0] = callsByCallType;
+          respArray[1] = talkTimeByCallType;
+          resolve(respArray);
         }
       );
     });

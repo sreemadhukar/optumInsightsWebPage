@@ -5,7 +5,7 @@
     background-color: #ffffff;
     width: 304px;
     height: 237px;
-    margin: 10px;
+    margin: 12px;
     line-height: 75px;
     font-size: 30px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -16,7 +16,7 @@
       float: left;
       padding-left: 15px;*/
       float: left;
-      padding-left: 42px;
+      padding-left: 20px;
       margin-bottom: 16px;
     }
     .chart-details {
@@ -30,10 +30,9 @@
     }
     .trend-details {
       float: left;
-      /*padding: 10% 0;*/
       display: flex;
       margin-top: 48px;
-      margin-left: 18px;
+      margin-left: 10px;
 
       .trend-value {
         font-size: 14px;
@@ -99,13 +98,92 @@
       }
     }
   }
+  .card-inner.nps {
+    height: 249px;
+    width: 304px;
+  }
+  .print-card-inner {
+    box-shadow: none;
+    border: 1px solid #e9e9e9;
+    width: 335px;
+    height: 240px;
+  }
   .full-display-block {
     float: left;
     width: 100%;
+    margin-top: -4px;
+  }
+  .cards-display-block {
+    margin-top: -4px;
+    display: flex;
+    padding: 0 24px;
+    .data-card {
+      text-align: center;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      color: white;
+      margin: 10px auto;
+      width: 120px;
+      padding-bottom: 25px;
+      border-radius: 10px;
+      .highlighted {
+        padding: 5px 0;
+        height: 45px;
+        font-size: 58px;
+        line-height: 60px;
+      }
+      .caption-text {
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        height: 14px;
+        letter-spacing: 0.17px;
+        color: $strom-grey;
+        line-height: 50px;
+      }
+      .target {
+        padding-top: 5px;
+        font-size: 14px;
+        height: 14px;
+        line-height: 50px;
+      }
+    }
+    .kop-error-card {
+      margin: 10px auto;
+    }
+    .data-card.card-nps-single,
+    .kop-error-card.card-nps-single {
+      margin: 10px auto !important;
+    }
+    .data-card.card-nps-quarter-current {
+      background: none;
+      border: 2px solid $dodger-blue;
+      color: $black-rock;
+      margin-right: 6px;
+    }
+    .data-card.card-nps-quarter-prev {
+      border: 2px solid $iris-blue;
+      color: $black-rock;
+      background: none;
+      margin-left: 6px;
+    }
+    .data-card.card-nps-quarter-highlight {
+      border: none;
+      color: $white;
+      background: $dodger-blue;
+      .caption-text {
+        color: $white;
+      }
+    }
+    .data-card.card-nps-quarter-highlight.card-nps-single {
+      border: 2px solid $dodger-blue;
+    }
   }
   .small-star-chart {
     margin-left: 92px;
     height: 145px;
+  }
+  .trend-container {
+    display: block;
+    margin-top: 10px;
   }
   // @media screen and (max-width: 1331px) {
   //   .card-inner {
@@ -113,6 +191,9 @@
   //   }
   // }
 }
+// .small-card-structure.nps {
+//   margin-left: -10px;
+// }
 .small-card-footer {
   .common-footer {
     /*position: absolute;
@@ -147,6 +228,63 @@
   background-position: 10px 75px, /* circle */ 0 0, /* highlight */ 120px 100px, 120px 137.5px;
 
   animation: shine-small-card 1s infinite;
+}
+
+.beside-data-block {
+  float: left;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.total-claims-beside-data-block {
+  float: left;
+  margin-top: 40px;
+  margin-left: 10px;
+}
+
+.app-card-list-labels {
+  display: block;
+  color: $black-rock;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  float: left;
+}
+.app-card-list-labels > li {
+  margin-bottom: 16px;
+  margin-right: 8px;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+}
+.label-dots {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+}
+.label-color-indicators {
+  margin-bottom: 18px !important;
+}
+
+.tat-container {
+  position: relative;
+  top: 42px;
+  margin-bottom: 30px;
+  // margin-bottom: -11px;
+}
+.tat-circle-image-pos {
+  height: 129px;
+  width: 129px;
+  margin-left: 82px;
+  margin-top: -42px;
+}
+.tat-center-num {
+  position: absolute;
+  margin-top: -42px;
+  top: 81px;
+  left: 110px;
+  font-size: 22px;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  color: $black-rock;
 }
 
 @keyframes shine-small-card {

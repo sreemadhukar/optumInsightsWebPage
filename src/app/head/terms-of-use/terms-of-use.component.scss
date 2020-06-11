@@ -1,8 +1,8 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 .terms-content {
-  padding-left: 32px;
-  padding-right: 32px;
+  width: 1000px;
+  margin: 0 auto;
   padding-bottom: 24px;
   background-color: $alice-blue;
 }

@@ -1,0 +1,146 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+.container--tabs {
+  clear: left;
+  width: 98.5%;
+  line-height: 25px;
+  /*margin-bottom: 24px;*/
+  margin-bottom: 20px;
+  padding-top: 24px;
+  .nav-tabs {
+    display: flex;
+    border-radius: 2px;
+    list-style-type: none;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    color: #2d2d39;
+    > li {
+      flex-basis: 23%;
+      background-color: $white;
+      border: 0.5px solid #e0e0e0;
+      border-radius: 2px;
+      padding: 10px 20px;
+      cursor: pointer;
+      color: #2d2d39;
+      height: 55px;
+      > span {
+        font-size: 18px;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        letter-spacing: 0.2px;
+        line-height: 22px;
+      }
+      &.active {
+        background-color: #f1f4f7;
+        border-top: 4px solid #196ecf;
+        border-radius: 2px 2px 0 0;
+        border-bottom-color: transparent;
+        text-decoration: none;
+        margin-top: -3px;
+        border-left: 0;
+        border-right: 0;
+        color: $black-rock;
+      }
+      .nav-values {
+        color: #757588;
+        font-size: 14px;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 18px;
+        .metrics {
+          font-size: 14px;
+          font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+          letter-spacing: 0.2px;
+          line-height: 18px;
+        }
+        .upgreen {
+          color: #007000;
+        }
+        .downred {
+          color: color(red, dark);
+        }
+      }
+      &:hover,
+      &:focus {
+        border-top: 4px solid #196ecf;
+        text-decoration: none;
+        margin-top: -3px;
+        border-radius: 2px 2px 0 0;
+      }
+    } // li styling
+  }
+}
+
+.nav-tabs {
+  display: flex;
+  border-radius: 2px;
+  list-style-type: none;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  color: #2d2d39;
+}
+
+.nav-values {
+  color: #757588;
+  font-size: 14px;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  line-height: 18px;
+  width: 190px;
+}
+
+.height1Separator {
+  height: 0;
+  width: 1200px;
+}
+
+.pi-cards {
+  display: flex;
+  flex-wrap: wrap;
+  width: 980px;
+  & > .cards {
+    text-align: left;
+    // @include margin(0, 0, 0, 12px);
+  }
+}
+
+.app-card-structure {
+  position: relative;
+  background-color: $white;
+  width: 464px;
+  height: 356px;
+  margin: 12px;
+  line-height: 75px;
+  font-size: 30px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  .pi-bar-chart {
+    margin: 110px 0 110px 44px;
+  }
+}
+
+.full-display {
+  float: left;
+  width: 100%;
+}
+
+.pi-bar-chart-trend-comparison {
+  color: #757588;
+  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  padding-left: 16px;
+  padding-bottom: 14px;
+}
+
+.pi-medical-record-coding-review-block {
+  width: 952px;
+  border-radius: 2px;
+  background-color: $white;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  // float: left;
+  margin-top: 12px;
+  margin-left: 12px;
+  margin-bottom: 12px;
+}
+
+.printDateStyle {
+  padding-left: 15px;
+}

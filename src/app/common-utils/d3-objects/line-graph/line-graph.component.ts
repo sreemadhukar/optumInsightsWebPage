@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, AfterViewInit, ViewEncapsulation, HostBinding } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-line-graph',
@@ -20,7 +21,7 @@ export class LineGraphComponent implements OnInit {
   public temp: any;
   public selectYear;
   public count = 1;
-
+  @Input() printStyle;
   @Input() yearComparison;
   @Input() chartOptions: any = {};
   @Input() tooltipBool;
@@ -39,10 +40,14 @@ export class LineGraphComponent implements OnInit {
     return this._changeTimeFrame;
   }
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.chartId;
+
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
@@ -51,35 +56,22 @@ export class LineGraphComponent implements OnInit {
       this.chartOptions.chartData,
       this.chartOptions.chartData2,
       this.chartOptions.titleData,
-      this.chartOptions.generalData,
-      this.chartOptions.generalData2
+      this.chartOptions.generalData
     );
   }
 
-  onResize(event) {
-    this.doLineGraph(
-      this.chartOptions.chartData,
-      this.chartOptions.chartData2,
-      this.chartOptions.titleData,
-      this.chartOptions.generalData,
-      this.chartOptions.generalData2
-    );
+  onResize(_event) {
+    this.ngAfterViewInit();
   }
 
   onSystemChange() {
-    this.doLineGraph(
-      this.chartOptions.chartData,
-      this.chartOptions.chartData2,
-      this.chartOptions.titleData,
-      this.chartOptions.generalData,
-      this.chartOptions.generalData2
-    );
+    this.ngAfterViewInit();
   }
 
-  doLineGraph(chartData: any, chartData2: any, titleData: any, generalData: any, generalData2: any) {
+  doLineGraph(chartData: any, chartData2: any, titleData: any, generalData: any) {
     function formatDy(dy: number): string {
       if (dy === 0) {
-        return '0.0M';
+        return '0';
       } else if (dy < 999) {
         return dy.toFixed(0);
       } else if (dy < 999999) {
@@ -194,60 +186,13 @@ export class LineGraphComponent implements OnInit {
       }
     } // ends formatDynamicAbbrevia function
 
-    function tooltipText(d, year, prefix) {
+    function tooltipTextOnPrint(d, year, prefix) {
       if (year == undefined || !year || year === '') {
-        return (
-          "<div class='lineLabelHover'>" +
-          "Claims Not <br> Paid</div><div class='details-label'>" +
-          prefix +
-          formatDy(d.y)
-        );
-      } else {
-        return (
-          "<div class='lineLabelHover'>" +
-          "&nbsp; Claims Not <br> Paid</div><div class='details-label'>&nbsp;&nbsp;&nbsp;" +
-          d.x +
-          '&nbsp;&nbsp;' +
-          year[0] +
-          '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-          prefix +
-          formatDy(d.y) +
-          "<hr class='hr_cust_margin hr_opacity'><span class='circle_label_sm circle2'></span>&nbsp;&nbsp;&nbsp;" +
-          d.x +
-          '&nbsp;&nbsp;' +
-          year[1] +
-          '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-          prefix +
-          formatDy(d.y_twoYearsAgo) +
-          '%</div></div>'
-        );
+        return '(' + prefix + formatDy(d.y) + ')';
       }
     }
-    /*function tooltipText2(d, year, prefix) {
-      return (
-        "<div class='lineLabelHover'>" +
-        d.x +
-        // tslint:disable-next-line:max-line-length
-        "&nbsp; Trend Details</div><hr class='hr_cust_margin'><div class='details-label'>
-        <span class='circle_label_sm circle1'></span>&nbsp;&nbsp;&nbsp;" +
-        d.x +
-        '&nbsp;&nbsp;' +
-        year[0] +
-        '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-        prefix +
-        formatDy(d.y_lastYear) +
-        "<hr class='hr_cust_margin hr_opacity'><span class='circle_label_sm circle2'></span>&nbsp;&nbsp;&nbsp;" +
-        d.x +
-        '&nbsp;&nbsp;' +
-        year[1] +
-        '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-        prefix +
-        formatDy(d.y) +
-        '%</div></div>'
-      );
-    }*/
 
-    const preWidth = 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
+    const preWidth = generalData[0].width || 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
 
     let topMarginSubtract = 150;
     if (titleData[0].topTitleBoxNumber) {
@@ -257,35 +202,70 @@ export class LineGraphComponent implements OnInit {
       .selectAll('*')
       .remove();
 
-    const margin = { top: 85 - topMarginSubtract, right: 62, bottom: 85, left: 48 };
+    const lengthOfData = chartData.length;
+    const marginRight = generalData[0].marginRight >= 0 ? generalData[0].marginRight : 62;
+    const marginLeft = generalData[0].marginLeft >= 0 ? generalData[0].marginLeft : 48;
+
+    const margin = { top: 85 - topMarginSubtract, right: marginRight, bottom: 85, left: marginLeft };
     const width = preWidth - margin.left - margin.right;
-    const height = 520 - margin.top - margin.bottom + 8;
+    const height = generalData[0].height || 420;
+    const hoverMargin = generalData[0].hoverMargin || 56;
+    const dupDelimiter = generalData[0].dupDelimiter;
+    const xPartWidth = width / (lengthOfData - 1);
 
     const chart = d3
       .select(this.renderChart)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
-      .attr('height', 420 /*height - margin.top - margin.bottom*/)
+      .attr('height', height)
       .style('background-color', generalData[0].backgroundColor)
       .append('g')
       .attr('transform', 'translate(' + (margin.left - 7) + ',' + 5 + ')');
-    /* const div = d3
-      .select(this.renderChart)
-      .append('div')
-      .attr('class', 'tooltip')
-      .style('opacity', 0);*/
 
     const shiftTooltip = -130;
 
     if (generalData[0].tooltipBoolean === true) {
-      // tslint:disable-next-line:no-var-keyword
-      var tooltipVar = d3
-        .select(this.renderChart)
-        .append('div')
-        .classed('tooltipBlockClass', true)
-        .classed('tooltipClass', false)
-        .classed('tooltipClassLeft', false)
-        .classed('hidden', true);
+      if (generalData[0].tooltipType === 'nps') {
+        // tslint:disable-next-line:no-var-keyword
+        var tooltipVar = d3
+          .select(this.renderChart)
+          .append('div')
+          .classed('tooltipBlockClass', true)
+          .classed('tooltipClass', false)
+          .classed('tooltipClassLeft', false)
+          .classed('hidden', true);
+        tooltipVar
+          .append('div')
+          .attr('class', 'lineLabelHoverNps')
+          .attr('id', 'npsLabelOne');
+        tooltipVar
+          .append('div')
+          .attr('class', 'lineLabelHoverNps')
+          .attr('id', 'npsLabelTwo');
+      } else {
+        // tslint:disable-next-line:no-var-keyword
+        var tooltipVar = d3
+          .select(this.renderChart)
+          .append('div')
+          .classed('tooltipBlockClass', true)
+          .classed('tooltipClass', false)
+          .classed('tooltipClassLeft', false)
+          .classed('hidden', true);
+        tooltipVar
+          .append('div')
+          .attr('class', 'lineLabelHover')
+          .attr('id', 'claimsNotPaidLabelOne')
+          .text('Claims Not');
+        tooltipVar
+          .append('div')
+          .attr('class', 'lineLabelHover')
+          .attr('id', 'claimsNotPaidLabelTwo')
+          .text('Paid');
+        tooltipVar
+          .append('div')
+          .attr('class', 'details-label')
+          .attr('id', 'claimsNotPaidLabelThree');
+      }
     } else {
       tooltipVar = d3
         .select(this.renderChart)
@@ -293,7 +273,6 @@ export class LineGraphComponent implements OnInit {
         .attr('class', 'displayNone');
     }
 
-    const lengthOfData = chartData.length;
     // tslint:disable-next-line:no-var-keyword
     var highestValue = Math.max.apply(
       Math,
@@ -310,10 +289,8 @@ export class LineGraphComponent implements OnInit {
     );
     let axisPrefix = '';
 
-    if (highestValue !== 0) {
-      axisPrefix = '$';
-    } else {
-      axisPrefix = '';
+    if (generalData[0].yAxisUnits) {
+      axisPrefix = generalData[0].yAxisUnits;
     }
 
     if (highestValue < highestValue2) {
@@ -325,10 +302,12 @@ export class LineGraphComponent implements OnInit {
       .domain([0, lengthOfData - 1]) // input
       .range([25, width - 25]);
 
-    const xScalePath = d3
-      .scaleLinear()
-      .domain([0, 2]) // input
-      .range([0, width]);
+    const xScalePath = (index: number, key: number, total: number) => {
+      if ((index + 1) % key === 0 && total !== index + 1) {
+        return xPartWidth * (index + 1);
+      }
+      return xPartWidth * index;
+    };
 
     const xScale3 = d3
       .scalePoint()
@@ -342,19 +321,10 @@ export class LineGraphComponent implements OnInit {
     const yScale = d3
       .scaleLinear()
       .domain([0, highestValue]) // input
-      .range([350, 0])
-      .nice(3); // output
+      .range([height - 70, 0])
+      .nice(5); // output
 
     // tslint:disable-next-line:no-var-keyword
-    let area = d3
-      .area()
-      .x(function(d, i) {
-        return xScale(i);
-      })
-      .y0(height)
-      .y1(function(d) {
-        return yScale(d.y);
-      });
 
     // tslint:disable-next-line:no-var-keyword
     const ydata = [];
@@ -363,14 +333,35 @@ export class LineGraphComponent implements OnInit {
       ydata.push({ y: chartData[a].value });
     }
 
+    let xtextClass = 'tick_hidden';
+    let ytextClass = 'tick_hidden_y';
+    if (generalData[0].customTextClass) {
+      xtextClass = 'tick_hidden_y_custom';
+      ytextClass = 'tick_hidden_custom';
+    }
+
     chart
       .append('g')
-      .attr('class', 'tick_hidden')
+      .attr('class', ytextClass)
       .attr('id', 'forCalculation')
-      .attr('transform', 'translate(0,' + 360 /*(height - 60)*/ + ')')
+      .attr('transform', 'translate(0,' + (height - 60) + ')')
       .call(
         d3
           .axisBottom(xScale3)
+          .tickFormat(d => {
+            // If X Axis has duplicate values / Formatted Values, Pass respective keys in generalData object and
+            // and use accordingly
+            if (generalData[0].formattedXAxis) {
+              const preDelimiterLength = 2;
+              const delimiterForDuplicate = d.substring(d.length - dupDelimiter.length - preDelimiterLength, d.length);
+              if (delimiterForDuplicate.substring(preDelimiterLength, delimiterForDuplicate.length) === dupDelimiter) {
+                let formattedString = d.replace(dupDelimiter, '');
+                formattedString = formattedString.substring(0, formattedString.length - preDelimiterLength);
+                return formattedString.replace('_', ' ');
+              }
+            }
+            return d;
+          })
           .tickSize(5, 0, 0)
           .tickSizeOuter([0])
       );
@@ -380,7 +371,7 @@ export class LineGraphComponent implements OnInit {
       .attr('id', 'forlolCalculations')
       .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .attr('font-size', '14px')
-      .text(chartData[0].name)
+      .text(chartData.name)
       .style('fill', '#2D2D39');
 
     const text_element1 = chart.select('#forlolCalculations');
@@ -388,17 +379,22 @@ export class LineGraphComponent implements OnInit {
     var textWidth1 = text_element1.node().getComputedTextLength();
 
     chart.select('#forlolCalculations').remove();
-
-    if (chartData[0].name.length === 4) {
+    if (chartData.length === 4) {
       textWidth1 = textWidth1 / 2;
-    } else if (chartData[0].name.length === 3) {
+    } else if (chartData.length === 3) {
       textWidth1 = textWidth1 * 1.25;
     }
 
-    // tslint:disable-next-line:prefer-const
-    let data = [];
+    const data = [];
     for (let l = 0; l < lengthOfData; l++) {
-      data.push({ y: chartData[l].value, xCoordinate: xScale(l), x: chartData[l].name });
+      data.push({
+        y: chartData[l].value,
+        yAndQ: chartData[l].quarter + ' ' + chartData[l].year,
+        targetY: chartData[l].target,
+        targetX: xScalePath(l, 4, lengthOfData),
+        xCoordinate: xScale(l),
+        x: chartData[l].name
+      });
     }
     const line = d3
       .line()
@@ -407,6 +403,16 @@ export class LineGraphComponent implements OnInit {
       })
       .y(function(d) {
         return yScale(d.y);
+      })
+      .curve(d3.curveLinear);
+
+    const line2 = d3
+      .line()
+      .x(function(d) {
+        return d.targetX;
+      })
+      .y(function(d) {
+        return yScale(d.targetY);
       })
       .curve(d3.curveLinear);
 
@@ -427,11 +433,12 @@ export class LineGraphComponent implements OnInit {
       .selectAll('.tick>text')
       .nodes()
       .map(function(t) {
-        return t.innerHTML;
+        const tagString = new XMLSerializer().serializeToString(t);
+        const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
+        return mySubString;
       });
 
     d3.select('#forYCalculations').remove();
-
     for (let y = 0; y < preYArray.length; y++) {
       preYArray[y] = preYArray[y].replace(/,/g, '');
     }
@@ -455,166 +462,29 @@ export class LineGraphComponent implements OnInit {
     chart.selectAll('.tick:not(:first-of-type) line').attr('opacity', '.35');
     chart.selectAll('.tick:first-of-type line').attr('opacity', '1');
 
-    if (1) {
-      if (!generalData[0].hideYAxis) {
-        chart
-          .append('g')
-          .attr('class', 'tick_hidden_y')
-          .attr('transform', 'translate( ' + width + ', 0 )')
-          .call(
-            d3
-              .axisRight(yScale)
-              .tickSize(5, 0, 0)
-              .tickSizeOuter([0])
-              .ticks(3)
-              .tickFormat(formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
-          );
-      }
+    if (!generalData[0].hideYAxis) {
+      chart
+        .append('g')
+        .attr('class', xtextClass)
+        .attr('transform', 'translate( ' + width + ', 0 )')
+        .call(
+          d3
+            .axisRight(yScale)
+            .tickSize(5, 0, 0)
+            .tickSizeOuter([0])
+            .ticks(3)
+            .tickFormat(formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
+        );
     }
 
-    if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
-      const lengthOfData2 = chartData2.length;
-      // tslint:disable-next-line:no-shadowed-variable
-      const highestValue2 = Math.max.apply(
-        Math,
-        chartData2.map(function(o) {
-          return o.value;
-        })
-      );
-      // tslint:disable-next-line:no-var-keyword
-      /* var data2 = [];
-      for (let x = 0; x < lengthOfData2; x++) {
-        data2.push({ y: chartData2[x].value });
-      }
-      chart
-        .append('text')
-        .attr('id', 'forlolCalculations2')
-        .attr('font-family', 'UHCSans-Regular')
-        .attr('font-size', '14px')
-        .text(chartData2[0].name)
-        .style('font-weight', '600');*/
-
-      const text_element2 = chart.select('#forlolCalculations2');
-      // tslint:disable-next-line:no-var-keyword
-      var textWidth2 = text_element2.node().getComputedTextLength();
-      chart.select('#forlolCalculations2').remove();
-
-      if (chartData2[0].name.length === 4) {
-        textWidth2 = textWidth2 / 2;
-      } else if (chartData2[0].name.length === 3) {
-        textWidth2 = textWidth2 * 1.25;
-      }
-
-      /* Starts Data for tooltip */
-      /*if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
-        // tslint:disable-next-line:no-var-keyword
-        let data2 = [];
-        // tslint:disable-next-line:no-var-keyword
-        let data = [];
-        for (let v = 0; v < lengthOfData; v++) {
-          data.push({
-            y: chartData[v].value,
-            y_twoYearsAgo: chartData2[v].value,
-            xCoordinate: xScale(v),
-            x: chartData[v].name
-          });
-        }
-        for (let u = 0; u < lengthOfData2; u++) {
-          data2.push({
-            y: chartData2[u].value,
-            y_lastYear: chartData[u].value,
-            xCoordinate: xScale(u),
-            x: chartData2[u].name,
-            x_lastYear: chartData[u].name
-          });
-        }
-      } */
-      /* Ends Data for tooltip */
-      chart
-        .append('g')
-        .attr('visibility', 'hidden')
-        .attr('id', 'forYCalculations2')
-        .call(
-          d3
-            .axisLeft(yScale)
-            .tickSize(5, 0, 0)
-            .tickSizeOuter([0])
-            .ticks(3)
-        );
-      const preYArray2 = d3
-        .select('#forYCalculations2')
-        .selectAll('.tick>text')
-        .nodes()
-        .map(function(t) {
-          return t.innerHTML;
-        });
-
-      d3.select('#forYCalculations2').remove();
-      for (let c = 0; c < preYArray2.length; c++) {
-        preYArray2[c] = preYArray2[c].replace(/,/g, '');
-      }
-
-      const preArrayOfNumbers2 = preYArray2.map(Number);
-      // tslint:disable-next-line:no-var-keyword
-      // var numberOfTicks2 = preArrayOfNumbers2.length;
-      // tslint:disable-next-line:no-var-keyword
-      // var highestTickValue2 = preArrayOfNumbers2[numberOfTicks2 - 1];
-    } // end if structure of chartData2
-
-    /*  if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
-      chart
-        .append('g')
-        .attr('class', 'tick_hidden_y')
-        .call(
-          d3
-            .axisLeft(yScale)
-            .tickSize(5, 0, 0)
-            .tickSizeOuter([0])
-            .ticks(3)
-            .tickFormat(formatDynamicAbbreviation(numberOfTicks2, highestTickValue2, axisPrefix))
-        );
-    }*/
-
-    /* if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
-      chart
-        .append('path')
-        .datum(data2)
-        .attr('class', 'line2')
-        .attr('d', line)
-        .style('fill', 'none')
-        .style('stroke', generalData2[0].barColor);
-    } */
-    // tslint:disable-next-line:no-var-keyword
-    area = d3
-      .area()
-      .x(function(d, i) {
-        return d.xCoordinate;
-      })
-      .y0(height)
-      .y1(function(d) {
-        return yScale(d.y);
-      });
-
     chart
-      .append('path')
-      .datum(data)
-      .attr('class', 'area')
-      .attr('d', area);
-
-    /*if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
-      chart
-        .append('path')
-        .datum(data2)
-        .attr('class', 'area2')
-        .attr('d', area);
-    }*/
-
-    const RectBarOne = chart
       .selectAll('.rect-bar')
       .data(data)
       .enter()
       .append('rect')
       .style('fill', '#E3F0FD')
+      .attr('height', height - 70 + 'px')
+      .attr('width', '48px')
       .style('opacity', 0)
       .attr('class', 'rect-bar')
       .attr('x', function(d) {
@@ -634,28 +504,48 @@ export class LineGraphComponent implements OnInit {
         RectBarDot.transition()
           .duration(200)
           .style('opacity', 1);
-
         tooltipVar
           .transition()
           .duration(200)
           .style('opacity', 1);
         const topMar = yScale(d.y) + 39 + 'px';
-        if (d3.event.layerX + 213 < width + margin.left + margin.right) {
+        if (d3.event.offsetX + 213 < width + margin.left + margin.right) {
           tooltipVar
-            .html(tooltipText(d, this.yearComparison, axisPrefix))
             .classed('hidden', false)
             .classed('tooltipClass', true)
             .classed('tooltipClassLeft', false)
-            .style('left', d.xCoordinate + 56 + 'px')
+            .style('left', d.xCoordinate + hoverMargin + 'px')
             .style('top', topMar);
         } else {
           tooltipVar
-            .html(tooltipText(d, this.yearComparison, axisPrefix))
             .classed('hidden', false)
             .classed('tooltipClass', false)
             .classed('tooltipClassLeft', true)
-            .style('left', d.xCoordinate + 56 + shiftTooltip + 'px')
+            .style('left', d.xCoordinate + hoverMargin + shiftTooltip + 'px')
             .style('top', topMar);
+        }
+
+        if (generalData[0].tooltipType === 'nps') {
+          d3.select('#npsLabelOne').text(d.yAndQ);
+          d3.select('#npsLabelTwo')
+            .selectAll('*')
+            .remove();
+          const dotMagnitude = 12;
+          d3.select('#npsLabelTwo')
+            .append('svg')
+            .attr('width', dotMagnitude)
+            .attr('height', dotMagnitude)
+            .style('vertical-align', 'middle')
+            .append('circle')
+            .attr('fill', '#3381ff')
+            .attr('cx', dotMagnitude / 2)
+            .attr('cy', dotMagnitude / 2)
+            .attr('r', dotMagnitude / 2);
+          d3.select('#npsLabelTwo')
+            .append('text')
+            .text(formatDy(d.y));
+        } else {
+          d3.select('#claimsNotPaidLabelThree').text('$' + formatDy(d.y));
         }
       })
       .on('mouseout', function(d) {
@@ -667,14 +557,47 @@ export class LineGraphComponent implements OnInit {
         RectBarDot.transition()
           .duration(200)
           .style('opacity', 0);
-
         tooltipVar
           .transition()
           .duration(500)
           .style('opacity', 0);
       });
 
-    const DotOne = chart
+    if (this.printStyle) {
+      chart
+        .selectAll('.dot')
+        .data(data)
+        .enter()
+        .append('circle') // Uses the enter().append() method
+        .attr('class', 'dot') // Assign a class for styling
+        .attr('cx', function(_d, i) {
+          return xScale(i);
+        })
+        .attr('cy', function(d) {
+          return yScale(d.y);
+        })
+        .attr('r', 5);
+
+      chart
+        .selectAll('.text')
+        .data(data)
+        .enter()
+        .append('text')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('font-size', '14px')
+        .text(function(d) {
+          return tooltipTextOnPrint(d, this.yearComparison, axisPrefix);
+        })
+        .attr('x', function(_d, i) {
+          return xScale(i);
+        })
+        .attr('y', function(d) {
+          return yScale(d.y);
+        })
+        .attr('transform', 'translate(-12, -15)');
+    }
+
+    chart
       .selectAll('.dot')
       .data(data)
       .enter()
@@ -693,181 +616,26 @@ export class LineGraphComponent implements OnInit {
       })
       .attr('r', 6);
 
-    if (1) {
+    chart
+      .append('path')
+      .datum(data)
+      .attr('class', 'line')
+      .attr('d', line)
+      .attr('id', 'LineOne')
+      .style('fill', 'none')
+      .style('stroke', generalData[0].barColor);
+
+    if (generalData[0].trendLine) {
       chart
         .append('path')
         .datum(data)
-        .attr('class', 'line')
-        .attr('d', line)
-        .attr('id', 'LineOne')
+        .attr('class', 'line2')
+        .attr('d', line2)
+        .attr('id', 'LineTwo')
         .style('fill', 'none')
-        .style('stroke', generalData[0].barColor);
+        .style('stroke', generalData[0].trendLineColor);
     }
 
-    /*  if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
-      chart
-        .selectAll('.dot2')
-        .data(data2)
-        .enter()
-        .append('circle')
-        .attr('class', 'dot2')
-        .attr('cx', function(d) {
-          return d.xCoordinate;
-        })
-        .attr('cy', function(d) {
-          return yScale(d.y);
-        })
-        .attr('r', 5)
-        .on('mouseover', d => {
-          tooltipVar
-            .transition()
-            .duration(200)
-            .style('opacity', 1);
-          if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-            tooltipVar
-              .html(tooltipText2(d, this.yearComparison, axisPrefix))
-              .classed('hidden', false)
-              .classed('tooltipClass', true)
-              .classed('tooltipClassLeft', false)
-              .style('left', d3.event.layerX + 23 + 'px')
-              .style('top', d3.event.layerY + -20 + 'px');
-          } else {
-            tooltipVar
-              .html(tooltipText2(d, this.yearComparison, axisPrefix))
-              .classed('hidden', false)
-              .classed('tooltipClass', false)
-              .classed('tooltipClassLeft', true)
-              .style('left', d3.event.layerX + 23 + shiftTooltip + 'px')
-              .style('top', d3.event.layerY + -20 + 'px');
-          }
-        })
-        .on('mouseout', function(d) {
-          tooltipVar
-            .transition()
-            .duration(500)
-            .style('opacity', 0);
-        });
-    } */
-
-    chart
-      .append('text')
-      .attr('id', 'forTextCalculations')
-      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .attr('font-size', '15px')
-      .text(titleData[0].title);
-
-    let text_element = chart.select('#forTextCalculations');
-    let textWidth = text_element.node().getComputedTextLength();
-
-    chart.select('#forTextCalculations').remove();
-
-    chart
-      .append('text')
-      .attr('x', xScalePath(1) - textWidth / 2)
-      .attr('y', -125)
-      .style('font-size', '15px')
-      .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .style('fill', '#2D2D39')
-      .text(titleData[0].title);
-
-    // Start custom box
-    if (titleData[0].topTitleBoxNumber) {
-      let rectangleWidth = 130;
-      const numberOfInt = titleData[0].topTitleBoxNumber.replace(/\D/g, '').length;
-
-      if (numberOfInt === 2) {
-        rectangleWidth = 110;
-      } else if (numberOfInt === 3) {
-        rectangleWidth = 130;
-      } else if (numberOfInt === 4) {
-        rectangleWidth = 150;
-      } else if (numberOfInt === 5) {
-        rectangleWidth = 170;
-      } else if (numberOfInt === 6) {
-        rectangleWidth = 190;
-      } else if (numberOfInt === 7) {
-        rectangleWidth = 210;
-      } else {
-        rectangleWidth = 230;
-      }
-
-      chart
-        .append('rect')
-        .attr('rx', 4)
-        .attr('ry', 4)
-        .attr('x', xScalePath(1) - rectangleWidth / 2)
-        .attr('y', -100)
-        .attr('width', rectangleWidth)
-        .attr('height', 54)
-        .attr('fill', 'white')
-        .attr('stroke', '#B3BABC')
-        .attr('stroke-width', 1);
-      chart
-        .append('text')
-        .attr('id', 'forTextCalculations')
-        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-        .attr('font-size', '22px')
-        .text(titleData[0].topTitleBoxNumber + ' ' + titleData[0].topTitleBoxNumberType);
-
-      text_element = chart.select('#forTextCalculations');
-      textWidth = text_element.node().getComputedTextLength();
-
-      chart.select('#forTextCalculations').remove();
-
-      chart
-        .append('text')
-        .attr('x', xScalePath(1) - textWidth / 2)
-        .attr('y', -75)
-        .style('font-size', '22px')
-        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-        .style('fill', '#2D2D39')
-        .text(titleData[0].topTitleBoxNumber + ' ' + titleData[0].topTitleBoxNumberType);
-
-      chart
-        .append('text')
-        .attr('id', 'forTextCalculations')
-        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-        .attr('font-size', '15px')
-        .text(titleData[0].percentageValue + '% ' + titleData[0].percentageValueType);
-
-      text_element = chart.select('#forTextCalculations');
-      textWidth = text_element.node().getComputedTextLength();
-
-      chart.select('#forTextCalculations').remove();
-
-      chart
-        .append('text')
-        .attr('x', xScalePath(1) - textWidth / 2)
-        .attr('y', -55)
-        .style('font-size', '15px')
-        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-        .style('fill', '#21B01E')
-        .text(titleData[0].percentageValue + '% ' + titleData[0].percentageValueType);
-
-      const polygonPoint = xScalePath(1) - textWidth / 2 - 7.5;
-
-      chart
-        .append('polygon')
-        .style('stroke', '#21B01E')
-        .style('fill', '#21B01E')
-        .attr('points', polygonPoint + ',-60, ' + (polygonPoint + 2.5) + ',-57.5, ' + (polygonPoint + 5) + ',-60');
-    } // end if structure of titleData // End custom box
-
-    if (titleData[0].averagePeerPerformance) {
-      let sumOfData = 0;
-      for (let i = 0; i < chartData.length; i++) {
-        sumOfData = sumOfData + chartData[i].value;
-      }
-
-      const average = sumOfData / chartData.length;
-
-      chart
-        .append('rect')
-        .attr('x', 0)
-        .attr('y', yScale(average))
-        .attr('width', width)
-        .attr('height', yScale(average))
-        .attr('fill', 'rgba(0,168,247,0.3)');
-    } // end if structure o titleData[0].averagePeerPerformance
+    // end if structure o titleData[0].averagePeerPerformance
   } // end dolineGraph Function
 } // export class ends here

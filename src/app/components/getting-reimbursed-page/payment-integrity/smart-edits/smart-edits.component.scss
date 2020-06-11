@@ -1,0 +1,130 @@
+@import '~src/scss/variables.scss';
+
+::ng-deep .container-flex .even .app-card-structure {
+  margin-left: 0 !important;
+}
+::ng-deep .container-flex .odd .app-card-structure {
+  margin-right: 0 !important;
+}
+
+::ng-deep .container-flex .even .card-container {
+  margin-left: 0 !important;
+}
+::ng-deep .container-flex .odd .card-container {
+  margin-right: 0 !important;
+}
+
+.container-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.smart-edit-reasons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  &-box {
+    width: 300px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+  }
+}
+
+.smart-edit-reasons-resubmitted {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 238px;
+
+  &-container {
+    &-block {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: flex-end;
+      width: 388px;
+      height: 90px;
+      color: $black-rock;
+
+      &-part-right {
+        width: 340px;
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        letter-spacing: 0.2px;
+        line-height: 22px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+      &-part-left {
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        font-size: 20px;
+        line-height: 22px;
+        display: flex;
+        align-items: flex-end;
+        padding-bottom: 15px;
+        width: 32px;
+      }
+    }
+  }
+}
+
+.cust-width-title {
+  .page-title {
+    flex-basis: 100%;
+    font-size: 36px;
+    padding: 16px 0 8px 0;
+    color: $black-rock;
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+  }
+  .page-title-subtitle {
+    padding-bottom: 0px;
+  }
+  .page-subtitle {
+    margin-bottom: 20px;
+    .page-subtitle-header {
+      color: $strom-grey;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      display: inline-block;
+      line-height: 22px;
+    }
+    .subtitle-reportLink {
+      cursor: pointer;
+      color: $blue;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      display: inline-block;
+      padding-right: 11px;
+    }
+    .page-subtitle-icon {
+      cursor: pointer;
+      color: $blue;
+      vertical-align: sub;
+    }
+  }
+  .print-page-title {
+    padding-top: 30px;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    line-height: 30px;
+  }
+
+  .print-page-subtitle {
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+    line-height: 40px;
+    flex-basis: 100%;
+    font-size: 28px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    justify-content: space-between;
+    width: 98.5%;
+  }
+}

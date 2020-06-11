@@ -15,9 +15,9 @@
 
 .card-inner {
   background-color: $white;
-  width: 222px;
-  height: 238px;
-  margin: 10px;
+  width: 220px;
+  height: 264px;
+  margin: 12px;
   line-height: 75px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   border-radius: 2px;
@@ -35,6 +35,8 @@
   }
   .self-service-width {
     text-align: center;
+    margin-top: 15px;
+
     .errorTitle {
       color: $black-rock;
       font-family: 'UHCSans-SemiBold';
@@ -71,21 +73,9 @@
 
 .card-inner-large {
   background-color: $white;
-  width: 820px;
-  height: 600px;
-  margin: 10px;
-  line-height: 75px;
-  font-size: 30px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  border-radius: 2px;
-}
-
-.app-card-structure {
-  position: relative;
-  background-color: $white;
-  width: 468px;
-  height: 356px;
-  margin: 10px;
+  width: 954px;
+  height: 400px;
+  margin: 12px;
   line-height: 75px;
   font-size: 30px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -123,6 +113,62 @@
     .image-align {
       vertical-align: middle;
       height: 48px;
+      padding-top: 13px;
+    }
+    .data-title {
+      padding-top: 24px;
+    }
+  }
+}
+
+.app-card-structure-with-more-height {
+  height: 442px !important;
+}
+
+.app-card-structure {
+  position: relative;
+  background-color: $white;
+  width: 468px;
+  height: 356px;
+  margin: 12px;
+  line-height: 75px;
+  font-size: 30px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+
+  .full-width-block {
+    float: left;
+    width: 100%;
+    text-align: center;
+    padding-top: 55px;
+    .errorTitle {
+      color: $black-rock;
+      font-family: 'UHCSans-SemiBold';
+      font-size: 18px;
+      line-height: 22px;
+      text-align: center;
+    }
+    .errorSubTitle {
+      color: $black-rock;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+    }
+    .img-align {
+      display: inline-block;
+      box-sizing: border-box;
+      height: 97px;
+      width: 97px;
+      border: 1px solid #bb880a;
+      border-radius: 48px;
+      background-color: #fffcd9;
+    }
+    .image-align {
+      vertical-align: middle;
+      height: 48px;
+      padding-top: 13px;
     }
     .data-title {
       padding-top: 24px;
@@ -180,4 +226,120 @@
       }
     }
   }
+}
+.long-card-structure {
+  position: relative;
+  background-color: #fff;
+  width: 960px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  height: 219px;
+  padding-bottom: 24px;
+  .full-width-block {
+    float: left;
+    width: 100%;
+    text-align: center;
+
+    .errorTitle {
+      color: $black-rock;
+      font-family: 'UHCSans-SemiBold';
+      font-size: 18px;
+      line-height: 22px;
+      text-align: center;
+    }
+    .errorSubTitle {
+      color: $black-rock;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+    }
+    .img-align {
+      display: inline-block;
+      box-sizing: border-box;
+      height: 77px;
+      width: 77px;
+      border: 1px solid #bb880a;
+      border-radius: 48px;
+      background-color: #fffcd9;
+    }
+    .image-align {
+      vertical-align: middle;
+      height: 36px;
+      padding-top: 13px;
+    }
+    .data-title {
+      padding-top: 24px;
+    }
+  }
+}
+.table-structure {
+  position: relative;
+  background-color: $white;
+  width: 900px;
+  height: 356px;
+  margin: 12px;
+  line-height: 75px;
+  font-size: 30px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  padding-bottom: 32px;
+
+  .full-width-block {
+    float: left;
+    width: 100%;
+    text-align: center;
+    padding-top: 55px;
+    .errorTitle {
+      color: $black-rock;
+      font-family: 'UHCSans-SemiBold';
+      font-size: 18px;
+      line-height: 22px;
+      text-align: center;
+    }
+    .errorSubTitle {
+      color: $black-rock;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+    }
+    .img-align {
+      display: inline-block;
+      box-sizing: border-box;
+      height: 72px;
+      width: 72px;
+      border: 1px solid #bb880a;
+      border-radius: 48px;
+      background-color: #fffcd9;
+    }
+    .image-align {
+      vertical-align: middle;
+      height: 36px;
+      padding-top: 13px;
+    }
+    .data-title {
+      padding-top: 24px;
+    }
+  }
+}
+.metric-in-prog {
+  .metric-in-development {
+    color: $black-rock;
+    font-family: 'UHCSans-SemiBold';
+    font-size: 14px;
+    letter-spacing: 0.17px;
+    line-height: 0px;
+    text-align: center;
+  }
+}
+
+::ng-deep .icon-progress-img {
+  width: 70px;
+  height: 70px;
+  color: $gainsboro;
+  margin: 20px 65px 0 65px;
 }

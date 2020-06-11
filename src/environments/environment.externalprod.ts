@@ -3,18 +3,21 @@
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  apiProxyUrl: '/uhci/prd2/',
+  apiProxyUrl: '/uhci/prd/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
-    ProviderSystemClaimsAgg: 'agg-claims/search/',
-    ProviderSystemClaimsSummary: 'claims/search/',
+    ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
+    ProviderSystemClaimsSummary: 'claim-metrics/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake/v2.0',
     SsoRedirectUri:
       'https://sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDC&client_id=PED42235&' +
       'response_type=code&redirect_uri=https://uhcinsights.uhc.com/login&scope=openid+profile+email&state=PED&prompt=none',
     linkLoginPage: 'https://provider.linkhealth.com',
+    SsoLogoutUrl:
+      'https://api.linkhealth.com/session/signout?redirect=https://provider.linkhealth.com/' +
+      'content/odin/en/provider-dashboard/public/signout.html?logOut=true',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
     URL: window.location.origin,
@@ -29,7 +32,34 @@ export const environment: any = {
     Calls: 'issue-resolutions/',
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
-    CallsTrend: 'provider-calls/'
+    NonPaymentTopClaims: 'non-payment-claims/',
+    NonPaymentDop: 'dop-claim-metrics/',
+    NonPaymentDopTrend: 'dop-denial-trends/',
+    CallsTrend: 'provider-calls/',
+    TrendingMetrics: 'trending-metrics/',
+    PCORQualityMeasure: 'patient-care-metrics/',
+    NPSSummary: 'kop-metrics/',
+    NPSQuarterlySummary: 'kop-quarterly-metrics',
+    KOPPriorAuthSummary: 'kop-priorauth-metrics/',
+    KOPPriorAuthTATSummary: 'kop-priorauth-tat/',
+    AppealsTrend: 'appeals-trend/',
+    AdminSummaryTrends: 'admintrends/',
+    AppealsFHIR: 'claims-appeals-metrics/',
+    AppealsOverturn: 'appeal-overturn-reasons/',
+    AdminSummaryTrendsCount: 'admintrendscount/',
+    HealthSystemDetails: 'providerInfo/',
+    CallsTrendLine: 'calls-trends/',
+    PaymentsBySubmissionDOP: 'dop-claim-submissions/',
+    PaymentsBySubmission: 'claim-submissions/',
+    GroupPremiumDesignation: 'group-premium-designation/',
+    NetworkLever: 'network-lever/',
+    PaymentIntegrityTabsInfo: 'pi-tab-info/',
+    NewPaymentIntegrity: 'payment-integrity/',
+    ProviderSearch: 'provider-search',
+    AdvocateTinDetails: 'advocate-tin-details/',
+    SmartEdits: 'smart-edit-metrics/',
+    SmartEditsTopClaims: 'smart-edit-codes/',
+    getPublicKey: 'getPublicKey'
   },
   headerKeys: {
     selectedCompany: '',
@@ -51,5 +81,7 @@ export const environment: any = {
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
   internalAccess: false,
-  toggleTrendingSummary: false
+  toggleTrendingSummary: false,
+  internalIntAccess: false,
+  sentryKey: 'https://2e6628201e8043c89e8fac56d77c46aa@sentry-ped-internal.ocp-ctc-core.optum.com/1'
 };
