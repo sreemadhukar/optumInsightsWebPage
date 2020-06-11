@@ -22,6 +22,10 @@ export class GlossaryMetricidService {
       ClaimsPaidBreakdown: '112',
       ClaimsPaymentIntegrity: '113',
       TotalNumberofClaimsSubmitted: '114',
+      PaymentIntegrityRecordsRequested: '115',
+      PaymentIntegrityCodeReviewResults: '116',
+      PaymentIntegrityRecordsReceivedvsAwaiting: '117',
+      PaymentIntegrityRecordsRequestedbyUHC: '118',
       MedicareStarRating: '200',
       PriorAuthorizationRequested: '201',
       TopReasonsforPriorAuthorizationsNotApproved: '202',
@@ -39,13 +43,21 @@ export class GlossaryMetricidService {
       SaveyourStaffsTimeBy: '307',
       ReduceCallsOperatingCostsBy: '308',
       ReduceClaimProcessingTimeBy: '309',
+      PreferredSpecialistReferralRate: '401',
+      PreferredTierPrescribingRate: '402',
+      PreferredLabNetworkUseRate: '403',
+      PaymentsBySubmission: '310',
       ClaimsAverageTurnaroundTimetoPayment: 'NA',
       ClaimsSubmissions: 'NA',
       ClaimsPayments: 'NA',
       ClaimsNonPayments: 'NA',
       ClaimsAppeals: 'NA',
       PriorAuthorizationApproval: 'NA',
-      ClaimsNonPaymentTrend: 'NA'
+      ClaimsNonPaymentTrend: 'NA',
+      ClaimsAppealsSubmittedTrend: 'NA',
+      SmartEditsReturned: '314',
+      SmartEditsResubmitted: '315',
+      SmartEditsReturnedReasons: '316'
     };
   }
 }

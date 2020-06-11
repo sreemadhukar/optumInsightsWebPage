@@ -6,7 +6,12 @@ import { Location } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { MatInput } from '@angular/material';
+import { lobName } from '../../modals/lob-name';
+
+export interface FilterData {
+  title: string;
+  selected: boolean;
+}
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
@@ -35,7 +40,7 @@ export class FilterComponent implements OnInit {
   public taxArrayData = [];
   public scArrayData = [];
   public timeframeData: any;
-  public filterData: any;
+  // public filterData: any;
   public scTypeData: string;
   public sctypearrowmark: boolean;
   filteredOptions: Observable<any[]>;
@@ -43,17 +48,25 @@ export class FilterComponent implements OnInit {
 
   @Output() filterFlag = new EventEmitter();
   @Input() filterurl;
+  @Input() filterData: FilterData[] = [];
   public timeframes = [
     'Last 30 Days',
     'Last 3 Months',
+    'Rolling 3 Months',
     'Last 6 Months',
     'Last 12 Months',
     'Year to Date',
-    '2018',
-    '2017'
+    '2019',
+    '2018'
   ];
 
-  public lobs = ['All', 'Community & State', 'Employer & Individual', 'Medicare & Retirement', 'Uncategorized'];
+  public lobs = [
+    lobName.all,
+    lobName.cAndSMedicaid,
+    lobName.eAndICommerCial,
+    lobName.mAndRMedicare,
+    lobName.unCategorized
+  ];
   public metrics = ['GettingReimbursed', 'Appeals', 'IssueResolution', 'SelfService', 'PriorAuthorization'];
   public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
   public priorauthdecisiontype = ['All', 'Administrative', 'Clinical'];
@@ -112,7 +125,7 @@ export class FilterComponent implements OnInit {
   ];
   constructor(
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private session: SessionService,
     private location: Location
   ) {
@@ -140,13 +153,17 @@ export class FilterComponent implements OnInit {
     this.ssarrowmark = false;
     this.patypearrowmark = false;
     this.sctypearrowmark = false;
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'arrowdn',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        '/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg'
+      )
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'arrowup',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_up-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl(
+        '/src/assets/images/icons/Action/baseline-keyboard_arrow_up-24px.svg'
+      )
     );
   }
   public clickArrowMark(value) {
@@ -213,11 +230,11 @@ export class FilterComponent implements OnInit {
       } else {
         this.priorAuthTypeData = this.priorauthdecisiontype[0];
       }
-      if (this.session.filterObjValue.scType) {
-        this.scTypeData = this.session.filterObjValue.scType;
-      } else {
-        this.scTypeData = this.priorauthservicecategory[0];
-      }
+      // if (this.session.filterObjValue.scType) {
+      //   this.scTypeData = this.session.filterObjValue.scType;
+      // } else {
+      //   this.scTypeData = this.priorauthservicecategory[0];
+      // }
       this.filteredOptions = this.serviceCategoryCtrl.valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value))
@@ -291,7 +308,6 @@ export class FilterComponent implements OnInit {
     } else {
       // this.session.filterObjValue.tax = [this.taxData];
       if (this.priorAuthorizationCustomFilterBool) {
-        console.log(this.timeframeData);
         this.session.store({
           timeFrame: this.timeframeData,
           lob: this.lobData,
@@ -352,7 +368,7 @@ export class FilterComponent implements OnInit {
     );
   }
   @HostListener('document:keydown.escape', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
+  handleKeyboardEvent(_event: KeyboardEvent) {
     this.filterFlag.emit(false);
   }
 

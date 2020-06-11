@@ -1,0 +1,7 @@
+@import '~src/scss/main.scss';
+::ng-deep .performancesummary .container-body div:nth-child(odd) .app-card-structure {
+  margin-left: 0px;
+}
+::ng-deep .performancesummary .container-body div:nth-child(even) .app-card-structure {
+  margin-right: 0px;
+}

@@ -1,32 +1,54 @@
-<div class="content-wrapper">
-  <div class="main-content">
-    <div class="cards cust-width-title">
-      <app-breadcrumbs></app-breadcrumbs>
-      <div class="page-title">
-        {{ pageTitle }}
-      </div>
+<app-layoutcontainer id="print-overview" class="pcor">
+  <div class="cards cust-width-title">
+    <app-breadcrumbs></app-breadcrumbs>
+    <app-print [queryParams]="queryParamsObj"> </app-print>
+    <div class="page-main-title" *ngIf="printStyle" [ngClass]="{ 'print-page-main-title': printStyle === true }">
+      {{ pageMainTitle }}
     </div>
-
-    <div class="cards cust-width-blank"></div>
-    <div class="height1Separator"></div>
-    <div *ngFor="let data of mockCards; let i = index">
-      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+    <div
+      class="page-title"
+      [ngClass]="{ 'print-page-title1': printStyle === true }"
+      [class.page-title-subtitle]="pageSubTitle.length > 0"
+    >
+      {{ pageTitle }}
     </div>
-
-    <div *ngFor="let item of MRAStarData; let i = index">
-      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
+    <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle-header': printStyle === true }">
+      View more in-depth details of your health system summary.
     </div>
-    <div *ngFor="let item of MRACVCompletionData; let i = index">
-      <app-card *ngIf="item.data != null" class="cards" [chartData]="item" [tabData]="PCORTabData"> </app-card>
+    <div *ngIf="!subtitle" class="page-subtitle">
+      <span class="page-subtitle-header">View more in-depth details of your health system summary.</span>
+      &nbsp; <span class="subtitle-reportLink" (click)="PCORreport()"> {{ reportLink }}</span> &nbsp;
+      <mat-icon class="page-subtitle-icon" (click)="PCORreport()" svgIcon="external-link"></mat-icon>
     </div>
-    <div *ngIf="!loading">
-      <app-accordion-large-card
-        [title]="qualityTitle"
-        [qualityMeasure]="qualityMeasureData"
-        [data]="starRatings"
-        (ratingClick)="ratingComponentClick(i)"
-      ></app-accordion-large-card>
-    </div>
-    <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
   </div>
-</div>
+
+  <ng-container *ngFor="let item of MRAStarData">
+    <app-card *ngIf="item.data != null" class="cards left" [chartData]="item"> </app-card>
+  </ng-container>
+  <ng-container *ngFor="let item of MRACVCompletionData">
+    <app-card
+      *ngIf="item.data != null"
+      class="cards right"
+      [chartData]="item"
+      [tabData]="PCORTabData"
+      (tabSelectEvent)="onTabSelected($event)"
+      [selectedTab]="selectedItemId"
+    >
+    </app-card>
+  </ng-container>
+  <app-accordion-large-card
+    *ngIf="!loading"
+    [title]="qualityTitle"
+    [expandAll]="'true'"
+    [data]="starRatings"
+  ></app-accordion-large-card>
+  <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
+  <div *ngIf="!subtitle" class="report-Tile">
+    <div class="report-Title">{{ reportTitle }}</div>
+    <div class="report-Subtitle-region">
+      <span class="report-Subtitle">View in-depth details of your health system in the PCOR report.</span>
+      &nbsp;<span class="report-Link" (click)="PCORreport()"> {{ reportLink }}</span> &nbsp;
+      <mat-icon class="report-icon" (click)="PCORreport()" svgIcon="external-link"></mat-icon>
+    </div>
+  </div>
+</app-layoutcontainer>

@@ -11,6 +11,9 @@ import { HeadMaterialModule } from 'src/app/head/head.material.module';
 @NgModule({
   imports: [CommonModule, ServiceInteractionRoutingModule, HeadMaterialModule, CommonUtilsModule],
   providers: [SelfSharedService, SelfServiceService, CallsSharedService],
-  declarations: [SelfServiceComponent, CallsComponent]
+  declarations: [SelfServiceComponent, CallsComponent],
+  exports: [SelfServiceComponent, CallsComponent]
 })
-export class ServiceInteractionModule {}
+export class ServiceInteractionModule {
+  constructor() {}
+}

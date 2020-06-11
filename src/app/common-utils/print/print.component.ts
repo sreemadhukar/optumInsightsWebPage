@@ -1,27 +1,40 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router, NavigationStart } from '@angular/router';
+import { Router } from '@angular/router';
+import { select } from '@angular-redux/store';
+
 @Component({
   selector: 'app-print',
   templateUrl: './print.component.html',
   styleUrls: ['./print.component.scss']
 })
 export class PrintComponent implements OnInit {
-  @Input() route: string;
-  @Output() printClick = new EventEmitter();
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router) {
+  @select(['uhc', 'currentPage']) currentPage;
+  @Input() queryParams: any = {};
+  selectedPage;
+  overviewBool: boolean;
+  printDisable: boolean;
+  constructor(private iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'print-icon',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/print-icon.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/print-icon.svg')
     );
+    if (this.router.url.includes('print-')) {
+      this.printDisable = true;
+    }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
+    if (this.selectedPage === 'overviewPage') {
+      this.overviewBool = true;
+    }
+  }
   printIconClick() {
-    this.router.navigate([this.route]);
-    this.printClick.emit('Overview');
+    // window.open(this.router.url + '/print-page', '_blank');
+    this.router.navigate(['print-page'], { queryParams: this.queryParams });
   }
 }

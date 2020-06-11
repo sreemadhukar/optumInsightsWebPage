@@ -1,7 +1,7 @@
 <div class="filter">
   <div class="line-top"></div>
   <div class="titleData" *ngIf="filterurl !== '/AdminSummaryTrends'">
-    <div class="title">Time Period</div>
+    <div class="title" (click)="clickArrowMark('timeframe')">Time Period</div>
     <div class="chevron">
       <mat-icon
         class="icon-display"
@@ -46,7 +46,7 @@
     [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }"
     *ngIf="filterurl !== '/AdminSummaryTrends'"
   >
-    <div class="title">Tax ID</div>
+    <div class="title" (click)="clickArrowMark('tax')">Tax ID</div>
     <div class="chevron">
       <mat-icon class="icon-display" *ngIf="!tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowdn"></mat-icon>
       <mat-icon class="icon-display" *ngIf="tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowup"></mat-icon>
@@ -97,7 +97,7 @@
     [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }"
     *ngIf="filterurl !== '/AdminSummaryTrends'"
   >
-    <div class="title">Line of Business</div>
+    <div class="title" (click)="clickArrowMark('lob')">Line of Business</div>
     <div class="chevron">
       <mat-icon class="icon-display" *ngIf="!arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowdn"></mat-icon>
       <mat-icon class="icon-display" *ngIf="arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowup"></mat-icon>
@@ -132,7 +132,7 @@
     <!-- Service Setting Filter  -->
     <div class="line"></div>
     <div class="titleData">
-      <div class="title">Service Setting</div>
+      <div class="title" (click)="clickArrowMark('servicesetting')">Service Setting</div>
       <div class="chevron">
         <mat-icon
           class="icon-display"
@@ -250,7 +250,7 @@
   </div>
 
   <div class="titleData" *ngIf="filterurl === '/AdminSummaryTrends'">
-    <div class="title">Metric</div>
+    <div class="title" (click)="clickArrowMark('metric')">Metric</div>
     <div class="chevron">
       <mat-icon
         class="icon-display"
@@ -281,7 +281,7 @@
   </div>
   <div class="line" *ngIf="filterurl === '/AdminSummaryTrends'"></div>
   <div class="titleData" *ngIf="filterurl === '/AdminSummaryTrends'">
-    <div class="title">Date</div>
+    <div class="title" (click)="clickArrowMark('date')">Date</div>
     <div class="chevron">
       <mat-icon
         class="icon-display"

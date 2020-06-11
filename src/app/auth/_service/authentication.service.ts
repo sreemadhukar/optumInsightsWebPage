@@ -7,6 +7,8 @@ import { environment } from '../../../environments/environment';
 import { User } from '../_models/user';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import { RESET_KOP_FILTER } from 'src/app/store/kopFilter/actions';
+import { NgRedux } from '@angular-redux/store';
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +17,15 @@ export class AuthenticationService {
   private APP_URL: string = environment.apiProxyUrl;
   private SERVICE_PATH: string = environment.apiUrls.SsoTokenPath;
   private jwtPath: string = environment.originUrl;
-  private token: string;
   private currentUserSubject: BehaviorSubject<User>;
-  private currentUser: Observable<User>;
 
-  constructor(public http: HttpClient, private router: Router, @Inject(DOCUMENT) private document: any) {
+  constructor(
+    public http: HttpClient,
+    private router: Router,
+    @Inject(DOCUMENT) private document: any,
+    private ngRedux: NgRedux<any>
+  ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
   }
 
   public get currentUserValue(): User {
@@ -39,6 +43,12 @@ export class AuthenticationService {
         Authorization: 'Bearer ' + token,
         Accept: '*/*'
       });
+    }
+    if (!environment.internalAccess) {
+      const emulatedUuid = JSON.parse(sessionStorage.getItem('emulatedUuid'));
+      if (emulatedUuid) {
+        myHeader = myHeader.set('emulatedUuid', emulatedUuid);
+      }
     }
     let params = new HttpParams();
     params = params.append('code', codeId);
@@ -63,10 +73,13 @@ export class AuthenticationService {
   }
 
   public logout(expired = 0) {
-    sessionStorage.removeItem('currentUser');
-    sessionStorage.removeItem('loggedUser');
-    sessionStorage.removeItem('heac');
-    sessionStorage.removeItem('pcor');
+    // sessionStorage.removeItem('currentUser');
+    // sessionStorage.removeItem('loggedUser');
+    // sessionStorage.removeItem('heac');
+    // sessionStorage.removeItem('pcor');
+    // sessionStorage.removeItem('state');
+    sessionStorage.clear();
+    this.ngRedux.dispatch({ type: RESET_KOP_FILTER });
     sessionStorage.setItem('cache', JSON.stringify(false));
     if (environment.internalAccess) {
       if (expired) {

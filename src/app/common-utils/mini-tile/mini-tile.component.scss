@@ -7,9 +7,9 @@
 .card-inner {
   background-color: $white;
   width: 222px;
-  min-height: 238px;
-  height: auto;
-  margin: 10px;
+  //min-height: 238px;
+  height: 241px;
+  margin: 12px;
   line-height: 75px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   border-radius: 2px;
@@ -57,17 +57,18 @@
     letter-spacing: 0.2px;
     line-height: 18px;
 
-    .labels1 {
-      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    > span {
+      font-family: 'UHCSans-Bold', Helvetica, Arial, sans-serif;
     }
   }
 
   ul.list-labels > li::before {
-    content: '•  ';
+    content: '•';
     font-size: 60px;
     position: relative;
     top: 16px;
-    left: 10px;
+    left: 5px;
+    right: 0;
   }
 
   ul.list-labels > li:nth-child(1)::before {
@@ -79,9 +80,11 @@
 }
 .print-card-inner {
   box-shadow: none;
-  border: 1px solid #2d2d39;
+  border: 1px solid #e9e9e9 !important;
+  width: 320px;
+  height: auto;
+  //padding-bottom: 0px;
 }
-
 // @media screen and (max-width: 1331px) {
 //   .card-inner {
 //     width: 210px;

@@ -17,15 +17,20 @@ export class ErrorCardComponent implements OnInit {
     { code: 403, message: '' }
   ];
   @Input() data;
+  public metricInProgress = 'Metric in development';
   constructor(
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
+    private readonly sanitizer: DomSanitizer,
     private glossaryExpandService: GlossaryExpandService
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'help',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
+    );
+    this.iconRegistry.addSvgIcon(
+      'insert-chart',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-insert_chart-24px.svg')
     );
   }
   ngOnInit() {}

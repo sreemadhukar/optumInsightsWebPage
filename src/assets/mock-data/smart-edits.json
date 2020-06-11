@@ -1,0 +1,44 @@
+{
+  "Status": "OK",
+  "StatusCode": 200,
+  "Message": "Successfully Data Retrieved",
+  "Data": {
+    "Tin": null,
+    "ProviderKey": 956,
+    "PeriodStart": "2020-02-21",
+    "PeriodEnd": "2020-05-21",
+    "Reasons": [
+      {
+        "Code": "uCOVPf",
+        "Description": null,
+        "Value": 815,
+        "Percentage": 26
+      },
+      {
+        "Code": "VFCSD",
+        "Description": "Excess Serum Code Denial",
+        "Value": 573,
+        "Percentage": 18
+      },
+      {
+        "Code": "uMLOHf",
+        "Description": "Multiple Lines of Observation",
+        "Value": 401,
+        "Percentage": 13
+      },
+      {
+        "Code": "IPDDN",
+        "Description": null,
+        "Value": 153,
+        "Percentage": 5
+      },
+      {
+        "Code": "uEUDCf",
+        "Description": "Commercial Unproven Drug Charges",
+        "Value": 98,
+        "Percentage": 3
+      }
+    ]
+  },
+  "TimeStamp": "2020-05-21T07:02:48.625+0000"
+}

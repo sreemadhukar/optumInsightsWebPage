@@ -1,23 +1,14 @@
-<app-feedback></app-feedback>
-
-<div class="overview-body" color="primary" id="print-overview">
-  <div class="overview-content">
-    <div class="cards cust-width-title">
-      <div class="page-title">{{ pageTitle }}</div>
-      <div class="page-subtitle">{{ pagesubTitle }}</div>
-    </div>
-    <div class="cards cust-width-blank">
-      <!-- <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print> -->
-    </div>
-    <div class="height1Separator"></div>
-
-    <app-small-card class="cards" *ngIf="loadClaimsPaidCard && !claimsLoading" class="cards" [data]="claimsPaidBlock">
+<app-layoutcontainer id="print-overview" style="page-break-after: always" class="overview">
+  <app-page-header [pageTitle]="pageTitle" [pageSubTitle]="pagesubTitle" [print]="true"></app-page-header>
+  <app-layoutseperator [height]="32"></app-layoutseperator>
+  <div class="cards_container">
+    <app-small-card class="cards" *ngIf="loadClaimsPaidCard && !claimsLoading && !printStyle" [data]="claimsPaidBlock">
     </app-small-card>
-    <!-- <app-heac-small-card
-      *ngIf="loadClaimsPaidCard && !claimsLoading && isHeac"
+    <app-heac-small-card
+      *ngIf="loadClaimsPaidCard && !claimsLoading && printStyle"
       class="cards"
       [data]="claimsPaidBlock"
-    ></app-heac-small-card> -->
+    ></app-heac-small-card>
     <app-small-card class="cards" [skeleton]="claimsLoading" *ngIf="claimsLoading"> </app-small-card>
     <app-error-card *ngIf="errorloadClaimsPaidCard" class="cards" [data]="item"></app-error-card>
 
@@ -38,65 +29,69 @@
 
     <app-small-card class="cards" *ngIf="loadClaimsYieldCard && !claimsLoading" class="cards" [data]="claimsYieldBlock">
     </app-small-card>
+
     <app-small-card class="cards" [skeleton]="claimsLoading" *ngIf="claimsLoading"> </app-small-card>
     <app-error-card *ngIf="errorloadClaimsYieldCard" class="cards" [data]="item"></app-error-card>
 
-    <app-small-card
-      class="cards"
-      *ngIf="loadMedicareStarRatingCard && !loading"
-      class="cards"
-      [data]="medicareStarRatingBlock"
-    >
+    <!-- Commenting following lines of code to remove medicare star rating card -->
+    <!--app-small-card
+        class="cards"
+        *ngIf="loadMedicareStarRatingCard && !loading"
+        class="cards"
+        [data]="medicareStarRatingBlock"
+      >
+      </app-small-card>
+      <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
+      <app-error-card *ngIf="errorloadMedicareStarRatingCard" class="cards" [data]="item"></app-error-card-->
+
+    <app-small-card class="cards" *ngIf="loadclaimsTatCard && !loading" class="cards" [data]="claimsTatBlock">
     </app-small-card>
     <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
-    <app-error-card *ngIf="errorloadMedicareStarRatingCard" class="cards" [data]="item"></app-error-card>
+    <app-error-card *ngIf="errorloadClaimsTatCard" class="cards" [data]="item"></app-error-card>
 
-    <app-small-card class="cards" *ngIf="loadTotalCallsCard && !callsLoading" class="cards" [data]="totalCallsBlock">
-    </app-small-card>
-    <!-- <app-heac-small-card
+    <app-small-card
       class="cards"
-      *ngIf="loadTotalCallsCard && !callsLoading && isHeac"
+      *ngIf="loadTotalCallsCard && !callsLoading && !printStyle"
       class="cards"
       [data]="totalCallsBlock"
     >
-    </app-heac-small-card> -->
+    </app-small-card>
+    <app-heac-small-card
+      class="cards"
+      *ngIf="loadTotalCallsCard && !callsLoading && printStyle"
+      class="cards"
+      [data]="totalCallsBlock"
+    >
+    </app-heac-small-card>
     <app-small-card class="cards" [skeleton]="callsLoading" *ngIf="callsLoading"> </app-small-card>
     <app-error-card *ngIf="errorloadTotalCallsCard" class="cards" [data]="item"></app-error-card>
 
     <!--<div *ngFor="let item of mainCards; let i = index">
-      <app-small-card *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-small-card>
-      <app-error-card *ngIf="item.status != null && item.toggle" class="cards" [data]="item"></app-error-card>
-    </div>
-    <div *ngFor="let data of mockMainCards; let i = index">
-      <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
-    </div>-->
+        <app-small-card *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-small-card>
+        <app-error-card *ngIf="item.status != null && item.toggle" class="cards" [data]="item"></app-error-card>
+      </div>
+      <div *ngFor="let data of mockMainCards; let i = index">
+        <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
+      </div>-->
     <app-clarify-claims-message></app-clarify-claims-message>
   </div>
 
-  <div class="overview-content">
-    <div class="self-service-heading">
-      <div class="cards cust-width-title">
-        <div class="title-opportunity">{{ opportunities }}</div>
-        <div class="page-question">{{ opportunitiesQuestion }}</div>
-      </div>
-      <div class="cards cust-width-blank cust-width-title">
-        <div *ngIf="!printStyle" class="page-question self-service-link">
-          <a href="/ServiceInteraction/SelfService"
-            >{{ selfServiceLink }}
-            <mat-icon class="icon-display" svgIcon="arrow"></mat-icon>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="height1Separator"></div>
-    <div *ngFor="let data of mockSelfServiceMiniCards; let i = index">
-      <app-mini-tile class="cards" [skeleton]="loading" *ngIf="loading"> </app-mini-tile>
-    </div>
-    <div *ngFor="let item of selfServiceMiniCards; let i = index">
+  <app-layoutseperator [height]="32"></app-layoutseperator>
+  <app-layoutseperator
+    *ngIf="printStyle && countSmallCard <= 4 && countSmallCard > 2 && countMiniTile > 2"
+    [height]="700"
+  ></app-layoutseperator>
+  <app-layoutseperator *ngIf="printStyle && countSmallCard > 4" [height]="450"></app-layoutseperator>
+  <app-page-header
+    [pageSubTitle]="opportunities"
+    [link]="selfServiceLinkParam"
+    [pageSubTitleDescription]="opportunitiesQuestion"
+  ></app-page-header>
+  <app-layoutseperator [height]="16"></app-layoutseperator>
+  <div class="cards_container">
+    <ng-container *ngFor="let item of selfServiceMiniCards; let i = index">
       <app-mini-tile *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-mini-tile>
       <app-error-card *ngIf="item.status != null && item.toggle" [data]="item"></app-error-card>
-    </div>
+    </ng-container>
   </div>
-</div>
-
-<!-- <app-uhc-loader *ngIf="loading"></app-uhc-loader> -->
+</app-layoutcontainer>

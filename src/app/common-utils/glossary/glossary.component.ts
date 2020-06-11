@@ -1,156 +1,193 @@
-import { Component, OnInit, Input, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, DoCheck } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { GlossaryService } from './../../rest/glossary/glossary.service';
-import { catchError } from 'rxjs/operators';
-import { MatInput } from '@angular/material';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
+import { GlossarySharedService } from './../../shared/glossary.service';
 
 @Component({
   selector: 'app-glossary',
   templateUrl: './glossary.component.html',
   styleUrls: ['./glossary.component.scss']
 })
-export class GlossaryComponent implements OnInit {
-  glossaryList: any;
-  glossarySelected = [];
-  glossaryData: any[];
+export class GlossaryComponent implements OnInit, DoCheck {
+  public glossaryList: any;
+  public glossarySelected = [];
+  public glossaryData: any[];
   public options: string[];
-  glossaryTitleShow: String = '';
-  selectedmetric = '';
-  viewallmetricsbuttonposition = true;
-  filteredOptions: Observable<any[]>;
+  public glossaryTitleShow: String = '';
+  public filteredOptions: Observable<any[]>;
   public glossaryCtrl = new FormControl();
-  metricDataList: any[];
+  public metricDataList: any[];
   public allmetrics = false;
   public allmetricsdefinitionShort = [];
   public readmoreFlag = [];
   public optionLength = 0;
   public optionND = false;
+  public split: any;
+  public hyperlink: any;
+  public definition: any;
+  public paperlessDelivaryFlag = true;
   public toHighlight = '';
   public internal = environment.internalAccess;
-  @Input() title;
-  @Input() MetricID;
-  constructor(private glossaryService: GlossaryService) {}
+  @Input() title: string;
+  @Input() MetricID: string;
+  constructor(private readonly glossarySharedService: GlossarySharedService, private readonly router: Router) {}
+
+  checkIfKOP() {
+    return this.router.url.includes('NationalExecutive') ? true : false;
+  }
+
   ngOnInit() {
-    this.options = [];
     this.glossarySelected = [];
-    this.glossaryService.getBusinessGlossaryData().subscribe(response => {
-      this.glossaryList = JSON.parse(JSON.stringify(response));
-      if (this.title === 'Medicare Star Rating') {
-        this.title = 'Medicare & Retirement Average Star Rating';
-      } else if (this.title === 'Claims Appeals Overturned Rate') {
-        this.title = 'Claim Appeals Overturn Rate';
-      } else if (this.title === 'Top Claims Appeals Overturn Reasons') {
-        this.title = 'Top Claim Appeals Overturn Reasons';
-      } else if (this.title === 'Claims Appeals Overturned') {
-        this.title = 'Claim Appeals Overturned';
-      }
+    const isKop = this.checkIfKOP();
+    this.getGlossaryData({ kop: isKop });
+    this.options = [];
+  }
 
-      if (this.glossaryList) {
-        for (let i = 0; i < this.glossaryList.length; i++) {
-          this.readmoreFlag[i] = true;
-          this.glossaryList[i].BusinessGlossary.ProviderDashboardName.metricData = this.glossaryList[
-            i
-          ].BusinessGlossary.ProviderDashboardName.Metric.replace(/[^a-zA-Z]/g, '');
-          if (
-            this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricID === Number(this.MetricID) &&
-            this.MetricID
-          ) {
-            this.glossarySelected.push(this.glossaryList[i]);
-          }
-        }
-        if (this.glossarySelected.length === 0) {
-          for (let i = 0; i < this.glossaryList.length; i++) {
-            if (
-              this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
-                this.title.toLowerCase()
-              )
-            ) {
-              this.glossarySelected.push(this.glossaryList[i]);
-            }
-          }
-        }
-      }
-      //  madhukar
-      this.glossaryData = this.glossaryList.sort(function(a, b) {
-        if (
-          a.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase() <
-          b.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase()
-        ) {
-          return -1;
-        } else if (
-          a.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase() >
-          b.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase()
-        ) {
-          return 1;
-        } else {
-          return 0;
-        }
+  ngDoCheck() {}
+
+  public networkLeverUlTag() {
+    setTimeout(function() {
+      const a: any = document.querySelectorAll('.network-lever-ul');
+      a[0].style.paddingLeft = '30px';
+      const x = Array.from(a[0].children as HTMLCollectionOf<HTMLElement>);
+      x.forEach(element => {
+        element.style.listStyle = 'disc';
       });
+    }, 1);
+  }
 
-      for (let i = 0; i < this.glossaryList.length; i++) {
-        this.options.push(this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric);
-      }
-      if (this.options.length) {
-        this.filteredOptions = this.glossaryCtrl.valueChanges.pipe(
-          startWith(''),
-          map(value => (value ? this._filter(value) : null))
-        );
-      }
-      const results = {};
-      this.metricDataList = [];
+  public async getGlossaryData({ kop }) {
+    this.glossaryList = await this.glossarySharedService.getData({ kop });
 
-      for (let i = 0; i < 26; i++) {
-        const char = String.fromCharCode(97 + i);
-        const bigChar = char.toUpperCase();
-        results[bigChar] = [];
-        for (let s = 0; s < this.glossaryList.length; s++) {
-          if (this.glossaryList[s].BusinessGlossary.ProviderDashboardName.Metric.startsWith(bigChar)) {
-            results[bigChar].push(this.glossaryList[s].BusinessGlossary.ProviderDashboardName.Metric);
-          }
+    if (!(this.glossaryList instanceof Array) || this.glossaryList.length === 0) {
+      return;
+    }
+
+    for (let i = 0; i < this.glossaryList.length; i++) {
+      this.readmoreFlag[i] = true;
+      if (this.glossaryList[i].MetricID === 301 && this.paperlessDelivaryFlag) {
+        this.paperlessDelivaryFlag = false;
+        this.hyperlink = this.glossaryList[i].Definition.substring(this.glossaryList[i].Definition.indexOf('http'));
+        this.split = this.glossaryList[i].Definition.substring(this.glossaryList[i].Definition.indexOf('Learn'));
+        this.definition = this.glossaryList[i].Definition.replace(this.split, '');
+        this.split = this.split.replace(this.hyperlink, '');
+        this.glossaryList[i].Definition = this.definition;
+      }
+    }
+
+    if (this.title === 'Medicare Star Rating') {
+      this.title = 'Medicare Average Star Rating';
+    }
+    this.getGlossarySelected();
+    this.sortGlossaryList();
+    this.getGlossaryList();
+  }
+
+  sortGlossaryList() {
+    this.glossaryData = this.glossaryList.sort(function(a, b) {
+      if (a.Metric.toLowerCase() < b.Metric.toLowerCase()) {
+        return -1;
+      } else if (a.Metric.toLowerCase() > b.Metric.toLowerCase()) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  getGlossaryList() {
+    for (let i = 0; i < this.glossaryList.length; i++) {
+      this.options.push(this.glossaryList[i].Metric);
+    }
+
+    if (this.options.length) {
+      this.filteredOptions = this.glossaryCtrl.valueChanges.pipe(
+        startWith(''),
+        map(value => (value ? this._filter(value) : null))
+      );
+    }
+    const results = {};
+    this.metricDataList = [];
+    for (let i = 0; i < 26; i++) {
+      const char = String.fromCharCode(97 + i);
+      const bigChar = char.toUpperCase();
+      results[bigChar] = [];
+      for (let s = 0; s < this.glossaryList.length; s++) {
+        if (this.glossaryList[s].Metric.startsWith(bigChar)) {
+          results[bigChar].push(this.glossaryList[s].Metric);
         }
       }
+    }
 
-      Object.keys(results).forEach(key => {
-        const mdata = [];
-        for (let j = 0; j < results[key].length; j++) {
-          mdata.push(results[key][j].replace(/[^a-zA-Z]/g, ''));
-        }
-        if (mdata.length > 0) {
-          this.metricDataList.push({ key: key, value: results[key], rdata: mdata });
-        }
-      });
+    Object.keys(results).forEach(key => {
+      const mdata = [];
+      for (let j = 0; j < results[key].length; j++) {
+        mdata.push(results[key][j].replace(/[^a-zA-Z]/g, ''));
+      }
+      if (mdata.length > 0) {
+        this.metricDataList.push({ key: key, value: results[key], rdata: mdata });
+      }
+    });
+  }
+
+  getGlossarySelected() {
+    this.glossarySelected = this.glossaryList.filter((glossaryItem: any) => {
+      const { MetricID, Metric } = glossaryItem;
+
+      let metricIdExists = false;
+      if (this.MetricID) {
+        const metricIds = this.MetricID.split(',');
+        metricIdExists = metricIds.filter((metricId: string) => {
+          return metricId.toString() === MetricID.toString();
+        })[0]
+          ? true
+          : false;
+      }
+
+      const metricName = this.title;
+      const metricNameExists = Metric.toUpperCase().includes(metricName.toUpperCase());
+      return metricNameExists || metricIdExists;
     });
   }
 
   public filteredData(value) {
     if (value === 'All') {
       for (let i = 0; i < this.glossaryList.length; i++) {
-        if (
-          this.getTextWidth(this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Definition, 16, 'Arial') > 680
-        ) {
-          this.allmetricsdefinitionShort.push(
-            this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Definition.slice(0, 90) + '...'
-          );
+        if (this.getTextWidth(this.glossaryList[i].Definition, 16, 'Arial') > 680) {
+          this.allmetricsdefinitionShort.push(this.glossaryList[i].Definition.slice(0, 90) + '...');
         } else {
           this.allmetricsdefinitionShort.push(null);
         }
       }
-      this.selectedmetric = null;
       this.allmetrics = true;
       this.glossarySelected = this.glossaryList;
     } else {
       this.allmetrics = false;
       for (let i = 0; i < this.glossaryList.length; i++) {
-        if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {
+        if (this.glossaryList[i].Metric === value) {
+          this.glossarySelected = [];
           this.glossarySelected = [this.glossaryList[i]];
-        }
-      }
+          this.hyperlink = '';
+          if (this.glossarySelected[0].MetricID === 301 && this.paperlessDelivaryFlag) {
+            this.paperlessDelivaryFlag = false;
+            this.hyperlink = this.glossarySelected[0].Definition.substring(
+              this.glossarySelected[0].Definition.indexOf('http')
+            );
+            this.split = this.glossarySelected[0].Definition.substring(
+              this.glossarySelected[0].Definition.indexOf('Learn')
+            );
+            this.definition = this.glossarySelected[0].Definition.replace(this.split, '');
+            this.split = this.split.replace(this.hyperlink, '');
+            this.glossarySelected[0].Definition = this.definition;
+          }
+          break;
+        } // end if structure for glossaryList
+      } // end for loop
     }
   }
-
   public readmore(value) {
     for (let i = 0; i < this.readmoreFlag.length; i++) {
       if (i !== value) {
@@ -161,48 +198,42 @@ export class GlossaryComponent implements OnInit {
     if (this.readmoreFlag[value]) {
       document.getElementById('each-metric-div' + value).classList.remove('each-metric-div');
       this.readmoreFlag[value] = false;
-      if (value > this.readmoreFlag.length - 4) {
-        document.getElementById('metrics-div').style.padding = '0 0 480px 0';
-        document.getElementById('side-nav-glossary').scrollTo(0, 208 + 160 * value);
-      } else {
-        document.getElementById('side-nav-glossary').scrollTo(0, 208 + 160.5 * value);
-        document.getElementById('metrics-div').style.padding = '0 0 100px 0';
-      }
-      window.scrollTo(300, 0);
+      // if (value > this.readmoreFlag.length - 4) {
+      //   document.getElementById('metrics-div').style.padding = '0 0 480px 0';
+      //   document.getElementById('side-nav-glossary').scrollTo(0, 208 + 160 * value);
+      // } else {
+      //   document.getElementById('side-nav-glossary').scrollTo(0, 208 + 160.5 * value);
+      //   document.getElementById('metrics-div').style.padding = '0 0 100px 0';
+      // }
+      // window.scrollTo(300, 0);
+      // uncoment if business glossary auto scroll to top need to work
+      // -- please comment overflow-x: hidden !important; in class mat-drawer-inner-container --hamburger-menu.scss
     } else {
       document.getElementById('metrics-div').style.padding = '0 0 100px 0';
       this.readmoreFlag[value] = true;
-      this.selectedmetric = '';
       document.getElementById('each-metric-div' + value).classList.add('each-metric-div');
     }
   }
-  public getTextWidth(text, fontSize, fontFace) {
+  private getTextWidth(text, fontSize, fontFace) {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     context.font = fontSize + 'px ' + fontFace;
     return context.measureText(text).width;
   }
-  @HostListener('window:scroll', ['$event'])
-  checkScroll() {
-    if (window.innerHeight + document.documentElement.scrollTop >= document.body.offsetHeight - 80) {
-      this.viewallmetricsbuttonposition = false;
-    } else {
-      this.viewallmetricsbuttonposition = true;
-    }
-  }
-
   private _filter(value: string): string[] {
     if (value != undefined && value != null && value) {
       const filterValue = value.toLowerCase();
       this.toHighlight = value;
-      const optionsData = this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0).slice(0, 5);
+      const myPattern = new RegExp('(\\w*' + filterValue + '\\w*)', 'gi');
+      const optionsData = this.options.filter(option => option.match(myPattern) !== null);
       this.optionLength = optionsData.length;
-      if (this.optionLength === 0) {
-        this.optionND = true;
-      } else {
+      if (this.optionLength) {
         this.optionND = false;
         return optionsData;
+      } else {
+        // boolean set to true when data not available
+        this.optionND = true;
       }
     }
   }
-} // end export class
+}

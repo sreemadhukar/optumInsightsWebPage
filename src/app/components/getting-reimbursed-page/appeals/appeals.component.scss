@@ -1,81 +1,52 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
-.breadcrumb-top-padding {
-  @include margin(12px, 0, 1px, 0);
-  box-sizing: border-box;
-  width: 961px;
-  .filter_bg {
-    height: 40px;
-    width: 100px;
-    box-sizing: border-box;
-    border: 1px solid $blue;
-    border-radius: 2px;
-    float: right;
-    cursor: pointer;
-    margin-right: 7px;
-    .filter_title {
-      color: $blue;
-      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-      font-size: 16px;
-      letter-spacing: 0.2px;
-      line-height: 22px;
-      text-align: center;
-      margin: 9px 0;
-      float: left;
-    }
-    .filter_icon {
-      color: $blue;
-      margin: 7px 10px;
-      float: left;
-    }
-  }
-  .filter_bg:hover,
-  .filter_bg:focus {
-    background-color: #196ecf;
-    color: #ffffff;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-    .filter_title {
-      color: #ffffff;
-    }
-    .filter_icon {
-      color: #ffffff;
-    }
-  }
-  .filter_bg:active {
-    background-color: #003da1;
-    color: #ffffff;
-    .filter_title {
-      color: #ffffff;
-    }
-    .filter_icon {
-      color: #ffffff;
-    }
+
+// Patch.Will be removed after page header refactor
+::ng-deep .appeals .appeals-cards-block div:nth-child(odd) .app-card-structure {
+  margin-left: 0 !important;
+}
+::ng-deep .appeals .appeals-cards-block div:nth-child(even) .app-card-structure {
+  margin-right: 0 !important;
+}
+::ng-deep .filter-div {
+  width: 100%;
+  .filter-chips {
+    width: 840px !important;
   }
 }
 
-.appeals-content {
+.cust-width-title {
+  width: 100%;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  color: $black-rock;
+}
+.page-title {
+  flex-basis: 100%;
+  font-size: 36px;
+  @include padding(16px, 0, 20px, 0);
+  line-height: 40px;
+  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+}
+.print-page-title {
+  padding-top: 30px;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  line-height: 30px;
+}
+
+.print-page-subtitle {
+  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+  line-height: 40px;
+  flex-basis: 100%;
+  font-size: 28px;
   display: flex;
-  justify-content: left;
-  width: 1000px;
-  margin: auto;
-  flex-wrap: wrap;
-  .cust-width-title {
-    width: 961px;
-    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-    color: $black-rock;
-    margin-left: 10px;
-  }
-  .page-title {
-    flex-basis: 100%;
-    font-size: 36px;
-    @include padding(16px, 0, 20px, 0);
-    line-height: 40px;
-    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-  }
-  .filter-div {
-    overflow: auto;
-    line-height: 0;
-  }
+  flex-direction: row;
+  position: relative;
+  justify-content: space-between;
+  width: 98.5%;
+}
+.filter-div {
+  overflow: auto;
+  line-height: 0;
 }
 
 .time-period {
@@ -133,7 +104,22 @@
 .full-display {
   float: left;
   width: 100%;
-  padding-bottom: 20px; // centre aligned to card
+}
+
+.one-reason {
+  padding-bottom: 132.5px;
+}
+.two-reason {
+  padding-bottom: 107.5px;
+}
+.three-reason {
+  padding-bottom: 82.5px;
+}
+.four-reason {
+  padding-bottom: 57.5px;
+}
+.five-reason {
+  padding-bottom: 32.5px;
 }
 
 .appeals-cards-block {
@@ -142,14 +128,18 @@
 }
 
 .overturn-reason-block {
-  margin: 12px;
+  margin: 12px 0 12px 12px;
   height: 443px;
-  width: 464px;
+  width: 468px;
   border-radius: 2px;
   background-color: $white;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   float: left;
   position: relative;
+}
+.print-overturn-reason-block.overturn-reason-block {
+  box-shadow: none;
+  border: 1px solid #e9e9e9;
 }
 
 .overturn-margin {

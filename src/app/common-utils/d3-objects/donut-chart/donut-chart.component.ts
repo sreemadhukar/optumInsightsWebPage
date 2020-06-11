@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-donut-chart',
@@ -11,13 +12,20 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   public transition = 1;
   public noTransition = 0;
   public renderChart: string;
+  public printStyle: boolean;
+  public XLINK_HREF_PROP_NAME = 'xlink:href';
+  public FLAT_NO_CHANGE_SVG = 'src/assets/images/flat-no-change.svg';
+  public DOWN_POSITIVE_NO_IMG = 'src/assets/images/down-positive-no-circle.svg';
+  public UP_NEGATIVE_NO_SVG = 'src/assets/images/up-negative-no-circle.svg';
+  public UHC_MEDUIM_FONT = "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'";
+
   @Input() chartOptions: any = {};
   @Input() donutType: string;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_event) {
     this.doDonutChart(this.chartOptions, this.noTransition);
   }
   ngOnInit() {
@@ -25,7 +33,12 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.doDonutChart(this.chartOptions, this.transition);
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+      this.doDonutChart(this.chartOptions, this.noTransition);
+    } else {
+      this.doDonutChart(this.chartOptions, this.transition);
+    }
   }
 
   nFormatter(num, digits) {
@@ -49,6 +62,17 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   }
 
   doDonutChart(chartOptions: any, transition: number) {
+    // Assign CSS class names for reusablity
+    const middleTextAlign = 'middle-text-align',
+      smallCardFont = 'small-card-font',
+      greenFont = 'green-font',
+      redFont = 'red-font',
+      middleFont = 'middle-font',
+      startFont = 'start-font',
+      normalFont = 'normal-font',
+      regularUhcFont = 'regular-uhc-font',
+      greyStartFont = 'grey-start-font';
+
     function getTextWidth(txt, fontSize, fontFace) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
@@ -65,8 +89,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .text()
             .split(/\s+/)
             .reverse(),
-          lineNumber = 0,
-          lineHeight = 1.1, // ems
+          // lineNumber = 0,
+          // lineHeight = 1.1, // ems
           y = textLabel.attr('y'),
           dy = parseFloat(textLabel.attr('dy'));
         let tspan = textLabel
@@ -168,28 +192,34 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .append('text')
           .attr('text-anchor', 'middle')
           .attr('y', 8)
-          .style('font-size', '41px')
-          .style('fill', '#2d2d39')
-          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-          .style('vertical-align', 'middle');
+          .attr('class', middleTextAlign);
       } else {
-        text = chart
-          .append('text')
-          .attr('text-anchor', 'middle')
-          .attr('y', height / height)
-          .style('font-size', '41px')
-          .style('fill', '#2d2d39')
-          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-          .style('vertical-align', 'middle');
+        if (this.chartOptions.centerData) {
+          text = chart
+            .append('text')
+            .attr('text-anchor', 'middle')
+            .attr('y', -15)
+            .attr('class', middleTextAlign);
+          chart
+            .append('text')
+            .attr('text-anchor', 'middle')
+            .attr('y', 10)
+            .attr('class', middleFont)
+            .text(this.chartOptions.centerData);
+        } else {
+          text = chart
+            .append('text')
+            .attr('text-anchor', 'middle')
+            .attr('y', height / height)
+            .attr('class', middleTextAlign);
+        }
       }
     } else if (this.donutType === 'small-card') {
       text = chart
         .append('text')
         .attr('text-anchor', 'middle')
         .attr('y', height / heightDivider)
-        .style('font-size', '22px')
-        .style('fill', '#2d2d39')
-        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'");
+        .attr('class', smallCardFont);
     }
 
     if (
@@ -201,179 +231,335 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       chartOptions.sdata.sign !== ''
     ) {
       if (chartOptions.sdata.sign === 'up') {
-        chart
-          .append('circle')
-          .attr('cx', -24)
-          .attr('cy', 29)
-          .attr('r', 16)
-          .attr('fill', '#e1fadf'); // green color
+        if (this.chartOptions.centerData) {
+          const sdataLink = 'src/assets/images/trend-up.svg';
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 40)
+            .attr('r', 16)
+            .attr('fill', '#e1fadf'); // green color
 
-        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
-          chart
-            .append('svg:image')
-            .attr('x', -35)
-            .attr('y', 19)
-            .attr('width', '20px')
-            .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
-        } else {
-          chart
-            .append('svg:image')
-            .attr('x', -36)
-            .attr('y', 19)
-            .attr('width', '20px')
-            .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/trend-up.svg');
-        }
-        chart
-          .append('text')
-          .attr('x', 0)
-          .attr('y', 32)
-          .style('font-size', '14px')
-          .style('fill', '#007000') // green color
-          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-          .style('text-anchor', 'start')
-          .text(chartOptions.sdata.data);
-      } else if (chartOptions.sdata.sign === 'down') {
-        chart
-          .append('circle')
-          .attr('cx', -24)
-          .attr('cy', 29)
-          .attr('r', 16)
-          .attr('fill', '#ffe6f0');
-
-        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
-          chart
-            .append('svg:image')
-            .attr('x', -36)
-            .attr('y', 19)
-            .attr('width', '20px')
-            .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
-        } else {
-          chart
-            .append('svg:image')
-            .attr('x', -36)
-            .attr('y', 19)
-            .attr('width', '20px')
-            .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/trend-down.svg');
-        }
-
-        chart
-          .append('text')
-          .attr('x', 0)
-          .attr('y', 32)
-          .style('font-size', '14px')
-          .style('fill', '#b10c00')
-          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-          .style('text-anchor', 'start')
-          .text(chartOptions.sdata.data);
-      } else if (chartOptions.sdata.sign === 'up-red') {
-        chart
-          .append('circle')
-          .attr('cx', -24)
-          .attr('cy', 29)
-          .attr('r', 16)
-          .attr('fill', '#ffe6f0');
-
-        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
-          chart
-            .append('svg:image')
-            .attr('x', -35)
-            .attr('y', 19)
-            .attr('width', '20px')
-            .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
-        } else {
-          chart
-            .append('svg:image')
-            .attr('x', -36)
-            .attr('y', 19)
-            .attr('width', '20px')
-            .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
-        }
-        chart
-          .append('text')
-          .attr('x', 0)
-          .attr('y', 32)
-          .style('font-size', '14px')
-          .style('fill', '#b10c00') // red color
-          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-          .style('text-anchor', 'start')
-          .text(chartOptions.sdata.data);
-      } else if (chartOptions.sdata.sign === 'down-green') {
-        chart
-          .append('circle')
-          .attr('cx', -24)
-          .attr('cy', 29)
-          .attr('r', 16)
-          .attr('fill', '#e1fadf'); // green color
-
-        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
-          chart
-            .append('svg:image')
-            .attr('x', -36)
-            .attr('y', 19)
-            .attr('width', '20px')
-            .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
-        } else {
-          chart
-            .append('svg:image')
-            .attr('x', -36)
-            .attr('y', 19)
-            .attr('width', '20px')
-            .attr('height', '20px')
-            .attr('fill', '#ffe6f0')
-            .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
-        }
-
-        chart
-          .append('text')
-          .attr('x', 0)
-          .attr('y', 32)
-          .style('font-size', '14px')
-          .style('fill', '#007000') // green color
-          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-          .style('text-anchor', 'start')
-          .text(chartOptions.sdata.data);
-      } else if (chartOptions.sdata.sign === 'neutral') {
-        chart
-          .append('circle')
-          .attr('cx', -24)
-          .attr('cy', 29)
-          .attr('r', 16)
-          .attr('fill', '#e0e0e0');
-
-        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
-          chart
-            .append('svg:image')
-            .attr('x', -36)
-            .attr('y', 19)
-            .attr('width', '20px')
-            .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
-        } else {
           chart
             .append('svg:image')
             .attr('x', -34)
-            .attr('y', 19)
+            .attr('y', 30)
             .attr('width', '20px')
             .attr('height', '20px')
-            .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
-        }
+            .attr(this.XLINK_HREF_PROP_NAME, sdataLink);
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 45)
+            .attr('class', greenFont)
+            .text(chartOptions.sdata.data);
+        } else {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 29)
+            .attr('r', 16)
+            .attr('fill', '#e1fadf'); // green color
 
-        chart
-          .append('text')
-          .attr('x', 0)
-          .attr('y', 32)
-          .style('font-size', '14px')
-          .style('fill', '#2d2d39')
-          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-          .style('text-anchor', 'start')
-          .text(chartOptions.sdata.data);
+          if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+            chart
+              .append('svg:image')
+              .attr('x', -35)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr(this.XLINK_HREF_PROP_NAME, this.DOWN_POSITIVE_NO_IMG);
+          } else {
+            chart
+              .append('svg:image')
+              .attr('x', -36)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/trend-up.svg');
+          }
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 32)
+            .attr('class', greenFont)
+            .text(chartOptions.sdata.data);
+        }
+      } else if (chartOptions.sdata.sign === 'down') {
+        if (this.chartOptions.centerData) {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 40)
+            .attr('r', 16)
+            .attr('fill', '#ffe6f0'); // red color
+
+          chart
+            .append('svg:image')
+            .attr('x', -34)
+            .attr('y', 30)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/trend-down.svg');
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 45)
+            .attr('class', redFont)
+            .text(chartOptions.sdata.data);
+        } else {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 29)
+            .attr('r', 16)
+            .attr('fill', '#ffe6f0');
+
+          if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+            chart
+              .append('svg:image')
+              .attr('x', -36)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr(this.XLINK_HREF_PROP_NAME, this.UP_NEGATIVE_NO_SVG);
+          } else {
+            chart
+              .append('svg:image')
+              .attr('x', -36)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr(this.XLINK_HREF_PROP_NAME, 'src/assets/images/trend-down.svg');
+          }
+
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 32)
+            .attr('class', redFont)
+            .text(chartOptions.sdata.data);
+        }
+      } else if (chartOptions.sdata.sign === 'up-red') {
+        if (this.chartOptions.centerData) {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 40)
+            .attr('r', 16)
+            .attr('fill', '#ffe6f0'); // red color
+
+          chart
+            .append('svg:image')
+            .attr('x', -34)
+            .attr('y', 30)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr(this.XLINK_HREF_PROP_NAME, this.UP_NEGATIVE_NO_SVG);
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 45)
+            .attr('class', redFont)
+            .text(chartOptions.sdata.data);
+        } else {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 29)
+            .attr('r', 16)
+            .attr('fill', '#ffe6f0');
+
+          if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+            chart
+              .append('svg:image')
+              .attr('x', -35)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr(this.XLINK_HREF_PROP_NAME, this.UP_NEGATIVE_NO_SVG);
+          } else {
+            chart
+              .append('svg:image')
+              .attr('x', -36)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr(this.XLINK_HREF_PROP_NAME, this.UP_NEGATIVE_NO_SVG);
+          }
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 32)
+            .attr('class', redFont)
+            .text(chartOptions.sdata.data);
+        }
+      } else if (chartOptions.sdata.sign === 'down-green') {
+        if (this.chartOptions.centerData) {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 40)
+            .attr('r', 16)
+            .attr('fill', '#e1fadf'); // green color
+
+          chart
+            .append('svg:image')
+            .attr('x', -34)
+            .attr('y', 30)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr(this.XLINK_HREF_PROP_NAME, this.DOWN_POSITIVE_NO_IMG);
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 45)
+            .attr('class', greenFont)
+            .text(chartOptions.sdata.data);
+        } else {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 29)
+            .attr('r', 16)
+            .attr('fill', '#e1fadf'); // green color
+
+          if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+            chart
+              .append('svg:image')
+              .attr('x', -36)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr(this.XLINK_HREF_PROP_NAME, this.DOWN_POSITIVE_NO_IMG);
+          } else {
+            chart
+              .append('svg:image')
+              .attr('x', -36)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr('fill', '#ffe6f0')
+              .attr(this.XLINK_HREF_PROP_NAME, this.DOWN_POSITIVE_NO_IMG);
+          }
+
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 32)
+            .attr('class', greenFont)
+            .text(chartOptions.sdata.data);
+        }
+      } else if (chartOptions.sdata.sign === 'neutral') {
+        if (this.chartOptions.centerData) {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 40)
+            .attr('r', 16)
+            .attr('fill', '#e0e0e0');
+
+          chart
+            .append('svg:image')
+            .attr('x', -34)
+            .attr('y', 30)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr(this.XLINK_HREF_PROP_NAME, this.FLAT_NO_CHANGE_SVG);
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 45)
+            .attr('class', startFont)
+            .text(chartOptions.sdata.data);
+        } else {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 29)
+            .attr('r', 16)
+            .attr('fill', '#e0e0e0');
+
+          if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+            chart
+              .append('svg:image')
+              .attr('x', -36)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr(this.XLINK_HREF_PROP_NAME, this.UP_NEGATIVE_NO_SVG);
+          } else {
+            chart
+              .append('svg:image')
+              .attr('x', -34)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr(this.XLINK_HREF_PROP_NAME, this.FLAT_NO_CHANGE_SVG);
+          }
+
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 32)
+            .attr('class', startFont)
+            .text(chartOptions.sdata.data);
+        }
+      } else if (chartOptions.sdata.sign === 'pi-trend-neutral') {
+        if (this.chartOptions.centerData) {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 40)
+            .attr('r', 16)
+            .attr('fill', '#e0e0e0');
+
+          chart
+            .append('svg:image')
+            .attr('x', -34)
+            .attr('y', 30)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr(this.XLINK_HREF_PROP_NAME, this.FLAT_NO_CHANGE_SVG);
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 45)
+            .attr('class', greyStartFont)
+            .text(chartOptions.sdata.data);
+        } else {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 29)
+            .attr('r', 16)
+            .attr('fill', '#e0e0e0');
+
+          if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+            chart
+              .append('svg:image')
+              .attr('x', -36)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr(this.XLINK_HREF_PROP_NAME, this.UP_NEGATIVE_NO_SVG);
+          } else {
+            chart
+              .append('svg:image')
+              .attr('x', -34)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr(this.XLINK_HREF_PROP_NAME, this.FLAT_NO_CHANGE_SVG);
+          }
+
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 32)
+            .attr('class', startFont)
+            .text(chartOptions.sdata.data);
+        }
       }
     } else {
       if (this.donutType === 'app-card') {
@@ -381,18 +567,13 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .append('text')
           .attr('text-anchor', 'middle')
           .attr('y', 14)
-          .style('font-size', '41px')
-          .style('fill', '#2d2d39')
-          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-          .style('vertical-align', 'middle');
+          .attr('class', middleTextAlign);
       } else if (this.donutType === 'small-card') {
         text = chart
           .append('text')
           .attr('text-anchor', 'middle')
           .attr('y', 8)
-          .style('font-size', '22px')
-          .style('fill', '#2d2d39')
-          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'");
+          .attr('class', smallCardFont);
       }
     }
 
@@ -426,7 +607,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           return donutColor(d.data.color);
         })
         .transition()
-        .delay(function(d, i) {
+        .delay(function(_d, i) {
           return i * 700;
         })
         .duration(1000)
@@ -474,7 +655,6 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           boxWidth = '113px';
           textWidth = 84;
         }
-        const hoverTextLength = getTextWidth(d.data.label, 14, 'Arial');
 
         divHover.style('height', boxHeight).style('width', boxWidth);
 
@@ -507,9 +687,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('text-anchor', 'start')
           .attr('x', '12.5px')
           .attr('y', textLineOneY /*'25px'*/)
-          .style('font-size', '14px')
-          .style('fill', '#2D2D39')
-          .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+          .attr('class', normalFont)
           .text(d.data.label)
           .call(wrap, textWidth, tspanID, 14);
 
@@ -518,19 +696,17 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('text-anchor', 'start')
           .attr('x', '12.5px')
           .attr('y', textLineTwoY /*'47px'*/)
-          .style('font-size', '14px')
-          .style('fill', '#757588')
-          .style('font-family', 'UHCSans-Regular')
+          .attr('class', regularUhcFont)
           .text(this.textOnHover);
       })
-        .on('mousemove', function(d) {
+        .on('mousemove', function() {
           divHover
             .transition()
             .duration(10)
             .style('opacity', 1);
           divHover.style('left', d3.event.layerX + 7.5 + 'px').style('top', d3.event.layerY - 35 + 'px');
         })
-        .on('mouseleave', function(d) {
+        .on('mouseleave', function() {
           divHover
             .transition()
             .duration(10)

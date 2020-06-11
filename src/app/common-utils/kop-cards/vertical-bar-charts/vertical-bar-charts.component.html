@@ -1,0 +1,32 @@
+<div *ngIf="data === null">
+  <app-error-template></app-error-template>
+</div>
+
+<div *ngIf="data !== null" class="vertical-bar-block">
+  <div *ngIf="data[0].title !== null" class="vertical-bar-box">
+    <div
+      *ngIf="data[0].title !== null"
+      class="vertical-bar bar1"
+      [style.margin-top]="marginTops[0]"
+      [style.height]="heights[0]"
+    >
+      <span class="bar-value">{{ data[0].title | currencyFormatter }}</span>
+    </div>
+  </div>
+  <div *ngIf="data[0].title === null" class="half-width">
+    <app-error-template></app-error-template>
+  </div>
+  <div *ngIf="data[1].title !== null" class="vertical-bar-box">
+    <div
+      *ngIf="data[1].title !== null"
+      class="vertical-bar bar2"
+      [style.margin-top]="marginTops[1]"
+      [style.height]="heights[1]"
+    >
+      <span class="bar-value">{{ data[1].title | currencyFormatter }}</span>
+    </div>
+  </div>
+  <div *ngIf="data[1].title === null" class="half-width">
+    <app-error-template></app-error-template>
+  </div>
+</div>

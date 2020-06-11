@@ -3,7 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { GettingReimbursedComponent } from './getting-reimbursed/getting-reimbursed.component';
 import { AppealsComponent } from './appeals/appeals.component';
 import { PaymentIntegrityComponent } from './payment-integrity/payment-integrity.component';
+
 import { NonPaymentsComponent } from './non-payments/non-payments.component';
+import { ViewTopClaimsComponent } from './non-payments/view-top-claims/view-top-claims.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits.component';
 const routes: Routes = [
@@ -29,6 +31,13 @@ const routes: Routes = [
     }
   },
   {
+    path: 'ViewTopClaims',
+    component: ViewTopClaimsComponent,
+    data: {
+      breadcrumb: 'Non Payments'
+    }
+  },
+  {
     path: 'Appeals',
     component: AppealsComponent,
     data: {
@@ -39,14 +48,14 @@ const routes: Routes = [
     path: 'PaymentIntegrity',
     component: PaymentIntegrityComponent,
     data: {
-      breadcrumb: 'Payment Integrity'
+      breadcrumb: 'Medical Records Coding Review'
     }
   },
   {
     path: 'SmartEdits',
     component: SmartEditsComponent,
     data: {
-      breadcrumb: 'Payment Integrity'
+      breadcrumb: 'Smart Edits'
     }
   }
 ];

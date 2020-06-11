@@ -7,9 +7,61 @@ import { TopRowAdvOverviewComponent } from './top-row-adv-overview/top-row-adv-o
 import { AdvocateRoutingModule } from './advocate-routing.module';
 import { FilterAdvocateComponent } from './filter-advocate/filter-advocate.component';
 import { TopRowAdvOverviewSharedService } from '../../shared/advocate/top-row-adv-overview-shared.service';
+import { NonPaymentSharedService } from '../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
+import { OverviewAdvocateSharedService } from '../../shared/advocate/overview-advocate-shared.service';
+import { LargeCardAdvocateComponent } from './large-card-advocate/large-card-advocate.component';
+import { HealthSystemDetailsComponent } from './health-system-details/health-system-details.component';
+import { PipesModule } from '../../pipes/pipes.module';
+import { TaxSummaryComponent } from './tax-summary/tax-summary.component';
+import { AdvocateHomeComponent } from './advocate-home/advocate-home.component';
+import { DropdownComponent } from './advocate-home/dropdown/dropdown.component';
+import { HomeService } from '../../rest/advocate/home.service';
+/*** Search component */
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatFormFieldModule,
+  MatInputModule,
+  MatAutocompleteModule,
+  MatButtonModule,
+  MatProgressSpinnerModule
+} from '@angular/material';
+import { MatSelectModule } from '@angular/material/select';
+import { ImpactAssignmentComponent } from './advocate-home/impact-assignment/impact-assignment.component';
+import { ImpactCardComponent } from './advocate-home/impact-assignment/impact-card/impact-card.component';
+/** Search component ends here */
 @NgModule({
-  imports: [CommonModule, AdvocateRoutingModule, CommonUtilsModule, HeadMaterialModule],
-  declarations: [OverviewAdvocateComponent, TopRowAdvOverviewComponent, FilterAdvocateComponent],
-  providers: [TopRowAdvOverviewSharedService]
+  imports: [
+    CommonModule,
+    AdvocateRoutingModule,
+    CommonUtilsModule,
+    HeadMaterialModule,
+    PipesModule,
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatSelectModule
+  ],
+  declarations: [
+    OverviewAdvocateComponent,
+    TopRowAdvOverviewComponent,
+    FilterAdvocateComponent,
+    LargeCardAdvocateComponent,
+    HealthSystemDetailsComponent,
+    TaxSummaryComponent,
+    AdvocateHomeComponent,
+    DropdownComponent,
+    ImpactAssignmentComponent,
+    ImpactCardComponent
+  ],
+  providers: [TopRowAdvOverviewSharedService, NonPaymentSharedService, OverviewAdvocateSharedService, HomeService]
 })
-export class AdvocateModule {}
+export class AdvocateModule {
+  constructor() {
+    console.log('Advocate Loaded');
+  }
+}

@@ -15,23 +15,45 @@ export interface CommonHeaderOptions {
 })
 export class CommonHeaderComponent implements OnInit {
   @Input() title: String;
+  @Input() subtitle: String;
+  @Input() expandAllButton: boolean;
   @Output() helpIconClicked = new EventEmitter();
   @Input() cardType: String;
+  @Input() noHeaderClick: boolean;
   @Input() options: CommonHeaderOptions;
+  @Input() printStyle: boolean;
+  @Input() addIcon = false;
   titleHeader: String = null;
   typeOfCard: String = null;
+  titleSubHeader: String = null;
   routhPath: string;
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router) {
+  accordianExpanded: boolean;
+  @Output() accordianExpandedListener = new EventEmitter();
+  constructor(private iconRegistry: MatIconRegistry, private readonly sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'help',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
+    );
+    this.iconRegistry.addSvgIcon(
+      'warning-icon',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'carrot',
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
     );
   }
   ngOnInit() {
     this.titleHeader = this.title;
     this.typeOfCard = this.cardType;
+    if (this.subtitle && this.subtitle.length > 0) {
+      this.titleSubHeader = this.subtitle;
+    }
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
   }
   helpFunctionClicked() {
     // Might have to remove special char for glossary to work properly
@@ -43,9 +65,25 @@ export class CommonHeaderComponent implements OnInit {
     }
   }
 
-  titleClicked(title) {
-    if (title === 'Claims Paid*') {
+  onClickExpand() {
+    this.accordianExpanded = !this.accordianExpanded;
+    this.accordianExpandedListener.emit(this.accordianExpanded);
+  }
+
+  titleClicked(title: string) {
+    if (this.noHeaderClick) {
+      return;
+    }
+    if (title === 'Claims Paid*' || title === 'Claims Paid') {
       this.routhPath = '/GettingReimbursed/Payments';
+    } else if (title === 'Claims Submitted') {
+      this.routhPath = '/GettingReimbursed';
+    } else if (title === 'Claims Appeals Submitted') {
+      this.routhPath = '/GettingReimbursed/Appeals';
+    } else if (title === 'Calls by Call Type') {
+      this.routhPath = '/ServiceInteraction/Calls';
+    } else if (title === 'Claims Not Paid' || title === 'Non-Payment Trend') {
+      this.routhPath = '/GettingReimbursed/NonPayments';
     } else if (title === 'Prior Authorization Approval') {
       this.routhPath = '/CareDelivery/priorAuth';
     } else if (title === 'Self Service Adoption Rate') {
@@ -56,10 +94,8 @@ export class CommonHeaderComponent implements OnInit {
       this.routhPath = '/CareDelivery/PatientCareOpportunity';
     } else if (title === 'Calls By Call Type') {
       this.routhPath = '/ServiceInteraction/Calls';
-    } else if (title === 'Patient Care Opportunity–Medicare & Retirement') {
+    } else if (title === 'Patient Care Opportunity–Medicare') {
       this.routhPath = '/CareDelivery/PatientCareOpportunity';
-    } else {
-      this.routhPath = '/OverviewPage';
     }
     this.router.navigate([this.routhPath]);
   }

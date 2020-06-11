@@ -1,12 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MatIconRegistry, PageEvent } from '@angular/material';
+import { MatIconRegistry } from '@angular/material';
 import { Router } from '@angular/router';
-import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { NgRedux, select } from '@angular-redux/store';
+import { IAppState } from '../../../store/store';
+import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
+import { REMOVE_FILTER } from '../../../store/filter/actions';
 
 @Component({
   selector: 'app-getting-reimbursed',
@@ -14,6 +18,7 @@ import { SessionService } from 'src/app/shared/session.service';
   styleUrls: ['./getting-reimbursed.component.scss']
 })
 export class GettingReimbursedComponent implements OnInit {
+  @Input() printStyle;
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
@@ -35,32 +40,42 @@ export class GettingReimbursedComponent implements OnInit {
   buttonName: any;
   detailClickUrl = '/GettingReimbursed';
   buttonNumber: any;
+  reloadFlag = true;
+  @select(['uhc', 'currentPage']) currentPage;
+  public filterFlag = false;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
-    private filterExpandService: FilterExpandService,
+    private readonly sanitizer: DomSanitizer,
     private router: Router,
     private session: SessionService,
-    private filtermatch: CommonUtilsService
+    private common: CommonUtilsService,
+    private ngRedux: NgRedux<IAppState>,
+    private createPayloadService: CreatePayloadService
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
-    this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
-    iconRegistry.addSvgIcon(
+    this.tabOptionsTitle = ['Processed', 'Payments', 'Non-Payments', 'Appeals'];
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.createPayloadService.resetTinNumber('gettingReimbursedSummary');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+      this.common.urlResuseStrategy();
+    });
+    this.iconRegistry.addSvgIcon(
       'filter',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
-    iconRegistry.addSvgIcon(
+    this.iconRegistry.addSvgIcon(
       'close',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+      this.sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
+    /*  this.createPayloadService.getEvent().subscribe(value => {
+      this.ngOnInit();
+    }); */
   }
-
-  onDetailsButtonClick(i: number, event: any) {
+  onDetailsButtonClick(i: number) {
     if (i === 0) {
       this.detailClickUrl = '/GettingReimbursed';
     } else if (i === 1) {
@@ -76,19 +91,27 @@ export class GettingReimbursedComponent implements OnInit {
   getTabOptionsTitle(i: number) {
     return this.tabOptionsTitle[i];
   }
-  matOptionClicked(i: number, event: any) {
+  matOptionClicked(i: number) {
     if (i === 0) {
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
       this.buttonName = '';
       this.buttonNumber = 0;
+      this.filterFlag = false;
     } else if (i === 1) {
-      this.buttonName = 'More Payment Metrics';
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedPayments';
+      this.buttonName = 'Payments Details';
       this.buttonNumber = 1;
+      this.filterFlag = false;
     } else if (i === 2) {
-      this.buttonName = 'More Non-Payment Metrics';
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedNonPayments';
+      this.buttonName = 'Non-Payments Details';
       this.buttonNumber = 2;
+      this.filterFlag = false;
     } else if (i === 3) {
-      this.buttonName = 'More Appeals Metrics';
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedAppeals';
+      this.buttonName = 'Appeals Details';
       this.buttonNumber = 3;
+      this.filterFlag = true;
     }
     this.currentSummary = [];
     this.currentSummary = this.summaryItems[i].data;
@@ -108,37 +131,29 @@ export class GettingReimbursedComponent implements OnInit {
     }
     //    event.target.classList.add('active');
   }
-  ngOnInit() {
-    if (
-      this.session.filterObjValue.timeFrame === 'Last 12 Months' ||
-      this.session.filterObjValue.timeFrame === '2017' ||
-      this.session.filterObjValue.timeFrame === '2018'
-    ) {
-      this.session.filterObjValue.timeFrame = 'Last 6 Months';
-    } // temporary change for claims
-    this.timePeriod = this.session.filterObjValue.timeFrame;
-    if (this.session.filterObjValue.lob !== 'All') {
-      this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
-    } else {
-      this.lob = '';
-    }
-    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
-      this.taxID = this.session.filterObjValue.tax;
-      if (this.taxID.length > 3) {
-        this.taxID = [this.taxID.length + ' Selected'];
-      }
-    } else {
-      this.taxID = [];
-    }
-    this.loading = true;
-    this.mockCards = [{}, {}];
 
+  ngOnInit() {
+    this.loading = true;
+    if (this.reloadFlag) {
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
+      this.reloadFlag = false;
+    }
+    this.pageTitle = 'Getting Reimbursed';
+
+    if (this.printStyle) {
+      this.pageTitle = this.session.getHealthCareOrgName();
+      this.pagesubTitle = 'Getting Reimbursed - Summary';
+    }
+
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedSummary' });
+    this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
+    this.mockCards = [{}, {}];
     this.gettingReimbursedSharedService
-      .getGettingReimbursedData()
+      .getGettingReimbursedData(this.createPayloadService.payload)
       .then(completeData => {
         this.loading = false;
         this.tabOptions = [];
-        this.summaryItems = JSON.parse(JSON.stringify(completeData));
+        this.summaryItems = completeData;
         if (this.previousSelectedTab) {
           this.currentSummary = this.summaryItems[this.previousSelectedTab].data;
           this.currentTabTitle = this.summaryItems[this.previousSelectedTab].title;
@@ -149,7 +164,11 @@ export class GettingReimbursedComponent implements OnInit {
 
         for (let i = 0; i < 4; i++) {
           let temp;
-          if (this.summaryItems[i].data[0] != null && this.summaryItems[i].data[0].data != null) {
+          if (
+            this.summaryItems[i].data[0] != null &&
+            this.summaryItems[i].data[0].data != null &&
+            this.summaryItems[i].data[0].data !== 'Claims Not Paid'
+          ) {
             temp = {
               id: i,
               title: this.getTabOptionsTitle(i),
@@ -169,31 +188,16 @@ export class GettingReimbursedComponent implements OnInit {
           }
           this.tabOptions.push(temp);
         }
+
+        if (this.printStyle) {
+          for (let i = 0; i < this.tabOptionsTitle.length; i++) {
+            this.summaryItems[i].title = this.tabOptionsTitle[i];
+          }
+        }
       })
       .catch(reason => {
         this.loading = false;
         console.log('Getting Reimbursed Summary page', reason.message);
       });
-  }
-  openFilter() {
-    // this.filterExpandService.setURL(this.router.url);
-    this.filterExpandService.setURL(this.filterUrl);
-  }
-  removeFilter(type, value) {
-    if (type === 'lob') {
-      this.lob = '';
-      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
-    } else if (type === 'tax' && !value.includes('Selected')) {
-      this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
-      if (this.taxID.length > 0) {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
-      } else {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-        this.taxID = [];
-      }
-    } else if (type === 'tax' && value.includes('Selected')) {
-      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-      this.taxID = [];
-    }
   }
 }

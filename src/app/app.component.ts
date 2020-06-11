@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationError, Event } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { UserIdleService } from 'angular-user-idle';
@@ -28,13 +28,12 @@ export class AppComponent {
     private userIdle: UserIdleService,
     private filterClose: FilterCloseService
   ) {
-    router.events.subscribe((event: Event) => {
+    this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
       }
 
       if (event instanceof NavigationEnd) {
         // Hide loading indicator
-        console.log('NavigationEnd' + this.router.url);
         if (!sessionStorage.getItem('currentUser')) {
           this.onStartWatching(false);
           this.isWatching = false;
@@ -66,14 +65,11 @@ export class AppComponent {
       disableClose: true,
       data: { timeOut: this.timeout }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(this.router.url);
+    dialogRef.afterClosed().subscribe(() => {
       this.userIdle.stopWatching();
       if (!sessionStorage.getItem('currentUser')) {
         this.onStartWatching(false);
       } else {
-        console.log('watching started');
         this.onStartWatching(true);
       }
     });
@@ -84,7 +80,6 @@ export class AppComponent {
       this.idle = this.userIdle.getConfigValue().idle;
       this.timeout = this.userIdle.getConfigValue().timeout;
       // this.ping = this.userIdle.getConfigValue().ping;
-      console.log(this.idle, this.timeout);
       this.isWatching = true;
       this.timeIsUp = false;
       this.timerCount = this.timeout;
@@ -102,7 +97,6 @@ export class AppComponent {
         .pipe(
           tap(() => {
             this.isTimer = true;
-            console.log('is time up' + this.timeIsUp);
             if (this.timerCount === this.timeout && !this.timeIsUp) {
               this.openDialog();
             }

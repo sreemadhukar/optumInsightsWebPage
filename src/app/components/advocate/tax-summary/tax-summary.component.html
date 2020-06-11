@@ -1,0 +1,162 @@
+<div class="tax-summary-content">
+  <div class="tax-summary-head">
+    <span class="tax-summary-count">
+      Showing {{ taxSummaryData.filteredData.length > 24 ? pageSize : taxSummaryData.filteredData.length }} of
+      {{ numberOfTins }}
+    </span>
+    <span class="tax-summary-count" *ngIf="checkedCount()"> | {{ checkedCount() }} Selected </span>
+  </div>
+  <div class="tax-summary-body">
+    <div class="tax-summary-table-block mat-elevation-z8">
+      <table mat-table [dataSource]="taxSummaryData" matSort matSortDirection="asc">
+        <ng-container matColumnDef="TinCheckBox">
+          <th mat-header-cell *matHeaderCellDef>
+            <span mat-sort-header class="displayNone"></span>
+            <div class="checkbox-container-th">
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  id="all"
+                  class="checkall"
+                  name="featureAll"
+                  value="taxSummaryData.length"
+                  [checked]="checkAllSelected()"
+                  (keypress)="checkAllChecked()"
+                  (click)="checkAllChecked()"
+                />
+                <span class="checkbox-custom rectangular"></span>
+              </label>
+            </div>
+          </th>
+          <td mat-cell class="tax-summary-table-cell" *matCellDef="let element; let i = index; let isLast = last">
+            <div class="checkbox-container-td">
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  class="check-particular"
+                  id="{{ i + 1 }}"
+                  name="feature{{ i + 1 }}"
+                  value="{{ element.id }}"
+                  [checked]="element.checked"
+                  ([ngModel])="(element.checked)"
+                  (keypress)="checkBoxChecked(element)"
+                  (click)="checkBoxChecked(element, i)"
+                />
+                <span class="checkbox-custom rectangular"></span>
+              </label>
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Tin">
+          <th mat-header-cell *matHeaderCellDef id="taxidNumber">
+            <span mat-sort-header>Tax ID Number</span>
+            <div>
+              <label class="tax-id-label">
+                <input
+                  type="text"
+                  class="tax-summary-input tax-summary-tin-input"
+                  spellcheck="false"
+                  [ngModel]="taxIdSearch"
+                  (keyup)="searchTaxId($event.target.value, 'Tin')"
+                />
+                <mat-icon class="tin-search-icon" matSuffix svgIcon="search" *ngIf="!taxIdSearch"></mat-icon>
+                <mat-icon
+                  class="tin-search-icon close-cursor"
+                  matSuffix
+                  svgIcon="close"
+                  (click)="searchTaxId('', 'Tin'); clearValue('taxIdSearch')"
+                  (keypress)="clearValue('taxIdSearch')"
+                  *ngIf="taxIdSearch"
+                ></mat-icon>
+              </label>
+            </div>
+          </th>
+          <td mat-cell class="tax-summary-table-cell" *matCellDef="let element; let i = index; let isLast = last">
+            {{ element.Tin }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="TinName">
+          <th mat-header-cell *matHeaderCellDef id="taxIdName">
+            <span mat-sort-header>Tax ID Name</span>
+            <div>
+              <label class="tax-id-name-label">
+                <input
+                  type="text"
+                  class="tax-summary-name-input"
+                  spellcheck="false"
+                  [ngModel]="tinNameSearch"
+                  (keyup)="searchTaxId($event.target.value, 'TinName')"
+                />
+                <mat-icon class="tin-search-icon" matSuffix svgIcon="search" *ngIf="!tinNameSearch"></mat-icon>
+                <mat-icon
+                  class="tin-search-icon close-cursor"
+                  matSuffix
+                  svgIcon="close"
+                  (click)="searchTaxId('', 'TinName'); clearValue('tinNameSearch')"
+                  (keypress)="clearValue('tinNameSearch')"
+                  *ngIf="tinNameSearch"
+                ></mat-icon>
+              </label>
+            </div>
+          </th>
+          <td mat-cell class="tax-summary-table-cell" [class.italic]="!element.TinName" *matCellDef="let element">
+            {{ element.TinName ? (element.TinName | titlecase) : 'Tax ID Name not available' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="TaxIdType">
+          <th mat-header-cell *matHeaderCellDef id="taxIdType">
+            <span mat-sort-header>Tax ID Type</span>
+            <div>
+              <label class="tax-id-type-label">
+                <select class="tax-summary-input" (change)="searchTaxId($event.target.value, 'TaxIdType')">
+                  <option>All</option>
+                  <option *ngFor="let tin of data.TinTypes"> {{ tin | sliceString }} </option>
+                </select>
+                <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
+              </label>
+            </div>
+          </th>
+          <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+            {{ element.TaxIdType | sliceString }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="TaxIdOwnership">
+          <th mat-header-cell *matHeaderCellDef id="taxIdOwnership">
+            Tax ID Ownership
+            <div>
+              <label class="tax-id-ownership-label">
+                <select class="tax-summary-input" (change)="searchTaxId($event.target.value, 'TaxIdOwnership')">
+                  <option value="All">All</option>
+                  <option value="Owned" [selected]="tinOwnershipSelected">Owned</option>
+                  <option value="Affiliated">Affiliated</option>
+                </select>
+                <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
+              </label>
+            </div>
+          </th>
+          <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+            {{ element.TaxIdOwnership | titlecase }}
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="taxSummaryColumns"></tr>
+        <tr
+          mat-row
+          class="tax-summary-rows"
+          *matRowDef="let row; let i = index; columns: taxSummaryColumns"
+          [ngClass]="{
+            active:
+              i + pageIndex * pageSize === selectedTaxId.length - 1 && selectedTaxId[0]['Tin'] !== 'All' && row.checked
+          }"
+        ></tr>
+      </table>
+
+      <mat-paginator
+        class="tax-summary-paginator"
+        [pageSizeOptions]="[25, 50, 100]"
+        (page)="getPageSize($event)"
+        [ngStyle]="{ display: numberOfTins > 24 ? 'block' : 'none' }"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

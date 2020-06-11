@@ -9,13 +9,10 @@
   border-color: #e0e0e0;
   z-index: 999;
   max-width: 1610px;
-
   .dropdown-body {
     position: absolute;
     right: 0;
     color: #000;
-    height: 236px;
-    width: 233px;
     border-radius: 3px;
     background-color: #ffffff;
     box-shadow: 0 0 4px 0 rgba(25, 110, 207, 0.5), 0 4px 8px 0 rgba(0, 0, 0, 0.15);
@@ -25,26 +22,100 @@
   }
 
   .drop-item {
-    height: 40px;
-    width: 233px;
+    height: 56px;
+    width: 282px;
     border-radius: 3px 3px 0 0;
-    // background-color: #F1F4F7;
     background-color: #ffffff;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-    color: #2d2d39;
+    color: #757588;
+  }
+
+  .left-padd {
+    padding-left: 10px;
+  }
+
+  .lb-padd {
+    padding-left: 10px;
+    position: absolute;
+    padding-top: 6px;
+    // padding-bottom: 20px;
+  }
+
+  .drop-toggle-item {
+    height: 39px;
+    width: 282px;
+    border-radius: 3px 3px 0 0;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    color: #757588;
+  }
+
+  .per-item {
+    // height: 21px;
+    // width: 174.56px;
     font-family: 'UHCSans-Medium', 'Helvetica', 'Arial', 'sans-serif';
     font-size: 16px;
     letter-spacing: 0.2px;
-    padding-left: 11px;
-    padding-top: 11px;
+    // line-height: 19px;
+    // padding-left: 11px;
+    // padding-top: 23px;
+    // position: absolute;
+    // width:200px;
   }
 
-  div.drop-item:hover {
-    background-color: #f1f4f7;
+  .wrap {
+    word-wrap: break-word;
+    white-space: normal;
+    display: inline-block;
+    width: 220px;
+    line-height: 22px;
+    padding-left: 40px;
+    cursor: pointer;
+    font-size: 16px;
   }
 
-  div.drop-item:active {
-    background-color: #f1f4f7;
+  .provider-height {
+    height: 37px;
+    // padding-top: 5px;
+  }
+
+  .curser {
+    cursor: pointer;
+  }
+
+  .toggle-view-height {
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .signout-lh {
+    line-height: 30px;
+    border-top-width: 1px;
+    border-top-style: groove;
+    border-top-color: lightgray;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+  }
+
+  .tiny-provider {
+    height: 12px;
+    width: 239px;
+    font-family: 'UHCSans-Medium', 'Helvetica', 'Arial', 'sans-serif';
+    font-size: 12px;
+    letter-spacing: 0.15px;
+    line-height: 0px;
+    padding-left: 40px;
+  }
+
+  .icon mat-icon {
+    visibility: hidden;
+  }
+
+  .icon:hover mat-icon {
+    visibility: visible;
+  }
+
+  .active.icon mat-icon {
+    visibility: visible;
   }
 
   .menu-div {
@@ -68,7 +139,8 @@
     }
   }
   .header-logo-div {
-    padding: 18px 0 18px 57px;
+    padding: 18px 0 18px 32px;
+    cursor: pointer;
     //  padding: 18px 0 18px 33px; before adding PI sub menu undo when toggled off
     .Uhc-logo {
       height: 36px;
@@ -82,25 +154,187 @@
     display: flex;
     width: 100%;
     justify-content: center;
-    margin: 25px 0;
+    //margin: 25px 0;
+    align-items: center;
   }
   .user-div {
+    height: 100%;
     margin-left: auto;
     display: flex;
-    height: 25px;
+    /*height: 25px;*/
     color: $strom-grey;
     font-size: 16px;
     font-family: 'UHCSans-SemiBold', 'Helvetica', 'Arial', 'sans-serif';
     letter-spacing: 0.2px;
-    line-height: 22px;
-    text-align: right;
-    padding: 25px 32px 20px 0;
+    /*padding: 25px 32px 20px 0;
+    width: 100px;
+    margin-right: 25px;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 15px;
+    border-radius: 2px;*/
+    padding: 0px 10px;
+    align-items: center;
+    justify-content: center;
+    .user-icon {
+      display: inline-flex;
+    }
+    .no-margin-icons {
+      margin: 0;
+    }
     .user-name {
-      line-height: 31px;
+      /*line-height: 28px;*/
       font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      margin-left: 4px;
+      margin-right: 4px;
     }
     .user-expand-more {
-      line-height: 26px;
+      /*line-height: 28px;*/
+    }
+    &:hover {
+      background: $pattens-blue;
+      color: $black-rock;
+      cursor: pointer;
+    }
+    &:active {
+      background: #c8cfd6;
+      color: $black-rock;
     }
   }
+}
+
+.user-div:hover {
+  background-color: #d7dce1;
+  cursor: pointer;
+  color: $black-rock !important;
+}
+
+.print-header-div {
+  height: 80px;
+  .header-logo-div {
+    padding-left: 30px;
+    .date-and-time {
+      color: $strom-grey;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.17px;
+      line-height: 25px;
+      margin-top: -10px;
+    }
+  }
+}
+.header-div::after {
+  content: '';
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: rgb(224, 224, 224);
+}
+
+.footerPrint {
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+}
+
+.vertical-menu {
+  width: 284px;
+  height: 202px;
+  /*margin-right: 25px;
+  margin-top: 60px;*/
+  right: 40px;
+  top: 51px;
+  position: absolute;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+  background: #fff;
+}
+
+.vertical-menu a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 3px 3px 0 0;
+  background-color: #ffffff;
+  // box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  color: #757588;
+}
+
+.vertical-menu .active,
+.act:hover {
+  background-color: #e3f0fd;
+  color: #196ecf;
+}
+
+.vertical-menu .icon:hover {
+  background-color: #e3f0fd;
+  color: #196ecf;
+}
+
+.user-info-block {
+  position: absolute;
+  right: 24px;
+  top: 60px;
+  min-width: 225px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 3px 3px 0 0;
+  background-color: #ffffff;
+  color: $strom-grey;
+
+  .sign-out-block {
+    border-top: 1px solid #e0e0e0;
+    padding: 8px 0px;
+  }
+  .signout-icon-text {
+    padding: 8px 14px;
+    display: flex;
+    cursor: pointer;
+  }
+  .signout-icon-text:hover {
+    background: $pattens-blue;
+    color: #2d2d39 !important;
+    .signout-text {
+      color: #2d2d39 !important;
+    }
+  }
+  .signout-text {
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+  }
+  p {
+    margin: 0;
+  }
+}
+.margin-left-auto {
+  margin-left: auto;
+  padding: 15px 24px;
+  height: calc(100% - 30px);
+}
+.profile-details-block {
+  padding: 16px;
+  .profile-name {
+    color: $black-rock;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+  }
+  .profile-mail,
+  .profile-id {
+    color: $strom-grey;
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+  }
+}
+.profile-block-border-bottom {
+  border-bottom: 1px solid $gainsboro;
+}
+.internal-view {
+  margin-top: 4px;
 }

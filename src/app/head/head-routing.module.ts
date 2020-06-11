@@ -4,31 +4,65 @@ import { AuthGuard } from '../auth/_guards/auth.guard';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { SiteMapComponent } from './site-map/site-map.component';
+import { TinListPageComponent } from './tin-list-page/tin-list-page.component';
+import { CustomPreloadingStrategy } from './custom-preloading';
+import { NoAccessErrorPageComponent } from '../common-utils/no-access-error-page/no-access-error-page.component';
+import { ContactusComponent } from './contactus/contactus.component';
+import { RoleGuard } from '../auth/_guards/role.guard';
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: '../auth/auth.module#AuthModule'
+    loadChildren: '../auth/auth.module#AuthModule',
+    data: {
+      preload: false,
+      delay: false
+    }
   },
   {
     path: 'login',
-    loadChildren: '../auth/auth.module#AuthModule'
+    loadChildren: '../auth/auth.module#AuthModule',
+    data: {
+      preload: false,
+      delay: false
+    }
   },
   {
     path: 'OverviewPageAdvocate',
     loadChildren: '../components/advocate/advocate.module#AdvocateModule',
-    canActivate: [AuthGuard]
+    data: {
+      preload: false,
+      delay: false,
+      expectedRole: 'UHCI_Advocate'
+    },
+    canActivate: [RoleGuard]
   },
   {
     path: 'OverviewPage',
     loadChildren: '../components/overview-page/overview-page.module#OverviewPageModule',
+    data: {
+      preload: false,
+      delay: false,
+      expectedRole: 'UHCI_Project'
+    },
+    canActivate: [RoleGuard]
+  },
+  {
+    path: 'print-page',
+    loadChildren: '../components/print/print.module#PrintModule',
+    data: {
+      preload: false,
+      delay: false
+    },
     canActivate: [AuthGuard]
   },
   {
     path: 'GettingReimbursed',
     loadChildren: '../components/getting-reimbursed-page/getting-reimbursed.module#GettingReimbursedModule',
     data: {
-      breadcrumb: 'Getting Reimbursed'
+      breadcrumb: 'Getting Reimbursed',
+      preload: true,
+      delay: true
     },
     canActivate: [AuthGuard]
   },
@@ -36,59 +70,127 @@ const routes: Routes = [
     path: 'CareDelivery',
     loadChildren: '../components/care-delivery-page/care-delivery-page.module#CareDeliveryPageModule',
     data: {
-      breadcrumb: 'Care Delivery'
+      preload: true,
+      delay: true
     },
     canActivate: [AuthGuard]
   },
   {
     path: 'ProviderSearch',
     loadChildren: '../components/provider-search/provider-search.module#ProviderSearchModule',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
   },
   {
     path: 'ServiceInteraction',
     loadChildren: '../components/service-interaction/service-interaction.module#ServiceInteractionModule',
     data: {
-      breadcrumb: 'Service Interaction'
+      breadcrumb: 'Service Interaction',
+      preload: true,
+      delay: true
     },
     canActivate: [AuthGuard]
   },
   {
     path: 'AcoPage',
     loadChildren: '../components/ACO/aco.module#AcoModule',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
   },
   {
-    path: 'KnowOurProvider',
+    path: 'NationalExecutive',
     loadChildren: '../components/know-our-provider/know-our-provider.module#KnowOurProviderModule',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
+  },
+  {
+    path: 'Performance',
+    loadChildren: '../components/performance/performance.module#PerformanceModule',
+    canActivate: [AuthGuard],
+    data: {
+      breadcrumb: 'Performance Management Summary',
+      preload: false,
+      delay: false
+    }
   },
   {
     path: 'AdminSummaryTrends',
     loadChildren: '../components/summary-trends/summary-trends.module#SummaryTrendsModule',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
   },
   {
     path: 'TermsofUse',
-    component: TermsOfUseComponent
+    component: TermsOfUseComponent,
+    canActivate: [AuthGuard],
+    data: {
+      preload: true,
+      delay: true
+    }
   },
   {
     path: 'PrivacyPolicy',
-    component: PrivacyPolicyComponent
+    component: PrivacyPolicyComponent,
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
   },
   {
     path: 'SiteMap',
-    component: SiteMapComponent
+    component: SiteMapComponent,
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
   },
-  { path: '**', redirectTo: '' }
+  {
+    path: 'TinList',
+    component: TinListPageComponent,
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
+  },
+  {
+    path: 'ContactUs',
+    component: ContactusComponent,
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
+  },
+  {
+    path: 'AccessDenied',
+    component: NoAccessErrorPageComponent
+  },
+  { path: '**', redirectTo: '/login' }
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      scrollPositionRestoration: 'enabled' // Add options right here , to scroll to top whenever navigaion is changed
+      scrollPositionRestoration: 'enabled', // Add options right here , to scroll to top whenever navigaion is changed
+      preloadingStrategy: CustomPreloadingStrategy
     })
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [CustomPreloadingStrategy]
 })
 export class HeadRoutingModule {}

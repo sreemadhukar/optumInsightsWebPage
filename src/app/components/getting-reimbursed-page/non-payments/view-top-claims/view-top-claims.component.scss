@@ -1,0 +1,644 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+
+::ng-deep .viewtopclaims .card-structure {
+  width: 100%;
+  .card-inner-large {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+}
+
+.header {
+  width: 100%;
+  .claims-content-head {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 16px;
+    color: #2d2d39;
+    font-family: 'UHCSans-Regular';
+    font-size: 36px;
+    line-height: 40px;
+  }
+
+  .note-sub-head {
+    padding-top: 13px;
+    padding-bottom: 20px;
+  }
+  .note-sub-head-div {
+    display: flex;
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 22px;
+    .claims-note-div {
+      color: $blue;
+      padding-left: 3px;
+      cursor: pointer;
+    }
+    padding-top: 5px;
+  }
+
+  .nav-menu-icons-back-button-div {
+    border: none !important;
+    padding-right: 16px;
+  }
+
+  .nav-menu-icons-back-button {
+    height: 39px;
+    width: 39px;
+    border-radius: 40px;
+    color: #196ecf;
+    cursor: pointer;
+    border: solid 2px #196ecf;
+  }
+
+  .nav-menu-icons-info {
+    height: 16px;
+    width: 16px;
+    padding-left: 4px;
+    cursor: pointer;
+  }
+
+  .nav-menu-icons-down-arrow {
+    margin-top: -1px;
+    height: 16px;
+    width: 16px;
+  }
+
+  .nav-menu-icons-down-arrow-reverse {
+    transform: rotate(180deg);
+    margin-top: -1px;
+    height: 16px;
+    width: 16px;
+  }
+}
+
+.height-separator {
+  height: 20px;
+  width: 100%;
+}
+
+.tooltip-info {
+  .tooltip-info-head {
+    color: #2d2d39;
+    font-family: 'UHCSans-SemiBold';
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    padding-top: 12px;
+    padding-left: 12px;
+  }
+  .tooltip-info-text {
+    color: #757588;
+    font-family: 'UHCSans-Regular';
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    padding-top: 2px;
+    padding-left: 12px;
+  }
+}
+
+.reasons-content {
+  display: flex;
+  width: 100%;
+  .reason-div {
+    float: left;
+    width: 385px;
+    margin-right: 24px;
+  }
+  .reason-head {
+    color: #2d2d39;
+    font-family: 'UHCSans-Medium';
+    font-size: 14px;
+    line-height: 18px;
+    height: 20px;
+    margin-bottom: 2px;
+  }
+  .reason-dropdown {
+    height: 38px;
+    width: calc(100% - 2px);
+    border: 1px solid $heather;
+    border-radius: 2px;
+    background: $white;
+    .mat-select {
+      height: 100%;
+      width: calc(100% - 30px);
+      font-family: 'UHCSans-SemiBold';
+      font-size: 16px;
+      line-height: 22px;
+      color: $black-rock;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 15px;
+    }
+
+    -webkit-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  .reason-option {
+    font-family: 'UHCSans-Medium';
+    height: 40px !important;
+    width: 385px;
+    line-height: 40px;
+    color: $black-rock;
+    font-size: 16px !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  .reason-option:hover {
+    color: $black-rock !important;
+    background-color: $pattens-blue !important;
+  }
+}
+
+::ng-deep .reason-dropdown .mat-select .mat-select-arrow {
+  border: solid $strom-grey;
+  border-width: 0 1.8px 1.8px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+::ng-deep .mat-select-panel {
+  width: auto !important;
+  max-width: unset !important;
+  .mat-option.mat-selected:not(.mat-option-multiple) {
+    background: $darker-alice-blue;
+    color: $blue;
+  }
+}
+
+::ng-deep .mat-select-panel-wrap {
+  width: 100% !important;
+  margin-left: unset !important;
+  border-radius: 2px;
+  margin-top: 30px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+}
+
+:host ::ng-deep .search-box {
+  margin-top: 15px;
+  position: relative;
+  input {
+    padding-right: 30px;
+    padding-left: 10px;
+  }
+  input:hover {
+    border-radius: 2px;
+    border: 1px solid $black-rock;
+  }
+  input:focus {
+    border-radius: 2px;
+    border: 1px solid $dodger-blue;
+    color: $black-rock;
+  }
+  .mat-icon {
+    position: absolute;
+    color: $strom-grey;
+    right: 20px;
+    top: 18px;
+  }
+  :not(:valid) ~ .close {
+    display: none;
+  }
+}
+
+:host ::ng-deep .mat-header-cell {
+  font-family: 'UHCSans-SemiBold';
+  font-size: 16px;
+  color: #2d2d39;
+}
+:host ::ng-deep .mat-input-element {
+  height: 40px;
+  border: solid 1px #757588;
+  margin-left: -1px;
+
+  height: 40px;
+  float: left;
+  outline: none;
+  padding: 0;
+  margin: 10px 0 15px 0;
+}
+::ng-deep .mat-header-row th.mat-header-cell {
+  padding: 15px 12px;
+}
+:host ::ng-deep .mat-sort-header-button {
+  display: inline;
+  text-align: left;
+  max-width: 60px;
+}
+:host ::ng-deep .custom_non_payment .mat-sort-header-button {
+  max-width: 100px;
+}
+:host ::ng-deep .mat-sort-header-arrow {
+  color: #2d2d39;
+  margin: 0;
+}
+table {
+  width: 100%;
+}
+:host ::ng-deep .mat-paginator-page-size {
+  padding-top: 8px;
+  order: -1;
+}
+:host ::ng-deep .mat-form-field.mat-focused .mat-form-field-ripple {
+  opacity: 0;
+}
+
+::ng-deep .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+  color: #757588;
+}
+
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: #757588;
+}
+
+::ng-deep .mat-select-panel-wrap {
+  width: 68px;
+  overflow: hidden;
+  // margin-top: -2px;
+  margin-left: 4px;
+  border-radius: 0;
+  @media screen\0 {
+    overflow: visible;
+  }
+}
+
+:host ::ng-deep .mat-form-field-flex {
+  padding: 0 !important;
+}
+
+.tin-list-body-table-div-body mat-cell {
+  min-height: auto;
+  color: #2d2d39;
+  font-family: 'UHCSans-SemiBold';
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline {
+  height: 0 !important;
+}
+
+:host ::ng-deep .mat-paginator-page-size .mat-select {
+  margin-top: 8px;
+}
+
+:host ::ng-deep .mat-paginator-page-size .mat-select-arrow {
+  border: none;
+}
+
+:host ::ng-deep .mat-paginator-page-size .mat-select-arrow-wrapper {
+  display: block;
+}
+
+:host ::ng-deep .mat-paginator-page-size .mat-select-arrow::after {
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  content: '';
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  vertical-align: text-top;
+}
+
+:host ::ng-deep .mat-paginator-page-size .mat-select-value-text {
+  color: $black-rock;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+}
+
+:host ::ng-deep .mat-paginator-page-size-select {
+  width: 70.62px;
+  margin: 0;
+}
+
+:host ::ng-deep .mat-paginator-range-actions {
+  margin-right: 8px;
+}
+
+:host ::ng-deep .mat-icon-button {
+  margin-left: 4px;
+  margin-bottom: 16px;
+  margin-top: 16px;
+  color: #196ecf;
+  border: solid 1px #196ecf;
+  border-radius: 2px;
+}
+
+:host ::ng-deep .mat-button-wrapper {
+  padding-bottom: 11px;
+  padding-top: 13px;
+  padding-left: 6px;
+  padding-right: 5px;
+}
+
+:host ::ng-deep .mat-icon-button :hover {
+  background-color: #196ecf;
+  color: #ffffff;
+}
+
+:host ::ng-deep .mat-icon-button :active {
+  background-color: $blue-base;
+  color: $white;
+}
+
+:host ::ng-deep .mat-icon-button[disabled][disabled] {
+  color: #757588;
+  border: solid 1px #757588;
+}
+
+:host ::ng-deep .mat-icon-button[disabled][disabled] :hover {
+  color: #757588;
+  background-color: transparent;
+}
+
+.tax-summary-table-block {
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+}
+.tax-summary {
+  &-content {
+    width: 100%;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    table {
+      width: 100%;
+    }
+  }
+  &-head {
+    margin: 0 8px 15px 10px;
+    color: #757588;
+    font-size: 14px;
+    line-height: 18px;
+  }
+  &-body {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    margin-top: 15px;
+  }
+  &-title {
+    font-size: 22px;
+    color: $black-rock;
+    margin-right: 15px;
+  }
+  &-count {
+    font-size: 14px;
+    color: $strom-grey;
+    margin: 0 8px 15px 10px;
+  }
+  &-input,
+  &-name-input {
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    width: 180px;
+    margin-top: 10px;
+    padding: 0 3px;
+    height: 40px;
+    border: 1px solid $heather;
+    border-radius: 2px;
+    color: $strom-grey;
+    appearance: none;
+    background-color: $white;
+  }
+
+  &-provider-input {
+    width: 160px;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    margin-top: 10px;
+    padding: 0 3px;
+    height: 40px;
+    border: 1px solid $heather;
+    border-radius: 2px;
+    color: $strom-grey;
+    appearance: none;
+    background-color: $white;
+  }
+  &-claims-input {
+    width: 99px;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    margin-top: 10px;
+    padding: 0 3px;
+    height: 40px;
+    border: 1px solid $heather;
+    border-radius: 2px;
+    color: $strom-grey;
+    appearance: none;
+    background-color: $white;
+  }
+  &-arrow-icon {
+    position: absolute;
+    top: 28px;
+    right: 8px;
+    pointer-events: none;
+    color: $strom-grey;
+  }
+}
+.dollar-text {
+  display: inline;
+}
+.tin-name-font {
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif !important;
+  font-size: 14px;
+  line-height: 18px;
+}
+.tax-column {
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  width: 200px;
+}
+.provider-column {
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  width: 160px;
+  line-height: 22px;
+  padding-bottom: 5px;
+}
+
+::ng-deep.mat-header-row {
+  th.mat-header-cell {
+    color: $black-rock;
+    font-size: 16px;
+    .mat-sort-header-container {
+      align-items: normal;
+    }
+    .mat-sort-header-container.mat-sort-header-sorted .mat-sort-header-arrow {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+    .mat-sort-header-pointer-left,
+    .mat-sort-header-pointer-right {
+      height: 1.5px;
+    }
+    .mat-sort-header-pointer-middle {
+      display: none;
+    }
+  }
+}
+::ng-deep .mat-row td.mat-cell {
+  font-size: 14px;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  padding: 8px 12px;
+}
+::ng-deep tr.mat-row {
+  cursor: pointer;
+}
+::ng-deep tr.mat-row:hover {
+  background-color: #e3f0fd;
+}
+
+:host ::ng-deep.mat-paginator .mat-paginator-container {
+  justify-content: space-between;
+  color: $strom-grey;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+}
+
+:host ::ng-deep .mat-paginator-page-size {
+  padding-top: 8px;
+  order: -1;
+}
+
+:host ::ng-deep.mat-paginator-page-size-label {
+  color: $strom-grey;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  padding: 13px 8px 16px 16px;
+}
+
+:host ::ng-deep .mat-paginator-page-size-select .mat-form-field-wrapper .mat-form-field-infix {
+  border: solid 1px $heather;
+  height: 40px;
+  padding: 0;
+  padding-left: 12px;
+  margin-top: 8px;
+  border-radius: 2px;
+}
+
+:host ::ng-deep .mat-form-field.mat-focused .mat-form-field-ripple {
+  opacity: 0;
+}
+
+::ng-deep .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+  color: $strom-grey;
+}
+
+:host ::ng-deep .mat-form-field-flex {
+  padding: 0 !important;
+}
+
+::ng-deep .mat-select-panel {
+  min-width: 69px !important;
+  box-shadow: none;
+  border-radius: 0px !important;
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline {
+  height: 0 !important;
+}
+
+:host ::ng-deep .mat-paginator-page-size .mat-select {
+  margin-top: 8px;
+}
+
+:host ::ng-deep .mat-paginator-page-size .mat-select-arrow {
+  border: none;
+}
+
+:host ::ng-deep .mat-paginator-page-size .mat-select-value {
+  width: 78%;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  color: #2d2d39;
+}
+
+:host ::ng-deep .mat-paginator-page-size .mat-select-arrow-wrapper {
+  display: block;
+}
+
+:host ::ng-deep .mat-paginator-page-size .mat-select-arrow::after {
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  content: '';
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  vertical-align: text-top;
+}
+
+:host ::ng-deep .mat-paginator-page-size-select {
+  width: 70.62px;
+  margin: 0;
+}
+
+:host ::ng-deep .mat-paginator-range-label {
+  padding: 15px 16px 0 0;
+  margin: 0;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+}
+
+:host ::ng-deep .mat-paginator-range-actions {
+  margin-right: 8px;
+}
+
+:host ::ng-deep .mat-icon-button {
+  margin: 16px 0 16px 4px;
+  color: $blue;
+  border: solid 1px $blue;
+  border-radius: 2px;
+}
+
+:host ::ng-deep .mat-button-wrapper {
+  padding: 13px 5px 11px 6px;
+}
+
+:host ::ng-deep .mat-icon-button :hover {
+  background-color: transparent;
+  color: $blue;
+}
+
+:host ::ng-deep .mat-icon-button[disabled][disabled] {
+  color: $strom-grey;
+  border: solid 1px $strom-grey;
+}
+
+:host ::ng-deep .mat-icon-button[disabled][disabled] :hover {
+  color: $strom-grey;
+  background-color: transparent;
+}
+
+.italic {
+  font-style: italic;
+}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .tax-summary {
+    &-content {
+      width: auto;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      table {
+        width: 100%;
+      }
+    }
+  }
+  select::-ms-expand {
+    display: none;
+  }
+}

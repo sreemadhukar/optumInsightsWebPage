@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./terms-of-use.component.scss']
 })
 export class TermsOfUseComponent implements OnInit {
-  constructor() {}
+  constructor() {
+    console.log('Terms of Use Loaded');
+  }
 
   ngOnInit() {}
 }
