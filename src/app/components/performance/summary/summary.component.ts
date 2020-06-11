@@ -126,7 +126,9 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.summarySharedService
       .getPocaService()
       .then((data: any) => {
-        this.pocaSerivceCard = data;
+        if (data) {
+          this.pocaSerivceCard = data;
+        }
         this.pocaServiceLoading = false;
       })
       .catch(reason => {
