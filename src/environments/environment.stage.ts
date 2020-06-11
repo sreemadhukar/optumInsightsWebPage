@@ -4,8 +4,10 @@
  * Base Environment Configuration Instance
  * MAINTAIN ALPHABETIC ORDER
  */
+
+ // apiProxyUrl: 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/',
 export const environment: any = {
-  apiProxyUrl: 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/',
+  apiProxyUrl: '/uhci/stage/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -63,6 +65,8 @@ export const environment: any = {
     NewPaymentIntegrity: 'payment-integrity/',
     ProviderSearch: 'provider-search',
     AdvocateTinDetails: 'advocate-tin-details/',
+    SmartEdits: 'smart-edit-metrics/',
+    SmartEditsTopClaims: 'smart-edit-codes/',
     getPublicKey: 'getPublicKey'
   },
   headerKeys: {

@@ -32,7 +32,7 @@
       </div>
       <div class="horizontal-align" *ngIf="selectedPage !== 'callsPage' && selectedLob.value !== 'All'">
         <div class="filter-chips-button-design">
-          <span>Line of Business: </span>
+          <span>Line Of Business: </span>
           <span class="text-semibold pl-4"> {{ selectedLob.value | temporaryTextFormatter }} </span>
           <div class="close-btn">
             <mat-icon class="icon-display" (click)="removeAppliedFilter('lob')" svgIcon="close"></mat-icon>
@@ -77,7 +77,7 @@
         "
       >
         <button class="btn btn-rounded" disabled>
-          <span>View claims By: </span>
+          <span>View Claims By: </span>
           <span class="text-semibold pl-4"> {{ selectedViewClaimsBy.value }} </span>
           <!-- <span>View claims By: </span><span class="text-semibold pl-4"> Date of Service </span> -->
         </button>
@@ -91,6 +91,7 @@
             tabName == 'gettingReimbursedPayments' ||
             tabName == 'gettingReimbursedNonPayments' ||
             selectedPage == 'nonPaymentsPage' ||
+            selectedPage == 'smartEditsPage' ||
             selectedPage == 'overviewAdvocatePage') &&
           selectedClaims.value !== 'All' &&
           !flag

@@ -25,6 +25,7 @@ export class HealthSystemDetailsComponent implements OnInit {
   selectedTaxId: TaxId[];
   @select(['uhc', 'taxId']) taxId;
   selectedTin;
+  showAllTins;
 
   constructor(
     private healthSystemService: HealthSystemDetailsSharedService,
@@ -70,9 +71,15 @@ export class HealthSystemDetailsComponent implements OnInit {
     const serializedState = JSON.parse(sessionStorage.getItem('state'));
     if (serializedState) {
       serializedState.taxId = this.selectedTin.length > 0 ? this.selectedTin : [{ Tin: 'All', Tinname: 'All' }];
+      if (this.showAllTins) {
+        serializedState.taxId = [{ Tin: 'All', Tinname: 'All' }];
+      }
     }
     const initialState = _.clone(INITIAL_STATE, true);
     initialState.taxId = this.selectedTin.length > 0 ? this.selectedTin : [{ Tin: 'All', Tinname: 'All' }];
+    if (this.showAllTins) {
+      initialState.taxId = [{ Tin: 'All', Tinname: 'All' }];
+    }
     this.ngRedux.dispatch({
       type: APPLY_FILTER,
       filterData: serializedState ? serializedState : initialState
@@ -89,16 +96,18 @@ export class HealthSystemDetailsComponent implements OnInit {
       currentUser[0].ProviderKey === this.groupPremiumDesignationService.data.ProviderKey
     ) {
       this.GroupPremiumDesignation = this.groupPremiumDesignationService.data.HppIndicator;
-      console.log(' this.GroupPremiumDesignation', this.GroupPremiumDesignation);
     }
     this.groupPremiumDesignationService.gppObservable.subscribe(value => {
       const data = JSON.parse(JSON.stringify(value));
       this.GroupPremiumDesignation = data['HppIndicator'];
-      console.log(' this.GroupPremiumDesignation', this.GroupPremiumDesignation);
     });
   }
 
   getSelectedTaxIds($event) {
     this.selectedTin = $event;
+  }
+
+  getAllTins($event) {
+    this.showAllTins = $event;
   }
 }

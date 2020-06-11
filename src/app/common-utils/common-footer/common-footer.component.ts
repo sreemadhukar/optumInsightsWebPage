@@ -72,10 +72,10 @@ export class CommonFooterComponent {
 
   replaceTwoDigitToOne(startDate, endDate, textData) {
     if (startDate === endDate) {
-      const regex = new RegExp(`${startDate}`, 'g');
-      return textData.replace(regex, `${+startDate}`);
+      const regex = new RegExp(` ${startDate}`, 'g');
+      return textData.replace(regex, ` ${+startDate}`);
     }
-    return textData.replace(startDate, `${+startDate}`).replace(endDate, `${+endDate}`);
+    return textData.replace(` ${startDate}`, ` ${+startDate}`).replace(` ${endDate}`, ` ${+endDate}`);
   }
 
   decodeHtml(htmlEntity) {
@@ -85,7 +85,7 @@ export class CommonFooterComponent {
   }
 
   getMonths(str) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Nov', 'Dec'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     let m1, m2;
     for (let i = 0; i < months.length; i++) {
       if (str.indexOf(months[i]) !== -1) {
@@ -93,13 +93,7 @@ export class CommonFooterComponent {
         if (str.lastIndexOf(months[i]) === str.indexOf(months[i])) {
           const lessMonth = [...months];
           _.pull(lessMonth, months[i]);
-
-          for (let j = 0; j < lessMonth.length; j++) {
-            if (str.indexOf(lessMonth[j]) !== -1) {
-              m2 = lessMonth[j];
-              break;
-            }
-          }
+          m2 = lessMonth.filter(item => str.indexOf(item) !== -1)[0];
           break;
         } else {
           m2 = m1;

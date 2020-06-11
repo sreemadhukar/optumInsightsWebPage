@@ -90,6 +90,9 @@ export class CreatePayloadService {
       case 'viewTopClaimsPage':
         this.payload = this.getPayloadForCalls(this.initialState);
         break;
+      case 'smartEditsPage':
+        this.payload = this.getPayload(this.initialState);
+        break;
       case 'otherPages':
         this.payload = this.getPayload(this.initialState);
         break;
@@ -134,6 +137,10 @@ export class CreatePayloadService {
         this.payloadEmit.next({ value: this.getPayloadForPriorAuth(this.initialState) });
         break;
       case 'overviewAdvocatePage':
+        this.payload = this.getPayload(this.initialState);
+        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
+        break;
+      case 'smartEditsPage':
         this.payload = this.getPayload(this.initialState);
         this.payloadEmit.next({ value: this.getPayload(this.initialState) });
         break;
