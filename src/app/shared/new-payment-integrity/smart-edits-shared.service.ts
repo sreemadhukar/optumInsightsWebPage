@@ -1,48 +1,39 @@
 import { Injectable } from '@angular/core';
-import { SessionService } from 'src/app/shared/session.service';
+import { SessionService } from '../../shared/session.service';
 import { CommonUtilsService } from './../../shared/common-utils.service';
 import { SmartEditsService } from '../../rest/new-payment-integrity/smart-edits.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 import { GlossaryMetricidService } from '../../shared/glossary-metricid.service';
-// import * as _ from 'lodash';
-import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SmartEditsSharedService {
-  public timeFrame;
-  public providerKey;
-  public smartEditClaimsReturned;
-  public lob;
-  public repairedResubmittedData: any;
-
   constructor(
-    private common: CommonUtilsService,
-    private session: SessionService,
-    private smartEditsService: SmartEditsService,
-    private MetricidService: GlossaryMetricidService
+    private readonly common: CommonUtilsService,
+    private readonly session: SessionService,
+    private readonly smartEditsService: SmartEditsService,
+    private readonly MetricidService: GlossaryMetricidService
   ) {}
 
   getParameterCategories(param) {
     let parameters = [];
-    this.providerKey = this.session.providerKeyData();
-    parameters = [this.providerKey, new GettingReimbursedPayload(param)];
+    const providerKey = this.session.providerKeyData();
+    parameters = [providerKey, new GettingReimbursedPayload(param)];
     return parameters;
   }
 
   public getSmartEditsReturnedShared(param) {
-    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
-    this.lob = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.smartEditsService.smartEditReturned(parameters).subscribe(smartEditsData => {
-        if (smartEditsData != null && smartEditsData != undefined && smartEditsData.Data != null) {
+        let smartEditClaimsReturned = {};
+        if (smartEditsData !== null && smartEditsData !== undefined && smartEditsData.Data !== null) {
           const totalReturned =
             smartEditsData.Data.All.RepairedResubmitted +
             smartEditsData.Data.All.ResubmittedWithoutChanges +
             smartEditsData.Data.All.NoActionTaken;
-          this.smartEditClaimsReturned = {
+          smartEditClaimsReturned = {
             category: 'app-card',
             data: {
               centerNumber: totalReturned,
@@ -57,7 +48,6 @@ export class SmartEditsSharedService {
               hover: true,
               labels: ['Repaired & Resubmitted', 'Resubmitted Without Changes', 'No Action Taken']
             },
-            // timeperiod: this.session.filterObjValue.timeFrame,
             timeperiod:
               this.common.dateFormat(smartEditsData.Data.PeriodStart) +
               '&ndash;' +
@@ -65,14 +55,15 @@ export class SmartEditsSharedService {
             title: 'Smart Edits Claims Returned',
             toggle: true,
             type: 'donutWithLabel',
+            MetricID: this.MetricidService.MetricIDs.SmartEditsReturned,
             besideData: {
               labels: ['Repaired & Resubmitted', 'Resubmitted Without Changes', 'No Action Taken'],
               color: ['#3381FF', '#80B0FF', '#003DA1']
             }
           };
-          resolve(this.smartEditClaimsReturned);
+          resolve(smartEditClaimsReturned);
         } else {
-          this.smartEditClaimsReturned = {
+          smartEditClaimsReturned = {
             category: 'app-card',
             type: 'donutWithLabel',
             status: 404,
@@ -81,31 +72,26 @@ export class SmartEditsSharedService {
             timeperiod: null
           };
         }
-        resolve(this.smartEditClaimsReturned);
+        resolve(smartEditClaimsReturned);
       });
     });
   }
 
   public getSmartEditsRepairedResubmittedShared(param) {
-    this.repairedResubmittedData = [];
-    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
-    this.lob = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
+    let repairedResubmittedData: any = [];
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       this.smartEditsService.smartEditReturned(parameters).subscribe(smartEditsData => {
-        if (smartEditsData != null && smartEditsData != undefined && smartEditsData.Data != null) {
-          this.repairedResubmittedData[0] = smartEditsData.Data.All.ResubmittedTimeLessThanEqualToFiveDays;
-          this.repairedResubmittedData[1] = smartEditsData.Data.All.ResubmittedTimeGreaterThanFiveDays;
+        if (smartEditsData !== null && smartEditsData !== undefined && smartEditsData.Data !== null) {
+          repairedResubmittedData[0] = smartEditsData.Data.All.ResubmittedTimeLessThanEqualToFiveDays;
+          repairedResubmittedData[1] = smartEditsData.Data.All.ResubmittedTimeGreaterThanFiveDays;
 
-          const widthMap = this.widthFunctionForRepairBars(
-            this.repairedResubmittedData[0],
-            this.repairedResubmittedData[1]
-          );
-          this.repairedResubmittedData[2] = widthMap[0];
-          this.repairedResubmittedData[3] = widthMap[1];
-          resolve(this.repairedResubmittedData);
+          const widthMap = this.widthFunctionForRepairBars(repairedResubmittedData[0], repairedResubmittedData[1]);
+          repairedResubmittedData[2] = widthMap[0];
+          repairedResubmittedData[3] = widthMap[1];
+          resolve(repairedResubmittedData);
         } else {
-          this.repairedResubmittedData = {
+          repairedResubmittedData = {
             category: 'app-card',
             type: 'donutWithLabel',
             status: 404,
@@ -113,7 +99,7 @@ export class SmartEditsSharedService {
             data: null,
             timeperiod: null
           };
-          resolve(this.repairedResubmittedData);
+          resolve(repairedResubmittedData);
         }
       });
     });
@@ -142,8 +128,6 @@ export class SmartEditsSharedService {
 
   public getSmartEditSharedTopReasons(param) {
     const reason = [];
-    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
-    this.lob = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
 
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
@@ -184,7 +168,7 @@ export class SmartEditsSharedService {
             type: 'donut',
             status: 404,
             title: 'Smart Edits Returned Claims Top Reasons',
-            MetricID: this.MetricidService.MetricIDs.TopClaimSmartEditOverturnReasons,
+            MetricID: this.MetricidService.MetricIDs.SmartEditsReturnedReasons,
             data: null,
             timeperiod: null
           });

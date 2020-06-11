@@ -8,7 +8,7 @@
     <div class="page-subtitle">
       <div class="page-subtitle-header">View more in-depth details for Smart Edits.</div>
       &nbsp;
-      <div class="subtitle-reportLink" (click)="handleClick()">
+      <div class="subtitle-reportLink" (click)="handleClick()" (keypress)="handleClick()">
         {{ reportLink }}
         <mat-icon class="page-subtitle-icon" svgIcon="external-link"></mat-icon>
       </div>
@@ -40,7 +40,7 @@
 
     <!-- Smart Edits Claims Returned Card Ends here -->
     <!-- Smart Edits Repaired & Resubmitted Response Time Card Starts here -->
-    <div class="even top-padd">
+    <div class="even">
       <app-card class="cards" [skeleton]="seReturnedLoading" *ngIf="seReturnedLoading"> </app-card>
       <app-error-card
         *ngIf="
@@ -53,7 +53,7 @@
         [data]="smartEditClaimsRepairedResubmitted"
       ></app-error-card>
       <div
-        class="repaired-block"
+        class="app-card-structure"
         *ngIf="
           smartEditClaimsRepairedResubmitted &&
           smartEditClaimsRepairedResubmitted[0] != null &&
@@ -66,29 +66,31 @@
           class="full-display"
           (helpIconClicked)="helpIconClick($event)"
         ></app-common-header>
-        <div class="smart-edits-bar-chart-block full-width-block">
-          <div class="pi-numbers-block">
-            <p class="mr-returned-number">{{ smartEditClaimsRepairedResubmitted[0] }}</p>
-            <p class="mr-not-returned-number mr-returned-number">{{ smartEditClaimsRepairedResubmitted[1] }}</p>
-          </div>
-          <div class="smart-edits-pull-left">
-            <div class="less-than-five-days-block">
-              <div class="mr-returned-bar-block">
-                <p class="mr-returned-text">5 Days or Less</p>
-                <app-bar-simple-pi [chartOptions]="lessThan5DaysBarData"></app-bar-simple-pi>
-              </div>
+        <div class=" full-width-block">
+          <div class="smart-edits-bar-chart-block">
+            <div class="pi-numbers-block">
+              <p class="mr-returned-number">{{ smartEditClaimsRepairedResubmitted[0] }}</p>
+              <p class="mr-not-returned-number mr-returned-number">{{ smartEditClaimsRepairedResubmitted[1] }}</p>
             </div>
-            <div class="more-than-five-days-block">
-              <div class="mr-returned-bar-block">
-                <p class="mr-not-returned-text mr-returned-text">Greater than 5 Days</p>
-                <app-bar-simple-pi [chartOptions]="greaterThan5DaysBarData"></app-bar-simple-pi>
+            <div class="smart-edits-pull-left">
+              <div class="less-than-five-days-block">
+                <div class="mr-returned-bar-block">
+                  <p class="mr-returned-text">5 Days or Less</p>
+                  <app-bar-simple-pi [chartOptions]="lessThan5DaysBarData"></app-bar-simple-pi>
+                </div>
+              </div>
+              <div class="more-than-five-days-block">
+                <div class="mr-returned-bar-block">
+                  <p class="mr-not-returned-text mr-returned-text">Greater than 5 Days</p>
+                  <app-bar-simple-pi [chartOptions]="greaterThan5DaysBarData"></app-bar-simple-pi>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="full-display">
-          <app-common-footer [timePeriod]="timePeriod" class="width-100"></app-common-footer>
+        <div class="full-width-block">
+          <app-common-footer [timePeriod]="timePeriodr"></app-common-footer>
         </div>
       </div>
     </div>
@@ -122,7 +124,7 @@
         </div>
       </div>
       <div class="full-width-block">
-        <app-common-footer [timePeriod]="timePeriod"></app-common-footer>
+        <app-common-footer [timePeriod]="timePeriodr"></app-common-footer>
       </div>
     </div>
   </div>

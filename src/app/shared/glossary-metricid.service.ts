@@ -46,6 +46,7 @@ export class GlossaryMetricidService {
       PreferredSpecialistReferralRate: '401',
       PreferredTierPrescribingRate: '402',
       PreferredLabNetworkUseRate: '403',
+      POCaServiceActivated: '404',
       PaymentsBySubmission: '310',
       ClaimsAverageTurnaroundTimetoPayment: 'NA',
       ClaimsSubmissions: 'NA',
@@ -55,7 +56,9 @@ export class GlossaryMetricidService {
       PriorAuthorizationApproval: 'NA',
       ClaimsNonPaymentTrend: 'NA',
       ClaimsAppealsSubmittedTrend: 'NA',
-      TopClaimSmartEditOverturnReasons: 'NA'
+      SmartEditsReturned: '314',
+      SmartEditsResubmitted: '315',
+      SmartEditsReturnedReasons: '316'
     };
   }
 }

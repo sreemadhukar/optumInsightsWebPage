@@ -11,19 +11,20 @@ import {
   PriorAuthDecisionType,
   TrendMetrics,
   filterToggles,
-  MetricPropType,
+  FilterOption,
   ClaimsFilter,
   AppealsFilter,
+  TaxId,
   ViewClaimsByFilter
 } from './filter-settings/filter-options';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormControl } from '@angular/forms';
 import { SessionService } from '../../shared/session.service';
-import { TaxId } from './filter-settings/filter-options';
 import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
 import { GettingReimbursedSharedService } from '../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
+import { GetFilterOptionsByPage } from './filter-settings/filter-methods';
 @Component({
   selector: 'app-uhci-filter',
   templateUrl: './uhci-filters.component.html',
@@ -47,30 +48,30 @@ export class UhciFiltersComponent implements OnInit {
 
   selectedPage: string;
   timeFrames = TimePeriod;
-  selectedTimePeriod: MetricPropType;
+  selectedTimePeriod: FilterOption;
   lobs = LineOfBusiness;
-  selectedLob: MetricPropType;
+  selectedLob: FilterOption;
   commericalLob = Commercial;
-  selectedCommerical: MetricPropType;
+  selectedCommerical: FilterOption;
   claims = ClaimsFilter;
   appeals = AppealsFilter;
-  selectedClaims: MetricPropType;
-  selectedAppeals: MetricPropType;
+  selectedClaims: FilterOption;
+  selectedAppeals: FilterOption;
   viewclaims = ViewClaimsByFilter;
-  selectedViewClaimsBy: MetricPropType;
+  selectedViewClaimsBy: FilterOption;
   serviceSettings = ServiceSetting;
-  selectedServiceSetting: MetricPropType;
+  selectedServiceSetting: FilterOption;
   serviceCategories = ServiceCategory;
-  selectedServiceCategory: MetricPropType;
+  selectedServiceCategory: FilterOption;
   priorAuthTypes = PriorAuthDecisionType;
-  selectedPriorAuthType: MetricPropType;
+  selectedPriorAuthType: FilterOption;
   categories: any;
   selectedService: string;
   tinsData: any;
-  priorAuthInitialState: MetricPropType;
+  priorAuthInitialState: FilterOption;
   selectedTaxIds: TaxId[];
   trendMetricData = TrendMetrics;
-  selectedTrendMetric: MetricPropType;
+  selectedTrendMetric: FilterOption;
   selectedDate: Date;
   collapseToggle: any;
   public serviceCategoryForm = new FormControl();
@@ -95,17 +96,19 @@ export class UhciFiltersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
+    this.currentPage.subscribe(currentPage => {
+      this.timeFrames = GetFilterOptionsByPage(currentPage, 'timeperiod');
+      this.selectedPage = currentPage;
+    });
 
     if (this.selectedPage === 'gettingReimbursedSummary') {
       this.gettingReimbursedTabName = this.gettingReimbursedservice.gettingReimbursedTabName;
     } else {
       this.gettingReimbursedTabName = null;
     }
-    this.timePeriod.subscribe(
-      timePeriod =>
-        (this.selectedTimePeriod = this.disableTimePeriod(this.timeFrames).find(val => val.name === timePeriod))
-    );
+    this.timePeriod.subscribe(timePeriod => {
+      this.selectedTimePeriod = timePeriod;
+    });
     this.taxId.subscribe(taxId => (this.selectedTaxIds = taxId));
     this.lineOfBusiness.subscribe(
       lineOfBusiness => (this.selectedLob = this.lobs.find(val => val.name === lineOfBusiness))
@@ -151,15 +154,6 @@ export class UhciFiltersComponent implements OnInit {
         });
       });
     });
-  }
-
-  disableTimePeriod(timeFrame) {
-    timeFrame.forEach(value => {
-      value.disable = false;
-    });
-
-    this.timeFrames = timeFrame;
-    return timeFrame;
   }
 
   applyFilters() {

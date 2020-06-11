@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon/alert/success</title>
+    <g id="📈-Performance/Network-2.0" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Post-MVP-1_Network-Levers-Overview-POCa" transform="translate(-982.000000, -1125.000000)">
+            <g id="icon/alert/success" transform="translate(982.000000, 1125.000000)">
+                <circle id="Oval" fill="#FFE6F0" cx="40" cy="40" r="40"></circle>
+                <g id="icon/action/close" transform="translate(16.000000, 16.000000)">
+                    <polygon id="Path" points="0 0 48 0 48 48 0 48"></polygon>
+                    <path d="M36.6,11.42 C35.82,10.64 34.56,10.64 33.78,11.42 L24,21.18 L14.22,11.4 C13.44,10.62 12.18,10.62 11.4,11.4 C10.62,12.18 10.62,13.44 11.4,14.22 L21.18,24 L11.4,33.78 C10.62,34.56 10.62,35.82 11.4,36.6 C12.18,37.38 13.44,37.38 14.22,36.6 L24,26.82 L33.78,36.6 C34.56,37.38 35.82,37.38 36.6,36.6 C37.38,35.82 37.38,34.56 36.6,33.78 L26.82,24 L36.6,14.22 C37.36,13.46 37.36,12.18 36.6,11.42 Z" id="Brand-(Core-Colors)/medium-gray" fill="#E91B18" fill-rule="evenodd"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

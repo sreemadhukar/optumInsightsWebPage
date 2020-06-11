@@ -184,6 +184,24 @@
       text-align: center;
     }
   }
+  .full-width-block .activationStatus {
+    img {
+      padding-top: 65px;
+      padding-bottom: 16px;
+      margin: auto;
+      width: 80px;
+      height: 80px;
+      display: block;
+    }
+    .activationStatus-caption {
+      font-size: 16px;
+      color: $black-rock;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      line-height: 22px;
+      text-align: center;
+    }
+  }
+
   .calls-beside-data-block {
     float: right;
     padding: 80px 20px 0px 0px;

@@ -3,8 +3,6 @@ import { MatIconRegistry } from '@angular/material';
 import { Component, OnInit, Input } from '@angular/core';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
-import { Router } from '@angular/router';
-import { FilterExpandService } from '../../../../shared/filter-expand.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { CommonUtilsService } from '../../../../shared/common-utils.service';
 import { StorageService } from '../../../../shared/storage-service.service';
@@ -13,7 +11,7 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../../store/filter/actions';
 import { IAppState } from '../../../../store/store';
 import { SmartEditsSharedService } from '../../../../shared/new-payment-integrity/smart-edits-shared.service';
-import { ModalPopupService } from 'src/app/common-utils/modal-popup/modal-popup.service';
+import { ModalPopupService } from '../../../../common-utils/modal-popup/modal-popup.service';
 
 @Component({
   selector: 'app-smart-edits',
@@ -30,6 +28,7 @@ export class SmartEditsComponent implements OnInit {
   lob: string;
   taxID: Array<string>;
   timePeriod: string;
+  timePeriodr: string;
   smartEditClaimsReturned: any;
   smartEditsRepairedAndResubmittedTitle = 'Smart Edits Repaired & Resubmitted Response Time';
   smartEditsReasonTitle = 'Smart Edits Returned Claims Top Reasons';
@@ -53,16 +52,14 @@ export class SmartEditsComponent implements OnInit {
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     public MetricidService: GlossaryMetricidService,
-    private filterExpandService: FilterExpandService,
-    private router: Router,
     private session: SessionService,
     private checkStorage: StorageService,
-    private createPayloadService: CreatePayloadService,
-    private ngRedux: NgRedux<IAppState>,
-    private common: CommonUtilsService,
-    private smartEditsSharedService: SmartEditsSharedService,
-    private dialogService: ModalPopupService,
-    private iconRegistry: MatIconRegistry,
+    private readonly createPayloadService: CreatePayloadService,
+    private readonly ngRedux: NgRedux<IAppState>,
+    private readonly common: CommonUtilsService,
+    private readonly smartEditsSharedService: SmartEditsSharedService,
+    private readonly dialogService: ModalPopupService,
+    private readonly iconRegistry: MatIconRegistry,
     private readonly sanitizer: DomSanitizer
   ) {
     this.pageTitle = 'Smart Edits';
@@ -86,8 +83,7 @@ export class SmartEditsComponent implements OnInit {
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'smartEditsPage' });
     this.checkStorage.emitEvent('smartEditsPage');
-    //  this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
-    //  this.timePeriod = this.session.filterObjValue.timeFrame;
+
     this.reasonDataAvailable = true;
     this.smartEditReturnedData();
     this.SmartEditReturneddTopReasons();
@@ -129,7 +125,7 @@ export class SmartEditsComponent implements OnInit {
       .then((smartEditsData: any) => {
         this.smartEditClaimsReturned = smartEditsData;
         this.seReturnedLoading = false;
-        this.timePeriod = this.smartEditClaimsReturned.timeperiod;
+        this.timePeriodr = this.smartEditClaimsReturned.timeperiod;
       })
       .catch(reason => {
         console.log('Error in Smart Edits', reason);
@@ -145,6 +141,7 @@ export class SmartEditsComponent implements OnInit {
         const maxValue = Math.max(smartEditsData[2], smartEditsData[3]);
         this.lessThan5DaysBarData = {};
         this.lessThan5DaysBarData['id'] = 'lessThan5';
+        this.lessThan5DaysBarData['height'] = '48px';
         this.lessThan5DaysBarData['title'] = 'Less Than 5 Days';
         this.lessThan5DaysBarData['numeric'] = smartEditsData[2];
         this.lessThan5DaysBarData['maxValue'] = maxValue;
@@ -152,6 +149,7 @@ export class SmartEditsComponent implements OnInit {
 
         this.greaterThan5DaysBarData = {};
         this.greaterThan5DaysBarData['id'] = 'greaterThan5';
+        this.greaterThan5DaysBarData['height'] = '48px';
         this.greaterThan5DaysBarData['title'] = 'Greater Than 5 Days';
         this.greaterThan5DaysBarData['numeric'] = smartEditsData[3];
         this.greaterThan5DaysBarData['maxValue'] = maxValue;
@@ -170,8 +168,7 @@ export class SmartEditsComponent implements OnInit {
     this.smartEditsSharedService
       .getSmartEditSharedTopReasons(this.createPayloadService.payload)
       .then((smartEditsTopReasonsData: any) => {
-        let topReasonsData: any;
-        topReasonsData = smartEditsTopReasonsData;
+        const topReasonsData = smartEditsTopReasonsData;
 
         console.log('this.topReasonsData', topReasonsData);
         if (topReasonsData && topReasonsData.lenth > 0) {
@@ -192,25 +189,5 @@ export class SmartEditsComponent implements OnInit {
   // **** Ends here *** //
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title, this.metricId);
-  }
-  openFilter() {
-    this.filterExpandService.setURL(this.router.url);
-  }
-  removeFilter(type, value) {
-    if (type === 'lob') {
-      this.lob = '';
-      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
-    } else if (type === 'tax' && !value.includes('Selected')) {
-      this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
-      if (this.taxID.length > 0) {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
-      } else {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-        this.taxID = [];
-      }
-    } else if (type === 'tax' && value.includes('Selected')) {
-      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-      this.taxID = [];
-    }
   }
 }

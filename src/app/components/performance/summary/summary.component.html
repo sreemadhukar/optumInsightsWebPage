@@ -34,5 +34,9 @@
         [chartData]="prescriptionCard"
       ></app-card>
     </div>
+    <div>
+      <app-card class="cards" [skeleton]="pocaServiceLoading" *ngIf="pocaServiceLoading"> </app-card>
+      <app-card *ngIf="pocaSerivceCard != null" [chartData]="pocaSerivceCard"></app-card>
+    </div>
   </div>
 </app-layoutcontainer>
