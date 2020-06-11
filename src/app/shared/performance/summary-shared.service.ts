@@ -5,7 +5,10 @@ import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { PerformanceRestService } from '../../rest/performance/performance-rest.service';
 import { rlpPageName, rlpCardType, rlpBarType } from '../../modals/rlp-data';
 import { CommonUtilsService } from '../common-utils.service';
-import { Subscription } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { map, catchError } from 'rxjs/operators';
 
 export const getCategoryAndType = [
   { category: rlpCardType.longCard, type: rlpBarType.longCard },
@@ -34,12 +37,15 @@ export const pageMapApiEndpoint = [
 export class SummarySharedService {
   public requestBody: Object;
   public hcoData$: Subscription;
+  private APP_URL: string = environment.apiProxyUrl;
+  private POCA_PATH: string = environment.apiUrls.PocaStatus;
   constructor(
     private readonly MetricidService: GlossaryMetricidService,
     private session: SessionService,
     private toggle: AuthorizationService,
     private performanceRestService: PerformanceRestService,
-    private common: CommonUtilsService
+    private common: CommonUtilsService,
+    private http: HttpClient
   ) {
     this.requestBody = { timeFilter: 'YTD' };
   }
@@ -92,6 +98,41 @@ export class SummarySharedService {
           }
         );
     });
+  }
+  public getPocaService() {
+    return new Promise((resolve, reject) => {
+      let pocaServiceData;
+      this.getPocaRestCall().subscribe(
+        pocaData => {
+          if (pocaData['Data'] && pocaData['Data'].PocaIndicator) {
+            pocaServiceData = {
+              category: 'app-card',
+              type: 'pocaServiceStatus',
+              title: 'POCa Service Activated',
+              MetricID: this.MetricidService.MetricIDs.POCaServiceActivated,
+              data: pocaData['Data'].PocaIndicator,
+              besideData: null,
+              bottomData: null,
+              timeperiod: ''
+            };
+            resolve(pocaServiceData);
+          } else {
+            resolve(null);
+          }
+        },
+        error => {
+          reject(error);
+        }
+      );
+    });
+  }
+  public getPocaRestCall() {
+    const providersKey = this.session.providerKeyData();
+    const pocaURL = this.APP_URL + this.POCA_PATH + providersKey;
+    return this.http.get(pocaURL).pipe(
+      map(res => res),
+      catchError((error: HttpErrorResponse) => throwError(error.message))
+    );
   }
 
   public unGetHCOdata() {

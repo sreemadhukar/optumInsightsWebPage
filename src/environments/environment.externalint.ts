@@ -51,6 +51,7 @@ export const environment: any = {
     AppealsFHIR: 'claims-appeals-metrics/',
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
+    PocaStatus: 'poca-status/',
     HealthSystemDetails: 'providerInfo/',
     CallsTrendLine: 'calls-trends/',
     PaymentsBySubmissionDOP: 'dop-claim-submissions/',

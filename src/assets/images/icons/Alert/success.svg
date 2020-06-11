@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="81px" height="80px" viewBox="0 0 81 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon/alert/success</title>
+    <g id="📈-Performance/Network-2.0" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Post-MVP-1_Network-Levers-Overview-POCa" transform="translate(-489.000000, -1125.000000)">
+            <g id="icon/alert/success" transform="translate(489.500000, 1125.000000)">
+                <circle id="Oval" fill="#E1FADF" cx="40" cy="40" r="40"></circle>
+                <path d="M33.518022,47.2634195 L26.4283587,40.305169 C25.6383676,39.5298211 24.3824844,39.5298211 23.5924933,40.305169 C22.8025022,41.0805169 22.8025022,42.3131213 23.5924933,43.0884692 L32.0798332,51.4184891 C32.8698242,52.193837 34.1459637,52.193837 34.9359547,51.4184891 L56.4075067,30.3648111 C57.1974978,29.5894632 57.1974978,28.3568588 56.4075067,27.5815109 C55.6175156,26.806163 54.3616324,26.806163 53.5716413,27.5815109 L33.518022,47.2634195 Z" id="Path" fill="#0D880B"></path>
+            </g>
+        </g>
+    </g>
+</svg>
