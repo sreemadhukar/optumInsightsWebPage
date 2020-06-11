@@ -2,6 +2,10 @@
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
 
+.bar {
+  margin-bottom: 20px;
+}
+
 .bar-div {
   position: relative;
 }

@@ -18,20 +18,33 @@
   justify-content: center;
   align-items: center;
   min-height: 250px;
-  .icon {
+  .icon-container {
     width: auto;
+    box-sizing: border-box;
+    height: 97px;
+    width: 97px;
+    border: 1px solid #bb880a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 48px;
+    background-color: $yellow-light;
+    margin-bottom: 20px;
+    .icon {
+      height: 48px;
+    }
   }
   .title {
     color: $black-rock;
     font-family: 'UHCSans-SemiBold';
-    font-size: 16px;
+    font-size: 18px;
     line-height: 22px;
     text-align: center;
   }
   .description {
     color: $black-rock;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     letter-spacing: 0.2px;
     line-height: 22px;
     text-align: center;
